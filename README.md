@@ -18,3 +18,10 @@ Run tests with:
 ```
 
 Current status is summarized in `IMPLEMENTATION_STATUS.md`.
+
+
+Useful runtime docs:
+
+- `IMPLEMENTATION_STATUS.md`
+- `docs/running_solver.md`
+- `results/v1_numerical_report.md`

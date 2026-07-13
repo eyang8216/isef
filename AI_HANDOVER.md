@@ -532,6 +532,52 @@ AI_HANDOVER.md
 
 ---
 
+## 10A. Current implementation status
+
+A first Version 1 solver core now exists and has been pushed to GitHub.
+
+Latest implementation commit at the time of writing:
+
+```text
+e0dddb9 Implement Version 1 solver core
+```
+
+Implemented folders/files:
+
+```text
+solver/
+tests/
+examples/
+scripts/generate_v1_report.py
+IMPLEMENTATION_STATUS.md
+docs/running_solver.md
+docs/literature_evidence.md
+results/v1_numerical_report.md
+```
+
+Run tests with:
+
+```bash
+cd /Users/a1/ISEF_physics
+/Users/a1/miniforge3/bin/python -m pytest -q
+```
+
+Current expected result:
+
+```text
+21 passed
+```
+
+The current solver includes sparse axisymmetric Laplace/Poisson electrostatics,
+field reconstruction, graph-interface curvature, Young-Laplace-Maxwell residual
+diagnostics, Gaussian Poisson-source scaffolding, manufactured-solution
+verification, and a Taylor-angle analytical benchmark.
+
+Important caveat: the Gaussian space-charge module is not yet a physically
+predictive emission model; it is a Poisson-source scaffold and sensitivity tool.
+
+---
+
 ## 11. Recommended next task
 
 The next best task is:
