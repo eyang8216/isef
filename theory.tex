@@ -1,0 +1,576 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,bm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+
+\title{Theory and Computational Formulation for a Lightweight Axisymmetric Electrohydrodynamic Taylor-Cone Solver}
+\author{ISEF Physics Project --- Theory Phase, Revised Draft}
+\date{\today}
+
+\newcommand{\eps}{\varepsilon}
+\newcommand{\vE}{\mathbf{E}}
+\newcommand{\vD}{\mathbf{D}}
+\newcommand{\vJ}{\mathbf{J}}
+\newcommand{\vU}{\mathbf{u}}
+\newcommand{\vn}{\mathbf{n}}
+\newcommand{\vt}{\mathbf{t}}
+\newcommand{\vT}{\mathbf{T}}
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\grad}{\nabla}
+\newcommand{\divg}{\nabla\!\cdot}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\BoE}{\mathrm{Bo}_E}
+\newcommand{\CaE}{\mathrm{Ca}_E}
+\newcommand{\Rey}{\mathrm{Re}}
+\newcommand{\Oh}{\mathrm{Oh}}
+\newcommand{\Pe}{\mathrm{Pe}}
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document sharpens the theoretical basis for an ISEF computational physics project on electrospray Taylor cones. The project will develop a lightweight, open-source, two-dimensional axisymmetric solver for the electrostatic--capillary onset problem. The solver must first reproduce the classical Taylor cone half-angle in the charge-free conducting limit, then extend the gas-domain electrostatic model from Laplace's equation to Poisson's equation in order to study effective space-charge shielding of the apex field. The document separates the full physical electrospray problem from a staged, defensible model hierarchy: classical conducting-cone theory, axisymmetric electrostatics, Young--Laplace--Maxwell interfacial stress balance, effective space-charge closures, and optional leaky-dielectric extensions. It also explains how each theoretical component will be translated into code, without yet specifying final software documentation or implementation details.
+\end{abstract}
+
+\tableofcontents
+
+\section{Purpose and scope}
+
+Electrospray thrusters generate thrust by deforming a liquid meniscus into a Taylor cone and emitting charged droplets or ions from the cone apex. Industrial design of such devices is usually performed with heavy proprietary multiphysics software. The scientific premise of this project is that a carefully reduced axisymmetric model can still capture important onset-level physics while being transparent, reproducible, and light enough to run on consumer hardware.
+
+The project is intentionally divided into two phases:
+\begin{enumerate}[label=\textbf{Phase \arabic*:}]
+    \item \textbf{Theory and computation.} Derive, implement, and verify the numerical model. This is the current phase.
+    \item \textbf{Experimental validation.} Later, under school supervision and after required approvals, compare solver predictions with observed Taylor cone shapes and onset voltages.
+\end{enumerate}
+
+During the present phase, no physical high-voltage experiment is required. The deliverable is a mathematical and computational solver whose assumptions, equations, and limitations are explicit.
+
+\subsection{Refined research question}
+
+A defensible research question is:
+\begin{quote}
+To what extent can a lightweight 2D axisymmetric Python solver, coupling electrostatic Maxwell stress, capillary pressure, and an effective Poisson space-charge shielding model, predict Taylor-cone geometry and onset-voltage trends for electrospray emitters on consumer-grade hardware?
+\end{quote}
+
+This wording is deliberately precise. It does not claim full molecular emission physics, full turbulence-free multiphase flow, or replacement of industrial CFD. It claims a reduced but mathematically controlled electrostatic--capillary solver with a space-charge extension.
+
+\subsection{Primary theoretical requirement}
+
+The solver must have the correct ideal limit. When gas-domain charge is zero and the liquid is modeled as a perfect conductor, the local cone solution must reduce to Taylor's classical result:
+\begin{equation}
+    \alpha_T \approx 49.3^\circ,
+\end{equation}
+where \(\alpha_T\) is the semi-vertical cone angle. This is the main analytical benchmark.
+
+\section{Physical assumptions and model hierarchy}
+
+The real device involves many coupled processes. To keep the project both rigorous and feasible, the solver will be built as a hierarchy of models.
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{@{}c l X@{}}
+\toprule
+Level & Model & Purpose \\
+\midrule
+0 & Classical Taylor cone & Analytical benchmark: recover \(49.3^\circ\). \\
+1 & Axisymmetric Laplace electrostatics & Charge-free potential and field calculation. \\
+2 & Young--Laplace--Maxwell residual & Evaluate whether a candidate interface is in stress balance. \\
+3 & Free-boundary optimization & Predict meniscus/cone shapes from residual minimization. \\
+4 & Poisson space-charge shielding & Study apex-field regularization and onset trends. \\
+5 & Leaky dielectric / transport extensions & Optional advanced modules, not the first claim. \\
+\bottomrule
+\end{tabularx}
+\caption{Model hierarchy. The project should be judged primarily on Levels 0--4.}
+\end{table}
+
+The early solver uses quasi-static electrostatics. This is appropriate near the onset of a stable cone when the relevant question is whether electric normal stress can balance capillary stress. Full jet breakup and droplet emission are beyond the initial solver's central claim.
+
+\section{Geometry, coordinates, and interface notation}
+
+We use cylindrical coordinates
+\begin{equation}
+    (r,\theta,z),\qquad r\ge 0,
+\end{equation}
+and assume axisymmetry, so all fields are independent of \(\theta\). The liquid region is \(\Omega_l\), the gas/air region is \(\Omega_g\), and their interface is \(\Gamma\). The electric potential is \(\phi\), and
+\begin{equation}
+    \vE = -\grad\phi.
+\end{equation}
+
+The interface can be represented as a graph,
+\begin{equation}
+    r=R(z),
+\end{equation}
+or parametrically,
+\begin{equation}
+    \Gamma: s\mapsto (r(s),z(s)).
+\end{equation}
+The outward unit normal \(\vn\) points from the liquid into the gas. For the graph representation, one consistent normal in the \((r,z)\)-plane is
+\begin{equation}
+    \vn = \frac{(1,-R_z)}{\sqrt{1+R_z^2}},
+\end{equation}
+provided the gas lies toward increasing \(r\). If a different orientation is chosen in code, the sign of curvature and stress balance must be adjusted consistently.
+
+The axisymmetric mean curvature for \(r=R(z)\) is
+\begin{equation}
+    \kappa
+    =
+    \frac{1}{R\sqrt{1+R_z^2}}
+    -
+    \frac{R_{zz}}{(1+R_z^2)^{3/2}}.
+    \label{eq:curvature_graph}
+\end{equation}
+The first term is azimuthal curvature and the second is meridional curvature. This formula becomes singular as \(R\to 0\), which is one reason the numerical model should treat an apex as having finite grid-scale or finite fitted radius rather than literally zero radius.
+
+\section{Classical Taylor cone theory}
+\label{sec:taylor}
+
+For an ideal perfectly conducting liquid cone in a charge-free gas, the exterior potential satisfies
+\begin{equation}
+    \nabla^2\phi=0.
+\end{equation}
+Near the cone apex, spherical coordinates \((\rho,\vartheta)\) are natural, where \(\vartheta\) is measured from the symmetry axis. Axisymmetric harmonic functions have separated form
+\begin{equation}
+    \phi(\rho,\vartheta)=A\rho^\nu P_\nu(\cos\vartheta),
+    \label{eq:separated_taylor}
+\end{equation}
+where \(P_\nu\) is a Legendre function of generally non-integer degree.
+
+The electric field scales as
+\begin{equation}
+    E\sim \rho^{\nu-1},
+\end{equation}
+so the electrical normal pressure scales as
+\begin{equation}
+    p_E\sim \eps_0E^2\sim \rho^{2\nu-2}.
+\end{equation}
+Capillary pressure near a cone scales as
+\begin{equation}
+    p_\gamma\sim \frac{\gamma}{\rho}.
+\end{equation}
+Balancing powers yields
+\begin{equation}
+    2\nu-2=-1,
+    \qquad
+    \nu=\frac12.
+\end{equation}
+Therefore the local Taylor potential is
+\begin{equation}
+    \phi(\rho,\vartheta)=A\rho^{1/2}P_{1/2}(\cos\vartheta).
+\end{equation}
+The conducting cone surface is an equipotential. If the surface is \(\vartheta=\vartheta_0\), the angular part must vanish:
+\begin{equation}
+    P_{1/2}(\cos\vartheta_0)=0.
+    \label{eq:taylor_root}
+\end{equation}
+The relevant root is
+\begin{equation}
+    \vartheta_0\approx 130.7^\circ.
+\end{equation}
+Since the physical semi-vertical angle is measured inside the cone relative to the opposite axial direction,
+\begin{equation}
+    \alpha_T=180^\circ-\vartheta_0\approx 49.3^\circ.
+\end{equation}
+
+\subsection{Apex singularity}
+
+The same solution gives
+\begin{equation}
+    E\sim \rho^{-1/2},
+\end{equation}
+hence
+\begin{equation}
+    E\to\infty\quad\text{as}\quad \rho\to 0.
+\end{equation}
+This singularity is the central reason the ideal model is incomplete. Real electrosprays are regularized by finite apex radius, space charge, charge emission, finite liquid conductivity, viscous flow, and molecular-scale physics. The project focuses on the space-charge regularization route, implemented by replacing Laplace's equation with Poisson's equation in the gas domain.
+
+\section{Axisymmetric electrostatics}
+
+For axisymmetric \(\phi(r,z)\),
+\begin{equation}
+    \nabla^2\phi
+    =
+    \frac{1}{r}\frac{\partial}{\partial r}\left(r\frac{\partial\phi}{\partial r}\right)
+    +
+    \frac{\partial^2\phi}{\partial z^2}
+    =
+    \phi_{rr}+\frac{1}{r}\phi_r+\phi_{zz}.
+    \label{eq:axi_laplace_operator}
+\end{equation}
+The charge-free model is
+\begin{equation}
+    \frac{1}{r}\frac{\partial}{\partial r}\left(r\frac{\partial\phi}{\partial r}\right)
+    +
+    \phi_{zz}=0.
+    \label{eq:laplace_axi}
+\end{equation}
+The gas-domain space-charge model is
+\begin{equation}
+    \frac{1}{r}\frac{\partial}{\partial r}\left(r\frac{\partial\phi}{\partial r}\right)
+    +
+    \phi_{zz}
+    =
+    -\frac{\rho_e(r,z)}{\eps_0}.
+    \label{eq:poisson_axi}
+\end{equation}
+
+Important boundary conditions are:
+\begin{align}
+    \phi &= V_0 &&\text{on powered conductor or ideal liquid surface},\\
+    \phi &= 0 &&\text{on grounded extractor electrode},\\
+    \partial_r\phi &=0 &&\text{on symmetry axis } r=0,\\
+    \partial_n\phi &=0 \text{ or } \phi=\phi_\infty &&\text{on artificial far boundaries}.
+\end{align}
+
+\section{Maxwell stress and capillary balance}
+
+The electrostatic Maxwell stress tensor is
+\begin{equation}
+    \vT_E=\eps\left(\vE\otimes\vE-\frac12E^2\mathbf{I}\right).
+\end{equation}
+For a perfect conductor, the interior electric field is zero and the exterior tangential field vanishes on the surface. The gas-side normal electric pressure is therefore
+\begin{equation}
+    p_E = \frac{\eps_g}{2}E_n^2,
+    \qquad
+    E_n = \vE_g\cdot\vn.
+\end{equation}
+
+The quasi-static normal stress balance can be written as
+\begin{equation}
+    \gamma\kappa = \Delta p + \frac{\eps_g}{2}E_n^2,
+    \label{eq:ylm_balance}
+\end{equation}
+where \(\Delta p\) is a constant pressure offset. Because sign conventions vary, the solver will define one orientation explicitly and use residual tests to ensure consistency.
+
+The central numerical residual is
+\begin{equation}
+    \mathcal{R}(s)
+    =
+    \gamma\kappa(s)-\Delta p-\frac{\eps_g}{2}E_n(s)^2.
+    \label{eq:residual}
+\end{equation}
+A candidate equilibrium interface should make \(\mathcal{R}\) small along \(\Gamma\).
+
+\section{Leaky-dielectric extension}
+
+For a real liquid, the perfect conductor model is an approximation. In a leaky dielectric, one may solve potentials in both phases:
+\begin{align}
+    \divg(\eps_g\grad\phi_g)&=-\rho_{e,g} &&\text{in }\Omega_g,\\
+    \divg(\eps_l\grad\phi_l)&=-\rho_{e,l} &&\text{in }\Omega_l.
+\end{align}
+If liquid conduction dominates, Ohm's law gives
+\begin{equation}
+    \vJ_l=\sigma_l\vE_l=-\sigma_l\grad\phi_l,
+\end{equation}
+and charge conservation gives
+\begin{equation}
+    \divg(\sigma_l\grad\phi_l)=0.
+\end{equation}
+
+At the interface,
+\begin{align}
+    \phi_g&=\phi_l,\\
+    \vn\cdot(\eps_g\vE_g-\eps_l\vE_l)&=q_s,
+\end{align}
+where \(q_s\) is surface charge density. A general surface charge conservation law is
+\begin{equation}
+    \frac{\partial q_s}{\partial t}
+    +\nabla_s\cdot(q_s\vU_s)
+    +q_s(\nabla_s\cdot\vU_s)
+    =
+    \vn\cdot(\sigma_l\vE_l-\sigma_g\vE_g)-j_{\rm emit}.
+    \label{eq:surface_charge}
+\end{equation}
+This is included to clarify the physics, but it will not be the first implemented claim. The initial solver may treat the liquid as effectively conducting if the charge relaxation time
+\begin{equation}
+    \tau_e=\frac{\eps_l}{\sigma_l}
+\end{equation}
+is short compared with the deformation time scale.
+
+\section{Space-charge shielding closures}
+
+Equation \eqref{eq:poisson_axi} is incomplete until \(\rho_e\) is specified. The implementation should support increasingly physical closures.
+
+\subsection{Prescribed localized cloud}
+
+A first sensitivity model is
+\begin{equation}
+    \rho_e(r,z)=\rho_0\exp\left[-\frac{(r-r_a)^2+(z-z_a)^2}{2\ell^2}\right],
+    \label{eq:gaussian_rho}
+\end{equation}
+where \((r_a,z_a)\) is the apex position and \(\ell\) is a shielding length. This model is not predictive by itself, but it tests whether the Poisson solver correctly reduces the near-apex field.
+
+\subsection{Threshold-activated effective charge}
+
+A more physical reduced closure is
+\begin{equation}
+    \rho_e = \rho_{\max}\left[1-\exp\left(-\frac{\abs{\vE}-E_c}{E_s}\right)\right]_+,
+    \label{eq:threshold_rho}
+\end{equation}
+where \([x]_+=\max(x,0)\), \(E_c\) is an emission/onset field scale, and \(E_s\) controls smooth activation. Since \(\rho_e\) depends on \(\phi\), this is nonlinear. A stable fixed-point iteration is
+\begin{align}
+    \nabla^2\phi^{(k+1)}&=-\rho_e^{(k)}/\eps_0,\\
+    \vE^{(k+1)}&=-\grad\phi^{(k+1)},\\
+    \widetilde{\rho}_e^{(k+1)}&=F(\abs{\vE^{(k+1)}}),\\
+    \rho_e^{(k+1)}&=(1-\omega)\rho_e^{(k)}+\omega\widetilde{\rho}_e^{(k+1)},
+\end{align}
+with under-relaxation parameter \(0<\omega\le 1\).
+
+\subsection{Drift-diffusion-Poisson extension}
+
+A later extension can solve
+\begin{equation}
+    \frac{\partial\rho_e}{\partial t}+\divg\vJ=S,
+    \qquad
+    \vJ=\mu_c\rho_e\vE-D_c\grad\rho_e,
+\end{equation}
+coupled to Poisson's equation. At steady state,
+\begin{equation}
+    \divg(\mu_c\rho_e\vE-D_c\grad\rho_e)=S.
+\end{equation}
+This model is mathematically stronger but parameter-heavy and not required for the first online solver.
+
+\section{Nondimensionalization}
+
+Let \(L\) be a characteristic electrode spacing or nozzle length scale and \(V_0\) the applied voltage. Define
+\begin{equation}
+    \hat r=\frac{r}{L},\qquad
+    \hat z=\frac{z}{L},\qquad
+    \hat\phi=\frac{\phi}{V_0}.
+\end{equation}
+Then
+\begin{equation}
+    \vE=-\frac{V_0}{L}\hat\grad\hat\phi.
+\end{equation}
+The dimensionless Poisson equation is
+\begin{equation}
+    \hat\nabla^2\hat\phi=-\hat\rho_e,
+    \qquad
+    \hat\rho_e=\frac{L^2\rho_e}{\eps_0V_0}.
+\end{equation}
+The natural electric-to-capillary stress ratio is
+\begin{equation}
+    \BoE=\frac{\eps_0V_0^2}{\gamma L}.
+    \label{eq:electric_bond}
+\end{equation}
+In dimensionless form, the stress balance is schematically
+\begin{equation}
+    \hat\kappa-\\widehat{\Delta p}-\frac{\BoE}{2}\hat E_n^2=0.
+\end{equation}
+Thus varying voltage primarily changes \(\BoE\), while varying surface tension or geometry changes the same balance through \(\gamma\) and \(L\).
+
+\section{Discretization of the electrostatic problem}
+
+A finite-volume form is preferred because it handles the cylindrical factor \(r\) cleanly. On a uniform grid
+\begin{equation}
+    r_i=i\Delta r,
+    \qquad
+    z_j=j\Delta z,
+\end{equation}
+the radial operator is approximated by
+\begin{equation}
+    \frac{1}{r_i\Delta r}
+    \left[
+    r_{i+1/2}\frac{\phi_{i+1,j}-\phi_{i,j}}{\Delta r}
+    -
+    r_{i-1/2}\frac{\phi_{i,j}-\phi_{i-1,j}}{\Delta r}
+    \right],
+\end{equation}
+and the axial operator by
+\begin{equation}
+    \frac{\phi_{i,j+1}-2\phi_{i,j}+\phi_{i,j-1}}{\Delta z^2}.
+\end{equation}
+At \(r=0\), regularity gives \(\partial_r\phi=0\), and the limiting radial part is
+\begin{equation}
+    \lim_{r\to0}\left(\phi_{rr}+\frac{1}{r}\phi_r\right)=2\phi_{rr}(0,z).
+\end{equation}
+A second-order axis stencil is therefore
+\begin{equation}
+    2\phi_{rr}(0,z_j)\approx \frac{4(\phi_{1,j}-\phi_{0,j})}{\Delta r^2}.
+\end{equation}
+The assembled sparse system has form
+\begin{equation}
+    A\bm{\phi}=\bm b.
+\end{equation}
+Dirichlet boundary nodes are imposed by replacing the corresponding row of \(A\) with an identity row.
+
+\section{Free-boundary formulation}
+
+Given a parameterized candidate interface \(\Gamma(\bm a)\), the solver evaluates
+\begin{equation}
+    J(\bm a,\Delta p)=\int_\Gamma\left[\gamma\kappa-\Delta p-\frac{\eps_0}{2}E_n^2\right]^2\dd s+\lambda\mathcal{S}[\Gamma],
+    \label{eq:shape_objective}
+\end{equation}
+where \(\mathcal{S}\) penalizes unphysical oscillatory shapes. A practical parameterization is
+\begin{equation}
+    R(z;\bm a)=R_{\rm base}(z)+\sum_{k=1}^N a_kB_k(z),
+\end{equation}
+where \(B_k\) are spline or polynomial basis functions. The pressure constant \(\Delta p\) can be optimized simultaneously or eliminated by subtracting the mean residual.
+
+The cone half-angle can be extracted from a fitted local slope:
+\begin{equation}
+    \tan\alpha=\abs{\frac{\dd R}{\dd z}}.
+\end{equation}
+In the ideal benchmark case, this should approach \(\alpha_T\approx49.3^\circ\) over the resolved near-apex region.
+
+\section{Theory-to-code implementation plan}
+\label{sec:implementation_plan}
+
+This section translates the mathematics into a planned computational architecture without yet writing software documentation. The goal is to make every code component traceable to an equation in this document.
+
+\subsection{Core data objects}
+
+The solver will be organized around the following conceptual objects:
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Grid:} stores \(r_i,z_j,\Delta r,\Delta z\), domain dimensions, and axis/far-boundary information.
+    \item \textbf{Geometry mask:} identifies gas nodes, liquid/conductor nodes, grounded electrode nodes, powered electrode nodes, and artificial boundary nodes.
+    \item \textbf{Material parameters:} stores \(\eps_g,\eps_l,\gamma,\sigma_l\), and optional space-charge parameters.
+    \item \textbf{Potential field:} stores \(\phi_{ij}\) and derived fields \(E_r,E_z,\abs{E}\).
+    \item \textbf{Interface representation:} stores either graph data \(R(z)\) or parametric points \((r(s),z(s))\), plus normals and curvature.
+    \item \textbf{Residual diagnostics:} stores \(\mathcal{R}\), RMS residual, maximum residual, predicted angle, peak field, and convergence status.
+\end{enumerate}
+
+\subsection{Electrostatic solver workflow}
+
+The Laplace/Poisson solver will follow this pipeline:
+\begin{enumerate}[label=\arabic*.]
+    \item Generate the axisymmetric grid.
+    \item Mark conductor/liquid, grounded electrode, gas, axis, and far-boundary nodes.
+    \item Assemble the sparse matrix for the axisymmetric operator in equation \eqref{eq:axi_laplace_operator}.
+    \item Apply Dirichlet and Neumann boundary conditions.
+    \item Insert source term \(-\rho_e/\eps_0\) for Poisson runs or zero source for Laplace runs.
+    \item Solve \(A\bm\phi=\bm b\) using a sparse direct or iterative SciPy solver.
+    \item Compute \(E_r=-\partial_r\phi\), \(E_z=-\partial_z\phi\), and \(\abs{E}\).
+\end{enumerate}
+
+\subsection{Interface residual workflow}
+
+For a prescribed or optimized interface:
+\begin{enumerate}[label=\arabic*.]
+    \item Sample the interface at quadrature points.
+    \item Compute tangent vectors, normals, and curvature.
+    \item Interpolate \(E_r,E_z\) from the grid to the interface.
+    \item Compute \(E_n=\vE\cdot\vn\).
+    \item Evaluate Maxwell pressure \(p_E=\eps_0E_n^2/2\).
+    \item Evaluate residual \(\mathcal{R}=\gamma\kappa-\Delta p-p_E\).
+    \item Report RMS residual, maximum residual, and residual plots.
+\end{enumerate}
+
+\subsection{Space-charge iteration workflow}
+
+For effective shielding:
+\begin{enumerate}[label=\arabic*.]
+    \item Initialize \(\rho_e=0\) or a prescribed cloud.
+    \item Solve Poisson's equation.
+    \item Compute electric field magnitude.
+    \item Update \(\rho_e\) using either equation \eqref{eq:gaussian_rho} or \eqref{eq:threshold_rho}.
+    \item Under-relax \(\rho_e\) to avoid oscillatory fixed-point behavior.
+    \item Repeat until changes in \(\phi\), \(\rho_e\), and peak \(E\) fall below tolerance.
+    \item Compare shielded and unshielded peak fields and stress residuals.
+\end{enumerate}
+
+\subsection{Shape optimization workflow}
+
+The first implementation should not attempt arbitrary moving meshes. Instead, it should use low-dimensional shape optimization:
+\begin{enumerate}[label=\arabic*.]
+    \item Choose a base interface: spherical cap, cone with rounded apex, or experimental-like meniscus.
+    \item Add a small number of smooth basis perturbations.
+    \item For each candidate shape, solve electrostatics and compute \(J\) in equation \eqref{eq:shape_objective}.
+    \item Use derivative-free or finite-difference optimization initially.
+    \item Enforce geometric constraints: positive radius, fixed nozzle radius, smooth apex, and no self-intersection.
+    \item Extract predicted half-angle and stress residual.
+\end{enumerate}
+
+\subsection{Online solver interface plan}
+
+The online solver should expose physical parameters rather than implementation details. Inputs should include:
+\begin{itemize}
+    \item applied voltage \(V_0\),
+    \item electrode spacing \(L\),
+    \item nozzle radius or initial meniscus size,
+    \item surface tension \(\gamma\),
+    \item permittivity model,
+    \item shielding closure and parameters,
+    \item grid resolution.
+\end{itemize}
+Outputs should include:
+\begin{itemize}
+    \item potential contours,
+    \item electric-field magnitude map,
+    \item predicted or prescribed interface,
+    \item Maxwell pressure along the interface,
+    \item curvature and stress residual,
+    \item estimated cone half-angle,
+    \item peak electric field,
+    \item shielding strength metric,
+    \item runtime and convergence diagnostics.
+\end{itemize}
+
+A useful shielding metric is
+\begin{equation}
+    S_E=1-\frac{E_{\max}^{\rm shielded}}{E_{\max}^{\rm Laplace}},
+\end{equation}
+where \(S_E=0\) means no shielding and larger positive values indicate stronger field reduction.
+
+\section{Verification before experiment}
+
+The theory/computation phase can be verified without hardware:
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Taylor limit:} recover \(\alpha_T\approx49.3^\circ\) in the conducting, charge-free limit.
+    \item \textbf{Manufactured solutions:} choose an exact \(\phi\), compute its source term, and verify Poisson convergence.
+    \item \textbf{Grid convergence:} show that \(\phi\), \(\vE\), and \(\mathcal{R}\) converge under refinement.
+    \item \textbf{Boundary-condition tests:} verify axis regularity and electrode Dirichlet conditions.
+    \item \textbf{Residual sanity check:} confirm that increasing voltage increases electric stress relative to capillarity according to \(\BoE\).
+    \item \textbf{Shielding sanity check:} confirm that positive space charge near the apex reduces the local field relative to the Laplace case under the chosen sign convention.
+    \item \textbf{Runtime scaling:} record runtime versus grid size on consumer hardware.
+\end{enumerate}
+
+\section{Claims and limitations}
+
+The project can safely claim:
+\begin{itemize}
+    \item a transparent axisymmetric electrostatic--capillary Taylor-cone solver,
+    \item recovery of the classical Taylor angle in the correct limit,
+    \item explicit implementation of Poisson space-charge shielding closures,
+    \item quantitative residual-based comparison of candidate cone shapes,
+    \item consumer-hardware runtime measurements.
+\end{itemize}
+
+The project should not initially claim complete simulation of:
+\begin{itemize}
+    \item molecular ion evaporation,
+    \item droplet breakup distributions,
+    \item full transient Navier--Stokes cone-jet dynamics,
+    \item all leaky-dielectric charge transport without implementing equation \eqref{eq:surface_charge},
+    \item industrial-grade 3D multiphysics performance.
+\end{itemize}
+
+This distinction strengthens the project: the novelty is not overclaiming full electrospray physics, but building a rigorous, open, reduced solver that makes the main onset mechanisms accessible.
+
+\section{Conclusion}
+
+The theoretical foundation is now organized around a clear model hierarchy. The analytical anchor is Taylor's Legendre-function cone solution, which gives the \(49.3^\circ\) half-angle and exposes the apex singularity. The computational core is the axisymmetric Laplace/Poisson equation, Maxwell stress, curvature, and Young--Laplace--Maxwell residual. Space-charge shielding is introduced through explicit closures for \(\rho_e\), beginning with prescribed localized charge and progressing to threshold-activated effective charge. The planned code will mirror this structure: grid generation, geometry masks, sparse electrostatics, field reconstruction, interface differential geometry, residual evaluation, shielding iteration, and eventually low-dimensional shape optimization.
+
+This revised theory document should serve as the mathematical specification for the first solver prototype.
+
+\begin{thebibliography}{9}
+\bibitem{Taylor1964}
+G. I. Taylor, ``Disintegration of water drops in an electric field,'' \emph{Proceedings of the Royal Society of London. Series A}, vol. 280, no. 1382, pp. 383--397, 1964.
+
+\bibitem{Saville1997}
+D. A. Saville, ``Electrohydrodynamics: The Taylor--Melcher leaky dielectric model,'' \emph{Annual Review of Fluid Mechanics}, vol. 29, pp. 27--64, 1997.
+
+\bibitem{MelcherTaylor1969}
+J. R. Melcher and G. I. Taylor, ``Electrohydrodynamics: A review of the role of interfacial shear stresses,'' \emph{Annual Review of Fluid Mechanics}, vol. 1, pp. 111--146, 1969.
+\end{thebibliography}
+
+\end{document}

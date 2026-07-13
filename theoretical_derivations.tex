@@ -1,0 +1,415 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,bm,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{Theoretical Derivations for a Lightweight Axisymmetric Taylor-Cone Electrospray Solver}
+\author{ISEF Physics Project --- Theory Deliverable}
+\date{\today}
+
+\newcommand{\eps}{\varepsilon}
+\newcommand{\vE}{\mathbf{E}}
+\newcommand{\vD}{\mathbf{D}}
+\newcommand{\vJ}{\mathbf{J}}
+\newcommand{\vU}{\mathbf{u}}
+\newcommand{\vn}{\mathbf{n}}
+\newcommand{\vT}{\mathbf{T}}
+\newcommand{\grad}{\nabla}
+\newcommand{\divg}{\nabla\!\cdot}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\BoE}{\mathrm{Bo}_E}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document contains the theoretical derivations needed before constructing the computational model for an axisymmetric Taylor-cone / electrospray-onset solver.  The goal is to define the continuous mathematical problem with enough precision that a separate implementation document can translate it into code.  We derive the classical Taylor cone angle, identify the apex singularity, formulate axisymmetric Laplace and Poisson electrostatics, derive the Maxwell--Young--Laplace interfacial stress balance, define curvature in axisymmetric geometry, introduce effective space-charge shielding closures, and state the verification targets required before physical validation.
+\end{abstract}
+
+\tableofcontents
+
+\section{Purpose of the theoretical model}
+
+The product we want is a lightweight solver that predicts Taylor-cone geometry and onset-like voltage trends for an electrospray emitter.  The solver should be mathematically anchored in the known Taylor-cone limit and then extend that limit to include effective space-charge shielding near the cone apex.
+
+The theory phase must answer the following questions before coding:
+\begin{enumerate}[label=\arabic*.]
+    \item What is the ideal analytical solution we must reproduce?
+    \item What equations govern the electric potential in axisymmetric coordinates?
+    \item How does the electric field produce stress on the liquid surface?
+    \item How does surface tension enter through curvature?
+    \item How do we define a residual that measures whether a candidate interface is physically balanced?
+    \item How can space charge be introduced without claiming a full plasma/electrospray emission model?
+    \item What checks prove that the model is theoretically consistent before experiments begin?
+\end{enumerate}
+
+The model is deliberately reduced-order.  The first working product is not a full industrial multiphase CFD solver.  It is an open, sparse, axisymmetric electrostatic--capillary solver with optional Poisson space-charge shielding.
+
+\section{Model hierarchy}
+
+We use a staged hierarchy:
+
+\begin{center}
+\begin{tabular}{@{}clp{0.55\textwidth}@{}}
+\toprule
+Level & Model & Role \\
+\midrule
+0 & Classical Taylor cone & Analytical benchmark: recover the \(49.3^\circ\) cone half-angle. \\
+1 & Axisymmetric Laplace electrostatics & Solve charge-free potential and field. \\
+2 & Maxwell--Young--Laplace residual & Evaluate capillary/electric normal stress balance on an interface. \\
+3 & Free-boundary equilibrium & Adjust an interface shape until the residual is minimized. \\
+4 & Poisson space charge & Study how charge density shields the apex field. \\
+5 & Leaky dielectric / transport & Optional later extension, not required for the first solver product. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The first four levels define the core theoretical product.
+
+\section{Geometry and coordinates}
+
+We assume axisymmetry and use cylindrical coordinates
+\begin{equation}
+    (r,\theta,z), \qquad r\ge 0,
+\end{equation}
+with no \(\theta\)-dependence.  The gas/air domain is \(\Omega_g\), the liquid domain is \(\Omega_l\), and the liquid--gas interface is \(\Gamma\).  The electric potential is \(\phi\), and
+\begin{equation}
+    \vE=-\grad\phi.
+\end{equation}
+
+An interface can be represented as a graph
+\begin{equation}
+    r=R(z),
+\end{equation}
+or parametrically as
+\begin{equation}
+    s\mapsto (r(s),z(s)).
+\end{equation}
+For the first model, graph form is sufficient except near possible overturning, which is not part of the initial onset calculation.
+
+\section{Classical Taylor cone derivation}
+
+\subsection{Laplace equation outside a conducting cone}
+
+For an ideal perfectly conducting liquid in a charge-free gas, the gas-domain potential satisfies
+\begin{equation}
+    \nabla^2\phi=0.
+\end{equation}
+Near the cone apex, spherical coordinates \((\rho,\vartheta)\) are natural, where \(\vartheta\) is measured from the symmetry axis.  The axisymmetric Laplace operator is
+\begin{equation}
+\nabla^2\phi
+=
+\frac{1}{\rho^2}\frac{\partial}{\partial\rho}
+\left(\rho^2\frac{\partial\phi}{\partial\rho}\right)
++
+\frac{1}{\rho^2\sin\vartheta}\frac{\partial}{\partial\vartheta}
+\left(\sin\vartheta\frac{\partial\phi}{\partial\vartheta}\right).
+\end{equation}
+A separated axisymmetric harmonic solution is
+\begin{equation}
+    \phi(\rho,\vartheta)=A\rho^\nu P_\nu(\cos\vartheta),
+    \label{eq:separated}
+\end{equation}
+where \(P_\nu\) is a Legendre function of degree \(\nu\), not necessarily an integer.
+
+\subsection{Stress-scaling argument}
+
+The electric field scales as
+\begin{equation}
+    E\sim \abs{\grad\phi}\sim \rho^{\nu-1}.
+\end{equation}
+The electrostatic pressure scales as
+\begin{equation}
+    p_E\sim \eps_0E^2\sim \rho^{2\nu-2}.
+\end{equation}
+For a cone, the curvature scale is \(1/\rho\), so capillary pressure scales as
+\begin{equation}
+    p_\gamma\sim \frac{\gamma}{\rho}.
+\end{equation}
+Balancing electric pressure and capillary pressure requires
+\begin{equation}
+    2\nu-2=-1,
+\end{equation}
+after which
+\begin{equation}
+    \nu=\frac12.
+\end{equation}
+Thus the local Taylor potential is
+\begin{equation}
+    \phi(\rho,\vartheta)=A\rho^{1/2}P_{1/2}(\cos\vartheta).
+\end{equation}
+
+\subsection{Cone angle condition}
+
+A perfect conductor is an equipotential.  If the cone surface is \(\vartheta=\vartheta_0\), the angular part must vanish:
+\begin{equation}
+    P_{1/2}(\cos\vartheta_0)=0.
+    \label{eq:taylor_root}
+\end{equation}
+The relevant root is approximately
+\begin{equation}
+    \vartheta_0\approx130.7^\circ.
+\end{equation}
+The physical cone semi-vertical angle is therefore
+\begin{equation}
+    \alpha_T=180^\circ-\vartheta_0\approx49.3^\circ.
+\end{equation}
+This is the most important analytical benchmark for the solver.
+
+\subsection{Apex singularity}
+
+With \(\nu=1/2\),
+\begin{equation}
+    E\sim\rho^{-1/2}.
+\end{equation}
+Therefore
+\begin{equation}
+    E\to\infty \quad \text{as}\quad \rho\to0.
+\end{equation}
+This singularity is unphysical.  In reality it is regularized by finite apex radius, charge emission, space charge, finite conductivity, viscosity, and molecular-scale effects.  The computational model will regularize it through finite grid/interface resolution and through Poisson space-charge shielding.
+
+\section{Axisymmetric electrostatics}
+
+For an axisymmetric potential \(\phi(r,z)\),
+\begin{equation}
+    \nabla^2\phi
+    =
+    \frac{1}{r}\frac{\partial}{\partial r}
+    \left(r\frac{\partial\phi}{\partial r}\right)
+    +
+    \frac{\partial^2\phi}{\partial z^2}.
+    \label{eq:axi_operator}
+\end{equation}
+
+\subsection{Laplace model}
+
+The charge-free gas model is
+\begin{equation}
+    \frac{1}{r}\frac{\partial}{\partial r}
+    \left(r\frac{\partial\phi}{\partial r}\right)
+    +\frac{\partial^2\phi}{\partial z^2}=0.
+    \label{eq:laplace_axi}
+\end{equation}
+
+\subsection{Poisson model}
+
+With gas-domain charge density \(\rho_e\),
+\begin{equation}
+    \frac{1}{r}\frac{\partial}{\partial r}
+    \left(r\frac{\partial\phi}{\partial r}\right)
+    +\frac{\partial^2\phi}{\partial z^2}
+    =-\frac{\rho_e(r,z)}{\eps_0}.
+    \label{eq:poisson_axi}
+\end{equation}
+
+\subsection{Boundary conditions}
+
+The essential boundary conditions are:
+\begin{align}
+    \phi&=V_0 &&\text{on powered conductor or ideal liquid surface},\\
+    \phi&=0 &&\text{on grounded extractor electrode},\\
+    \partial_r\phi&=0 &&\text{on the symmetry axis } r=0,\\
+    \partial_n\phi&=0\text{ or }\phi=\phi_\infty &&\text{on artificial far boundaries}.
+\end{align}
+
+The axis condition is required for regularity.  The far-boundary condition is a numerical approximation and must be tested by moving the boundary farther away.
+
+\section{Maxwell stress and electric pressure}
+
+The electrostatic Maxwell stress tensor is
+\begin{equation}
+    \vT_E=\eps\left(\vE\otimes\vE-\frac12E^2\mathbf I\right).
+\end{equation}
+For a perfect conductor at electrostatic equilibrium, the electric field inside the liquid is zero and the tangential gas-side electric field vanishes on the surface.  The normal electric pressure on the liquid surface reduces to
+\begin{equation}
+    p_E=\frac{\eps_g}{2}E_n^2,
+    \qquad
+    E_n=\vE_g\cdot\vn.
+\end{equation}
+
+For leaky dielectric extensions, the complete traction jump would use both gas and liquid Maxwell stresses:
+\begin{equation}
+    \vn\cdot(\vT_{E,g}-\vT_{E,l})\vn.
+\end{equation}
+The first product uses the conducting limit as the basic model.
+
+\section{Capillarity and curvature}
+
+Surface tension produces a pressure jump proportional to mean curvature:
+\begin{equation}
+    \Delta p_\gamma=\gamma\kappa.
+\end{equation}
+For an axisymmetric graph \(r=R(z)\), using the convention that the gas is toward increasing \(r\), one convenient normal is
+\begin{equation}
+    \vn=\frac{(1,-R_z)}{\sqrt{1+R_z^2}}.
+\end{equation}
+The axisymmetric curvature is
+\begin{equation}
+    \kappa
+    =
+    \frac{1}{R\sqrt{1+R_z^2}}
+    -
+    \frac{R_{zz}}{(1+R_z^2)^{3/2}}.
+    \label{eq:curvature}
+\end{equation}
+The first term is azimuthal curvature and the second is meridional curvature.
+
+\section{Young--Laplace--Maxwell balance}
+
+The quasi-static conducting-liquid normal stress balance is
+\begin{equation}
+    \gamma\kappa=\Delta p+\frac{\eps_g}{2}E_n^2,
+    \label{eq:ylm}
+\end{equation}
+where \(\Delta p\) is a constant pressure offset.  Because curvature sign conventions vary, the implementation must choose one convention and maintain it consistently.
+
+A useful residual is
+\begin{equation}
+    \mathcal R(s)
+    =
+    \gamma\kappa(s)-\Delta p-\frac{\eps_g}{2}E_n(s)^2.
+    \label{eq:residual}
+\end{equation}
+A candidate equilibrium interface should satisfy
+\begin{equation}
+    \mathcal R(s)\approx0
+\end{equation}
+along \(\Gamma\).  The RMS residual is
+\begin{equation}
+    \mathcal R_{\rm RMS}
+    =
+    \left(\frac{1}{L_\Gamma}\int_\Gamma \mathcal R^2\dd s\right)^{1/2}.
+\end{equation}
+This residual is the bridge between theory and computation: it tells the code how physically balanced a guessed interface is.
+
+\section{Space-charge shielding theory}
+
+Poisson's equation requires a closure for \(\rho_e\).  The project should use a hierarchy of closures rather than claiming a complete microscopic emission model.
+
+\subsection{Closure A: prescribed localized charge cloud}
+
+The simplest shielding model is
+\begin{equation}
+    \rho_e(r,z)
+    =
+    \rho_0\exp\left[-\frac{(r-r_a)^2+(z-z_a)^2}{2\ell^2}\right],
+    \label{eq:gaussian}
+\end{equation}
+where \((r_a,z_a)\) is the apex location and \(\ell\) is a shielding length.  This model tests how a localized charge distribution changes the electric field.
+
+\subsection{Closure B: threshold-activated effective charge}
+
+A more physical effective closure activates charge only above a field scale \(E_c\):
+\begin{equation}
+    \rho_e
+    =
+    \rho_{\max}
+    \left[1-\exp\left(-\frac{\abs{\vE}-E_c}{E_s}\right)\right]_+,
+    \label{eq:threshold}
+\end{equation}
+where \([x]_+=\max(x,0)\), \(E_s\) smooths the transition, and \(\rho_{\max}\) is a saturation density.  Since \(\rho_e\) depends on \(\vE=-\grad\phi\), this gives a nonlinear Poisson problem.
+
+A fixed-point iteration is
+\begin{align}
+    \nabla^2\phi^{(k+1)}&=-\rho_e^{(k)}/\eps_0,\\
+    \vE^{(k+1)}&=-\grad\phi^{(k+1)},\\
+    \widetilde\rho_e^{(k+1)}&=F(\abs{\vE^{(k+1)}}),\\
+    \rho_e^{(k+1)}&=(1-\omega)\rho_e^{(k)}+\omega\widetilde\rho_e^{(k+1)},
+\end{align}
+where \(0<\omega\le1\) is an under-relaxation parameter.
+
+\subsection{Later extension: drift-diffusion-Poisson}
+
+A more complete gas charge model solves
+\begin{equation}
+    \frac{\partial\rho_e}{\partial t}+\divg\vJ=S,
+    \qquad
+    \vJ=\mu_c\rho_e\vE-D_c\grad\rho_e,
+\end{equation}
+coupled with Poisson's equation.  This is a later extension because it introduces mobility, diffusion, and source parameters that may not be known in the first stage.
+
+\section{Leaky-dielectric extension}
+
+A real liquid may not be a perfect conductor.  In a leaky-dielectric model,
+\begin{align}
+    \divg(\eps_g\grad\phi_g)&=-\rho_{e,g} &&\text{in }\Omega_g,\\
+    \divg(\eps_l\grad\phi_l)&=-\rho_{e,l} &&\text{in }\Omega_l.
+\end{align}
+If Ohmic conduction dominates inside the liquid,
+\begin{equation}
+    \vJ_l=\sigma_l\vE_l=-\sigma_l\grad\phi_l,
+\end{equation}
+and charge conservation gives
+\begin{equation}
+    \divg(\sigma_l\grad\phi_l)=0.
+\end{equation}
+At the interface,
+\begin{align}
+    \phi_g&=\phi_l,\\
+    \vn\cdot(\eps_g\vE_g-\eps_l\vE_l)&=q_s.
+\end{align}
+Surface charge conservation has the general form
+\begin{equation}
+    \frac{\partial q_s}{\partial t}
+    +\nabla_s\cdot(q_s\vU_s)
+    +q_s(\nabla_s\cdot\vU_s)
+    =
+    \vn\cdot(\sigma_l\vE_l-\sigma_g\vE_g)-j_{\rm emit}.
+\end{equation}
+This is included to show the continuum target, but the first working solver should not rely on solving this full system.
+
+\section{Nondimensionalization}
+
+Let \(L\) be a characteristic length scale, \(V_0\) the voltage scale, and \(\gamma\) the surface tension.  Define
+\begin{equation}
+    \hat r=\frac{r}{L},\qquad
+    \hat z=\frac{z}{L},\qquad
+    \hat\phi=\frac{\phi}{V_0}.
+\end{equation}
+Then
+\begin{equation}
+    \vE=-\frac{V_0}{L}\hat\grad\hat\phi.
+\end{equation}
+The dimensionless charge density is
+\begin{equation}
+    \hat\rho_e=\frac{L^2\rho_e}{\eps_0V_0}.
+\end{equation}
+The electric-to-capillary stress ratio is
+\begin{equation}
+    \BoE=\frac{\eps_0V_0^2}{\gamma L}.
+\end{equation}
+This parameter controls how strongly electric stress competes with surface tension.
+
+\section{Theoretical deliverables before coding is considered successful}
+
+Before the solver is treated as a working theoretical product, it must demonstrate:
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Taylor limit:} recovery of \(\alpha_T\approx49.3^\circ\) in the zero-space-charge conducting limit.
+    \item \textbf{Correct operator:} implementation of the axisymmetric Laplace/Poisson operator, including axis regularity.
+    \item \textbf{Stress consistency:} Maxwell pressure scales as \(V_0^2\).
+    \item \textbf{Curvature consistency:} curvature signs and magnitudes are stable for known curves.
+    \item \textbf{Residual meaning:} equilibrium-like shapes have smaller \(\mathcal R_{\rm RMS}\) than deliberately poor shapes.
+    \item \textbf{Space-charge effect:} the Poisson model changes peak field and can represent shielding relative to the Laplace case.
+    \item \textbf{Parameter transparency:} every non-ideal parameter, such as \(E_c\), \(\rho_{\max}\), or \(\ell\), is declared as a model parameter rather than hidden.
+\end{enumerate}
+
+\section{Conclusion}
+
+The theory required for the working product is now defined.  The solver should begin from the classical Taylor cone, solve axisymmetric Laplace/Poisson electrostatics, compute electric fields, evaluate Maxwell pressure and capillary curvature on an interface, and use the Young--Laplace--Maxwell residual as the central physical diagnostic.  Space-charge shielding should be introduced as an explicit Poisson closure, first phenomenologically and then through threshold-activated nonlinear iteration.  This gives a rigorous theoretical foundation for the separate coding implementation outline.
+
+\begin{thebibliography}{9}
+\bibitem{Taylor1964}
+G. I. Taylor, ``Disintegration of water drops in an electric field,'' \emph{Proceedings of the Royal Society of London. Series A}, vol. 280, no. 1382, pp. 383--397, 1964.
+
+\bibitem{MelcherTaylor1969}
+J. R. Melcher and G. I. Taylor, ``Electrohydrodynamics: A review of the role of interfacial shear stresses,'' \emph{Annual Review of Fluid Mechanics}, vol. 1, pp. 111--146, 1969.
+
+\bibitem{Saville1997}
+D. A. Saville, ``Electrohydrodynamics: The Taylor--Melcher leaky dielectric model,'' \emph{Annual Review of Fluid Mechanics}, vol. 29, pp. 27--64, 1997.
+\end{thebibliography}
+
+\end{document}
