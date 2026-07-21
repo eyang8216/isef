@@ -51,13 +51,19 @@ class SolverParams:
 
 @dataclass(frozen=True)
 class SpaceChargeParams:
-    """Parameters for Version 1 Gaussian shielding closure."""
+    """Parameters for space-charge shielding closures (Gaussian or threshold-activated)."""
 
-    model: Literal["none", "gaussian"] = "none"
+    model: Literal["none", "gaussian", "threshold"] = "none"
+    # Gaussian closure fields
     rho0: float | None = None
     ell: float | None = None
     apex_r: float | None = None
     apex_z: float | None = None
+    # Threshold closure fields
+    E_c: float | None = None   # critical field [V/m] — charge activates above this
+    E_s: float | None = None   # scale field [V/m] — controls activation sharpness
+    rho_max: float | None = None  # peak charge density [C/m³]
+    # Shared iteration controls
     relaxation: float = 0.5
     tolerance: float = 1e-8
     max_iterations: int = 50
@@ -70,6 +76,13 @@ class SpaceChargeParams:
                 raise ValueError("Gaussian space charge requires positive ell")
             if self.apex_r is None or self.apex_z is None:
                 raise ValueError("Gaussian space charge requires apex_r and apex_z")
+        if self.model == "threshold":
+            if self.E_c is None or self.E_c < 0:
+                raise ValueError("Threshold closure requires non-negative E_c")
+            if self.E_s is None or self.E_s <= 0:
+                raise ValueError("Threshold closure requires positive E_s")
+            if self.rho_max is None or self.rho_max <= 0:
+                raise ValueError("Threshold closure requires positive rho_max")
         if not (0 < self.relaxation <= 1):
             raise ValueError("relaxation must lie in (0, 1]")
         if self.max_iterations < 1:
