@@ -1,0 +1,3 @@
+# Threshold closure and shape optimizer are decoupled in V2
+
+The threshold-activated space-charge closure and the shape optimizer are implemented and tested as independent modules in Version 2. The optimizer always runs with the Laplace (charge-free) solve in V2; the threshold closure is a standalone `solve_threshold_shielding()` function parallel to the existing `solve_gaussian_shielding()`. Coupling them — running the Poisson fixed-point iteration inside each optimizer function evaluation — would mean debugging two nonlinear loops simultaneously before either has been individually validated. Coupling is deferred to V3 or later, once both modules pass their own verification tests independently.
