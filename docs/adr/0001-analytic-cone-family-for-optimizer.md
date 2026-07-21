@@ -1,0 +1,3 @@
+# Analytic cone family for V2 shape optimizer, not splines
+
+The shape optimizer uses a parameterized analytic cone family (cone angle, apex radius, nozzle radius — 2–3 scalars) as its shape representation, rather than a spline over control points. The primary validation target is recovering the 49.3° Taylor half-angle in the Laplace limit; an analytic family makes that check direct and unambiguous. Splines would require a smoothness penalty term, more optimizer degrees of freedom, and make early convergence failures much harder to diagnose. Spline control points are deferred to a later version once the analytic family has been validated end-to-end.
