@@ -37,9 +37,9 @@ interior rows are left to the special regularity stencil.
 
 | Grid | L2 error | Linf error | nnz | solve seconds |
 |---:|---:|---:|---:|---:|
-| 25 x 27 | 8.104e-04 | 1.353e-03 | 3050 | 0.0014 |
-| 49 x 53 | 1.992e-04 | 3.389e-04 | 12338 | 0.0035 |
-| 97 x 105 | 4.936e-05 | 8.479e-05 | 49634 | 0.0197 |
+| 25 x 27 | 8.104e-04 | 1.353e-03 | 3050 | 0.0010 |
+| 49 x 53 | 1.992e-04 | 3.389e-04 | 12338 | 0.0027 |
+| 97 x 105 | 4.936e-05 | 8.479e-05 | 49634 | 0.0134 |
 
 CSV artifact: `results/v1_manufactured_convergence.csv`
 
@@ -73,8 +73,8 @@ yet a physical emission-current model.
 ```text
 converged = True
 iterations = 11
-global S_E = -7.710034465968e-03
-apex-local ROI S_E = -6.948465160693e-03
+global S_E = -7.710034465969e-03
+apex-local ROI S_E = -6.948465160695e-03
 ```
 
 Important caveat: the global `S_E` can be dominated by electrode/far-boundary
