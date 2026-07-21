@@ -17,3 +17,21 @@ def test_voltage_scaling_for_parallel_plate_laplace_case():
     interior = E1[1:-1, 1:-1]
     ratio = E2[1:-1, 1:-1] / interior
     assert np.max(np.abs(ratio - 2.0)) < 1e-10
+
+
+def test_electrostatics_convergence_order():
+    """L2 error must halve (≤0.6×) under 2× grid refinement on the quartic manufactured solution.
+
+    This catches regressions in the axisymmetric operator or boundary-condition
+    application at the electrostatics level, independent of the higher-level
+    manufactured-Poisson test.
+    """
+    from solver.verification import run_quartic_manufactured_poisson
+
+    coarse = run_quartic_manufactured_poisson(nr=25, nz=25)
+    fine = run_quartic_manufactured_poisson(nr=51, nz=51)  # ≈2× refinement
+    ratio = fine.l2_error / coarse.l2_error
+    assert ratio <= 0.6, (
+        f"Expected L2 error to halve under 2× refinement (ratio ≤ 0.6), got {ratio:.4f} "
+        f"(coarse={coarse.l2_error:.3e}, fine={fine.l2_error:.3e})"
+    )
