@@ -64,7 +64,7 @@ Runnable examples:
 ## Important caveats
 
 - The Gaussian space-charge module is currently a controlled Poisson source experiment, not a physically complete emission model.
-- The global `Emax` shielding metric can be dominated by boundary/corner fields; future work should compute a region-of-interest/apex-local shielding metric.
+- The global `Emax` shielding metric can be dominated by boundary/corner fields. `solver/space_charge.py`'s `shielding_metric()` now accepts an optional apex-local ROI mask to address this (see `results/v1_numerical_report.md` §5); remaining work is validating the ROI's sign/closure against measurements or a transport model, not building the ROI metric itself.
 - The interface residual is diagnostic only. It does not yet optimize a free boundary.
 - The conical conductor geometry is a simple grid mask for field visualization, not a sharp immersed-boundary/free-boundary method.
 - Threshold-activated charge, shape optimization, and the Streamlit app remain Version 2+.
