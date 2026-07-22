@@ -11,6 +11,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest"]
+app = ["plotly==6.9.0", "streamlit"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
