@@ -1,0 +1,55 @@
+\section{Planned Experimental Methodology}
+
+\subsection{Purpose}
+
+The experimental component will validate observable Taylor-cone quantities predicted by the solver. The goal is not to demonstrate a propulsion device or characterize full cone-jet breakup. Instead, the experiment will measure onset-level geometry and voltage trends for comparison with the reduced-order model.
+
+\subsection{Experimental Observables}
+
+The planned primary observables are:
+\begin{itemize}
+    \item cone half-angle measured from images,
+    \item interface profile coordinates extracted from silhouettes,
+    \item onset voltage for stable Taylor-cone formation,
+    \item qualitative regime classification: no cone, unstable deformation, stable cone, or spray onset,
+    \item repeatability across trials.
+\end{itemize}
+
+\subsection{Controlled and Recorded Variables}
+
+The experiment will record electrode spacing, needle or nozzle geometry, liquid identity, surface tension or literature surface-tension value, conductivity or dopant condition, applied voltage, flow rate, camera calibration scale, frame rate, temperature, humidity if available, and trial notes. A metadata template will be prepared before data collection to ensure repeatability.
+
+\subsection{Experimental Design}
+
+The planned validation experiment uses a supervised electrospray/Taylor-cone imaging setup. A conductive or doped liquid will be delivered at controlled low flow rate to a needle/nozzle facing a grounded extractor electrode. A camera and backlight will record the meniscus silhouette near onset. Voltage will be varied under supervision until a stable Taylor-cone-like shape is observed. The stable frame sequence will be analyzed with the image-processing pipeline described in Section~\ref{sec:image-processing}.
+
+Primary validation should begin with one carefully controlled geometry and one low-flow operating condition, repeated several times. Additional trials may vary electrode spacing, voltage, or flow condition to test trends. Because the present solver is primarily electrostatic--capillary and static, flow-rate-dependent conclusions will be treated cautiously unless additional flow physics is added.
+
+\subsection{Planned Trial Matrix}
+
+A preliminary trial matrix is shown in Table~\ref{tab:trial-matrix}. Values will be finalized after approval and equipment availability are confirmed.
+
+\begin{table}[H]
+\centering
+\caption{Draft experimental trial matrix. Exact values will be finalized before supervised testing.}
+\label{tab:trial-matrix}
+\small
+\begin{tabular}{p{0.22\linewidth}p{0.23\linewidth}p{0.23\linewidth}p{0.22\linewidth}}
+\toprule
+Variable & Primary setting & Secondary sweep & Purpose \\
+\midrule
+Electrode spacing & Fixed baseline & 2--3 spacings & Onset-voltage trend \\
+Flow rate & One low-flow baseline & Optional low-flow sweep & Repeatability/robustness \\
+Voltage & Ramp to onset & Repeated trials & Onset threshold \\
+Fluid condition & One characterized fluid & Optional conductivity variation & Model sensitivity \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Definition of Experimental Onset}
+
+The experimental onset voltage will be defined operationally as the lowest applied voltage at which a stable Taylor-cone-like interface persists for a specified observation window without immediate collapse or uncontrolled breakup. The final observation-window length and stability criteria will be fixed before data collection to reduce subjective bias.
+
+\subsection{Definition of Simulated Onset}
+
+The simulated onset voltage requires a formal numerical criterion. The planned criterion is to sweep applied voltage and identify the lowest voltage for which a Taylor-cone-like candidate interface satisfies a pre-defined residual threshold and physically reasonable half-angle range. An alternative or secondary criterion is the voltage at which apex-region Maxwell pressure becomes comparable to capillary pressure. The final criterion will be selected and documented before comparison with experimental onset data.

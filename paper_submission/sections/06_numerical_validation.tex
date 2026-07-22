@@ -1,0 +1,64 @@
+\section{Current Numerical Validation}
+
+The repository currently contains automated tests and numerical examples that verify the solver independently of future experiments. These results establish that the computational core is functioning before experimental validation is attempted.
+
+\subsection{Automated Tests}
+
+The current test suite passes all available tests:
+\begin{equation*}
+\texttt{33 passed}.
+\end{equation*}
+The tests cover grid indexing, sparse operator assembly, axis regularity stencils, boundary conditions, Poisson sign convention, electric-field reconstruction, interpolation, curvature, residual behavior, Taylor-angle benchmark, space-charge closures, optimization sanity checks, and app-backend outputs.
+
+\subsection{Classical Taylor-Angle Benchmark}
+
+The analytical benchmark routine computes
+\begin{equation*}
+\alpha_T = \SI{49.2900892921}{\degree},
+\end{equation*}
+matching the classical Taylor half-angle. This confirms that the theoretical benchmark is correctly represented in code.
+
+\subsection{Manufactured Poisson Convergence}
+
+A manufactured solution is used to verify the Poisson solver:
+\begin{equation}
+\ph(r,z)=r^4+z^4+r^2z^2.
+\end{equation}
+For this function,
+\begin{equation}
+\nabla^2\ph=18r^2+16z^2.
+\end{equation}
+The existing convergence data are shown in Table~\ref{tab:poisson-convergence}.
+
+\begin{table}[H]
+\centering
+\caption{Manufactured Poisson convergence results from the current solver report.}
+\label{tab:poisson-convergence}
+\begin{tabular}{rrrrr}
+\toprule
+Grid & L2 error & Linf error & Nonzeros & Solve time (s) \\
+\midrule
+$25\times 27$ & $8.104\times 10^{-4}$ & $1.353\times 10^{-3}$ & 3050 & 0.0010 \\
+$49\times 53$ & $1.992\times 10^{-4}$ & $3.389\times 10^{-4}$ & 12338 & 0.0027 \\
+$97\times 105$ & $4.936\times 10^{-5}$ & $8.479\times 10^{-5}$ & 49634 & 0.0134 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The decreasing error under refinement supports correctness of the finite-difference discretization.
+
+\subsection{Voltage Scaling}
+
+In a parallel-plate Laplace case, doubling voltage from \SI{500}{V} to \SI{1000}{V} produces an electric-field ratio of approximately 2 and an implied Maxwell-pressure ratio of approximately 4. This agrees with $\Emag\propto V$ and $p_E\propto E^2$.
+
+\subsection{Residual Sanity Check}
+
+For a cylindrical interface with zero electric field, capillary pressure is constant and is removed by the mean pressure offset. The current numerical report gives an RMS residual of approximately
+\begin{equation*}
+8.58\times 10^{-16}\ \si{Pa},
+\end{equation*}
+which is effectively numerical zero.
+
+\subsection{Known Optimizer Limitation}
+
+The current cone-family shape optimizer recovers an optimized half-angle near \SI{43.5}{\degree} in one demonstration, compared with the ideal \SI{49.3}{\degree} Taylor limit. This deviation is attributed to the grid-mask representation of the conical conductor rather than a sharp immersed boundary. This limitation will be handled by either improving the boundary representation or explicitly quantifying angle error versus grid resolution.
