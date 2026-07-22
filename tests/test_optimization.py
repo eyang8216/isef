@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from solver.config import GridParams, PhysicalParams
+from solver.config import GridParams, PhysicalParams, SpaceChargeParams
 from solver.electrostatics import solve_laplace
 from solver.fields import compute_electric_field
 from solver.geometry import rectangular_electrodes
@@ -68,6 +68,49 @@ def test_optimizer_converges_to_lower_residual_than_bad_start():
         f"start={diag_poor.rms_residual:.4e} optimized={result.rms_residual:.4e}"
     )
     assert result.n_evals > 1  # optimizer actually ran
+
+
+def test_coupled_optimizer_differs_from_laplace_only(small_setup):
+    """Coupled threshold optimizer must produce a different RMS residual than Laplace-only.
+
+    The threshold Poisson field differs from the pure Laplace field when charge
+    activates above E_c, shifting the residual landscape. This confirms the coupling
+    is exercised, not silently bypassed.
+    """
+    grid, masks, physical = small_setup
+
+    # E_c well below the interior Laplace peak so charge activates meaningfully
+    sc_params = SpaceChargeParams(
+        model="threshold",
+        E_c=500.0,
+        E_s=300.0,
+        rho_max=1e-8,
+        relaxation=0.5,
+        tolerance=1e-6,
+        max_iterations=40,
+    )
+
+    result_laplace = optimize_cone_shape(
+        grid, masks, physical,
+        n_interface=21,
+        powell_options={"maxiter": 100, "ftol": 1e-6},
+    )
+    result_coupled = optimize_cone_shape(
+        grid, masks, physical,
+        sc_params=sc_params,
+        n_interface=21,
+        powell_options={"maxiter": 100, "ftol": 1e-6},
+    )
+
+    # Laplace-only result must carry None inner-loop fields
+    assert result_laplace.sc_converged is None
+    assert result_laplace.sc_iterations is None
+
+    # The two runs must produce different residuals (space charge changes the field)
+    assert result_coupled.rms_residual != result_laplace.rms_residual, (
+        "Coupled and Laplace-only optimizer produced identical residuals — "
+        "threshold space charge is not being applied"
+    )
 
 
 def test_optimizer_reduces_residual_vs_initial(small_setup):

@@ -1,11 +1,14 @@
-"""Shape optimizer for the analytic cone family (Version 2).
+"""Shape optimizer for the analytic cone family (V2+).
 
 Finds the cone-family interface that minimises the Young-Laplace-Maxwell
 RMS residual using a gradient-free Powell optimizer. Per ADR-0001, the
 shape parameterization is an analytic cone family (cone angle, apex radius)
-— spline control points are out of scope. Per ADR-0002, the optimizer
-always runs with the Laplace solve; threshold/Gaussian closures are never
-called internally.
+— spline control points are out of scope.
+
+V2: optimizer runs with the Laplace solve (ADR-0002 default).
+V3: pass `sc_params` to couple the threshold-activated closure — the
+    inner Poisson fixed-point loop runs on every optimizer evaluation,
+    so the field adjusts to the current shape's space charge.
 """
 
 from __future__ import annotations
@@ -15,13 +18,14 @@ from dataclasses import dataclass
 import numpy as np
 from scipy.optimize import minimize
 
-from .config import PhysicalParams, SolverParams
+from .config import PhysicalParams, SolverParams, SpaceChargeParams
 from .electrostatics import solve_laplace
 from .fields import compute_electric_field
 from .geometry import GeometryMasks
 from .grid import AxisymmetricGrid
 from .interface import straight_cone_interface
 from .residual import compute_residual
+from .space_charge import solve_threshold_shielding
 
 
 @dataclass(frozen=True)
@@ -45,6 +49,9 @@ class OptimizationResult:
     n_evals: int
     converged: bool
     message: str
+    # Inner space-charge loop status at the final optimized shape (None when Laplace-only)
+    sc_converged: bool | None = None
+    sc_iterations: int | None = None
 
 
 def optimize_cone_shape(
@@ -61,13 +68,19 @@ def optimize_cone_shape(
     bounds: ConeShapeBounds | None = None,
     solver: SolverParams | None = None,
     powell_options: dict | None = None,
+    sc_params: SpaceChargeParams | None = None,
 ) -> OptimizationResult:
     """Find the cone-family interface minimising the YLM RMS residual.
 
-    Solves the Laplace equation once before optimizing (fixed field), then
-    minimises RMS residual over (half_angle_deg, apex_radius) with Powell.
+    Minimises RMS residual over (half_angle_deg, apex_radius) with Powell.
     Δp is always eliminated by mean-subtraction inside compute_residual;
     it is never a free variable.
+
+    sc_params=None (default): Laplace-only mode — solve electrostatics once
+        before the optimizer loop and reuse the fixed field (fast, V2 behaviour).
+    sc_params=SpaceChargeParams(model="threshold", ...): coupled mode — run the
+        threshold Poisson fixed-point loop on every optimizer evaluation so the
+        field responds to space charge at each candidate shape (slower, V3).
     """
     bounds = bounds or ConeShapeBounds()
     solver = solver or SolverParams()
@@ -92,8 +105,23 @@ def optimize_cone_shape(
         angle_upper = bounds.half_angle_deg_max
     angle_upper = max(angle_upper, bounds.half_angle_deg_min + 1.0)
 
-    phi = solve_laplace(grid, masks, physical, solver=solver)
-    Er, Ez, _ = compute_electric_field(grid, phi)
+    coupled = sc_params is not None
+
+    # Laplace-only: solve once, reuse field for all evaluations (V2 default).
+    # Coupled: the threshold Poisson loop re-runs on each evaluation so the field
+    # reflects space-charge activation at that voltage/geometry. Note: the liquid
+    # interface is a diagnostic surface only — it does not alter the electrode BCs,
+    # so the threshold field varies with sc_params, not with the candidate shape.
+    if not coupled:
+        phi_base = solve_laplace(grid, masks, physical, solver=solver)
+        Er_base, Ez_base, _ = compute_electric_field(grid, phi_base)
+
+    def _get_fields() -> tuple[np.ndarray, np.ndarray, bool | None, int | None]:
+        """Return (Er, Ez, sc_converged, sc_iterations) for the current mode."""
+        if coupled:
+            sc = solve_threshold_shielding(grid, masks, physical, sc_params, solver=solver)
+            return sc.Er, sc.Ez, sc.converged, sc.iterations
+        return Er_base, Ez_base, None, None
 
     n_evals = 0
 
@@ -107,6 +135,7 @@ def optimize_cone_shape(
                 z_min=z_min_iface, z_max=z_max_iface, apex_z=apex_z_val,
                 half_angle_deg=half_angle_deg, n=n_interface, apex_radius=apex_radius,
             )
+            Er, Ez, _, _ = _get_fields()
             diag = compute_residual(grid, iface, Er, Ez, physical)
             return diag.rms_residual
         except Exception:
@@ -129,14 +158,18 @@ def optimize_cone_shape(
     opt_angle = float(np.clip(result.x[0], bounds.half_angle_deg_min, angle_upper))
     opt_apex = float(np.clip(result.x[1], bounds.apex_radius_min, bounds.apex_radius_max))
 
+    # Final evaluation at the optimized shape — captures inner loop status if coupled
     nozzle_radius = float("nan")
     rms_final = float(result.fun)
+    sc_converged_final: bool | None = None
+    sc_iters_final: int | None = None
     try:
         iface_opt = straight_cone_interface(
             z_min=z_min_iface, z_max=z_max_iface, apex_z=apex_z_val,
             half_angle_deg=opt_angle, n=n_interface, apex_radius=opt_apex,
         )
-        diag_opt = compute_residual(grid, iface_opt, Er, Ez, physical)
+        Er_final, Ez_final, sc_converged_final, sc_iters_final = _get_fields()
+        diag_opt = compute_residual(grid, iface_opt, Er_final, Ez_final, physical)
         rms_final = diag_opt.rms_residual
         nozzle_radius = float(iface_opt.R[-1])
     except Exception:
@@ -150,4 +183,6 @@ def optimize_cone_shape(
         n_evals=n_evals,
         converged=bool(result.success),
         message=str(result.message),
+        sc_converged=sc_converged_final,
+        sc_iterations=sc_iters_final,
     )
