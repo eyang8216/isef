@@ -3,3 +3,4 @@ scipy
 matplotlib
 pytest
 plotly==6.9.0
+streamlit==1.60.0
