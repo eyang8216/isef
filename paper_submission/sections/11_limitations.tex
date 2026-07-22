@@ -1,0 +1,7 @@
+\section{Limitations}
+
+The present solver is intentionally reduced-order. It does not solve full transient Navier--Stokes equations, full Taylor--Melcher leaky-dielectric surface charge conservation, droplet breakup, plume dynamics, or complete thruster performance. The effective space-charge closures are phenomenological models for studying Poisson shielding trends, not predictive emitted-current laws.
+
+The axisymmetric assumption is appropriate for onset-level symmetric geometries but may fail after non-axisymmetric instabilities or downstream jet breakup appear. The finite-difference grid representation introduces geometric error, especially near sharp conical interfaces. The current optimizer-angle deviation from the ideal Taylor half-angle highlights this limitation and motivates improved boundary treatment or explicit grid-convergence quantification.
+
+Experimental validation will also have limitations. Cone-angle extraction depends on image resolution, optical alignment, lighting, threshold selection, calibration accuracy, and frame selection. Onset voltage may depend on fluid impurities, humidity, flow stability, electrode condition, and subjective stability criteria unless carefully standardized. Therefore, final conclusions will be stated in terms of quantified agreement and uncertainty rather than exact prediction.

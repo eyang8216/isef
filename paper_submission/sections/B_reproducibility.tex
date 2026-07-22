@@ -1,0 +1,18 @@
+\section{Reproducibility Notes}
+
+The solver repository is organized so that numerical results can be reproduced from the project root. The current local path is:
+\begin{verbatim}
+/Users/a1/Desktop/isef
+\end{verbatim}
+The Python environment used during this draft is Miniforge Python:
+\begin{verbatim}
+/Users/a1/miniforge3/bin/python
+\end{verbatim}
+Important commands are:
+\begin{verbatim}
+/Users/a1/miniforge3/bin/python -m pytest -q
+/Users/a1/miniforge3/bin/python examples/04_taylor_angle_benchmark.py
+/Users/a1/miniforge3/bin/python examples/05_shape_optimization_demo.py
+/Users/a1/miniforge3/bin/python -m streamlit run app/streamlit_app.py
+\end{verbatim}
+The final repository should include scripts for exporting simulation profiles, processing experimental images, and generating comparison figures.

@@ -1,0 +1,7 @@
+\section{Conclusion and Future Work}
+
+This project develops a lightweight sparse Python solver for onset-level Taylor-cone modeling. The current codebase already includes an axisymmetric electrostatic solver, field reconstruction, residual diagnostics, effective space-charge closures, a shape optimizer, a Streamlit app, automated tests, and numerical validation artifacts. It reproduces the classical Taylor half-angle benchmark and passes current numerical sanity checks.
+
+The next stage is experimental validation. After required approval and supervision, Taylor-cone images will be collected, processed using computer vision, and compared against solver predictions using profile RMSE, angle error, onset-voltage error, and runtime metrics. This will test whether the reduced-order model is accurate enough for accessible early-stage parameter studies on consumer hardware.
+
+Future work includes improving sharp-interface boundary representation, coupling threshold space charge inside the shape-optimization loop, adding more physically constrained charge/current closures, extending toward leaky-dielectric effects where justified, and comparing against higher-fidelity simulations or published experimental datasets. The intended contribution is not to replace full multiphysics simulation, but to provide a transparent, reproducible, and computationally accessible model for Taylor-cone onset studies.

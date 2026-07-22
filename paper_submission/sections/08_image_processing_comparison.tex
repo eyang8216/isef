@@ -1,0 +1,45 @@
+\section{Image Processing and Comparison Method}\label{sec:image-processing}
+
+\subsection{Computer-Vision Pipeline}
+
+The image-processing pipeline will convert recorded Taylor-cone images into quantitative interface coordinates. The planned workflow is:
+\begin{enumerate}
+    \item select stable frames from video sequences,
+    \item crop the region of interest around the meniscus,
+    \item calibrate pixels to physical length using a known needle/nozzle dimension or calibration target,
+    \item apply thresholding and/or edge detection,
+    \item extract the cone boundary contour,
+    \item fit local interface slopes near the cone region,
+    \item compute the experimental half-angle,
+    \item export $(r_{\mathrm{exp}},z_{\mathrm{exp}})$ profile coordinates and uncertainty estimates.
+\end{enumerate}
+
+Before physical data are collected, the pipeline will be tested on synthetic cone images with known ground-truth angles. This will validate that the angle-extraction method can recover known geometry under blur, noise, and thresholding variation.
+
+\subsection{Profile Alignment}
+
+Simulation and experiment will be compared in the same coordinate system. Experimental pixel coordinates will be converted to millimeters and aligned so that the extracted apex or another reproducible reference point matches the simulation coordinate origin. The experimental radius $r_{\mathrm{exp}}(z_i)$ will be interpolated onto the simulation $z_i$ locations, or both profiles will be interpolated onto a common coordinate grid.
+
+\subsection{Validation Metrics}
+
+The primary profile metric will be the root mean square error:
+\begin{equation}
+\mathrm{RMSE}_{R}=\sqrt{\frac{1}{N}\sum_{i=1}^{N}\left(R_{\mathrm{sim}}(z_i)-R_{\mathrm{exp}}(z_i)\right)^2}.
+\end{equation}
+A normalized version will divide by a characteristic length $L_c$, such as electrode spacing or observed cone length:
+\begin{equation}
+\mathrm{nRMSE}_{R}=\frac{\mathrm{RMSE}_{R}}{L_c}.
+\end{equation}
+The cone-angle error will be
+\begin{equation}
+\Delta\alpha=|\alpha_{\mathrm{sim}}-\alpha_{\mathrm{exp}}|.
+\end{equation}
+For onset voltage,
+\begin{equation}
+\epsilon_V=\frac{|V_{\mathrm{sim}}-V_{\mathrm{exp}}|}{V_{\mathrm{exp}}}.
+\end{equation}
+Repeated trials will report mean, standard deviation, and uncertainty intervals where possible.
+
+\subsection{Planned Output Figures}
+
+The final paper will include: raw image frames, detected-edge overlays, extracted cone profiles, simulated-versus-experimental profile overlays, half-angle comparison plots, onset-voltage comparison plots, and runtime scaling figures.
