@@ -12,7 +12,7 @@ On Run button click: call `app_backend.run_solver(params)`, display the five Plo
 
 **Blocked by:** 04 — app backend
 
-**Status:** ready-for-agent
+**Status:** completed
 
 - [ ] `app/__init__.py` created
 - [ ] `app/streamlit_app.py` created with basic sidebar (6 inputs) and Advanced expander

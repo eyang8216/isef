@@ -534,76 +534,88 @@ AI_HANDOVER.md
 
 ## 10A. Current implementation status
 
-A first Version 1 solver core now exists and has been pushed to GitHub.
+Version 1 and Version 2 solver are both complete and pushed to GitHub.
 
-Latest implementation commit at the time of writing:
+Latest implementation commits:
 
 ```text
-e0dddb9 Implement Version 1 solver core
+1b06cf2  Fix deprecated use_container_width and misleading half-angle label
+86df51a  Implement Streamlit app (ticket 05)
+455a356  Implement app backend (ticket 04)
+28204e5  Implement shape optimizer (ticket 03)
+81a5ace  Strengthen V1 test foundations (ticket 02)
+b9fbb84  Implement threshold-activated space-charge closure (ticket 01)
 ```
 
 Implemented folders/files:
 
 ```text
-solver/
-tests/
-examples/
-scripts/generate_v1_report.py
+solver/          — full numerical core (V1 + V2)
+tests/           — 33 passing tests
+examples/        — 7 runnable scripts (00–06)
+app/             — Streamlit app
+scripts/         — report generation
+docs/            — agent config, running guide, literature evidence
+results/         — numerical report and CSV
 IMPLEMENTATION_STATUS.md
-docs/running_solver.md
-docs/literature_evidence.md
-results/v1_numerical_report.md
+CONTEXT.md
+docs/adr/        — ADR-0001 (analytic cone family), ADR-0002 (threshold+optimizer decoupled)
+.scratch/        — V1 and V2 specs and tickets (local issue tracker)
 ```
 
 Run tests with:
 
 ```bash
-cd /Users/a1/ISEF_physics
-/Users/a1/miniforge3/bin/python -m pytest -q
+.venv/bin/python -m pytest -q
 ```
 
-Current expected result:
+Expected result:
 
 ```text
-21 passed
+33 passed
 ```
 
-The current solver includes sparse axisymmetric Laplace/Poisson electrostatics,
-field reconstruction, graph-interface curvature, Young-Laplace-Maxwell residual
-diagnostics, Gaussian Poisson-source scaffolding, manufactured-solution
-verification, and a Taylor-angle analytical benchmark.
+Run the Streamlit app with:
 
-Important caveat: the Gaussian space-charge module is not yet a physically
-predictive emission model; it is a Poisson-source scaffold and sensitivity tool.
+```bash
+streamlit run app/streamlit_app.py
+```
+
+See `IMPLEMENTATION_STATUS.md` for full module list, test coverage, and known caveats.
 
 ---
 
 ## 11. Recommended next task
 
-The next best task is:
+Version 1 and Version 2 are complete. The next phase is **Version 3**, but it has two distinct tracks:
 
-> Start implementing the numerical solver skeleton, beginning with `solver/grid.py`, `solver/operators.py`, `solver/boundary_conditions.py`, and a manufactured Poisson verification test.
+### Track A — Computational V3 (can start now)
 
-Before coding, inspect `implementation_outline.md` and follow its module order.
+1. **Couple threshold closure inside the optimizer loop** (ADR-0002 deferred this; both modules now exist and are individually validated — coupling them is the logical next step).
+2. **Improve the conical-conductor geometry** to reduce the ~6° optimizer angle error. The grid-mask `conical_conductor` is not a sharp immersed boundary; a proper sharp-cone or fitted-boundary representation would let the optimizer recover closer to 49.3°.
+3. **Leaky-dielectric liquid potential** — add the inner liquid domain solve and surface charge conservation to `electrostatics.py`.
 
-Suggested first concrete deliverable:
+### Track B — Experimental V3 (gated on school approval)
 
-```text
-solver/grid.py
-solver/operators.py
-solver/boundary_conditions.py
-solver/electrostatics.py
-tests/test_manufactured_poisson.py
-examples/01_laplace_basic_electrodes.py
-```
+Before any experimental work: obtain ISEF/SRC approval, school supervisor sign-off, and required safety review for high-voltage and ethanol handling.
 
-Acceptance criteria for first coding milestone:
+Once approved:
+1. Set up electrospray testbed (nozzle, extractor, high-voltage supply, camera).
+2. Capture side-view images of Taylor cone at varying voltages.
+3. Extract cone half-angle and onset voltage from images.
+4. Compare against solver predictions using `examples/05_shape_optimization_demo.py`.
 
-- Can create a grid.
-- Can assemble sparse axisymmetric operator.
-- Can apply simple Dirichlet boundaries.
-- Can solve a simple Laplace/Poisson case.
-- Can pass at least one manufactured solution test.
+**Do not proceed with experimental track until approvals are in place.**
+
+### Starting point for a new agent
+
+Read in order:
+1. `AI_HANDOVER.md` (this file)
+2. `IMPLEMENTATION_STATUS.md` — current module list, test count, caveats
+3. `CONTEXT.md` — domain glossary
+4. `docs/adr/` — ADR-0001 and ADR-0002
+5. `.scratch/taylor-cone-solver-v2/spec.md` — V2 spec for context on what was built
+6. `implementation_outline.md` — original architecture plan (mostly realized)
 
 ---
 

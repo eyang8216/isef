@@ -10,7 +10,7 @@ Per ADR-0002, the optimizer always runs with the Laplace solve in V2 — it neve
 
 **Blocked by:** 02 — strengthen V1 test foundations
 
-**Status:** ready-for-agent
+**Status:** completed
 
 - [ ] `solver/optimization.py` created with analytic cone-family parameterization (cone angle, apex radius, nozzle radius)
 - [ ] Box bounds enforced on all shape parameters

@@ -8,7 +8,7 @@ The example script should run end-to-end, converge the fixed-point iteration, an
 
 **Blocked by:** None — can start immediately
 
-**Status:** ready-for-agent
+**Status:** completed
 
 - [ ] `solve_threshold_shielding()` implemented in `solver/space_charge.py`, reusing the fixed-point loop
 - [ ] Nodes with `|E| < Ec` produce exactly zero charge density
