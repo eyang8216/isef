@@ -126,7 +126,8 @@ if run:
     # -----------------------------------------------------------------------
     st.subheader("Scalar diagnostics")
     col1, col2, col3 = st.columns(3)
-    col1.metric("Half-angle", f"{result.half_angle:.2f}°")
+    col1.metric("Interface half-angle (input)", f"{result.half_angle:.2f}°",
+                help="Angle of the prescribed interface used for residual diagnostics — not a predicted value. Change via the Advanced slider.")
     col2.metric("Peak |E|", f"{result.peak_field:.3g} V/m")
     col3.metric("RMS residual", f"{result.rms_residual:.3e} Pa")
 
@@ -138,7 +139,7 @@ if run:
 
     # Full diagnostics table (copyable/readable)
     diag_table = {
-        "Quantity": ["Half-angle", "Peak |E|", "RMS residual", "Shielding metric S_E",
+        "Quantity": ["Interface half-angle (input)", "Peak |E|", "RMS residual", "Shielding metric S_E",
                      "Runtime", "Converged", "Iterations"],
         "Value": [
             f"{result.half_angle:.4f} °",
@@ -150,7 +151,7 @@ if run:
             str(result.iterations),
         ],
     }
-    st.dataframe(pd.DataFrame(diag_table), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(diag_table), width='stretch', hide_index=True)
 
     if not result.converged:
         st.warning(f"Space-charge iteration did not converge ({result.iterations} iterations). "
@@ -162,12 +163,12 @@ if run:
     st.subheader("Field plots")
     col_left, col_right = st.columns(2)
     with col_left:
-        st.plotly_chart(figure_potential(result), use_container_width=True)
-        st.plotly_chart(figure_interface_overlay(result), use_container_width=True)
-        st.plotly_chart(figure_space_charge(result), use_container_width=True)
+        st.plotly_chart(figure_potential(result), width='stretch')
+        st.plotly_chart(figure_interface_overlay(result), width='stretch')
+        st.plotly_chart(figure_space_charge(result), width='stretch')
     with col_right:
-        st.plotly_chart(figure_field_magnitude(result), use_container_width=True)
-        st.plotly_chart(figure_residual_profile(result), use_container_width=True)
+        st.plotly_chart(figure_field_magnitude(result), width='stretch')
+        st.plotly_chart(figure_residual_profile(result), width='stretch')
 
 else:
     st.info("Set parameters in the sidebar and click **▶ Run solver** to start.")
