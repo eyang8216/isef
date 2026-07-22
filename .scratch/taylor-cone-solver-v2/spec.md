@@ -1,6 +1,6 @@
 # Spec: Taylor-Cone Solver — Version 2
 
-Status: ready-for-agent
+Status: completed
 
 **Source docs:** `CONTEXT.md`, `docs/adr/0001-analytic-cone-family-for-optimizer.md`,
 `docs/adr/0002-threshold-and-optimizer-decoupled-in-v2.md`,

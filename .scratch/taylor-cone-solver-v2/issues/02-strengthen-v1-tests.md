@@ -8,7 +8,7 @@
 
 **Blocked by:** 01 — threshold closure
 
-**Status:** ready-for-agent
+**Status:** completed
 
 - [ ] `tests/test_electrostatics.py`: convergence-order test added — L2 error at 2× resolution is ≤ 0.6× coarse error
 - [ ] `tests/test_residual.py`: residual-decreases test added — better-shaped interface produces lower RMS residual than worse-shaped one

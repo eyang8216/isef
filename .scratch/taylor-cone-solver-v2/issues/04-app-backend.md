@@ -12,7 +12,7 @@ Pin `plotly` to a specific version in `requirements.txt` and `pyproject.toml` in
 
 **Blocked by:** 03 — shape optimizer
 
-**Status:** ready-for-agent
+**Status:** completed
 
 - [ ] `solver/app_backend.py` created with `run_solver(params) -> SolverResult`
 - [ ] `SolverResult` frozen dataclass with all specified fields
