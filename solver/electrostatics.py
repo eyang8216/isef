@@ -22,8 +22,6 @@ def solve_electrostatics(
 ) -> np.ndarray:
     """Solve axisymmetric Laplace/Poisson equation and return `phi[nr,nz]`."""
     solver = solver or SolverParams()
-    if solver.linear_solver != "spsolve":
-        raise NotImplementedError("Version 1 supports only scipy.sparse.linalg.spsolve")
     A = build_axisymmetric_laplacian(grid)
     b = poisson_rhs(grid, rho_e, physical.eps_g)
     A, b = apply_dirichlet_conditions(A, b, grid, masks, physical, far_value=far_value)

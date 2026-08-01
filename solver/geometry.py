@@ -29,19 +29,6 @@ class GeometryMasks:
         return self.powered | self.grounded | self.conductor
 
 
-def empty_masks(grid: AxisymmetricGrid) -> GeometryMasks:
-    shape = grid.shape
-    false = np.zeros(shape, dtype=bool)
-    axis = np.zeros(shape, dtype=bool)
-    axis[0, :] = True
-    far = np.zeros(shape, dtype=bool)
-    far[-1, :] = True
-    far[:, 0] = True
-    far[:, -1] = True
-    gas = np.ones(shape, dtype=bool)
-    return GeometryMasks(false.copy(), false.copy(), axis, far, false.copy(), gas)
-
-
 def rectangular_electrodes(
     grid: AxisymmetricGrid,
     powered: Literal["z_min", "z_max"] = "z_max",

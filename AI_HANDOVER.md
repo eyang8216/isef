@@ -534,11 +534,14 @@ AI_HANDOVER.md
 
 ## 10A. Current implementation status
 
-Version 1 and Version 2 solver are both complete and pushed to GitHub.
+Version 1 and Version 2 are complete. Version 3 Track A item 1 (threshold
+closure coupled into the shape optimizer) is also complete. All of it is
+pushed to GitHub.
 
 Latest implementation commits:
 
 ```text
+7bef973  Couple threshold closure into shape optimizer (Track A item 1)
 1b06cf2  Fix deprecated use_container_width and misleading half-angle label
 86df51a  Implement Streamlit app (ticket 05)
 455a356  Implement app backend (ticket 04)
@@ -551,7 +554,7 @@ Implemented folders/files:
 
 ```text
 solver/          — full numerical core (V1 + V2)
-tests/           — 33 passing tests
+tests/           — 34 passing tests
 examples/        — 7 runnable scripts (00–06)
 app/             — Streamlit app
 scripts/         — report generation
@@ -572,7 +575,7 @@ Run tests with:
 Expected result:
 
 ```text
-33 passed
+34 passed
 ```
 
 Run the Streamlit app with:
@@ -589,10 +592,10 @@ See `IMPLEMENTATION_STATUS.md` for full module list, test coverage, and known ca
 
 Version 1 and Version 2 are complete. The next phase is **Version 3**, but it has two distinct tracks:
 
-### Track A — Computational V3 (can start now)
+### Track A — Computational V3 (in progress)
 
-1. **Couple threshold closure inside the optimizer loop** (ADR-0002 deferred this; both modules now exist and are individually validated — coupling them is the logical next step).
-2. **Improve the conical-conductor geometry** to reduce the ~6° optimizer angle error. The grid-mask `conical_conductor` is not a sharp immersed boundary; a proper sharp-cone or fitted-boundary representation would let the optimizer recover closer to 49.3°.
+1. ✅ **Couple threshold closure inside the optimizer loop** — done (commit `7bef973`; see ADR-0002). Passing `sc_params=...` to `optimize_cone_shape()` runs the threshold fixed-point loop inside every optimizer evaluation.
+2. **Improve the conical-conductor geometry** to reduce the ~6° optimizer angle error. The grid-mask `conical_conductor` is not a sharp immersed boundary; a proper sharp-cone or ghost-cell/immersed-boundary representation would let the optimizer recover closer to 49.3°. Literature research is in `.scratch/taylor-cone-fd-bcs/research.md`.
 3. **Leaky-dielectric liquid potential** — add the inner liquid domain solve and surface charge conservation to `electrostatics.py`.
 
 ### Track B — Experimental V3 (gated on school approval)
@@ -616,6 +619,7 @@ Read in order:
 4. `docs/adr/` — ADR-0001 and ADR-0002
 5. `.scratch/taylor-cone-solver-v2/spec.md` — V2 spec for context on what was built
 6. `implementation_outline.md` — original architecture plan (mostly realized)
+7. `.scratch/taylor-cone-fd-bcs/research.md` — active research on the sharp-cone boundary-condition fix (staircase error → ghost-cell correction)
 
 ---
 
@@ -646,4 +650,4 @@ Start by reading these files in order:
 5. `notes/Solver/04_Numerical_Core.md`
 6. `notes/Solver/08_Verification_and_Tests.md`
 
-Then ask the user whether they want to begin solver code implementation or further refine the theory.
+Then check `IMPLEMENTATION_STATUS.md` and `docs/adr/` for the current state, and ask the user whether to continue V3 Track A (sharp-cone geometry, leaky-dielectric, current-constrained closure) or refine the theory.
