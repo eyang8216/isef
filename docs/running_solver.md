@@ -13,20 +13,18 @@ The local machine currently has the required scientific Python stack installed i
 Run all commands from the repository root:
 
 ```bash
-cd /Users/a1/ISEF_physics
+cd /Users/elliottdong/Desktop/isef
 ```
 
-Install dependencies elsewhere with:
+Install the solver package and dependencies (uses `.venv` if present):
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -e ".[app,dev]"
 ```
 
-or with conda/mamba:
-
-```bash
-mamba install -c conda-forge numpy scipy matplotlib pytest
-```
+`pyproject.toml` is the single source of truth for dependencies — the optional
+`app` extra adds plotly and streamlit, `dev` adds pytest. For the solver core
+alone, `python -m pip install -e .` is enough.
 
 ## Run tests
 

@@ -15,9 +15,6 @@ class PhysicalParams:
     V0: float = 1.0
     gamma: float = 0.022  # N/m, approximate ethanol-air surface tension near room temp
     eps_g: float = EPS0
-    eps_l: float | None = None
-    sigma_l: float | None = None
-    length_scale: float = 1.0
 
 
 @dataclass(frozen=True)
@@ -41,12 +38,11 @@ class GridParams:
 
 @dataclass(frozen=True)
 class SolverParams:
-    """Numerical solver controls."""
+    """Numerical solver controls (reserved for future options).
 
-    linear_solver: Literal["spsolve"] = "spsolve"
-    tolerance: float = 1e-10
-    max_iterations: int = 100
-    use_dimensionless: bool = False
+    Currently spsolve with its defaults is the only supported linear solver,
+    so this dataclass intentionally carries no fields yet.
+    """
 
 
 @dataclass(frozen=True)

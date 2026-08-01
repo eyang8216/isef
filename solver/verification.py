@@ -101,14 +101,6 @@ def run_quartic_manufactured_poisson(nr: int, nz: int) -> ManufacturedResult:
     return ManufacturedResult(nr=nr, nz=nz, l2_error=l2, linf_error=linf, solve_seconds=elapsed, nnz=int(A.nnz))
 
 
-def voltage_scaling_ratio(E1: np.ndarray, E2: np.ndarray, expected: float) -> float:
-    """Return median ratio of nonzero field magnitudes, useful for tests."""
-    mag1 = np.asarray(E1, dtype=float)
-    mag2 = np.asarray(E2, dtype=float)
-    mask = mag1 > 1e-14 * max(float(np.max(mag1)), 1.0)
-    return float(np.median(mag2[mask] / mag1[mask]) / expected)
-
-
 def taylor_cone_half_angle_deg() -> float:
     """Compute Taylor's classical cone half-angle from P_{1/2}(cos theta)=0.
 

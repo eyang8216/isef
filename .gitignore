@@ -16,6 +16,11 @@ htmlcov/
 venv/
 env/
 
+# Python packaging (editable install artifacts)
+*.egg-info/
+build/
+dist/
+
 # Jupyter
 .ipynb_checkpoints/
 
