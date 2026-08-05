@@ -47,3 +47,9 @@ dist/
 .env.*
 *.pem
 *.key
+
+# reasonix
+.reasonix/
+
+# agent-generated review reports (one-off artifacts, not source)
+architecture-review-*.html
