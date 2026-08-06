@@ -10,6 +10,7 @@ import streamlit as st
 
 from solver.app_backend import (
     RunParams,
+    SolverResult,
     figure_field_magnitude,
     figure_interface_overlay,
     figure_potential,
@@ -18,12 +19,29 @@ from solver.app_backend import (
     run_solver,
 )
 
-st.set_page_config(page_title="Taylor-Cone Solver", layout="wide")
+st.set_page_config(
+    page_title="Taylor-Cone Solver",
+    page_icon=":material/science:",
+    layout="wide",
+)
 st.title("Axisymmetric Electrostatic-Capillary Solver")
 st.caption(
     "Reduced-order Taylor-cone solver — Laplace / Poisson with space-charge shielding. "
     "Shape optimisation is available via the CLI example scripts."
 )
+
+# ---------------------------------------------------------------------------
+# Session state — keep the last run around so results survive sidebar tweaks
+# ---------------------------------------------------------------------------
+st.session_state.setdefault("last_result", None)
+st.session_state.setdefault("last_params", None)
+
+
+@st.cache_data(max_entries=20)
+def _run_solver_cached(params: RunParams) -> SolverResult:
+    """Cache the expensive solver run keyed by the full parameter set."""
+    return run_solver(params)
+
 
 # ---------------------------------------------------------------------------
 # Sidebar — basic inputs
@@ -86,84 +104,95 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 # Run button
 # ---------------------------------------------------------------------------
-run = st.button("▶  Run solver", type="primary")
+params = RunParams(
+    V0=V0,
+    gamma=gamma,
+    electrode_spacing=electrode_spacing,
+    nozzle_radius=nozzle_radius,
+    nr=nr,
+    nz=nz,
+    space_charge_model=space_charge_model,
+    rho0=rho0,
+    ell=ell,
+    apex_r=apex_r,
+    apex_z=apex_z,
+    E_c=E_c,
+    E_s=E_s,
+    rho_max=rho_max,
+    relaxation=relaxation,
+    sc_max_iterations=sc_max_iterations,
+    interface_half_angle_deg=interface_half_angle_deg,
+)
+
+run = st.button("Run solver", type="primary", icon=":material/play_arrow:")
 
 if run:
-    params = RunParams(
-        V0=V0,
-        gamma=gamma,
-        electrode_spacing=electrode_spacing,
-        nozzle_radius=nozzle_radius,
-        nr=nr,
-        nz=nz,
-        space_charge_model=space_charge_model,
-        rho0=rho0,
-        ell=ell,
-        apex_r=apex_r,
-        apex_z=apex_z,
-        E_c=E_c,
-        E_s=E_s,
-        rho_max=rho_max,
-        relaxation=relaxation,
-        sc_max_iterations=sc_max_iterations,
-        interface_half_angle_deg=interface_half_angle_deg,
-    )
+    try:
+        with st.spinner("Running solver…"):
+            result = _run_solver_cached(params)
+    except Exception as exc:
+        st.error(f"Solver error: {exc}", icon=":material/error:")
+        st.stop()
+    st.session_state.last_result = result
+    st.session_state.last_params = params
 
-    with st.spinner("Running solver…"):
-        try:
-            result = run_solver(params)
-        except Exception as exc:
-            st.error(f"Solver error: {exc}")
-            st.stop()
+result = st.session_state.get("last_result")
 
-    # -----------------------------------------------------------------------
-    # Scalar diagnostics table
-    # -----------------------------------------------------------------------
-    st.subheader("Scalar diagnostics")
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Interface half-angle (input)", f"{result.half_angle:.2f}°",
-                help="Angle of the prescribed interface used for residual diagnostics — not a predicted value. Change via the Advanced slider.")
-    col2.metric("Peak |E|", f"{result.peak_field:.3g} V/m")
-    col3.metric("RMS residual", f"{result.rms_residual:.3e} Pa")
+if result is None:
+    st.info("Set parameters in the sidebar and click **Run solver** to start.",
+            icon=":material/info:")
+    st.stop()
 
-    col4, col5, col6 = st.columns(3)
-    shield_str = f"{result.shielding_metric:.4f}" if result.shielding_metric is not None else "—"
-    col4.metric("Shielding metric S_E", shield_str)
-    col5.metric("Runtime", f"{result.runtime_s:.3f} s")
-    col6.metric("Converged", "Yes" if result.converged else "No")
+# ---------------------------------------------------------------------------
+# Scalar diagnostics
+# ---------------------------------------------------------------------------
+if st.session_state.last_params != params:
+    st.caption("Showing results from the previous run — some parameters have changed. "
+               "Click **Run solver** to recompute.")
 
-    # Full diagnostics table (copyable/readable)
-    diag_table = {
-        "Quantity": ["Interface half-angle (input)", "Peak |E|", "RMS residual", "Shielding metric S_E",
-                     "Runtime", "Converged", "Iterations"],
-        "Value": [
-            f"{result.half_angle:.4f} °",
-            f"{result.peak_field:.4g} V/m",
-            f"{result.rms_residual:.4e} Pa",
-            shield_str,
-            f"{result.runtime_s:.4f} s",
-            "Yes" if result.converged else "No",
-            str(result.iterations),
-        ],
-    }
-    st.dataframe(pd.DataFrame(diag_table), width='stretch', hide_index=True)
+st.subheader("Scalar diagnostics")
+col1, col2, col3 = st.columns(3)
+col1.metric("Interface half-angle (input)", f"{result.half_angle:.2f}°",
+            help="Angle of the prescribed interface used for residual diagnostics — not a predicted value. Change via the Advanced slider.",
+            border=True)
+col2.metric("Peak |E|", f"{result.peak_field:.3g} V/m", border=True)
+col3.metric("RMS residual", f"{result.rms_residual:.3e} Pa", border=True)
 
-    if not result.converged:
-        st.warning(f"Space-charge iteration did not converge ({result.iterations} iterations). "
-                    "Try reducing ω or increasing max iterations.")
+col4, col5, col6 = st.columns(3)
+shield_str = f"{result.shielding_metric:.4f}" if result.shielding_metric is not None else "—"
+col4.metric("Shielding metric S_E", shield_str, border=True)
+col5.metric("Runtime", f"{result.runtime_s:.3f} s", border=True)
+col6.metric("Converged", "Yes" if result.converged else "No", border=True)
 
-    # -----------------------------------------------------------------------
-    # Plots
-    # -----------------------------------------------------------------------
-    st.subheader("Field plots")
-    col_left, col_right = st.columns(2)
-    with col_left:
-        st.plotly_chart(figure_potential(result), width='stretch')
-        st.plotly_chart(figure_interface_overlay(result), width='stretch')
-        st.plotly_chart(figure_space_charge(result), width='stretch')
-    with col_right:
-        st.plotly_chart(figure_field_magnitude(result), width='stretch')
-        st.plotly_chart(figure_residual_profile(result), width='stretch')
+# Full diagnostics table (copyable/readable)
+diag_table = {
+    "Quantity": ["Interface half-angle (input)", "Peak |E|", "RMS residual", "Shielding metric S_E",
+                 "Runtime", "Converged", "Iterations"],
+    "Value": [
+        f"{result.half_angle:.4f} °",
+        f"{result.peak_field:.4g} V/m",
+        f"{result.rms_residual:.4e} Pa",
+        shield_str,
+        f"{result.runtime_s:.4f} s",
+        "Yes" if result.converged else "No",
+        str(result.iterations),
+    ],
+}
+st.dataframe(pd.DataFrame(diag_table), hide_index=True)
 
-else:
-    st.info("Set parameters in the sidebar and click **▶ Run solver** to start.")
+if not result.converged:
+    st.warning(f"Space-charge iteration did not converge ({result.iterations} iterations). "
+                "Try reducing ω or increasing max iterations.")
+
+# ---------------------------------------------------------------------------
+# Plots
+# ---------------------------------------------------------------------------
+st.subheader("Field plots")
+col_left, col_right = st.columns(2)
+with col_left:
+    st.plotly_chart(figure_potential(result))
+    st.plotly_chart(figure_interface_overlay(result))
+    st.plotly_chart(figure_space_charge(result))
+with col_right:
+    st.plotly_chart(figure_field_magnitude(result))
+    st.plotly_chart(figure_residual_profile(result))
