@@ -24,4 +24,5 @@ Useful runtime docs:
 
 - `IMPLEMENTATION_STATUS.md`
 - `docs/running_solver.md`
+- `docs/app-guide.md` — plain-language guide to the Streamlit app: what each sidebar setting means and how to read the results
 - `results/v1_numerical_report.md`

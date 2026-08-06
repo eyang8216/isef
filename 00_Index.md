@@ -27,6 +27,10 @@ The formal LaTeX theory file is also in the project root:
 - `theory.tex`
 - `theory.pdf`
 
+## App
+
+- `docs/app-guide.md` — plain-language guide to the Streamlit app (`app/streamlit_app.py`): sidebar settings and how to read results
+
 ## Current project rule
 
 > Until school resumes and approvals are in place, this project remains theory + computation only. No physical high-voltage or chemical experimentation.
