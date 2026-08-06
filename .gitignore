@@ -51,5 +51,9 @@ dist/
 # reasonix
 .reasonix/
 
+# Agent skills (installed locally per machine, not versioned)
+.agents/skills/
+.claude/skills/
+
 # agent-generated review reports (one-off artifacts, not source)
 architecture-review-*.html
