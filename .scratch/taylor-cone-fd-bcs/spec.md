@@ -1,6 +1,15 @@
 # Spec: Sharp-Cone Immersed Boundary + Merged Free-Boundary Formulation (A1+A2)
 
-Status: drafted — pending implementation
+Status: partially implemented — verification and conditioning work remain
+
+Implementation note (2026-08-06): the shared rounded geometry, immersed
+fractional-distance operator, one-sided normal field, and candidate-dependent
+Laplace optimizer now exist. The original hard acceptance targets below are
+retained as historical design context but are superseded where they mix a
+rounded cap with the singular Taylor solution. Use a separate smooth
+irregular-boundary manufactured test for formal order, and treat 49.29° as an
+ideal-limit reference requiring grid/domain/cap-radius extrapolation rather
+than an immediate ±0.5° pass condition.
 
 **Source docs:** `docs/codebase_review_and_next_steps.md` (steps A1+A2),
 `docs/adr/0003-merged-free-boundary-immersed-cone.md`,

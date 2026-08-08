@@ -9,10 +9,16 @@ import numpy as np
 
 @dataclass(frozen=True)
 class GraphInterface:
-    """Axisymmetric graph interface represented as `r = R(z)` samples."""
+    """Axisymmetric graph interface represented as ``r = R(z)`` samples.
+
+    ``flank_mask`` optionally marks samples belonging to a straight-flank fit
+    window (for example, excluding a rounded cap).  Existing two-argument
+    construction remains unchanged and treats every sample as eligible.
+    """
 
     z: np.ndarray
     R: np.ndarray
+    flank_mask: np.ndarray | None = None
 
     def __post_init__(self) -> None:
         z = np.asarray(self.z, dtype=float)
@@ -23,12 +29,21 @@ class GraphInterface:
             raise ValueError("z and R must have matching lengths")
         if z.size < 3:
             raise ValueError("at least 3 interface samples are required")
+        if not np.all(np.isfinite(z)) or not np.all(np.isfinite(R)):
+            raise ValueError("interface samples must be finite")
         if not np.all(np.diff(z) > 0):
             raise ValueError("z samples must be strictly increasing")
-        if np.any(R <= 0):
-            raise ValueError("Version 1 graph interface requires positive R samples")
+        if np.any(R < 0):
+            raise ValueError("graph-interface radius cannot be negative")
+        if self.flank_mask is None:
+            flank_mask = np.ones(z.shape, dtype=bool)
+        else:
+            flank_mask = np.asarray(self.flank_mask, dtype=bool)
+            if flank_mask.ndim != 1 or flank_mask.shape != z.shape:
+                raise ValueError("flank_mask must be a 1D array matching z")
         object.__setattr__(self, "z", z)
         object.__setattr__(self, "R", R)
+        object.__setattr__(self, "flank_mask", flank_mask)
 
     @property
     def r(self) -> np.ndarray:
@@ -66,19 +81,32 @@ class GraphInterface:
         return ds_dz * dz_w
 
     def half_angle_deg(self, n_points: int | None = None) -> float:
-        """Estimate cone half-angle by fitting `R = m z + c` near the apex.
+        """Estimate cone half-angle by fitting ``R = m z + c``.
 
-        The apex is approximated by the smallest-radius samples. The reported
-        angle is `atan(abs(m))`, independent of z-axis orientation.
+        Capped interfaces use the stored flank window.  Legacy interfaces,
+        whose default mask includes every point, preserve the historical
+        smallest-radius selection.
         """
         n = self.z.size
+        eligible = np.flatnonzero(self.flank_mask)
+        if eligible.size < 2:
+            raise ValueError("at least two flank samples are required")
+
+        all_eligible = eligible.size == n
         if n_points is None:
-            n_points = min(max(5, n // 5), n)
-        n_points = max(2, min(n_points, n))
-        order = np.argsort(self.R)[:n_points]
-        z_fit = self.z[order]
-        R_fit = self.R[order]
-        m, _ = np.polyfit(z_fit, R_fit, 1)
+            if all_eligible:
+                n_points = min(max(5, n // 5), n)
+            else:
+                n_points = eligible.size
+        n_points = max(2, min(int(n_points), eligible.size))
+        if all_eligible:
+            order = np.argsort(self.R[eligible])[:n_points]
+            selected = eligible[order]
+        else:
+            # If explicitly limited, retain points farthest from the cap: for
+            # liquid toward decreasing z these are the first flank samples.
+            selected = eligible[:n_points]
+        m, _ = np.polyfit(self.z[selected], self.R[selected], 1)
         return float(np.degrees(np.arctan(abs(m))))
 
 
