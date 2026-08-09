@@ -59,9 +59,11 @@ def apply_immersed_dirichlet(
     grid, cone
         The uniform axisymmetric grid and implicit conducting cone.
     min_fraction
-        Minimum accepted interface distance as a fraction of one grid step.
-        Smaller cuts make the polynomial stencil singular in the limit and
-        are rejected rather than silently producing unbounded coefficients.
+        Tiny-cut band threshold: a boundary crossing at or below
+        ``min_fraction * 4`` of one grid step from a gas node pins that node
+        to ``cone.boundary_value`` (identity Dirichlet row) instead of forming
+        a near-singular polynomial stencil.  Larger cuts use the exact
+        fractional-distance weights.
 
     Returns
     -------
@@ -107,9 +109,12 @@ def apply_immersed_dirichlet(
             )
         )
         # A crossing at the conductor endpoint (fraction == 1) is regular and
-        # simply recovers the ordinary centred stencil.  A cut at the gas node
-        # is not regular.
-        if not np.isfinite(fraction) or fraction < min_fraction or fraction > 1.0 + 1.0e-12:
+        # simply recovers the ordinary centred stencil.  A tiny positive cut
+        # (0 < fraction <= min_fraction*4) is legitimate geometry handled by
+        # the identity-row fallback below; only non-crossings (fraction <= 0)
+        # or out-of-segment values indicate an adjacency/geometry mismatch and
+        # are rejected.
+        if not np.isfinite(fraction) or fraction <= 0.0 or fraction > 1.0 + 1.0e-12:
             raise ValueError(
                 f"pathological immersed-boundary fraction {fraction!r} at gas node {(i, j)}"
             )

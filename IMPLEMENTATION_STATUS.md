@@ -1,7 +1,7 @@
 # Implementation Status — Versions 1–2 complete; V3 immersed-boundary milestone in progress
 
 Status: Version 1 and Version 2 are complete. V3 now contains an **experimental
-immersed rounded-cone Laplace path** and candidate-dependent optimizer, with 50
+immersed rounded-cone Laplace path** and candidate-dependent optimizer, with 51
 automated tests passing in the local `.venv`. This is an implementation
 milestone, not yet a validated Taylor-cone prediction.
 
@@ -32,11 +32,15 @@ Implemented:
   rounded, truncated-domain optimizer must equal the singular 49.29° Taylor
   limit.
 
-Current benchmark behavior on the example grid is approximately 47.5° and the
-immersed field changes as candidate geometry changes. Some Powell trial points
-are rejected because a candidate cone leaves no gas-side third point at a
-boundary; these are reported as candidate failures and require further
-conditioning/feasible-domain work before publication-quality claims.
+Current benchmark behavior on the example grid is start/option-dependent:
+a fresh run lands near 23° (final RMS ≈ 0.059 Pa) while a different Powell
+trajectory can reach ≈ 47.5°, because the immersed objective has multiple
+local minima and its corner (≈ 52°, apex_radius = 0.10 bound) evaluates lower
+(≈ 0.042 Pa). The 2026-08-09 conditioning fix eliminated the previously
+observed candidate failures (tiny-cut fallback in `apply_immersed_dirichlet`):
+the example now runs with 0 candidate failures. The remaining local-minimum
+issue must be addressed before the refinement study is meaningful — see the
+"next steps" in this file's V3 section.
 
 ### What is not yet proven
 

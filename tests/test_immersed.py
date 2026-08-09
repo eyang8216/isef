@@ -58,9 +58,27 @@ def test_conductor_rows_identity_and_input_unchanged():
     for i,j in np.argwhere(c.conductor_mask(g)):
         row=A.getrow(g.idx(int(i),int(j))); assert row.nnz==1 and row.indices[0]==g.idx(int(i),int(j)) and row.data[0]==1 and b[g.idx(int(i),int(j))]==c.boundary_value
 
-def test_tiny_cut_rejected():
-    g=_grid(); c=_PlanarCut('r',g.r[3]-1e-10*g.dr,True)
-    with pytest.raises(ValueError,match='pathological'): apply_immersed_dirichlet(build_axisymmetric_laplacian(g),np.zeros(g.size),g,c)
+def test_tiny_cut_falls_back_to_dirichlet_row():
+    """A cut within min_fraction of the gas node pins that node to the boundary
+    value (identity row) instead of forming a near-singular stencil or raising."""
+    g = _grid()
+    cut = _PlanarCut("r", g.r[3] - 5e-7 * g.dr, True)  # fraction ~5e-7 < min_fraction
+    A, b = apply_immersed_dirichlet(
+        build_axisymmetric_laplacian(g), np.zeros(g.size), g, cut
+    )
+    row = A.getrow(g.idx(3, 4)).toarray().ravel()
+    assert row[g.idx(3, 4)] == pytest.approx(1.0)
+    assert row.sum() == pytest.approx(1.0)  # identity row, no other stencil entries
+    assert b[g.idx(3, 4)] == pytest.approx(cut.boundary_value)
+
+
+def test_degenerate_zero_fraction_rejected():
+    """A boundary exactly on the gas node (fraction 0) is an adjacency/geometry
+    mismatch, not a small cut, and must still be rejected."""
+    g = _grid()
+    cut = _PlanarCut("r", g.r[3], True)  # boundary exactly on the node
+    with pytest.raises(ValueError, match="pathological"):
+        apply_immersed_dirichlet(build_axisymmetric_laplacian(g), np.zeros(g.size), g, cut)
 
 def test_normal_field_one_sided():
     g=AxisymmetricGrid.from_params(GridParams(r_max=2,z_min=-1,z_max=2,nr=31,nz=35)); c=ImplicitCone(1,35,.3,8)
