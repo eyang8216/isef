@@ -1,7 +1,54 @@
-# Implementation Status — Versions 1–2 Complete, V3 Track A Started
+# Implementation Status — Versions 1–2 complete; V3 immersed-boundary milestone in progress
 
-Status: Version 1 and Version 2 both complete. Version 3 Track A item 1
-(threshold–optimizer coupling) is also complete as of `7bef973`.
+Status: Version 1 and Version 2 are complete. V3 now contains an **experimental
+immersed rounded-cone Laplace path** and candidate-dependent optimizer, with 50
+automated tests passing in the local `.venv`. This is an implementation
+milestone, not yet a validated Taylor-cone prediction.
+
+## V3 immersed-boundary milestone
+
+Implemented:
+
+- `ImplicitCone` in `solver/geometry.py` — a shared C1 tangent spherical-cap /
+  straight-flank geometry with an explicit sign convention. The liquid is
+  `signed_function <= 0`, the gas-side normal points toward increasing signed
+  value, and `sample_graph()` supplies the same zero contour to residual code.
+- `solver/immersed.py` — fractional-distance immersed Dirichlet corrections
+  for gas rows adjacent to the conductor, including the axisymmetric radial
+  first-derivative term, conductor identity rows, Poisson RHS preservation,
+  and gas-side one-sided normal-field reconstruction.
+- `solver/electrostatics.py` — optional `immersed=` path for Laplace/Poisson
+  solves. Legacy staircase and rectangular paths remain available.
+- `solver/optimization.py` — `immersed_mode=True` rebuilds the cone boundary,
+  masks, sparse system, and field on every candidate evaluation. The result
+  reports whether immersed mode was used, initial/final residuals, field
+  variation, and candidate solve failures.
+- `solver/residual.py` — optional one-sided `E_n_override` and explicit sample
+  masks for cap/flank-aware diagnostics.
+- `solver/space_charge.py` / `solver/config.py` — stronger parameter validation,
+  gas-only effective charge, and a final solve using the accepted charge state.
+- `examples/07_immersed_free_boundary.py` — demonstration of candidate →
+  boundary → field coupling. It intentionally does not claim that a finite,
+  rounded, truncated-domain optimizer must equal the singular 49.29° Taylor
+  limit.
+
+Current benchmark behavior on the example grid is approximately 47.5° and the
+immersed field changes as candidate geometry changes. Some Powell trial points
+are rejected because a candidate cone leaves no gas-side third point at a
+boundary; these are reported as candidate failures and require further
+conditioning/feasible-domain work before publication-quality claims.
+
+### What is not yet proven
+
+- Second-order convergence for the immersed operator on a smooth manufactured
+  irregular-boundary problem.
+- Convergence of interface-normal field, Maxwell pressure, residual, or angle.
+- A unique physical free-boundary solution with volume/contact-line constraints.
+- Convergence of the rounded finite-domain optimizer to the ideal 49.29° limit.
+- Physical space-charge/current transport or onset-voltage prediction.
+
+The analytical 49.290089° Legendre-root routine remains a reference benchmark,
+not evidence that the finite optimizer independently recovers Taylor's angle.
 
 ## Version 2 — new modules
 

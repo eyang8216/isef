@@ -34,6 +34,7 @@ def test_gaussian_relaxed_solver_converges_to_prescribed_cloud():
     )
     result = solve_gaussian_shielding(grid, masks, PhysicalParams(V0=10.0), params)
     target = gaussian_charge_density(grid, params)
+    target = np.where(masks.gas, target, 0.0)
     assert result.converged
     assert result.iterations < params.max_iterations
     assert np.linalg.norm((result.rho_e - target).ravel()) / np.linalg.norm(target.ravel()) < 1e-6

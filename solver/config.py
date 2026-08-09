@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from typing import Literal
 
 EPS0 = 8.8541878128e-12
@@ -65,21 +66,26 @@ class SpaceChargeParams:
     max_iterations: int = 50
 
     def validate(self) -> None:
+        if self.model not in ("none", "gaussian", "threshold"):
+            raise ValueError("model must be one of: none, gaussian, threshold")
+        if not math.isfinite(self.tolerance) or self.tolerance <= 0:
+            raise ValueError("tolerance must be finite and positive")
         if self.model == "gaussian":
-            if self.rho0 is None:
-                raise ValueError("Gaussian space charge requires rho0")
-            if self.ell is None or self.ell <= 0:
-                raise ValueError("Gaussian space charge requires positive ell")
-            if self.apex_r is None or self.apex_z is None:
-                raise ValueError("Gaussian space charge requires apex_r and apex_z")
+            if self.rho0 is None or not math.isfinite(self.rho0):
+                raise ValueError("Gaussian space charge requires finite rho0")
+            if self.ell is None or not math.isfinite(self.ell) or self.ell <= 0:
+                raise ValueError("Gaussian space charge requires finite positive ell")
+            if (self.apex_r is None or self.apex_z is None
+                    or not math.isfinite(self.apex_r) or not math.isfinite(self.apex_z)):
+                raise ValueError("Gaussian space charge requires finite apex_r and apex_z")
         if self.model == "threshold":
-            if self.E_c is None or self.E_c < 0:
-                raise ValueError("Threshold closure requires non-negative E_c")
-            if self.E_s is None or self.E_s <= 0:
-                raise ValueError("Threshold closure requires positive E_s")
-            if self.rho_max is None or self.rho_max <= 0:
-                raise ValueError("Threshold closure requires positive rho_max")
-        if not (0 < self.relaxation <= 1):
-            raise ValueError("relaxation must lie in (0, 1]")
+            if self.E_c is None or not math.isfinite(self.E_c) or self.E_c < 0:
+                raise ValueError("Threshold closure requires finite non-negative E_c")
+            if self.E_s is None or not math.isfinite(self.E_s) or self.E_s <= 0:
+                raise ValueError("Threshold closure requires finite positive E_s")
+            if self.rho_max is None or not math.isfinite(self.rho_max) or self.rho_max <= 0:
+                raise ValueError("Threshold closure requires finite positive rho_max")
+        if not math.isfinite(self.relaxation) or not (0 < self.relaxation <= 1):
+            raise ValueError("relaxation must be finite and lie in (0, 1]")
         if self.max_iterations < 1:
             raise ValueError("max_iterations must be positive")

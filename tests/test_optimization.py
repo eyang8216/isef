@@ -135,3 +135,26 @@ def test_optimizer_reduces_residual_vs_initial(small_setup):
         f"Optimizer made residual worse: initial={diag_initial.rms_residual:.4e} "
         f"optimized={result.rms_residual:.4e}"
     )
+
+
+def test_immersed_optimizer_rebuilds_field_and_improves_initial_candidate(small_setup):
+    """Immersed mode solves a candidate-dependent boundary, without angle overclaim."""
+    grid, masks, physical = small_setup
+    result = optimize_cone_shape(
+        grid, masks, physical,
+        immersed_mode=True,
+        apex_z=0.86,
+        z_min_interface=0.15,
+        z_max_interface=0.85,
+        n_interface=25,
+        initial_half_angle_deg=35.0,
+        initial_apex_radius=0.06,
+        bounds=ConeShapeBounds(10.0, 55.0, 0.03, 0.10),
+        powell_options={"maxiter": 40, "ftol": 1e-5, "xtol": 1e-3},
+    )
+    assert result.immersed_mode
+    assert result.field_variation is not None and result.field_variation > 0.0
+    assert result.initial_rms_residual is not None
+    assert result.rms_residual <= result.initial_rms_residual
+    assert result.nozzle_radius > result.apex_radius
+    assert result.candidate_solve_failures < result.n_evals

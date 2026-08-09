@@ -1,5 +1,12 @@
 # Merged free-boundary formulation with an immersed-boundary cone (A1+A2)
 
+**Implementation status (2026-08-06): partially implemented and under verification.**
+`ImplicitCone`, immersed fractional-distance stencils, one-sided normal fields,
+and candidate-dependent Laplace optimization now exist. Smooth irregular-domain
+convergence, small-cut conditioning, ideal-limit extrapolation, and physical
+free-boundary constraints remain open. The implementation does not claim SPD or
+49.29° recovery solely from this milestone.
+
 ## Decision
 
 Replace the current split — a fixed staircase `conical_conductor` electrode plus a
@@ -11,9 +18,12 @@ formulation**: the candidate liquid interface *is* the equipotential conductor
   built from the same cone-family parameters (`half_angle_deg`, `apex_radius`,
   `apex_z`) that define the `GraphInterface` used for residual evaluation — one
   source of truth.
-- The boundary is enforced with a **Gibou-style ghost-cell / immersed Dirichlet
-  stencil** on the existing structured grid (`solver/immersed.py`), giving a
-  second-order, symmetric positive-definite discretization.
+- The boundary is enforced with a **fractional-distance immersed Dirichlet
+  stencil** on the existing structured grid (`solver/immersed.py`). The current
+  matrix is not claimed to be symmetric positive definite: the axisymmetric
+  operator is weighted-self-adjoint and legacy row-only Dirichlet insertion is
+  not symmetric elimination. Accuracy and conditioning must be established by
+  refinement tests.
 - The cone tip is **rounded with a smooth cap** whose radius is a free shape
   parameter; the cap region is excluded from the residual and the half-angle fit.
 - The Powell optimizer rebuilds the immersed operator for every candidate shape,

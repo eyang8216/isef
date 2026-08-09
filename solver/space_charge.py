@@ -68,6 +68,18 @@ def _relative_norm(delta: np.ndarray, ref: np.ndarray) -> float:
     return float(np.linalg.norm(delta.ravel()) / max(np.linalg.norm(ref.ravel()), 1e-300))
 
 
+def _solve_state(
+    grid: AxisymmetricGrid,
+    masks: GeometryMasks,
+    physical: PhysicalParams,
+    rho: np.ndarray,
+    solver: SolverParams,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    phi = solve_poisson(grid, masks, physical, rho, solver=solver)
+    Er, Ez, E_mag = compute_electric_field(grid, phi)
+    return phi, Er, Ez, E_mag
+
+
 def _fixed_point_iterate(
     grid: AxisymmetricGrid,
     masks: GeometryMasks,
@@ -94,9 +106,8 @@ def _fixed_point_iterate(
     converged = False
 
     for it in range(1, params.max_iterations + 1):
-        phi = solve_poisson(grid, masks, physical, rho, solver=solver)
-        Er, Ez, E_mag = compute_electric_field(grid, phi)
-        rho_next = charge_update(rho, E_mag)
+        phi, Er, Ez, E_mag = _solve_state(grid, masks, physical, rho, solver)
+        rho_next = np.where(masks.gas, charge_update(rho, E_mag), 0.0)
         peak = float(np.max(E_mag))
         rho_rel = _relative_norm(rho_next - rho, rho_next)
         phi_rel = np.inf if phi_prev is None else _relative_norm(phi - phi_prev, phi)
@@ -109,6 +120,9 @@ def _fixed_point_iterate(
             converged = True
             break
 
+    # Re-solve with the accepted charge state so returned fields and rho_e are
+    # a self-consistent Poisson state rather than one iteration out of sync.
+    phi, Er, Ez, E_mag = _solve_state(grid, masks, physical, rho, solver)
     return phi, rho, Er, Ez, E_mag, it, converged, history
 
 
