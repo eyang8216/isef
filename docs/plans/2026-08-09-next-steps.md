@@ -41,10 +41,41 @@ Sources: `docs/codebase_review_and_next_steps.md` (2026-08-04), the V3 spec
    staircase path does not converge cleanly** (inter-level L2 differences
    non-monotone; orders 2.31/1.66 vs 3.36/−1.49 on a 31×45→87×129 series) —
    the A1 payoff, measured directly (details in `examples/08_immersed_refinement_study.py`).
-4. **E_n at fixed interface points does not converge cleanly** with the current
-   one-sided quadratic reconstruction: the O(h²) potential error enters the
-   derivative as O(h), with oscillating interpolation sign. Interface-field
-   convergence needs Richardson-extrapolated potentials (item S3 below).
+4. **E_n reconstruction diverges on the exact Taylor field near the apex.**
+   The one-sided quadratic `Eₙ = −(−3V_b+4V(h)−V(2h))/(2h)` is only accurate
+   for near-quadratic profiles; the Taylor profile along the normal is
+   `V(s) ≈ 1.39s + 515s² − 6.7e4s³`, so the reconstruction *overestimates Eₙ
+   by 2.6× → 12.6× as the grid refines* (31×45 → 241×353). This is the same
+   reason the spec's note forbids the Taylor potential as the formal order
+   test; as a residual input it biases any angle near the cap. Fix = ticket
+   `taylor-onset-framing/01` (Richardson-extrapolated potential before the
+   one-sided derivative).
+
+5. **The root cause of the meaningless angle is the fixed `V0`, not the
+   geometry.** At `V0 = 1000 V` on the meter-scale geometry the Maxwell
+   pressure is ~600× weaker than capillary (`½ε₀Eₙ² ≈ 1e-4 Pa` vs
+   `γκ ≈ 0.02–0.15 Pa`); the example runs ~25× *below* the onset voltage
+   (`V0* ≈ 21–26 kV`, measured by the amplitude projection). Taylor's 49.29°
+   is an *onset* (amplitude-determined) result — it cannot be recovered by
+   optimizing shape at an arbitrary sub-onset `V0`. The amplitude projection
+   (project out `u = ½ε₀V0²` per shape) makes the objective well-posed
+   (V-shape, interior minimum ~42° in the 1×1 box) and predicts `V0*`.
+
+## 2b. Decisions (2026-08-09 grilling session) — milestone spec
+
+The interview resolved the plan into a concrete milestone:
+**`.scratch/taylor-onset-framing/spec.md`** with tickets 01–04:
+
+- **01** Eₙ reconstruction accuracy (precondition; measured divergence above)
+- **02** Onset-amplitude projection in the immersed residual (+ `onset_voltage_V`)
+- **03** Imposed-Taylor free-boundary verification — the committed "49.29° in
+  the ideal limit" test (cap → 0), chosen over the grounded-box route
+- **04** (deferred) ideal-limit extrapolation on the grounded box — later work
+
+User decisions: deadline matters and the paper needs verifiable results with
+the angle near Taylor's 49.3° (`theory.tex` requires it); both the onset
+framing and an anchor are wanted but **minimal code change / no restructuring
+takes priority**; the imposed-Taylor test is the committed deliverable.
 
 ## 3. Review-doc items → status
 
@@ -70,22 +101,15 @@ that the 2026-08-09 conditioning fix removed.
 
 ## 4. Next steps (priority order)
 
-### S1 — Regularize the `apex_radius` direction (gating, ~1–2 days)
-The optimizer cannot produce a meaningful angle until the residual is well-posed
-in `apex_radius`. Options, in order of preference:
-1. Add a volume / contact-line constraint (spec lists "unique physical
-   free-boundary solution with volume/contact-line constraints" as not yet
-   proven — this is the honest fix).
-2. Freeze `apex_radius` at a physically justified value (e.g. from a capillary
-   length or nozzle geometry) and optimize angle only — the flat-in-angle
-   landscape must then be reported as weak identifiability, with the residual
-   floor rather than a claim of angle recovery.
-3. Widen/remove the bound and document the monotone degeneracy as the study
-   result (cheapest; acceptable only if the paper does not claim an angle).
-
-**Acceptance:** either an interior optimum with documented 49.29° trend, or a
-documented, data-backed statement of why the finite rounded truncated-domain
-model cannot recover 49.29° (spec's accepted alternative).
+### S1 — Onset framing (RESOLVED 2026-08-09 → ticket 02, milestone spec)
+The flat/bound-chasing landscape is not an `apex_radius` regularization problem
+per se — the fixed `V0 = 1000 V` is ~25× *below* onset, so the field is
+negligible and the residual measures capillary variation only (finding 5).
+The chosen fix (minimal, no restructuring): **project out the onset amplitude
+per candidate shape** (`u* = ⟨ab⟩_w/⟨b²⟩_w`, `V0* = √(2u*/ε₀)`), which makes
+the objective well-posed and predicts the onset voltage. The volume/contact-
+line anchor remains future work (spec §5). See
+`.scratch/taylor-onset-framing/` (spec + tickets 01–04).
 
 ### S2 — Refinement study example (this turn) — `examples/08_immersed_refinement_study.py`
 - Part A: potential self-convergence, immersed vs legacy staircase, fixed gas
