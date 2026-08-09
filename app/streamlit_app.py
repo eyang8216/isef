@@ -165,6 +165,15 @@ with tab_classic:
             st.caption("Showing results from the previous run — some parameters have changed. "
                        "Click **Run solver** to recompute.")
 
+        if result.half_angle < params.interface_half_angle_deg - 0.01:
+            st.warning(
+                f"The requested interface angle {params.interface_half_angle_deg:.1f}° exceeds "
+                f"what this domain can fit, so the diagnostic ran at the capped angle "
+                f"{result.half_angle:.1f}°. Increase **Domain radius** (or reduce the angle) "
+                f"to fit steeper cones.",
+                icon=":material/warning:",
+            )
+
         st.subheader("Scalar diagnostics")
         col1, col2, col3 = st.columns(3)
         col1.metric("Interface half-angle (input)", f"{result.half_angle:.2f}°",
