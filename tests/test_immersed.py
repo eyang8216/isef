@@ -167,3 +167,76 @@ def test_smooth_immersed_manufactured_solution_second_order_convergence():
         )
     # Keep a mild monotone-decrease sanity check as a second, weaker guard.
     assert errors[-1] < errors[0] * 0.5
+
+
+def test_immersed_en_matches_analytic_on_manufactured_circle():
+    """E_n reconstruction accuracy on the manufactured circle problem.
+
+    The smooth circle (exact geometry, no cap offset) has the analytic normal
+    field |E_n| = 2*R*exp(z) on the boundary. The cubic-exact one-sided
+    stencil with full-cell sample distances must reproduce it within 5% and
+    improve with refinement (ticket taylor-onset-framing/01; the previous
+    half-cell quadratic gave up to ~50% E_n error that grew with refinement,
+    measured 2026-08-09).
+    """
+    radius, center_z = 0.31, 1.03
+
+    class Circle:
+        boundary_value = 0.0
+
+        def __init__(self):
+            self.radius = radius
+            self.center_z = center_z
+
+        def signed_function(self, r, z):
+            return np.asarray(r) ** 2 + (np.asarray(z) - self.center_z) ** 2 - self.radius**2
+
+        def conductor_mask(self, g):
+            return self.signed_function(g.R, g.Z) <= 0
+
+        def normal(self, r, z):
+            r_, z_ = np.asarray(r, float), np.asarray(z, float)
+            return r_ / self.radius, (z_ - self.center_z) / self.radius
+
+        def boundary_fraction(self, r0, z0, r1, z1):
+            dr, dz = r1 - r0, z1 - z0
+            y = z0 - self.center_z
+            aa = dr * dr + dz * dz
+            bb = 2 * (r0 * dr + y * dz)
+            cc = r0 * r0 + y * y - self.radius**2
+            roots = np.roots((aa, bb, cc))
+            return min(
+                float(x.real)
+                for x in roots
+                if abs(x.imag) < 1e-10 and -1e-10 <= x.real <= 1 + 1e-10
+            )
+
+    # Sample points on the circle boundary (analytic |E_n| = 2 R e^z there).
+    tt = np.linspace(0.9, 2.1, 7)
+    zpts = center_z + radius * np.cos(tt)
+    rpts = radius * np.sin(tt)
+    en_analytic = 2.0 * radius * np.exp(zpts)
+
+    max_errors = []
+    for nr, nz in ((97, 129), (193, 257)):
+        g = AxisymmetricGrid.from_params(GridParams(1.5, 0, 2, nr, nz))
+        c = Circle()
+        y = g.Z - c.center_z
+        q = g.R**2 + y**2 - c.radius**2
+        exact = q * np.exp(g.Z)
+        source = np.exp(g.Z) * (6 + 4 * y + q)
+        outer = np.zeros(g.shape, bool)
+        outer[-1, :] = True
+        outer[:, 0] = True
+        outer[:, -1] = True
+        from solver.boundary_conditions import apply_dirichlet_values
+
+        A, b = apply_dirichlet_values(
+            build_axisymmetric_laplacian(g), g.flatten(source), g, outer, exact
+        )
+        A, b = apply_immersed_dirichlet(A, b, g, c, fixed_mask=outer)
+        sol = g.unflatten(spsolve(A, b))
+        en = np.abs(np.asarray(normal_field_on_interface(g, sol, c, rpts, zpts), dtype=float))
+        max_errors.append(float(np.max(np.abs(en - en_analytic) / en_analytic)))
+    assert max_errors[0] <= 0.05, f"E_n error {max_errors[0]:.1%} at 97x129 exceeds 5%"
+    assert max_errors[1] < max_errors[0], "E_n error did not improve with refinement"

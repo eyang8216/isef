@@ -157,15 +157,27 @@ def optimize_cone_shape(
     # liquid side instead of turning roundoff into a zero-length cut stencil.
     immersed_apex_z = apex_z_val + (1.0e-10 * max(1.0, abs(apex_z_val))) if immersed_mode else apex_z_val
 
-    # Leave radial room for the two outward normal samples used by immersed
-    # field reconstruction. Legacy mode retains its historical 95% margin.
-    normal_clearance = min(grid.dr, grid.dz) if immersed_mode else 0.0
+    # Leave radial room for the three gas-normal samples used by the immersed
+    # field reconstruction (up to 3*max(dr,dz) along the normal). Legacy mode
+    # retains its historical 95% margin.
+    normal_clearance = 3.0 * max(grid.dr, grid.dz) if immersed_mode else 0.0
     r_max_safe = min(grid.r[-1] * 0.95, grid.r[-1] - normal_clearance)
     dz_max = abs(apex_z_val - z_min_iface)
     if dz_max > 0:
         geom_angle_max = float(np.degrees(np.arctan(
             max(0.0, r_max_safe - bounds.apex_radius_min) / dz_max
         )))
+        # The immersed E_n reconstruction samples up to 3*max(dr,dz) along the
+        # gas normal; its vertical reach (3d*sin(angle) above z_max_iface) must
+        # also stay inside the grid top, or candidates on coarse grids would be
+        # silently penalized as out-of-domain sample failures.
+        z_reach = normal_clearance
+        z_headroom = grid.z[-1] - z_max_iface
+        if z_headroom > 0.0 and z_reach > z_headroom:
+            geom_angle_max = min(
+                geom_angle_max,
+                float(np.degrees(np.arcsin(z_headroom / z_reach))),
+            )
         angle_upper = min(bounds.half_angle_deg_max, geom_angle_max)
     else:
         angle_upper = bounds.half_angle_deg_max

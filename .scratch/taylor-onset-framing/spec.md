@@ -77,21 +77,29 @@ near the cap carries a reconstruction bias. Fix first (P1).
 
 ## 3. Solution
 
-### P1 — Eₙ reconstruction accuracy (precondition)
+### P1 — Eₙ reconstruction accuracy (DONE 2026-08-09, ticket 01)
 
-Fix `normal_field_on_interface` (or add an option) so the one-sided derivative
-is accurate near strongly curved potential profiles:
+**Premise corrected by measurement.** The one-sided *quadratic* formula was
+initially blamed for "strongly curved profiles", but investigation showed two
+distinct causes: (1) **sub-cell sampling across the cut cell** — samples at
+`0.5·min(dr,dz)` from the surface interpolate across the conductor-cut cell,
+giving Eₙ errors that *grow* with refinement (box: 0% → +30–50% as 61×89 →
+241×353; circle: +10–30% at all grids) even though the solved potential is
+accurate; (2) **profile curvature** — the 3-point quadratic is ~16% off even
+on exact circle-profile values. Neither Richardson-of-potential alone nor the
+4-point stencil alone fixed it.
 
-- Richardson-extrapolate the potential from two solves (h and h/2) before
-  taking the one-sided derivative, or use a reconstruction with provably
-  bounded error on the benchmark below. Contained to `solver/immersed.py` /
-  `solver/fields.py`; no structural change.
-- **Benchmark (the driving test):** on the *exact analytic Taylor potential*
-  (imposed, with conductor values zeroed — see ticket 01), the reconstructed
-  Eₙ on the flank must converge to the analytic value as h → 0 (target:
-  ≤ 5% at 61×89, improving with refinement). Currently it diverges 2.6×–12.6×.
-- For the *box-solve* profiles (smooth near the flank, singular only at the
-  apex) the same fix removes the cap-proximity bias from the residual.
+**Implemented fix (contained, no restructuring):** `normal_field_on_interface`
+uses a cubic-exact 4-point one-sided stencil with samples at full-cell
+distances (`d = max(dr, dz)`; `Eₙ = −(−11V_b + 18V(d) − 9V(2d) + 2V(3d))/(6d)`).
+Measured: box ≤ ±1% at all grids (vs 0–50% before); circle ≤ 3% at 97×129,
+≤ 1% at 193×257; linear-profile regression exact; optimizer angle-cap clearance
+updated to `3·max(dr,dz)`. Regression test:
+`test_immersed_en_matches_analytic_on_manufactured_circle`. Side effect: the
+example recovered angle moved 22.9° → 50.9° (the Eₙ bias had been dragging it
+to small angles). Note: the Taylor-cone Eₙ benchmark is confounded by the
+ImplicitCone flank offset `R_cap·cos(2α)/cosα` from the sharp cone — the
+manufactured circle is the clean seam.
 
 ### P2 — Onset-amplitude projection in the immersed residual
 
@@ -140,13 +148,14 @@ milestone.
 
 ## 4. Verification gates
 
-1. P1 benchmark: Eₙ reconstruction converges on the exact Taylor field
-   (≤ 5% at 61×89).
+1. ~~P1 benchmark~~ **DONE**: `test_immersed_en_matches_analytic_on_manufactured_circle`
+   asserts Eₙ ≤ 5% at 97×129 and improvement at 193×257 (circle, analytic
+   Eₙ = 2R·e^z; the Taylor-field benchmark is confounded by the flank offset).
 2. P2: projected landscape has an interior minimum; `V0*` ≈ 21–26 kV at the
    current 1×1 domain (regression anchor); legacy path unchanged.
 3. P3i: residual minimum → 49.29° as cap → 0; ±0.5° at the smallest cap;
    analytic `V0*` identity holds.
-4. All existing 51 tests stay green; examples 05 and 07 still run.
+4. All existing tests stay green (52 after P1); examples 05, 07, 08 still run.
 
 ## 5. Out of scope / guardrails
 

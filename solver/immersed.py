@@ -225,16 +225,30 @@ def normal_field_on_interface(
 ) -> np.ndarray | float:
     """Return the gas-side normal electric field ``E_n`` on the interface.
 
-    Potential is sampled at distances ``h`` and ``2h`` along the cone's unit
-    gas normal using bilinear interpolation.  Together with the exact
-    Dirichlet value at distance zero, these samples give the second-order
-    one-sided derivative
+    The potential is sampled at distances ``d``, ``2d`` and ``3d`` along the
+    cone's unit gas normal using bilinear interpolation.  Together with the
+    exact Dirichlet value at distance zero these four samples give the
+    one-sided cubic-exact derivative
 
-    ``E_n = -(-3*Vb + 4*V(h) - V(2h)) / (2*h)``.
+    ``E_n = -(-11*V_b + 18*V(d) - 9*V(2d) + 2*V(3d)) / (6*d)``.
 
-    ``sample_distance`` defaults to half the smaller grid spacing.  Interface
-    points and both gas-side samples must be inside the interpolation domain.
-    Scalar inputs produce a float; broadcast array inputs produce an array.
+    ``sample_distance`` defaults to one grid cell (``max(dr, dz)``).  Two
+    design choices, measured 2026-08-09 (ticket ``taylor-onset-framing/01``):
+
+    - **Full-cell sample distances**: samples at or beyond one cell sit in
+      cells fully inside the gas, so bilinear interpolation is not
+      contaminated by the cut cell that straddles the conductor surface.  The
+      previous half-cell default produced E_n errors of up to ~50% on solved
+      potentials that *grew* with refinement.
+    - **Cubic-exact stencil**: four samples cancel the quadratic and cubic
+      profile terms, keeping the surface derivative accurate on strongly
+      curved normal profiles (the analytic Taylor field and the manufactured
+      circle both fail the old three-point quadratic by ~10-30% at practical
+      grids).
+
+    Interface points and all gas-side samples must be inside the
+    interpolation domain.  Scalar inputs produce a float; broadcast array
+    inputs produce an array.
     """
     values = np.asarray(potential, dtype=float)
     if values.shape != grid.shape:
@@ -245,15 +259,16 @@ def normal_field_on_interface(
     rp, zp = np.broadcast_arrays(np.asarray(r_points, dtype=float), np.asarray(z_points, dtype=float))
     if not np.all(np.isfinite(rp)) or not np.all(np.isfinite(zp)):
         raise ValueError("interface points must be finite")
-    h = 0.5 * min(grid.dr, grid.dz) if sample_distance is None else float(sample_distance)
-    if not np.isfinite(h) or h <= 0.0:
+    d = max(grid.dr, grid.dz) if sample_distance is None else float(sample_distance)
+    if not np.isfinite(d) or d <= 0.0:
         raise ValueError("sample_distance must be finite and positive")
 
     nr, nz = cone.normal(rp, zp)
     nr = np.asarray(nr, dtype=float)
     nz = np.asarray(nz, dtype=float)
-    r1, z1 = rp + h * nr, zp + h * nz
-    r2, z2 = rp + 2.0 * h * nr, zp + 2.0 * h * nz
+    r1, z1 = rp + d * nr, zp + d * nz
+    r2, z2 = rp + 2.0 * d * nr, zp + 2.0 * d * nz
+    r3, z3 = rp + 3.0 * d * nr, zp + 3.0 * d * nz
 
     # bilinear_interpolate performs strict domain checks.  Also check that the
     # selected orientation really is the gas side, which catches accidental
@@ -262,5 +277,6 @@ def normal_field_on_interface(
         raise ValueError("one-sided normal samples must lie in the gas")
     v1 = bilinear_interpolate(grid, values, r1, z1)
     v2 = bilinear_interpolate(grid, values, r2, z2)
-    en = -(-3.0 * cone.boundary_value + 4.0 * v1 - v2) / (2.0 * h)
+    v3 = bilinear_interpolate(grid, values, r3, z3)
+    en = -(-11.0 * cone.boundary_value + 18.0 * v1 - 9.0 * v2 + 2.0 * v3) / (6.0 * d)
     return float(en) if en.ndim == 0 else en
