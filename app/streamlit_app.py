@@ -67,7 +67,7 @@ with st.sidebar:
     electrode_spacing = st.number_input("Electrode spacing [m]", min_value=0.01, max_value=10.0,
                                          value=1.0, format="%.3f")
     nozzle_radius = st.number_input("Domain radius [m]", min_value=0.01, max_value=10.0,
-                                     value=0.5, format="%.3f")
+                                     value=1.0, format="%.3f")
     grid_res = st.select_slider("Grid resolution (nr × nz)",
                                  options=["Coarse (21×31)", "Medium (31×51)", "Fine (41×71)"],
                                  value="Medium (31×51)")
