@@ -14,19 +14,26 @@ from typing import Literal
 
 import numpy as np
 import plotly.graph_objects as go
+from scipy.special import lpmv
+from scipy.sparse.linalg import spsolve
 
+from .boundary_conditions import apply_dirichlet_values
 from .config import GridParams, PhysicalParams, SolverParams, SpaceChargeParams
 from .electrostatics import solve_laplace, solve_poisson
 from .fields import compute_electric_field
-from .geometry import rectangular_electrodes
+from .geometry import ImplicitCone, rectangular_electrodes
 from .grid import AxisymmetricGrid
+from .immersed import apply_immersed_dirichlet
 from .interface import straight_cone_interface
+from .operators import build_axisymmetric_laplacian
+from .optimization import _immersed_masks, _immersed_projected_stats
 from .residual import compute_residual
 from .space_charge import (
     solve_gaussian_shielding,
     solve_threshold_shielding,
     shielding_metric,
 )
+from .verification import taylor_cone_half_angle_deg
 
 
 @dataclass(frozen=True)
@@ -285,6 +292,234 @@ def figure_space_charge(result: SolverResult) -> go.Figure:
     ))
     fig.update_layout(
         title="Space-Charge Density",
+        xaxis_title="r [m]",
+        yaxis_title="z [m]",
+        yaxis_scaleanchor="x",
+    )
+    return fig
+
+
+# ---------------------------------------------------------------------------
+# Immersed free-boundary verification (P2 onset projection + P3i Taylor identity)
+# ---------------------------------------------------------------------------
+
+@dataclass(frozen=True)
+class ImmersedVerificationParams:
+    """UI-level parameters for the immersed free-boundary verification tab."""
+
+    nr: int = 61
+    nz: int = 89
+    r_max: float = 1.0
+    z_max: float = 1.0
+    apex_z: float = 0.86
+    apex_radius: float = 0.05
+    gamma: float = 0.022
+    V0: float = 1000.0
+
+
+@dataclass(frozen=True)
+class ImmersedVerificationResult:
+    """Outputs of the immersed verification run, ready for the app layer."""
+
+    # Grounded-box free boundary (P2)
+    recovered_angle_deg: float
+    onset_voltage_V: float | None
+    min_rms_Pa: float
+    landscape_angles: np.ndarray
+    landscape_rms: np.ndarray
+    # Imposed-Taylor identity (P3i)
+    taylor_angle_deg: float
+    identity_ratio: float | None       # V0* / A* at the Taylor angle (1.0 = exact)
+    identity_argmin_deg: float | None
+    phi_identity: np.ndarray | None    # imposed-Taylor solve at 49.29 deg
+    grid_r: np.ndarray | None
+    grid_z: np.ndarray | None
+    runtime_s: float
+
+
+def _taylor_amplitude(gamma: float) -> float:
+    """Analytic balance amplitude A* = sqrt(2 gamma cos a / (eps0 P^1^2 sin a))."""
+    alpha = taylor_cone_half_angle_deg()
+    theta0 = np.radians(180.0 - alpha)
+    p1 = lpmv(1, 0.5, np.cos(theta0))
+    eps0 = 8.8541878128e-12
+    return float(np.sqrt(2.0 * gamma * np.cos(np.radians(alpha)) / (eps0 * p1**2 * np.sin(np.radians(alpha)))))
+
+
+def _taylor_potential(r, z, apex_z: float, amplitude: float = 1.0) -> np.ndarray:
+    """Exact exterior Taylor potential about the apex (0, apex_z); the NaN at
+    the apex (rho=0) is replaced by its limit value 0."""
+    rho = np.sqrt(np.asarray(r) ** 2 + (np.asarray(z) - apex_z) ** 2)
+    cost = (np.asarray(z) - apex_z) / rho
+    return np.nan_to_num(amplitude * np.sqrt(rho) * lpmv(0, 0.5, cost))
+
+
+def _solve_imposed_taylor(grid: AxisymmetricGrid, angle_deg: float, cap: float, apex_z: float):
+    """Laplace solve with the analytic Taylor potential on the box ring and the
+    rounded cone (candidate angle, cap) as the immersed zero equipotential."""
+    cone = ImplicitCone(
+        apex_z=apex_z + 1e-10 * apex_z,
+        half_angle_deg=angle_deg,
+        apex_radius=cap,
+        boundary_value=0.0,
+    )
+    phi_outer = _taylor_potential(grid.R, grid.Z, apex_z, 1.0)
+    outer = np.zeros(grid.shape, bool)
+    outer[-1, :] = True
+    outer[:, 0] = True
+    outer[:, -1] = True
+    outer[0, :] = True
+    Aop = build_axisymmetric_laplacian(grid)
+    Aop, b = apply_dirichlet_values(Aop, np.zeros(grid.size), grid, outer, phi_outer)
+    Aop, b = apply_immersed_dirichlet(Aop, b, grid, cone, fixed_mask=outer)
+    return cone, grid.unflatten(spsolve(Aop, b))
+
+
+def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVerificationResult:
+    """Run the two committed verifications for the app tab.
+
+    1. **Grounded-box free boundary (P2):** sweep the half-angle with the
+       amplitude-projected residual (``_immersed_projected_stats``) and refine
+       around the minimum — the recovered angle and predicted onset voltage.
+    2. **Imposed-Taylor identity (P3i):** impose the exact analytic Taylor
+       potential on the box ring, cone at 0, and compare the projected onset
+       voltage at 49.29 deg with the analytic balance amplitude A* (ratio ~1.01).
+    """
+    t0 = time.perf_counter()
+    physical = PhysicalParams(V0=params.V0, gamma=params.gamma)
+    grid = AxisymmetricGrid.from_params(GridParams(params.r_max, 0.0, params.z_max, params.nr, params.nz))
+    alpha = taylor_cone_half_angle_deg()
+
+    # --- grounded-box landscape (P2) ---
+    z_min_w, z_max_w = 0.15, 0.85
+    external = rectangular_electrodes(grid, powered="z_max", ground="z_min", far_dirichlet=True)
+    normal_clearance = 3.0 * max(grid.dr, grid.dz)
+    r_max_safe = min(grid.r[-1] * 0.95, grid.r[-1] - normal_clearance)
+    dz_max = abs(params.apex_z - z_min_w)
+    angle_upper = float(np.degrees(np.arctan(max(0.0, r_max_safe) / dz_max))) if dz_max > 0 else 89.0
+
+    def box_projected(angle_deg: float) -> tuple[float, float] | None:
+        try:
+            cone = ImplicitCone(
+                apex_z=params.apex_z + 1e-10 * params.apex_z,
+                half_angle_deg=float(angle_deg),
+                apex_radius=params.apex_radius,
+                boundary_value=params.V0,
+            )
+            masks = _immersed_masks(grid, external, cone)
+            phi = solve_laplace(grid, masks, physical, immersed=cone)
+            return _immersed_projected_stats(
+                grid, cone, phi, physical, z_min=z_min_w, z_max=z_max_w, n_interface=41
+            )
+        except (ValueError, RuntimeError):
+            return None
+
+    rms_map: dict[float, float] = {}
+    coarse = np.unique(np.concatenate((np.arange(35.0, angle_upper + 1e-9, 2.5), [alpha])))
+    coarse = coarse[coarse <= angle_upper]
+    for a in coarse:
+        res = box_projected(float(a))
+        if res is not None:
+            rms_map[float(a)] = res[0]
+    if not rms_map:
+        raise RuntimeError("immersed verification: all grounded-box candidates failed")
+    coarse_argmin = min(rms_map, key=rms_map.get)
+    refine = np.arange(max(30.0, coarse_argmin - 2.5), min(angle_upper, coarse_argmin + 2.51), 0.5)
+    for a in refine:
+        res = box_projected(float(a))
+        if res is not None:
+            rms_map[float(a)] = res[0]
+    argmin = min(rms_map, key=rms_map.get)
+    final = box_projected(argmin)
+    rms_min = float(final[0])
+    onset_voltage = final[1]
+    land_angles = np.array(sorted(rms_map))
+    land_rms = np.array([rms_map[a] for a in land_angles])
+
+    # --- imposed-Taylor identity (P3i) ---
+    # The cone is at potential 0 here, so the projection is normalized to the
+    # imposed outer amplitude (V0 = A = 1); V0* then equals the best-fit balance
+    # amplitude A*.
+    identity_ratio: float | None = None
+    identity_argmin: float | None = None
+    phi_identity: np.ndarray | None = None
+    try:
+        cap_id = 0.001
+        cone_id, phi_identity = _solve_imposed_taylor(grid, alpha, cap_id, params.apex_z)
+        _, v0_taylor = _immersed_projected_stats(
+            grid, cone_id, phi_identity, PhysicalParams(V0=1.0, gamma=params.gamma),
+            z_min=0.30, z_max=0.75, n_interface=41,
+        )
+        amp = _taylor_amplitude(params.gamma)
+        if v0_taylor is not None and amp > 0:
+            identity_ratio = float(v0_taylor / amp)
+        id_angles = np.arange(47.0, 52.01, 1.0)
+        id_rms: dict[float, float] = {}
+        for a in id_angles:
+            cone_a, phi_a = _solve_imposed_taylor(grid, float(a), cap_id, params.apex_z)
+            id_rms[float(a)] = _immersed_projected_stats(
+                grid, cone_a, phi_a, PhysicalParams(V0=1.0, gamma=params.gamma),
+                z_min=0.30, z_max=0.75, n_interface=41,
+            )[0]
+        identity_argmin = float(min(id_rms, key=id_rms.get))
+    except (ValueError, RuntimeError):
+        pass
+
+    return ImmersedVerificationResult(
+        recovered_angle_deg=float(argmin),
+        onset_voltage_V=onset_voltage,
+        min_rms_Pa=rms_min,
+        landscape_angles=land_angles,
+        landscape_rms=land_rms,
+        taylor_angle_deg=alpha,
+        identity_ratio=identity_ratio,
+        identity_argmin_deg=identity_argmin,
+        phi_identity=phi_identity,
+        grid_r=grid.r,
+        grid_z=grid.z,
+        runtime_s=time.perf_counter() - t0,
+    )
+
+
+def figure_verification_landscape(result: ImmersedVerificationResult) -> go.Figure:
+    """Grounded-box amplitude-projected residual RMS vs half-angle."""
+    fig = go.Figure(go.Scatter(
+        x=result.landscape_angles,
+        y=result.landscape_rms,
+        mode="lines+markers",
+        name="Projected residual RMS",
+        line={"color": "steelblue"},
+    ))
+    fig.add_vline(
+        x=result.taylor_angle_deg, line_dash="dash", line_color="green",
+        annotation_text=f"Taylor {result.taylor_angle_deg:.2f}°",
+    )
+    fig.add_vline(
+        x=result.recovered_angle_deg, line_dash="dash", line_color="firebrick",
+        annotation_text=f"argmin {result.recovered_angle_deg:.1f}°",
+    )
+    fig.update_layout(
+        title="Grounded-box amplitude-projected residual vs half-angle",
+        xaxis_title="Half-angle [deg]",
+        yaxis_title="RMS residual [Pa]",
+        yaxis_type="log",
+    )
+    return fig
+
+
+def figure_imposed_taylor_field(result: ImmersedVerificationResult) -> go.Figure:
+    """Potential of the imposed-Taylor solve at 49.29 deg (cone at 0)."""
+    if result.phi_identity is None or result.grid_r is None or result.grid_z is None:
+        return go.Figure()
+    fig = go.Figure(go.Contour(
+        z=result.phi_identity.T,
+        x=result.grid_r,
+        y=result.grid_z,
+        colorscale="RdBu_r",
+        colorbar={"title": "φ [V]"},
+    ))
+    fig.update_layout(
+        title=f"Imposed-Taylor potential at {result.taylor_angle_deg:.2f}° (cone at 0)",
         xaxis_title="r [m]",
         yaxis_title="z [m]",
         yaxis_scaleanchor="x",

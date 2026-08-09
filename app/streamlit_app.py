@@ -9,13 +9,17 @@ import pandas as pd
 import streamlit as st
 
 from solver.app_backend import (
+    ImmersedVerificationParams,
     RunParams,
     SolverResult,
     figure_field_magnitude,
+    figure_imposed_taylor_field,
     figure_interface_overlay,
     figure_potential,
     figure_residual_profile,
     figure_space_charge,
+    figure_verification_landscape,
+    run_immersed_verification,
     run_solver,
 )
 
@@ -27,7 +31,8 @@ st.set_page_config(
 st.title("Axisymmetric Electrostatic-Capillary Solver")
 st.caption(
     "Reduced-order Taylor-cone solver — Laplace / Poisson with space-charge shielding. "
-    "Shape optimisation is available via the CLI example scripts."
+    "The Immersed verification tab exercises the immersed free-boundary machinery "
+    "(recovered angle, onset voltage, and the imposed-Taylor amplitude identity)."
 )
 
 # ---------------------------------------------------------------------------
@@ -35,12 +40,19 @@ st.caption(
 # ---------------------------------------------------------------------------
 st.session_state.setdefault("last_result", None)
 st.session_state.setdefault("last_params", None)
+st.session_state.setdefault("last_verification", None)
 
 
 @st.cache_data(max_entries=20)
 def _run_solver_cached(params: RunParams) -> SolverResult:
     """Cache the expensive solver run keyed by the full parameter set."""
     return run_solver(params)
+
+
+@st.cache_data(max_entries=10)
+def _run_verification_cached(params: ImmersedVerificationParams) -> "ImmersedVerificationResult":
+    """Cache the immersed verification run keyed by the parameter set."""
+    return run_immersed_verification(params)
 
 
 # ---------------------------------------------------------------------------
@@ -124,75 +136,158 @@ params = RunParams(
     interface_half_angle_deg=interface_half_angle_deg,
 )
 
-run = st.button("Run solver", type="primary", icon=":material/play_arrow:")
-
-if run:
-    try:
-        with st.spinner("Running solver…"):
-            result = _run_solver_cached(params)
-    except Exception as exc:
-        st.error(f"Solver error: {exc}", icon=":material/error:")
-        st.stop()
-    st.session_state.last_result = result
-    st.session_state.last_params = params
-
-result = st.session_state.get("last_result")
-
-if result is None:
-    st.info("Set parameters in the sidebar and click **Run solver** to start.",
-            icon=":material/info:")
-    st.stop()
+tab_classic, tab_verif = st.tabs(["Classic diagnostics", "Immersed verification"])
 
 # ---------------------------------------------------------------------------
-# Scalar diagnostics
+# Tab 1 — classic diagnostics (legacy fixed-V0 residual on a prescribed cone)
 # ---------------------------------------------------------------------------
-if st.session_state.last_params != params:
-    st.caption("Showing results from the previous run — some parameters have changed. "
-               "Click **Run solver** to recompute.")
+with tab_classic:
+    run = st.button("Run solver", type="primary", icon=":material/play_arrow:")
 
-st.subheader("Scalar diagnostics")
-col1, col2, col3 = st.columns(3)
-col1.metric("Interface half-angle (input)", f"{result.half_angle:.2f}°",
-            help="Angle of the prescribed interface used for residual diagnostics — not a predicted value. Change via the Advanced slider.",
-            border=True)
-col2.metric("Peak |E|", f"{result.peak_field:.3g} V/m", border=True)
-col3.metric("RMS residual", f"{result.rms_residual:.3e} Pa", border=True)
+    if run:
+        try:
+            with st.spinner("Running solver…"):
+                result = _run_solver_cached(params)
+        except Exception as exc:
+            st.error(f"Solver error: {exc}", icon=":material/error:")
+            result = None
+        else:
+            st.session_state.last_result = result
+            st.session_state.last_params = params
 
-col4, col5, col6 = st.columns(3)
-shield_str = f"{result.shielding_metric:.4f}" if result.shielding_metric is not None else "—"
-col4.metric("Shielding metric S_E", shield_str, border=True)
-col5.metric("Runtime", f"{result.runtime_s:.3f} s", border=True)
-col6.metric("Converged", "Yes" if result.converged else "No", border=True)
+    result = st.session_state.get("last_result")
 
-# Full diagnostics table (copyable/readable)
-diag_table = {
-    "Quantity": ["Interface half-angle (input)", "Peak |E|", "RMS residual", "Shielding metric S_E",
-                 "Runtime", "Converged", "Iterations"],
-    "Value": [
-        f"{result.half_angle:.4f} °",
-        f"{result.peak_field:.4g} V/m",
-        f"{result.rms_residual:.4e} Pa",
-        shield_str,
-        f"{result.runtime_s:.4f} s",
-        "Yes" if result.converged else "No",
-        str(result.iterations),
-    ],
-}
-st.dataframe(pd.DataFrame(diag_table), hide_index=True)
+    if result is None:
+        st.info("Set parameters in the sidebar and click **Run solver** to start.",
+                icon=":material/info:")
+    else:
+        if st.session_state.last_params != params:
+            st.caption("Showing results from the previous run — some parameters have changed. "
+                       "Click **Run solver** to recompute.")
 
-if not result.converged:
-    st.warning(f"Space-charge iteration did not converge ({result.iterations} iterations). "
-                "Try reducing ω or increasing max iterations.")
+        st.subheader("Scalar diagnostics")
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Interface half-angle (input)", f"{result.half_angle:.2f}°",
+                    help="Angle of the prescribed interface used for residual diagnostics — not a predicted value. Change via the Advanced slider.",
+                    border=True)
+        col2.metric("Peak |E|", f"{result.peak_field:.3g} V/m", border=True)
+        col3.metric("RMS residual", f"{result.rms_residual:.3e} Pa", border=True)
+
+        col4, col5, col6 = st.columns(3)
+        shield_str = f"{result.shielding_metric:.4f}" if result.shielding_metric is not None else "—"
+        col4.metric("Shielding metric S_E", shield_str, border=True)
+        col5.metric("Runtime", f"{result.runtime_s:.3f} s", border=True)
+        col6.metric("Converged", "Yes" if result.converged else "No", border=True)
+
+        # Full diagnostics table (copyable/readable)
+        diag_table = {
+            "Quantity": ["Interface half-angle (input)", "Peak |E|", "RMS residual", "Shielding metric S_E",
+                         "Runtime", "Converged", "Iterations"],
+            "Value": [
+                f"{result.half_angle:.4f} °",
+                f"{result.peak_field:.4g} V/m",
+                f"{result.rms_residual:.4e} Pa",
+                shield_str,
+                f"{result.runtime_s:.4f} s",
+                "Yes" if result.converged else "No",
+                str(result.iterations),
+            ],
+        }
+        st.dataframe(pd.DataFrame(diag_table), hide_index=True)
+
+        if not result.converged:
+            st.warning(f"Space-charge iteration did not converge ({result.iterations} iterations). "
+                        "Try reducing ω or increasing max iterations.")
+
+        st.subheader("Field plots")
+        col_left, col_right = st.columns(2)
+        with col_left:
+            st.plotly_chart(figure_potential(result))
+            st.plotly_chart(figure_interface_overlay(result))
+            st.plotly_chart(figure_space_charge(result))
+        with col_right:
+            st.plotly_chart(figure_field_magnitude(result))
+            st.plotly_chart(figure_residual_profile(result))
 
 # ---------------------------------------------------------------------------
-# Plots
+# Tab 2 — immersed verification (P2 onset projection + P3i Taylor identity)
 # ---------------------------------------------------------------------------
-st.subheader("Field plots")
-col_left, col_right = st.columns(2)
-with col_left:
-    st.plotly_chart(figure_potential(result))
-    st.plotly_chart(figure_interface_overlay(result))
-    st.plotly_chart(figure_space_charge(result))
-with col_right:
-    st.plotly_chart(figure_field_magnitude(result))
-    st.plotly_chart(figure_residual_profile(result))
+with tab_verif:
+    st.caption(
+        "Exercises the immersed free-boundary machinery: the cone is the powered boundary "
+        "of its own Laplace solve and the residual projects out the onset voltage. "
+        "**Recovered angle** is the half-angle minimising the amplitude-projected residual "
+        "on the grounded box; the **Taylor identity** imposes the exact analytic Taylor "
+        "potential and checks the projected onset voltage against the analytic balance "
+        "amplitude (ratio ~1.0 = exact match)."
+    )
+
+    verif_grid = st.select_slider(
+        "Grid resolution (nr × nz)",
+        options=["Fast (31×45)", "Default (61×89)", "Fine (121×177)"],
+        value="Default (61×89)",
+    )
+    _verif_grid_map = {
+        "Fast (31×45)": (31, 45),
+        "Default (61×89)": (61, 89),
+        "Fine (121×177)": (121, 177),
+    }
+    verif_nr, verif_nz = _verif_grid_map[verif_grid]
+
+    run_verif = st.button("Run immersed verification", type="primary",
+                          icon=":material/experiment:")
+
+    if run_verif:
+        try:
+            with st.spinner("Running immersed verification…"):
+                verif = _run_verification_cached(
+                    ImmersedVerificationParams(nr=verif_nr, nz=verif_nz)
+                )
+        except Exception as exc:
+            st.error(f"Verification error: {exc}", icon=":material/error:")
+            verif = None
+        else:
+            st.session_state.last_verification = verif
+
+    verif = st.session_state.get("last_verification")
+
+    if verif is None:
+        st.info("Click **Run immersed verification** to compute the recovered angle, "
+                "onset voltage, and the imposed-Taylor amplitude identity.",
+                icon=":material/info:")
+    else:
+        if verif.grid_r.size != verif_nr or verif.grid_z.size != verif_nz:
+            st.caption("Showing results from the previous run — the grid has changed. "
+                       "Click **Run immersed verification** to recompute.")
+
+        st.subheader("Verification diagnostics")
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Recovered angle (grounded box)", f"{verif.recovered_angle_deg:.2f}°",
+                    help="Half-angle minimising the amplitude-projected residual "
+                         "(Taylor reference value 49.29° — see caption below).",
+                    border=True)
+        onset_str = f"{verif.onset_voltage_V / 1e3:.2f} kV" if verif.onset_voltage_V else "—"
+        col2.metric("Predicted onset voltage V0*", onset_str,
+                    help="Amplitude projected out of the residual, reported as a voltage.",
+                    border=True)
+        col3.metric("Min residual", f"{verif.min_rms_Pa:.3e} Pa", border=True)
+
+        col4, col5 = st.columns(2)
+        col4.metric("Taylor identity ratio V0*/A*", f"{verif.identity_ratio:.4f}" if verif.identity_ratio else "—",
+                    help="Ratio of the projected onset voltage to the analytic balance amplitude at the Taylor angle. 1.0 = exact match (measured ~1.01).",
+                    border=True)
+        col5.metric("Identity residual argmin", f"{verif.identity_argmin_deg:.1f}°" if verif.identity_argmin_deg else "—",
+                    help="Half-angle of minimum projected residual under the imposed Taylor potential.",
+                    border=True)
+
+        col_land, col_field = st.columns(2)
+        with col_land:
+            st.plotly_chart(figure_verification_landscape(verif))
+        with col_field:
+            st.plotly_chart(figure_imposed_taylor_field(verif))
+
+        st.caption(f"Runtime: {verif.runtime_s:.1f} s. "
+                   "The grounded-box angle is the answer of the truncated-cone-in-a-box "
+                   "problem (not Taylor's meniscus limit — see examples/09_ideal_limit_study.py); "
+                   "the imposed-Taylor identity is the committed verification of the machinery "
+                   "against 49.29° (tests/test_taylor_onset.py).")
