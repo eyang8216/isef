@@ -38,9 +38,9 @@ trajectory can reach ≈ 47.5°, because the immersed objective has multiple
 local minima and its corner (≈ 52°, apex_radius = 0.10 bound) evaluates lower
 (≈ 0.042 Pa). The 2026-08-09 conditioning fix eliminated the previously
 observed candidate failures (tiny-cut fallback in `apply_immersed_dirichlet`):
-the example now runs with 0 candidate failures. The remaining local-minimum
-issue must be addressed before the refinement study is meaningful — see the
-"next steps" in this file's V3 section.
+the example now runs with 0 candidate failures. The remaining well-posedness
+issue (flat-in-angle, monotone-in-radius objective) is documented with data in
+`examples/08_immersed_refinement_study.py` and `docs/plans/2026-08-09-next-steps.md`.
 
 ### What is not yet proven
 

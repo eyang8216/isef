@@ -16,7 +16,7 @@ All three spec files have been analyzed:
 - Candidate-dependent optimizer mode
 - `examples/07_immersed_free_boundary.py`
 - Tests: `test_immersed.py`, `test_implicit_cone.py`
-- 50 tests passing (up from 34)
+- 51 tests passing (up from 34)
 
 ### ✅ Files Modified
 - `solver/geometry.py` - Added ImplicitCone
@@ -32,10 +32,7 @@ All three spec files have been analyzed:
 
 **User Story 9**: "I want a manufactured-solution test using the exact Taylor potential φ = A·ρ^½·P_{1/2}(cosθ) as the outer Dirichlet condition with the sharp cone as the equipotential, asserting observed convergence order ≥ 1.8 under refinement"
 
-**Status**: Partial - `test_immersed.py` has a smooth circular manufactured test that shows improvement with refinement, but needs:
-- [ ] Formal Richardson extrapolation
-- [ ] Observed order of convergence calculation
-- [ ] Assert order ≥ 1.8 (currently just checks error[1] < 0.7*error[0])
+**Status**: DONE (2026-08-09, commit `ebea0b8`) - `test_smooth_immersed_manufactured_solution_second_order_convergence` runs three refinement levels of the smooth circular manufactured test, computes observed order via Richardson, and asserts each level ≥ 1.8 (measured ≈ 2.0). Note: per the spec's 2026-08-06 note, the formal order test uses the smooth irregular boundary, not the Taylor potential + sharp cone.
 
 **Implementation**:
 ```python
@@ -66,12 +63,9 @@ def test_smooth_immersed_manufactured_solution_convergence_order():
 
 ### 3. Small-Cut Conditioning (MEDIUM PRIORITY)
 
-**Current Issue**: "Some Powell trial points are rejected because a candidate cone leaves no gas-side third point at a boundary"
+**Status**: DONE (2026-08-09, commit `8e2a2c8`) - tiny positive cuts (0, min_fraction] are pinned to the boundary value via the identity-row fallback instead of raising; example 07 now runs with 0 candidate failures. Degenerate zero/non-crossing fractions still raise. See `test_tiny_cut_falls_back_to_dirichlet_row`.
 
-**Needed**:
-- [ ] Better min_fraction handling
-- [ ] Fallback stencils for small cuts
-- [ ] Document feasible domain constraints
+**Remaining**: the optimizer's well-posedness (flat-in-angle, monotone-in-radius objective) - see `docs/plans/2026-08-09-next-steps.md` S1 and `examples/08_immersed_refinement_study.py`.
 
 **Implementation**: Enhance `solver/immersed.py` to handle edge cases more robustly.
 

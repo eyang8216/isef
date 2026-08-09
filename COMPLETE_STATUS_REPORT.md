@@ -29,7 +29,7 @@ I've analyzed all three spec files and the current codebase. Here's what I found
 - One-sided normal field reconstruction
 - Candidate-dependent optimizer (field responds to shape)
 - Flank-only residual/angle extraction
-- 50 tests passing (was 34)
+- 51 tests passing (was 34)
 - Example 07 demonstrating coupled mode
 
 ✅ **Files Created/Modified:**
@@ -103,7 +103,7 @@ git commit -m "feat(v3): implement immersed boundary with rounded cone geometry
 - Enable candidate-dependent field coupling in optimizer
 - Add immersed mode to electrostatics and optimization
 - Implement flank-only residual and angle extraction
-- Add test_immersed.py and test_implicit_cone.py (50 tests passing)
+- Add test_immersed.py and test_implicit_cone.py (51 tests passing)
 - Add example 07: immersed free-boundary demonstration
 
 Status: Core implementation complete, verification work ongoing
