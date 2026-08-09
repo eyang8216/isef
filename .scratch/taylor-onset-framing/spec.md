@@ -1,7 +1,7 @@
 # Spec: Taylor-Onset Framing & Verification (P1 + P2 + P3i)
 
 **Status:** ready-for-agent (spec written 2026-08-09 after the grilling session;
-tickets 01–03 in `issues/`, ticket 04 is deferred)
+tickets 01–04 in `issues/`)
 
 **Sources:** `docs/codebase_review_and_next_steps.md` (2026-08-04),
 `.scratch/taylor-cone-fd-bcs/spec.md` (incl. its 2026-08-06 superseding note),
@@ -132,14 +132,23 @@ residual floor improves with refinement. The identity is the strong, exact
 result; the 0.7° offset is a documented limitation (cap-flank offset +
 truncation + reconstruction floor), candidate for ticket 04 / future work.
 
-### P3iii — Ideal-limit extrapolation on the grounded-box problem (LATER, spec only)
+### P3iii — Ideal-limit extrapolation on the grounded-box problem (DONE 2026-08-09, ticket 04)
 
-Grow the domain / shrink the cap on the *actual* solver configuration
-(grounded box, `rectangular_electrodes`) and document the angle trend toward
-49.29° (or the documented reason the finite rounded truncated-domain problem
-differs). Non-monotone behavior was observed in early sweeps (42° → 52°),
-so the domain design must be careful. **Deferred** — do not block the deadline
-milestone.
+`examples/09_ideal_limit_study.py` documents the measured answer: the
+grounded-box projected-residual argmin does **not** approach 49.29° — it moves
+to larger angles as the box grows (45° at 1×1 → 52.5° at 1.5×1.5 → 60° at
+2×2 → 75°+ at 3×3, still decreasing at the sweep edge), and the residual at
+49.29° does not improve with growth (rms@49.29: 2.4e-2 → 1.7e-2 → 2.1e-2 →
+2.5e-2 across 1×1 → 3×3). Two measured reasons: (1) the box field is not the
+ideal conical field — Eₙ·√ρ spread is 47% (1×1) and 61% (3×3), i.e. the
+deviation
+grows with the box (rounded cap + finite walls); (2) in a large box the
+flattest cones balance best — their curvature and field profiles both become
+nearly uniform, and the amplitude-projected residual is a *shape-matching*
+measure that prefers them. This is a model property (truncated perfect cone
+in a finite grounded box ≠ Taylor meniscus), not a solver bug: the machinery
+is verified by the P3i identity (ratio 1.009). Paper write-up of this
+ideal-limit discussion is a separate task.
 
 ---
 
@@ -157,7 +166,8 @@ milestone.
    (measured 50.0°, ~0.7° systematic offset documented), floor improves with
    refinement. The ±0.5° target is adjusted to ±1.5° with data (residual
    angle resolution limited by the discretization floor).
-4. All existing tests stay green (52 after P1); examples 05, 07, 08 still run.
+4. All existing tests stay green (57 after P3i); examples 05, 07, 08, 09
+   still run.
 
 ## 5. Out of scope / guardrails
 
