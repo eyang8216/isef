@@ -57,6 +57,7 @@ class OptimizationResult:
     initial_rms_residual: float | None = None
     candidate_solve_failures: int = 0
     field_variation: float | None = None
+    onset_voltage_V: float | None = None
 
 
 def _immersed_masks(grid: AxisymmetricGrid, external: GeometryMasks, cone: ImplicitCone) -> GeometryMasks:
@@ -79,7 +80,7 @@ def _immersed_masks(grid: AxisymmetricGrid, external: GeometryMasks, cone: Impli
     )
 
 
-def _immersed_rms(
+def _immersed_projected_stats(
     grid: AxisymmetricGrid,
     cone: ImplicitCone,
     potential: np.ndarray,
@@ -88,8 +89,34 @@ def _immersed_rms(
     z_min: float,
     z_max: float,
     n_interface: int,
-) -> float:
-    """Evaluate the mean-eliminated YLM residual on flank-only cone samples."""
+) -> tuple[float, float]:
+    """Amplitude-projected YLM residual RMS and the implied onset voltage.
+
+    The fixed-``V0`` immersed residual ``R = γκ − Δp − ½ε₀Eₙ²`` is dominated
+    by the arbitrary voltage: at the example's 1000 V on the meter-scale
+    geometry the Maxwell pressure is ~600x weaker than capillary, so the
+    objective measured curvature variation instead of stress balance and the
+    recovered angle was meaningless (measured 2026-08-09).
+
+    Projecting out the balance voltage ``u = ½ε₀V0²`` analytically per
+    candidate shape makes the objective scale-invariant and well-posed.  On
+    the flank samples with weights ``w``:
+
+        a = γκ − ⟨γκ⟩_w
+        e = Eₙ/V0                      (field per volt, NOT Eₙ itself)
+        b = e² − ⟨e²⟩_w
+        u* = ⟨a·b⟩_w / ⟨b²⟩_w          (weighted least-squares amplitude)
+        R = a − u*·b                   (amplitude-projected residual)
+        rms = √⟨R²⟩_w
+        V0* = √(2u*/ε₀)                (predicted onset voltage)
+
+    ``u*`` is the best-fit amplitude because the mean-subtracted residual is
+    linear in ``u``; the fixed-``V0`` residual is the special case
+    ``u = ½ε₀V0²``.  Units: ``u`` is force-like (N), ``e`` is 1/m, so
+    ``p_E = u·e²`` is a pressure and ``V0* = √(2u/ε₀)`` is in volts.
+    Returns ``(rms, onset_voltage_V)``; the voltage is ``None`` when the
+    best-fit amplitude is non-positive (no physical onset voltage).
+    """
     interface = cone.sample_graph(z_min, z_max, n_interface)
     flank = np.asarray(interface.flank_mask, dtype=bool)
     if np.count_nonzero(flank) < 3:
@@ -103,11 +130,43 @@ def _immersed_rms(
     if not (np.all(np.isfinite(E_n)) and np.all(np.isfinite(curvature))):
         raise ValueError("non-finite immersed interface diagnostics")
 
-    p_E = 0.5 * physical.eps_g * E_n * E_n
     p_gamma = physical.gamma * curvature
-    delta_p = float(np.average(p_gamma - p_E, weights=weights))
-    residual = p_gamma - delta_p - p_E
-    return float(np.sqrt(np.average(residual * residual, weights=weights)))
+    a = p_gamma - float(np.average(p_gamma, weights=weights))
+    e2 = (E_n / physical.V0) ** 2
+    b = e2 - float(np.average(e2, weights=weights))
+    b2 = float(np.average(b * b, weights=weights))
+    if not np.isfinite(b2) or b2 <= 0.0:
+        raise ValueError("amplitude projection is degenerate (constant flank field)")
+    u = float(np.average(a * b, weights=weights)) / b2
+    residual = a - u * b
+    rms = float(np.sqrt(np.average(residual * residual, weights=weights)))
+    # u = 1/2 eps0 V0^2 is a force-like best-fit amplitude; a negative value
+    # (anti-correlated a,b) has no physical onset voltage, so report None
+    # rather than a NaN from sqrt.
+    onset_voltage: float | None = None
+    if u > 0.0 and np.isfinite(u):
+        onset_voltage = float(np.sqrt(2.0 * u / physical.eps_g))
+    return rms, onset_voltage
+
+
+def _immersed_rms(
+    grid: AxisymmetricGrid,
+    cone: ImplicitCone,
+    potential: np.ndarray,
+    physical: PhysicalParams,
+    *,
+    z_min: float,
+    z_max: float,
+    n_interface: int,
+) -> float:
+    """Amplitude-projected YLM residual RMS for the immersed optimizer.
+
+    Thin wrapper over :func:`_immersed_projected_stats` (which also returns
+    the implied onset voltage) so the optimizer objective stays a scalar.
+    """
+    return _immersed_projected_stats(
+        grid, cone, potential, physical, z_min=z_min, z_max=z_max, n_interface=n_interface
+    )[0]
 
 
 def optimize_cone_shape(
@@ -266,6 +325,7 @@ def optimize_cone_shape(
 
     nozzle_radius = float("nan")
     rms_final = float(min(float(result.fun), initial_rms))
+    onset_voltage_final: float | None = None
     sc_converged_final: bool | None = None
     sc_iters_final: int | None = None
     try:
@@ -275,7 +335,7 @@ def optimize_cone_shape(
             phi_final = solve_laplace(
                 grid, candidate_masks, physical, solver=solver, immersed=cone_opt
             )
-            rms_final = _immersed_rms(
+            rms_final, onset_voltage_final = _immersed_projected_stats(
                 grid, cone_opt, phi_final, physical,
                 z_min=z_min_iface, z_max=z_max_iface, n_interface=n_interface,
             )
@@ -313,4 +373,5 @@ def optimize_cone_shape(
         initial_rms_residual=float(initial_rms),
         candidate_solve_failures=solve_failures,
         field_variation=max_field_variation if immersed_mode else None,
+        onset_voltage_V=onset_voltage_final,
     )

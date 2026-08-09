@@ -49,9 +49,13 @@ def main() -> None:
     print(f"Final RMS residual:                {result.rms_residual:.6e} Pa")
     print(f"Candidate-dependent field change:  {result.field_variation:.6e} V")
     print(f"Candidate solve failures:          {result.candidate_solve_failures}")
+    print(f"Onset voltage (amplitude-projected V0*): {result.onset_voltage_V:.3e} V"
+          if result.onset_voltage_V is not None else
+          "Onset voltage (amplitude-projected V0*): not defined for this optimum")
     print(f"Optimizer converged:               {result.converged}")
     print("Interpretation: this demonstrates shape -> boundary -> field coupling.")
-    print("It is not yet an onset-voltage prediction or an ideal-limit validation.")
+    print("The onset voltage is a prediction from the amplitude-projected residual,")
+    print("not yet validated against Taylor's ideal limit (see taylor-onset-framing/03).")
 
 
 if __name__ == "__main__":

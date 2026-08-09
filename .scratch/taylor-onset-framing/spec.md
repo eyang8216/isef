@@ -101,23 +101,19 @@ to small angles). Note: the Taylor-cone Eₙ benchmark is confounded by the
 ImplicitCone flank offset `R_cap·cos(2α)/cosα` from the sharp cone — the
 manufactured circle is the clean seam.
 
-### P2 — Onset-amplitude projection in the immersed residual
+### P2 — Onset-amplitude projection in the immersed residual (DONE 2026-08-09, ticket 02)
 
-In `_immersed_rms` (or a sibling used by the optimizer), project out the
-balance voltage analytically per candidate shape:
-
-- On the flank samples with weights `w`: `a = γκ − ⟨γκ⟩_w`,
-  `e = Eₙ/V0`, `b = e² − ⟨e²⟩_w`, `u* = ⟨ab⟩_w/⟨b²⟩_w`,
-  residual `R = a − u*·b`, RMS over the flank. Predicted onset voltage
-  `V0* = √(2u*/ε₀)`.
-- This makes the objective scale-invariant (the arbitrary `V0` no longer
-  enters), gives a well-posed landscape (V-shape), and *predicts the onset
-  voltage* — a new, verifiable, paper-worthy result.
-- Reported alongside `OptimizationResult`: `onset_voltage_V` (`V0*`).
-- **Acceptance:** the projected landscape has a single interior minimum in
-  `half_angle_deg` over the feasible box (no more bound-chasing); `V0*` is
-  finite and physically ordered (monotone in geometry scale); existing tests
-  stay green (the legacy fixed-V0 path remains for regression).
+`_immersed_rms` now projects out the balance voltage analytically per candidate
+shape (`u* = ⟨ab⟩_w/⟨b²⟩_w`, `V0* = √(2u*/ε₀)`, `R = a − u*·b`), making the
+objective scale-invariant: the angle direction is a clean V-shape with an
+interior minimum (~44° at 61×89, 1×1 domain; the fixed-V0 objective was flat
+and bound-chasing because the field at 1000 V is ~25× below onset).
+`OptimizationResult.onset_voltage_V` reports the predicted onset voltage
+(≈ 28 kV at 45°; the pre-P1 21–26 kV range was shifted by the Eₙ fix).
+Example 07 converges to 42.8° (near the interior minimum) and prints `V0*`.
+Known limitation (documented, not asserted): the `apex_radius` direction
+remains weakly bound-favoring — the model has no preferred apex radius without
+a volume/contact-line constraint (future work, spec §5).
 
 ### P3i — Imposed-Taylor free-boundary verification (the committed 49.29° test)
 
@@ -151,8 +147,10 @@ milestone.
 1. ~~P1 benchmark~~ **DONE**: `test_immersed_en_matches_analytic_on_manufactured_circle`
    asserts Eₙ ≤ 5% at 97×129 and improvement at 193×257 (circle, analytic
    Eₙ = 2R·e^z; the Taylor-field benchmark is confounded by the flank offset).
-2. P2: projected landscape has an interior minimum; `V0*` ≈ 21–26 kV at the
-   current 1×1 domain (regression anchor); legacy path unchanged.
+2. ~~P2~~ **DONE**: `test_immersed_projected_residual_has_interior_angle_minimum`
+   (V-shape, interior minimum ~44° at 61×89) and
+   `test_immersed_projected_onset_voltage_anchor` (V0* ≈ 28 kV at 45°, band
+   20–35 kV; legacy fixed-V0 path unchanged).
 3. P3i: residual minimum → 49.29° as cap → 0; ±0.5° at the smallest cap;
    analytic `V0*` identity holds.
 4. All existing tests stay green (52 after P1); examples 05, 07, 08 still run.

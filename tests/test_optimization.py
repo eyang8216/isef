@@ -158,3 +158,68 @@ def test_immersed_optimizer_rebuilds_field_and_improves_initial_candidate(small_
     assert result.rms_residual <= result.initial_rms_residual
     assert result.nozzle_radius > result.apex_radius
     assert result.candidate_solve_failures < result.n_evals
+    # Ticket 02: the immersed result reports the amplitude-projected onset voltage.
+    assert result.onset_voltage_V is not None
+    assert np.isfinite(result.onset_voltage_V) and result.onset_voltage_V > 0.0
+
+
+def _immersed_projected(grid, masks, physical, angle_deg, apex_radius):
+    """Solve one immersed candidate and return (rms, onset_voltage_V)."""
+    from solver.geometry import ImplicitCone
+    from solver.optimization import _immersed_masks, _immersed_projected_stats
+
+    cone = ImplicitCone(
+        apex_z=0.86 + 1e-10 * 0.86,
+        half_angle_deg=angle_deg,
+        apex_radius=apex_radius,
+        boundary_value=physical.V0,
+    )
+    phi = solve_laplace(grid, _immersed_masks(grid, masks, cone), physical, immersed=cone)
+    return _immersed_projected_stats(
+        grid, cone, phi, physical, z_min=0.15, z_max=0.85, n_interface=41
+    )
+
+
+def test_immersed_projected_residual_has_interior_angle_minimum():
+    """Amplitude projection makes the half-angle identifiable (ticket 02).
+
+    The fixed-V0 immersed residual is dominated by capillary variation (the
+    field at 1000 V is ~25x below the onset voltage), so the angle direction
+    is flat and bound-chasing. Projecting out the onset amplitude yields a
+    V-shape with a single interior minimum in the angle direction (measured
+    44 deg at 61x89 on the 1x1 domain, 2026-08-09). The apex_radius direction
+    remains weakly bound-favoring (no volume/contact-line constraint) and is
+    deliberately not asserted here.
+    """
+    grid = AxisymmetricGrid.from_params(GridParams(1.0, 0.0, 1.0, 61, 89))
+    masks = rectangular_electrodes(grid, powered="z_max", ground="z_min", far_dirichlet=True)
+    physical = PhysicalParams(V0=1000.0, gamma=0.022)
+    angles = (30.0, 35.0, 40.0, 44.0, 48.0, 52.0)
+    rms = {a: _immersed_projected(grid, masks, physical, a, 0.05)[0] for a in angles}
+    argmin = min(angles, key=lambda a: rms[a])
+    assert 38.0 <= argmin <= 48.0, (
+        f"projected angle minimum at {argmin} deg; expected interior ~44 deg "
+        f"(rms per angle: {rms})"
+    )
+    left = [rms[a] for a in angles if a < argmin]
+    right = [rms[a] for a in angles if a > argmin]
+    # Residual falls toward the minimum on the left and rises away on the right.
+    assert left == sorted(left, reverse=True), (
+        "projected residual must fall monotonically below the minimum"
+    )
+    assert right == sorted(right), "projected residual must rise monotonically above the minimum"
+
+
+def test_immersed_projected_onset_voltage_anchor():
+    """V0* regression anchor: ~28 kV at 45 deg on the 1x1 domain (61x89).
+
+    The electric pressure at 1000 V is ~600x weaker than capillary, so the
+    balance voltage is tens of kV at this scale. The early prototype's 23 V
+    figure was a units bug (missing 1/V0^2) and must not resurface.
+    """
+    grid = AxisymmetricGrid.from_params(GridParams(1.0, 0.0, 1.0, 61, 89))
+    masks = rectangular_electrodes(grid, powered="z_max", ground="z_min", far_dirichlet=True)
+    physical = PhysicalParams(V0=1000.0, gamma=0.022)
+    rms, v0 = _immersed_projected(grid, masks, physical, 45.0, 0.05)
+    assert np.isfinite(rms)
+    assert 20e3 <= v0 <= 35e3, f"onset voltage {v0:.3e} V outside the 20-35 kV anchor"
