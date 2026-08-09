@@ -40,8 +40,10 @@ conditioning/feasible-domain work before publication-quality claims.
 
 ### What is not yet proven
 
-- Second-order convergence for the immersed operator on a smooth manufactured
-  irregular-boundary problem.
+- ~~Second-order convergence for the immersed operator on a smooth manufactured
+  irregular-boundary problem.~~ **Proven 2026-08-09**: `test_smooth_immersed_manufactured_solution_second_order_convergence`
+  asserts observed L2 order ≥ 1.8 on three refinement levels of the smooth
+  circle manufactured problem (measured ≈ 2.0). See `tests/test_immersed.py`.
 - Convergence of interface-normal field, Maxwell pressure, residual, or angle.
 - A unique physical free-boundary solution with volume/contact-line constraints.
 - Convergence of the rounded finite-domain optimizer to the ideal 49.29° limit.

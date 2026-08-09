@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pytest
 from scipy.sparse.linalg import spsolve
@@ -66,20 +68,66 @@ def test_normal_field_one_sided():
     potential=c.boundary_value+2.75*((g.R-c.join_radius)*np.cos(a)+(g.Z-c.join_z)*np.sin(a))
     assert normal_field_on_interface(g,potential,c,r,z,sample_distance=.025)==pytest.approx(np.full(2,-2.75),abs=2e-13)
 
-def test_smooth_immersed_manufactured_solution_improves_with_refinement():
+def test_smooth_immersed_manufactured_solution_second_order_convergence():
+    """Formal Richardson order check for the immersed Dirichlet stencil.
+
+    This is the *declared* manufactured test for the immersed operator — a
+    smooth curved irregular boundary (a circle), deliberately independent of
+    the singular Taylor potential. Gibou et al. (2002) proved that the
+    fractional-distance ghost-cell discretization is second-order accurate on
+    curved boundaries; the O(h) staircase error it replaces (Shortley & Weller
+    1938) was the original motivation for the immersed path. We therefore
+    assert an observed L2 order >= 1.8, i.e. an error ratio <= 2**-1.8 ~= 0.29
+    per grid doubling (the spec's "0.57 per doubling" figure is inconsistent
+    with order >= 1.8 and is treated as superseded by the direct order check).
+
+    Declared norm/region: L2 over gas nodes, excluding the outer Dirichlet
+    ring (and, by construction, the conductor interior).
+    """
+
     class Circle:
-        boundary_value=0.
-        def __init__(self): self.radius=.31; self.center_z=1.03
-        def signed_function(self,r,z): return np.asarray(r)**2+(np.asarray(z)-self.center_z)**2-self.radius**2
-        def conductor_mask(self,g): return self.signed_function(g.R,g.Z)<=0
-        def boundary_fraction(self,r0,z0,r1,z1):
-            dr,dz=r1-r0,z1-z0; y=z0-self.center_z; aa=dr*dr+dz*dz; bb=2*(r0*dr+y*dz); cc=r0*r0+y*y-self.radius**2
-            roots=np.roots((aa,bb,cc)); return min(float(x.real) for x in roots if abs(x.imag)<1e-10 and -1e-10<=x.real<=1+1e-10)
-    errors=[]
-    for nr,nz in ((25,33),(49,65)):
-        g=AxisymmetricGrid.from_params(GridParams(1.5,0,2,nr,nz)); c=Circle(); y=g.Z-c.center_z; q=g.R**2+y**2-c.radius**2; exact=q*np.exp(g.Z); source=np.exp(g.Z)*(6+4*y+q)
-        outer=np.zeros(g.shape,bool); outer[-1,:]=True; outer[:,0]=True; outer[:,-1]=True
+        boundary_value = 0.0
+
+        def __init__(self):
+            self.radius = 0.31
+            self.center_z = 1.03
+
+        def signed_function(self, r, z):
+            return np.asarray(r) ** 2 + (np.asarray(z) - self.center_z) ** 2 - self.radius**2
+
+        def conductor_mask(self, g):
+            return self.signed_function(g.R, g.Z) <= 0
+
+        def boundary_fraction(self, r0, z0, r1, z1):
+            dr, dz = r1 - r0, z1 - z0
+            y = z0 - self.center_z
+            aa = dr * dr + dz * dz
+            bb = 2 * (r0 * dr + y * dz)
+            cc = r0 * r0 + y * y - self.radius**2
+            roots = np.roots((aa, bb, cc))
+            return min(
+                float(x.real)
+                for x in roots
+                if abs(x.imag) < 1e-10 and -1e-10 <= x.real <= 1 + 1e-10
+            )
+
+    # Grid levels chosen so the spacing halves at each refinement.
+    levels = ((25, 33), (49, 65), (97, 129))
+    errors: list[float] = []
+    spacings: list[float] = []
+    for nr, nz in levels:
+        g = AxisymmetricGrid.from_params(GridParams(1.5, 0, 2, nr, nz))
+        c = Circle()
+        y = g.Z - c.center_z
+        q = g.R**2 + y**2 - c.radius**2
+        exact = q * np.exp(g.Z)
+        source = np.exp(g.Z) * (6 + 4 * y + q)
+        outer = np.zeros(g.shape, bool)
+        outer[-1, :] = True
+        outer[:, 0] = True
+        outer[:, -1] = True
         from solver.boundary_conditions import apply_dirichlet_values
+
         A, b = apply_dirichlet_values(
             build_axisymmetric_laplacian(g), g.flatten(source), g, outer, exact
         )
@@ -87,4 +135,17 @@ def test_smooth_immersed_manufactured_solution_improves_with_refinement():
         sol = g.unflatten(spsolve(A, b))
         gas = ~c.conductor_mask(g) & ~outer
         errors.append(float(np.sqrt(np.mean((sol[gas] - exact[gas]) ** 2))))
-    assert errors[1] < errors[0]*.7
+        spacings.append(g.dr)
+    assert all(h > 0 for h in spacings)
+    # Observed order between consecutive levels: p = ln(e_i/e_{i+1}) / ln(h_i/h_{i+1}).
+    orders = [
+        math.log(errors[i] / errors[i + 1]) / math.log(spacings[i] / spacings[i + 1])
+        for i in range(len(errors) - 1)
+    ]
+    for i, order in enumerate(orders, start=1):
+        assert order >= 1.8, (
+            f"observed order between levels {i} and {i + 1} is {order:.2f} (< 1.8); "
+            f"errors per level: {[f'{e:.3e}' for e in errors]}"
+        )
+    # Keep a mild monotone-decrease sanity check as a second, weaker guard.
+    assert errors[-1] < errors[0] * 0.5
