@@ -1,653 +1,80 @@
-# AI Handover Document — ISEF Physics Taylor-Cone Solver
+# AI Handover Document — ISEF Taylor-Cone Electrospray Solver
 
-**Project folder:** `/Users/a1/ISEF_physics`  
-**Project type:** ISEF physics / computational physics / aerospace electrospray modeling  
-**Current phase:** Theory + computational solver planning only  
-**Do not perform:** Physical experiment planning beyond safety notes, high-voltage instructions, ethanol handling procedures, or testbed construction steps unless explicitly asked later under school-supervised context.
-
----
-
-## 1. Project summary
-
-This project is an ISEF-oriented computational physics project focused on **Taylor cone formation and electrospray onset** for microfluidic / colloid thruster systems.
-
-The core idea is to build a **lightweight, open-source, consumer-hardware 2D axisymmetric solver** that models the electrostatic-capillary balance of a Taylor cone and extends the ideal charge-free model using a **Poisson space-charge shielding term**.
-
-The long-term scientific goal is to compare simulation predictions against physical electrospray images later, but the current 1.5-month focus is strictly:
-
-1. theory,
-2. derivations,
-3. numerical formulation,
-4. software architecture,
-5. eventually a Python/online solver.
-
-The working research question is approximately:
-
-> To what extent can a lightweight 2D axisymmetric Python solver, coupling electrostatic Maxwell stress, capillary pressure, and an effective Poisson space-charge shielding model, predict Taylor-cone geometry and onset-voltage trends for electrospray emitters on consumer-grade hardware?
+**Project folder:** `/Users/elliottdong/Desktop/isef`
+**Branch:** `main`, tip `d2f703f` (2026-08-09), clean tree, up to date with `origin/main`.
+**Project type:** ISEF computational physics / reduced-order axisymmetric electrohydrodynamic Taylor-cone / electrospray-onset solver (Python + Streamlit).
+**Current phase:** V3 immersed free-boundary milestone — solver machinery verified; the committed 49.29° verification (imposed-Taylor) is done; paper write-up and code hygiene remain.
+**Do not perform:** Physical experiment planning beyond safety notes, high-voltage instructions, ethanol handling, or testbed construction unless explicitly requested under school-supervised context. Experimental work (Track B) is gated on ISEF/SRC approval.
 
 ---
 
-## 2. Important project framing
+## 1. What has been done since commit `ebea0b8`
+
+`ebea0b8` = "test: assert second-order convergence of the immersed operator" — it replaced the weak two-grid refinement check with a formal Richardson test (3 levels on the smooth-circle manufactured problem, observed L2 order ≈ 2.0) and updated the "not yet proven" section of `IMPLEMENTATION_STATUS.md`. All work *after* that commit (10 commits, 20 files, +1814/−122), in order:
+
+| Commit | What it did |
+|---|---|
+| `8e2a2c8` | **fix(immersed): pin tiny-cut gas nodes to the boundary instead of rejecting.** Killed the discontinuous 1e10-penalty optimizer failures from `'pathological immersed-boundary fraction'`; example 07 now runs with 0 candidate failures (was 1 in 343 evals). |
+| `b9a6022` | **docs:** added `docs/plans/2026-08-09-next-steps.md` (verified state, findings, priority list S1–S7) and `examples/08_immersed_refinement_study.py` (Part A: immersed potential ≈ 2nd order vs non-convergent legacy staircase; Part B: objective flat-in-angle / monotone-in-radius; Part C: single-start Powell stops in a flat basin). |
+| `8407928` | **docs:** Taylor-onset framing spec + tickets 01–04 (`.scratch/taylor-onset-framing/`) after the 2026-08-09 grilling session. |
+| `10d259f` | **fix(immersed): cubic-exact E_n reconstruction with full-cell samples (ticket 01 / P1).** Root causes found: sub-cell sampling across the conductor-cut cell (errors *grew* with refinement) + profile curvature. New 4-point one-sided stencil `Eₙ = −(−11V_b + 18V(d) − 9V(2d) + 2V(3d))/(6d)` with `d = max(dr,dz)`. Measured: box ≤ ±1% at all grids, circle ≤ 3% → ≤ 1%. Side effect: example 07 recovered angle moved 22.9° → 50.9°. |
+| `f80dab0` | **feat(optimizer): project out the onset voltage in the immersed residual (ticket 02 / P2).** Fixed-V0 objective was meaningless (field ~25× below onset). Now projects out the balance voltage per candidate: `u* = ⟨ab⟩_w/⟨b²⟩_w`, `V0* = √(2u*/ε₀)`, `R = a − u*·b`. Angle direction is now a clean V-shape with interior minimum ~44°; `OptimizationResult` gains `onset_voltage_V`. Example 07 converges to 42.8°, V0* ≈ 28.9 kV. |
+| `4c777e9` | **test: impose Taylor potential to verify the free-boundary amplitude identity (ticket 03 / P3i).** New `tests/test_taylor_onset.py` imposes the exact analytic Taylor potential on the box boundary with the rounded cone as the immersed zero equipotential. Verifies: amplitude identity ratio 1.009 (assert ≤ 3%), projected-residual argmin at 50.0° (~0.7° systematic offset from 49.29°, documented, does not converge), residual floor improves with refinement. |
+| `7b117d5` | **docs(examples):** documented why the grounded-box problem cannot recover 49.29° (ticket 04 / P3iii) — argmin moves to larger angles as the box grows (45° → 75°+), rms@49.29 does not improve. Model property, not a solver bug. |
+| `bc7715a` | **feat(app): add 'Immersed verification' tab.** Runs both committed verifications through the Streamlit app (grounded-box amplitude-projected landscape: angle 44.0°, V0* 27.9 kV; imposed-Taylor identity ratio 1.0105). Backend gains `ImmersedVerificationParams/Result`, `run_immersed_verification`, two plotly builders; smoke test added. App now has two tabs (Classic + Immersed verification). |
+| `269b9ef` | **fix(app):** warn when the classic interface angle is capped by the domain (old defaults capped at 30.7°, silently clamping a requested 49.3°). |
+| `d2f703f` | **fix(app):** raise default Domain radius to 1.0 so the 49.3° classic interface fits (cap now 49.9°). |
+
+## 2. Current state of the project
+
+- **Tests:** 58 passing via `.venv/bin/python -m pytest` (≈45 s, run from repo root).
+- **Milestone spec:** `.scratch/taylor-onset-framing/spec.md` — all four tickets marked done (P1 Eₙ reconstruction, P2 onset-amplitude projection, P3i imposed-Taylor verification, P3iii ideal-limit study documented). Verification gates: Eₙ ≤ 5% at 97×129, V-shape interior minimum ~44°, identity ratio 1.009, all tests green.
+- **Core modules:** `solver/` — `immersed.py` (fractional-distance Dirichlet + cubic-exact Eₙ), `geometry.py::ImplicitCone` (C1 rounded cone, sign convention: liquid ≤ 0), `electrostatics.py` (immersed Laplace/Poisson path), `optimization.py` (immersed candidate loop + onset projection), `residual.py`, `space_charge.py` (Gaussian + threshold closures, coupled optimizer mode), `app_backend.py` (run + verification backends, no `st.*` imports).
+- **Examples:** `examples/00`–`09` (07 = immersed free boundary, 08 = refinement study, 09 = ideal-limit study).
+- **App:** `app/streamlit_app.py` — Classic tab + Immersed verification tab. Run with `streamlit run app/streamlit_app.py`.
+- **Docs:** `IMPLEMENTATION_STATUS.md` (updated "not yet proven" section per `ebea0b8`), `CONTEXT.md` (domain glossary — use its terminology), `docs/adr/0001`–`0003` (analytic cone family; threshold+optimizer decoupled; merged free-boundary immersed cone), `docs/plans/2026-08-09-next-steps.md` (findings + priority list), `.scratch/taylor-onset-framing/` (spec + tickets 01–04, local issue tracker), `.scratch/taylor-cone-fd-bcs/` (earlier sharp-cone research).
+
+## 3. Issues and problems we are facing now
+
+- **P3i ~0.7° systematic angle offset** (argmin 50.0° vs 49.29°, stable under refinement). Cause: cap-flank offset `R_cap·cos(2α)/cosα` + truncation + Eₙ reconstruction floor. Residual angle resolution is only ±1° (V-shape curvature < 1e-4 Pa/deg vs discretization floor). Ticket's ±0.5° target adjusted to ±1.5°; the identity (ratio 1.009) is the strong exact result.
+- **`apex_radius` direction weakly bound-favoring** — no interior minimum in apex radius without a volume/contact-line constraint. Documented as future work; do not claim a preferred apex radius.
+- **Grounded-box problem cannot recover 49.29°** (P3iii) — larger box → larger argmin; needs paper write-up as a model property (truncated perfect cone in a finite grounded box ≠ Taylor meniscus).
+- **Stale docs:** `IMPLEMENTATION_SUMMARY.md` and `COMPLETE_STATUS_REPORT.md` still claim 50 tests, the old weak convergence test (`errors[1] < 0.7·errors[0]`), and the pre-`8e2a2c8` "no gas-side third point" failure mode. `IMPLEMENTATION_STATUS.md` also has stale test counts ("34 passed", examples list missing 07–09). S7 hygiene not done.
+- **Open plan items:** S3 (formal Eₙ convergence-order assertion in CI, target ≥ 1.5 — only accuracy tests exist so far), S4 (negative Gaussian `S_E ≈ −0.7%`), S5 (verify `E_c ≈ 1.625(γ/ε₀R)^½` against Taylor 1964 before coding), S6 (onset-voltage vs Cloupeau–Prunet-Foch / Hartman), E1 (cache shape-independent threshold re-solve), E3 (delete or implement `SolverParams`, `solver/config.py:41`), E4 (residual/normal sign-convention note). B1 drift-dominated ion closure and D leaky dielectric are deferred (V4 scope).
+- **Merged branch `feat/immersed-free-boundary` not yet deleted** (`git push origin --delete` pending, S7).
+
+## 4. Blockers right now
+
+- **No volume/contact-line constraint** — structural: the YLM residual over the analytic cone family has no preferred apex radius; the well-posedness of the angle direction comes from the onset projection (P2), not from a physical anchor. Fix is future work (spec §5).
+- **Angle-resolution floor (~±1°)** — the discretization floor prevents asserting angle accuracy better than ~1°; the committed claim is the imposed-Taylor identity (≤ 3%) + argmin ∈ [48, 51]°, not 49.29° itself on the grounded box.
+- **Physical experiments (Track B) blocked on school approval** — ISEF/SRC approval + supervisor + safety review required for high-voltage/ethanol work. Do not proceed until approved.
+- **Guardrails (do not claim):** "recovered 49.29° on the grounded box"; 2nd-order *fields* (Eₙ, Maxwell pressure) until S3 is measured; "shielding" while `S_E < 0`; the `V0* ≈ 23 V` units-bug figure (correct value ≈ 25–29 kV).
+
+## 5. Codebase hygiene note
+
+**The codebase is getting messy — before continuing feature work, review the code for duplicate and unnecessary code.** Known evidence: stale documentation with wrong test counts/failure-mode claims (see §3), the unused `SolverParams` (E3), the legacy staircase path coexisting with the immersed path (`electrostatics.py`), the dead 4-point-stencil remnants if any, and the un-deleted merged branch. A `code-review` / `explore` pass plus the S7 hygiene list is the right entry point.
+
+## 6. Suggested skills for the next agent
+
+- `code-review` — before any PR-shaped change (also for the hygiene pass in §5).
+- `explore` — wide-net survey of `solver/` for duplicate/dead code paths (immersed vs legacy).
+- `test` / `tdd` — run `pytest`, extend for S3 (Eₙ order) test-first.
+- `grill-with-docs` / `grilling` — sharpen the paper milestone / onset framing claims before writing them up.
+- `handoff` — when finishing this next session.
+- `developing-with-streamlit` — required for any Streamlit app work.
+- `domain-modeling` — only if terminology drift is suspected; `CONTEXT.md` already exists.
+
+## 7. Recommended reading order for a fresh agent
 
-The project should **not** be framed as a full industrial CFD or complete electrospray emission simulator.
-
-Correct framing:
-
-> A reduced-order axisymmetric electrostatic-capillary solver with effective space-charge shielding.
-
-Avoid overclaiming:
-
-- full transient Navier–Stokes cone-jet dynamics,
-- molecular ion evaporation,
-- droplet breakup distributions,
-- full plasma simulation,
-- full Taylor–Melcher leaky-dielectric dynamics unless actually implemented,
-- replacement for COMSOL/ANSYS.
-
-The novelty is accessibility + mathematical transparency:
-
-- sparse Python solver,
-- open formulation,
-- classical Taylor-angle benchmark,
-- Poisson shielding extension,
-- consumer-hardware runtime.
-
----
-
-## 3. Current safety / experiment status
-
-The physical experiment is **deferred** until school resumes and approvals/supervision are available.
-
-Do not help build or operate high-voltage hardware in the current phase. The planned experiment may later involve electrospray, ethanol, and high voltage, but for now all work should remain computational.
-
-Safety notes already established:
-
-- ISEF/SRC approval likely required before construction.
-- Project may fall under hazardous devices/chemicals due to high voltage and ethanol.
-- Current folder focus is theory and solver only.
-
----
-
-## 4. Key files currently in the folder
-
-### Main deliverables requested by user
-
-#### `theoretical_derivations.pdf`
-
-The main theory PDF. It contains the physics/math derivations needed before coding.
-
-Source:
-
-```text
-theoretical_derivations.tex
-```
-
-It covers:
-
-- classical Taylor cone derivation,
-- 49.3° Taylor angle,
-- apex singularity,
-- axisymmetric Laplace equation,
-- axisymmetric Poisson equation,
-- Maxwell stress,
-- capillary curvature,
-- Young–Laplace–Maxwell residual,
-- space-charge shielding closures,
-- nondimensionalization,
-- theoretical success criteria.
-
-#### `implementation_outline.md`
-
-The CS/coding implementation outline. It explains how to make the model work in code.
-
-It covers:
-
-- product goal,
-- computational pipeline,
-- proposed repository structure,
-- data structures,
-- module responsibilities,
-- sparse matrix assembly,
-- boundary conditions,
-- electric field reconstruction,
-- interface representation,
-- residual computation,
-- space-charge iteration,
-- shape optimization,
-- tests,
-- numerical risks,
-- milestone plan.
-
-### Earlier combined theory document
-
-#### `theory.pdf`
-#### `theory.tex`
-
-Earlier combined theory + implementation-plan PDF. It is still useful but has now been superseded as the main deliverable by:
-
-- `theoretical_derivations.pdf`
-- `implementation_outline.md`
-
-### Obsidian vault files
-
-This folder can be opened directly as an Obsidian vault.
-
-Important files:
-
-```text
-00_Index.md
-Solver_Architecture_Map.canvas
-notes/Solver/00_Solver_Architecture_Map.md
-notes/Solver/01_Model_Hierarchy.md
-notes/Solver/02_Data_Flow.md
-notes/Solver/03_Module_Map.md
-notes/Solver/04_Numerical_Core.md
-notes/Solver/05_Interface_and_Residual.md
-notes/Solver/06_Space_Charge_Shielding.md
-notes/Solver/07_Shape_Optimization.md
-notes/Solver/08_Verification_and_Tests.md
-notes/Solver/09_Online_App_Interface.md
-notes/Theory/Taylor Cone Theory.md
-notes/Theory/Axisymmetric Electrostatics.md
-notes/Theory/Young-Laplace-Maxwell Balance.md
-notes/Theory/Space Charge Theory.md
-notes/Implementation/Implementation_Roadmap.md
-notes/Experiment_Later/Experiment_Later.md
-```
-
-The Obsidian map is useful for architecture navigation but the user recently requested two clearer separate deliverables. Do not delete the Obsidian vault unless asked.
-
----
-
-## 5. Current theoretical model
-
-### 5.1 Classical Taylor cone
-
-The analytical benchmark is the classical Taylor cone.
-
-Exterior charge-free potential satisfies:
-
-```math
-\nabla^2 \phi = 0
-```
-
-Near a conical apex:
-
-```math
-\phi(\rho,\vartheta)=A\rho^\nu P_\nu(\cos\vartheta)
-```
-
-Stress scaling gives:
-
-```math
-\nu=\frac12
-```
-
-Conducting cone boundary gives:
-
-```math
-P_{1/2}(\cos\vartheta_0)=0
-```
-
-Relevant root:
-
-```math
-\vartheta_0\approx130.7^\circ
-```
-
-Physical semi-vertical angle:
-
-```math
-\alpha_T\approx49.3^\circ
-```
-
-This must be recovered in the ideal zero-space-charge limit.
-
-### 5.2 Apex singularity
-
-The ideal Taylor solution has:
-
-```math
-E\sim\rho^{-1/2}
-```
-
-so the field diverges near the apex. The project models regularization through finite numerical resolution and Poisson space-charge shielding.
-
-### 5.3 Axisymmetric electrostatics
-
-Axisymmetric operator:
-
-```math
-\nabla^2\phi = \frac{1}{r}\frac{\partial}{\partial r}\left(r\frac{\partial\phi}{\partial r}\right)+\frac{\partial^2\phi}{\partial z^2}
-```
-
-Laplace model:
-
-```math
-\nabla^2\phi=0
-```
-
-Poisson model:
-
-```math
-\nabla^2\phi=-\frac{\rho_e}{\varepsilon_0}
-```
-
-Boundary conditions:
-
-- powered conductor/liquid: `phi = V0`,
-- grounded extractor: `phi = 0`,
-- axis: `dphi/dr = 0`,
-- far boundary: Dirichlet or Neumann, to be tested.
-
-### 5.4 Maxwell stress and capillary stress
-
-For conducting liquid:
-
-```math
-p_E = \frac{\varepsilon_0}{2}E_n^2
-```
-
-Axisymmetric graph interface `r = R(z)` curvature:
-
-```math
-\kappa = \frac{1}{R\sqrt{1+R_z^2}} - \frac{R_{zz}}{(1+R_z^2)^{3/2}}
-```
-
-Young–Laplace–Maxwell residual:
-
-```math
-\mathcal R = \gamma\kappa - \Delta p - \frac{\varepsilon_0}{2}E_n^2
-```
-
-The solver should quantify residual RMS and use it as the main physical diagnostic.
-
-### 5.5 Space charge closures
-
-First supported closures:
-
-#### Gaussian shielding cloud
-
-```math
-\rho_e(r,z)=\rho_0\exp\left[-\frac{(r-r_a)^2+(z-z_a)^2}{2\ell^2}\right]
-```
-
-#### Threshold-activated effective charge
-
-```math
-\rho_e=\rho_{\max}\left[1-\exp\left(-\frac{|E|-E_c}{E_s}\right)\right]_+
-```
-
-Use fixed-point iteration with under-relaxation:
-
-```math
-\rho_e^{k+1}=(1-\omega)\rho_e^k+\omega\widetilde\rho_e^{k+1}
-```
-
----
-
-## 6. Intended software architecture
-
-The intended Python structure is described in `implementation_outline.md`.
-
-Recommended package layout:
-
-```text
-solver/
-  __init__.py
-  config.py
-  grid.py
-  geometry.py
-  boundary_conditions.py
-  operators.py
-  electrostatics.py
-  fields.py
-  interface.py
-  residual.py
-  space_charge.py
-  optimization.py
-  verification.py
-  plotting.py
-  app_backend.py
-
-examples/
-  00_taylor_angle_benchmark.py
-  01_laplace_basic_electrodes.py
-  02_laplace_cone_field.py
-  03_poisson_gaussian_shielding.py
-  04_threshold_space_charge.py
-  05_interface_residual_demo.py
-  06_shape_optimization_demo.py
-
-tests/
-  test_grid.py
-  test_axis_operator.py
-  test_boundary_conditions.py
-  test_manufactured_poisson.py
-  test_fields.py
-  test_curvature.py
-  test_space_charge.py
-
-app/
-  streamlit_app.py
-```
-
-Do not start with the app. Start with numerical core.
-
-Recommended coding order:
-
-```text
-1. grid.py
-2. operators.py
-3. boundary_conditions.py
-4. electrostatics.py
-5. verification.py manufactured Poisson test
-6. fields.py
-7. interface.py
-8. residual.py
-9. space_charge.py Gaussian model
-10. space_charge.py threshold model
-11. plotting.py
-12. optimization.py
-13. app_backend.py
-14. streamlit_app.py
-```
-
----
-
-## 7. Numerical implementation details to preserve
-
-### 7.1 Sparse matrices only
-
-Use SciPy sparse matrices. Avoid dense matrices.
-
-Matrix system:
-
-```math
-A\phi=b
-```
-
-Matrix size:
-
-```text
-(nr * nz) by (nr * nz)
-```
-
-Nonzeros should scale like:
-
-```text
-O(nr * nz)
-```
-
-not:
-
-```text
-O((nr * nz)^2)
-```
-
-### 7.2 Grid indexing
-
-Use a consistent flattening convention. Recommended in outline:
-
-```text
-k = i * nz + j
-```
-
-where:
-
-- `i` = radial index,
-- `j` = axial index.
-
-### 7.3 Axis stencil
-
-At `r = 0`, do not divide by `r`. Use:
-
-```math
-\lim_{r\to0}\left(\phi_{rr}+\frac{1}{r}\phi_r\right)=2\phi_{rr}(0,z)
-```
-
-Discrete radial part:
-
-```math
-2\phi_{rr}(0,z_j)\approx\frac{4(\phi_{1,j}-\phi_{0,j})}{\Delta r^2}
-```
-
-### 7.4 Dirichlet boundary implementation
-
-For node `k`:
-
-```python
-A[k, :] = 0
-A[k, k] = 1
-b[k] = value
-```
-
-### 7.5 Electric field reconstruction
-
-```text
-Er = -dphi/dr
-Ez = -dphi/dz
-E_mag = sqrt(Er^2 + Ez^2)
-```
-
-Use central differences inside and one-sided differences at boundaries.
-
-### 7.6 Residual pressure offset
-
-The pressure constant `Delta_p` can initially be eliminated with:
-
-```math
-\Delta p = \mathrm{mean}(\gamma\kappa-p_E)
-```
-
-Then:
-
-```math
-\mathcal R = (\gamma\kappa-p_E)-\mathrm{mean}(\gamma\kappa-p_E)
-```
-
-This is useful before full pressure/volume constraints are implemented.
-
----
-
-## 8. Verification targets
-
-Before claiming the solver works, verify:
-
-1. **Manufactured Poisson solution** — choose known `phi_exact`, compute source, verify convergence.
-2. **Axis regularity** — confirm `dphi/dr = 0` at `r=0`.
-3. **Dirichlet boundary enforcement** — powered and grounded nodes match assigned potentials.
-4. **Voltage scaling** — field scales like `V0`; Maxwell pressure scales like `V0^2`.
-5. **Curvature tests** — known simple shapes give correct curvature.
-6. **Taylor angle benchmark** — ideal limit approaches `49.3°`.
-7. **Shielding sanity test** — Poisson space charge changes/reduces peak field in intended cases.
-8. **Runtime scaling** — record runtime and nonzero counts versus grid size.
-
----
-
-## 9. Current dependencies / tools
-
-LaTeX compiler available:
-
-```text
-/Users/a1/miniforge3/bin/tectonic
-```
-
-To compile theory PDF:
-
-```bash
-cd /Users/a1/ISEF_physics
-/Users/a1/miniforge3/bin/tectonic theoretical_derivations.tex
-```
-
-Python environment likely has Miniforge. Use:
-
-```bash
-python3
-```
-
-or Miniforge Python if needed:
-
-```bash
-/Users/a1/miniforge3/bin/python
-```
-
-When coding starts, likely dependencies:
-
-```text
-numpy
-scipy
-matplotlib
-pytest
-streamlit  # later
-```
-
-Do not assume all are installed. Check first.
-
----
-
-## 10. What has already been done
-
-Completed:
-
-- Created `/Users/a1/ISEF_physics`.
-- Created theory LaTeX and PDF documents.
-- Created separated theoretical derivations PDF.
-- Created separated implementation outline Markdown file.
-- Built Obsidian vault and architecture map.
-- Installed/used `tectonic` via Miniforge for LaTeX compilation.
-
-Important files produced:
-
-```text
-theoretical_derivations.pdf
-theoretical_derivations.tex
-implementation_outline.md
-theory.pdf
-theory.tex
-00_Index.md
-Solver_Architecture_Map.canvas
-AI_HANDOVER.md
-```
-
----
-
-## 10A. Current implementation status
-
-Version 1 and Version 2 are complete. Version 3 Track A item 1 (threshold
-closure coupled into the shape optimizer) is also complete. All of it is
-pushed to GitHub.
-
-Latest implementation commits:
-
-```text
-7bef973  Couple threshold closure into shape optimizer (Track A item 1)
-1b06cf2  Fix deprecated use_container_width and misleading half-angle label
-86df51a  Implement Streamlit app (ticket 05)
-455a356  Implement app backend (ticket 04)
-28204e5  Implement shape optimizer (ticket 03)
-81a5ace  Strengthen V1 test foundations (ticket 02)
-b9fbb84  Implement threshold-activated space-charge closure (ticket 01)
-```
-
-Implemented folders/files:
-
-```text
-solver/          — full numerical core (V1 + V2)
-tests/           — 34 passing tests
-examples/        — 7 runnable scripts (00–06)
-app/             — Streamlit app
-scripts/         — report generation
-docs/            — agent config, running guide, literature evidence
-results/         — numerical report and CSV
-IMPLEMENTATION_STATUS.md
-CONTEXT.md
-docs/adr/        — ADR-0001 (analytic cone family), ADR-0002 (threshold+optimizer decoupled)
-.scratch/        — V1 and V2 specs and tickets (local issue tracker)
-```
-
-Run tests with:
-
-```bash
-.venv/bin/python -m pytest -q
-```
-
-Expected result:
-
-```text
-34 passed
-```
-
-Run the Streamlit app with:
-
-```bash
-streamlit run app/streamlit_app.py
-```
-
-See `IMPLEMENTATION_STATUS.md` for full module list, test coverage, and known caveats.
-
----
-
-## 11. Recommended next task
-
-Version 1 and Version 2 are complete. The next phase is **Version 3**, but it has two distinct tracks:
-
-### Track A — Computational V3 (in progress)
-
-1. ✅ **Couple threshold closure inside the optimizer loop** — done (commit `7bef973`; see ADR-0002). Passing `sc_params=...` to `optimize_cone_shape()` runs the threshold fixed-point loop inside every optimizer evaluation.
-2. **Improve the conical-conductor geometry** to reduce the ~6° optimizer angle error. The grid-mask `conical_conductor` is not a sharp immersed boundary; a proper sharp-cone or ghost-cell/immersed-boundary representation would let the optimizer recover closer to 49.3°. Literature research is in `.scratch/taylor-cone-fd-bcs/research.md`.
-3. **Leaky-dielectric liquid potential** — add the inner liquid domain solve and surface charge conservation to `electrostatics.py`.
-
-### Track B — Experimental V3 (gated on school approval)
-
-Before any experimental work: obtain ISEF/SRC approval, school supervisor sign-off, and required safety review for high-voltage and ethanol handling.
-
-Once approved:
-1. Set up electrospray testbed (nozzle, extractor, high-voltage supply, camera).
-2. Capture side-view images of Taylor cone at varying voltages.
-3. Extract cone half-angle and onset voltage from images.
-4. Compare against solver predictions using `examples/05_shape_optimization_demo.py`.
-
-**Do not proceed with experimental track until approvals are in place.**
-
-### Starting point for a new agent
-
-Read in order:
 1. `AI_HANDOVER.md` (this file)
-2. `IMPLEMENTATION_STATUS.md` — current module list, test count, caveats
-3. `CONTEXT.md` — domain glossary
-4. `docs/adr/` — ADR-0001 and ADR-0002
-5. `.scratch/taylor-cone-solver-v2/spec.md` — V2 spec for context on what was built
-6. `implementation_outline.md` — original architecture plan (mostly realized)
-7. `.scratch/taylor-cone-fd-bcs/research.md` — active research on the sharp-cone boundary-condition fix (staircase error → ghost-cell correction)
+2. `.scratch/taylor-onset-framing/spec.md` — milestone spec, all tickets done, guardrails
+3. `docs/plans/2026-08-09-next-steps.md` — findings + remaining S1–S7 items
+4. `IMPLEMENTATION_STATUS.md` — module list, caveats (note stale test counts)
+5. `CONTEXT.md` — domain glossary
+6. `docs/adr/0001`–`0003`
+7. `examples/08_immersed_refinement_study.py`, `examples/09_ideal_limit_study.py`, `tests/test_taylor_onset.py` — the evidence trail
+8. `.scratch/taylor-cone-fd-bcs/research.md` — earlier sharp-cone research context
 
----
+## 8. Communication style with the user
 
-## 12. Communication style with user
-
-The user wants serious physics/math treatment and is comfortable with advanced material. Do not oversimplify unnecessarily.
-
-However, maintain project discipline:
-
-- distinguish theory from implementation,
-- distinguish reduced model from full EHD,
-- avoid unsafe experiment instructions,
-- keep deliverables organized in files,
-- use exact paths when reporting work.
-
-The user may ask for professor/lab-assistant style guidance. It is appropriate to challenge assumptions and refine claims.
-
----
-
-## 13. If another AI continues
-
-Start by reading these files in order:
-
-1. `AI_HANDOVER.md`
-2. `implementation_outline.md`
-3. `theoretical_derivations.tex` or `theoretical_derivations.pdf`
-4. `notes/Solver/03_Module_Map.md`
-5. `notes/Solver/04_Numerical_Core.md`
-6. `notes/Solver/08_Verification_and_Tests.md`
-
-Then check `IMPLEMENTATION_STATUS.md` and `docs/adr/` for the current state, and ask the user whether to continue V3 Track A (sharp-cone geometry, leaky-dielectric, current-constrained closure) or refine the theory.
+Serious physics/math treatment; comfortable with advanced material; do not oversimplify. Maintain project discipline: distinguish theory from implementation, reduced model from full EHD, and keep claims inside the guardrails (§4). Use exact paths when reporting. Challenge assumptions and refine claims when asked for professor/lab-assistant style guidance.
