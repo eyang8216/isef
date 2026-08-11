@@ -8,8 +8,12 @@ Plotly figure builders live here and return `plotly.graph_objects.Figure` object
 
 from __future__ import annotations
 
+import json
+import os
+import tempfile
 import time
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from datetime import datetime, timezone
 from typing import Literal
 
 import numpy as np
@@ -525,3 +529,141 @@ def figure_imposed_taylor_field(result: ImmersedVerificationResult) -> go.Figure
         yaxis_scaleanchor="x",
     )
     return fig
+
+
+# ---------------------------------------------------------------------------
+# JSON serialization of runs — writes the full parameter set plus compact
+# output summaries to a file so agents can inspect what the solver computed
+# without re-running the app. Pure Python: no streamlit dependency.
+# ---------------------------------------------------------------------------
+
+def _array_summary(name: str, a: np.ndarray) -> dict:
+    """JSON-safe compact summary of a field array (agents read this instead of
+    the raw grids, which can be large)."""
+    a = np.asarray(a, dtype=float)
+    return {
+        "name": name,
+        "shape": list(a.shape),
+        "size": int(a.size),
+        "min": float(np.nanmin(a)),
+        "max": float(np.nanmax(a)),
+        "mean": float(np.nanmean(a)),
+        "std": float(np.nanstd(a)),
+        "rms": float(np.sqrt(np.nanmean(a**2))),
+        "nan_count": int(np.isnan(a).sum()),
+    }
+
+
+def solver_run_to_dict(params: RunParams, result: SolverResult) -> dict:
+    """JSON-serializable snapshot of a classic solver run.
+
+    Includes every input parameter (``asdict(params)``) plus all scalar
+    outputs and compact summaries of the field/geometry arrays.
+    """
+    return {
+        "schema": "isef-taylor-cone/classic-run",
+        "schema_version": 1,
+        "kind": "classic_solver_run",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "parameters": asdict(params),
+        "outputs": {
+            "half_angle_deg": float(result.half_angle),
+            "peak_field_V_m": float(result.peak_field),
+            "rms_residual_Pa": float(result.rms_residual),
+            "shielding_metric_SE": (float(result.shielding_metric)
+                                    if result.shielding_metric is not None else None),
+            "runtime_s": float(result.runtime_s),
+            "converged": bool(result.converged),
+            "iterations": int(result.iterations),
+        },
+        "grid": {
+            "nr": int(result.grid_r.size),
+            "nz": int(result.grid_z.size),
+            "r_min": float(np.min(result.grid_r)),
+            "r_max": float(np.max(result.grid_r)),
+            "z_min": float(np.min(result.grid_z)),
+            "z_max": float(np.max(result.grid_z)),
+        },
+        "fields": {
+            "phi": _array_summary("phi", result.phi),
+            "Er": _array_summary("Er", result.Er),
+            "Ez": _array_summary("Ez", result.Ez),
+            "E_mag": _array_summary("E_mag", result.E_mag),
+            "rho_e": _array_summary("rho_e", result.rho_e),
+        },
+        "interface": {
+            "half_angle_deg": float(result.half_angle),
+            "n_points": int(result.interface_R.size),
+            "R_min": float(np.min(result.interface_R)),
+            "R_max": float(np.max(result.interface_R)),
+            "z_min": float(np.min(result.interface_z)),
+            "z_max": float(np.max(result.interface_z)),
+        },
+        "residual_profile": {
+            "n_points": int(result.residual_profile.size),
+            "min_Pa": float(np.min(result.residual_profile)),
+            "max_Pa": float(np.max(result.residual_profile)),
+            "rms_Pa": float(result.rms_residual),
+        },
+    }
+
+
+def verification_run_to_dict(params: ImmersedVerificationParams,
+                             result: ImmersedVerificationResult) -> dict:
+    """JSON-serializable snapshot of an immersed-verification run.
+
+    Includes every input parameter plus the recovered angle, onset voltage,
+    Taylor-identity outputs, and the full residual-landscape curve.
+    """
+    return {
+        "schema": "isef-taylor-cone/verification-run",
+        "schema_version": 1,
+        "kind": "immersed_verification_run",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "parameters": asdict(params),
+        "outputs": {
+            "recovered_angle_deg": float(result.recovered_angle_deg),
+            "onset_voltage_V": (float(result.onset_voltage_V)
+                                if result.onset_voltage_V is not None else None),
+            "min_rms_Pa": float(result.min_rms_Pa),
+            "taylor_angle_deg": float(result.taylor_angle_deg),
+            "identity_ratio_V0_over_A": (float(result.identity_ratio)
+                                         if result.identity_ratio is not None else None),
+            "identity_argmin_deg": (float(result.identity_argmin_deg)
+                                    if result.identity_argmin_deg is not None else None),
+            "runtime_s": float(result.runtime_s),
+        },
+        "landscape": {
+            "n_points": int(result.landscape_angles.size),
+            "angles_deg": [float(x) for x in result.landscape_angles],
+            "rms_Pa": [float(x) for x in result.landscape_rms],
+        },
+        "imposed_taylor_field": (
+            _array_summary("phi_identity", result.phi_identity)
+            if result.phi_identity is not None else None
+        ),
+    }
+
+
+def write_results_json(path: str | os.PathLike, payload: dict) -> str:
+    """Atomically write *payload* as pretty JSON to *path* (creates parent
+    directories). Returns the path as a string."""
+    path = os.fspath(path)
+    parent = os.path.dirname(path) or "."
+    os.makedirs(parent, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=".results-", suffix=".json", dir=parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            # allow_nan=False: refuse to write NaN/Infinity (invalid RFC 8259
+            # JSON) instead of producing a file strict parsers cannot read.
+            json.dump(payload, fh, indent=2, allow_nan=False)
+            fh.write("\n")
+        os.replace(tmp, path)
+        os.chmod(path, 0o644)  # readable by other users/agents
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+    return path

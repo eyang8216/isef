@@ -5,6 +5,8 @@ closure/tuning inputs in an expander. Run button triggers run_solver()
 via app_backend. Plotting via Plotly — no matplotlib in this file.
 """
 
+from pathlib import Path
+
 import pandas as pd
 import streamlit as st
 
@@ -21,7 +23,14 @@ from solver.app_backend import (
     figure_verification_landscape,
     run_immersed_verification,
     run_solver,
+    solver_run_to_dict,
+    verification_run_to_dict,
+    write_results_json,
 )
+
+# Directory for agent-facing results files (repo-root/results, same convention
+# as scripts/generate_v1_report.py).
+RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 
 st.set_page_config(
     page_title="Taylor-Cone Solver",
@@ -154,6 +163,16 @@ with tab_classic:
         else:
             st.session_state.last_result = result
             st.session_state.last_params = params
+            try:
+                results_path = write_results_json(
+                    RESULTS_DIR / "latest_solver_run.json",
+                    solver_run_to_dict(params, result),
+                )
+            except Exception as exc:
+                st.warning(f"Could not write results file: {exc}", icon=":material/warning:")
+            else:
+                st.caption(f"Results written to `{results_path}` — full input parameters "
+                           "and output summaries in JSON for agent consumption.")
 
     result = st.session_state.get("last_result")
 
@@ -247,16 +266,25 @@ with tab_verif:
                           icon=":material/experiment:")
 
     if run_verif:
+        verif_params = ImmersedVerificationParams(nr=verif_nr, nz=verif_nz)
         try:
             with st.spinner("Running immersed verification…"):
-                verif = _run_verification_cached(
-                    ImmersedVerificationParams(nr=verif_nr, nz=verif_nz)
-                )
+                verif = _run_verification_cached(verif_params)
         except Exception as exc:
             st.error(f"Verification error: {exc}", icon=":material/error:")
             verif = None
         else:
             st.session_state.last_verification = verif
+            try:
+                results_path = write_results_json(
+                    RESULTS_DIR / "latest_verification_run.json",
+                    verification_run_to_dict(verif_params, verif),
+                )
+            except Exception as exc:
+                st.warning(f"Could not write results file: {exc}", icon=":material/warning:")
+            else:
+                st.caption(f"Results written to `{results_path}` — full input parameters "
+                           "and output summaries in JSON for agent consumption.")
 
     verif = st.session_state.get("last_verification")
 
