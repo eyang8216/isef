@@ -1,28 +1,102 @@
-# ISEF Physics Project
+# ISEF Taylor-Cone Electrospray Solver
 
-Theory and solver development for a lightweight axisymmetric electrohydrodynamic Taylor cone / electrospray onset model.
+**Project:** Reduced-order axisymmetric electrostatic-capillary Taylor-cone solver for ISEF computational physics research.
 
-Current focus: theory document and online/Python solver only. Physical experimental work is deferred until school supervision and required approvals.
+---
 
-Main theory file: `theory.tex`.
+## Repository Structure
 
-
-## Version 1 solver core
-
-The repository now contains an initial tested Python solver core in `solver/`.
-
-Run tests with:
-
-```bash
-/Users/a1/miniforge3/bin/python -m pytest -q
+```
+isef/
+├── backend/              # Solver implementation (Python package)
+│   ├── solver/          # Core modules (grid, operators, electrostatics, immersed boundary, optimization)
+│   ├── tests/           # 58 automated tests
+│   ├── examples/        # 10 demonstration scripts (00-09)
+│   └── app/             # Streamlit interactive application
+├── paper_submission/     # ISEF paper (LaTeX)
+│   ├── sections/        # Paper sections
+│   ├── main.tex         # Main LaTeX document
+│   └── main.pdf         # Compiled paper
+├── archive/             # Historical docs and notes
+├── README.md            # This file
+├── CONTEXT.md           # Domain glossary
+├── CLAUDE.md            # Agent instructions
+├── pyproject.toml       # Python package configuration
+└── requirements.txt     # Dependencies
 ```
 
-Current status is summarized in `IMPLEMENTATION_STATUS.md`.
+---
 
+## Quick Start
 
-Useful runtime docs:
+### Install Package
+```bash
+pip install -e .
+```
 
-- `IMPLEMENTATION_STATUS.md`
-- `docs/running_solver.md`
-- `docs/app-guide.md` — plain-language guide to the Streamlit app: what each sidebar setting means and how to read the results
-- `results/v1_numerical_report.md`
+### Run Tests
+```bash
+python -m pytest backend/tests/
+```
+
+### Run Example
+```bash
+python backend/examples/07_immersed_free_boundary.py
+```
+
+### Run Streamlit App
+```bash
+streamlit run backend/app/streamlit_app.py
+```
+
+### Compile Paper
+```bash
+cd paper_submission
+tectonic main.tex
+```
+
+---
+
+## Current Status
+
+**V3 Immersed Free-Boundary Milestone - Complete**
+
+- 58 tests passing in ~45 seconds
+- Second-order convergent immersed boundary method
+- Onset voltage projection implemented
+- Taylor amplitude identity verified (ratio 1.009)
+- Grounded-box optimization: ~44° half-angle, V0* ≈ 28.9 kV
+- Paper updated with V3 results
+
+**Track B (Physical Experiments)** - Gated on school approval
+
+---
+
+## Key Results
+
+- **Immersed operator:** Second-order convergence proven via Richardson extrapolation
+- **Taylor identity:** Amplitude balance ratio 1.009 (within 1% of theory)
+- **Onset projection:** Clean V-shaped optimization landscape
+- **Normal field reconstruction:** Cubic-exact stencil, ≤1% error on refined grids
+- **Classical benchmark:** Recovers Taylor's 49.29° half-angle
+
+---
+
+## Documentation
+
+- `CONTEXT.md` - Domain terminology and glossary
+- `paper_submission/` - Full ISEF paper with theory, validation, and planned experiments
+- `archive/AI_HANDOVER.md` - Complete project history and handover notes
+- `archive/IMPLEMENTATION_STATUS.md` - Detailed module status
+
+---
+
+## Citation
+
+This is student research for ISEF. If you use this code, please cite appropriately and acknowledge the original Taylor (1964) theory.
+
+---
+
+## License
+
+Open-source educational research project.

@@ -17,10 +17,13 @@ Module & Responsibility \\
 \texttt{boundary\_conditions.py} & Dirichlet boundary insertion \\
 \texttt{electrostatics.py} & Laplace/Poisson solve entry points \\
 \texttt{fields.py} & Electric-field reconstruction and interpolation \\
+\texttt{geometry.py} & ImplicitCone with C1 rounded cap-flank geometry \\
+\texttt{immersed.py} & Fractional-distance immersed Dirichlet stencils \\
 \texttt{interface.py} & Interface geometry, curvature, half-angle extraction \\
 \texttt{residual.py} & Young--Laplace--Maxwell residual diagnostics \\
 \texttt{space\_charge.py} & Gaussian and threshold space-charge closures \\
-\texttt{optimization.py} & Low-dimensional cone-family shape optimization \\
+\texttt{optimization.py} & Cone-family shape optimization with onset projection \\
+\texttt{verification.py} & Immersed verification workflows \\
 \texttt{app\_backend.py} & Streamlit-independent backend for interactive app \\
 \bottomrule
 \end{tabular}
@@ -32,12 +35,13 @@ A typical solver run follows this sequence:
 \begin{enumerate}
     \item Input physical and numerical parameters, including voltage, surface tension, domain size, and grid resolution.
     \item Build a two-dimensional axisymmetric $(r,z)$ grid.
-    \item Construct electrode and boundary masks.
+    \item Construct electrode and boundary masks (or use immersed boundary representation).
     \item Assemble the sparse axisymmetric Laplace/Poisson matrix.
-    \item Apply boundary conditions and solve $A\bm{\ph}=\bm{b}$.
+    \item Apply boundary conditions (staircase or immersed Dirichlet stencils) and solve $A\bm{\ph}=\bm{b}$.
     \item Reconstruct $\Er$, $\Ez$, and $\Emag$.
-    \item Sample a candidate interface $R(z)$.
-    \item Compute interface normals, curvature, Maxwell pressure, capillary pressure, and residual.
+    \item Sample a candidate interface $R(z)$ from the ImplicitCone geometry.
+    \item Compute interface normals, curvature, Maxwell pressure (from immersed $E_n$ reconstruction), capillary pressure, and residual.
+    \item For immersed free-boundary optimization, project out the onset voltage $V_0^*$ per candidate.
     \item Optionally update the space-charge closure and repeat the Poisson solve until convergence.
     \item Return diagnostics, plots, and exported arrays.
 \end{enumerate}
@@ -48,4 +52,4 @@ The solver uses sparse matrices rather than dense matrices. For a grid of $n_r\t
 
 \subsection{Interactive App}
 
-The repository includes a Streamlit application that exposes basic parameters such as voltage, surface tension, electrode spacing, domain radius, grid resolution, and space-charge model. It returns scalar diagnostics and Plotly visualizations of potential, electric-field magnitude, space-charge density, interface overlay, and residual profile. The app is a demonstration and analysis interface; the scientific contribution remains the solver and validation workflow.
+The repository includes a Streamlit application that exposes basic parameters such as voltage, surface tension, electrode spacing, domain radius, grid resolution, and space-charge model. The app has two tabs: a \emph{Classic} tab for the legacy staircase boundary representation, and an \emph{Immersed verification} tab that demonstrates the grounded-box onset-projected optimization and the imposed-Taylor identity verification. It returns scalar diagnostics and Plotly visualizations of potential, electric-field magnitude, space-charge density, interface overlay, and residual profile. The app is a demonstration and analysis interface; the scientific contribution remains the solver and validation workflow.
