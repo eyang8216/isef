@@ -1,0 +1,207 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{siunitx}
+\usepackage{xcolor}
+
+\hypersetup{colorlinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black}
+\setlist[itemize]{topsep=3pt,itemsep=3pt}
+\setlist[enumerate]{topsep=3pt,itemsep=3pt}
+\sisetup{detect-all=true,per-mode=symbol}
+
+\title{\textbf{Experimental Validation Plan for a Lightweight Taylor-Cone Solver}\\\large Safety-Review Draft}
+\author{Curtis, Ethan, and Elliott}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{red!60!black}{red!4}{\parbox{0.91\linewidth}{
+\textbf{Approval gate.} This document is a proposal for review, not authorization to construct or operate an apparatus. No high-voltage equipment or flammable liquid will be purchased for the testbed, assembled, energized, or tested until the school has approved the final risk assessment, complete schematics, supervision plan, and applicable SRC/ISEF documentation. Any unresolved safety concern stops the physical experiment.
+}}
+\end{center}
+
+\section{Purpose and scientific scope}
+
+The project has developed a lightweight two-dimensional axisymmetric electrostatic--capillary solver for Taylor-cone onset. The solver uses an immersed boundary representation, projects the voltage required to balance capillary and Maxwell stresses, and numerically reproduces the classical Taylor-angle region. The purpose of the proposed experiment is to test whether this reduced-order model predicts two directly observable quantities:
+\begin{enumerate}
+    \item the cone half-angle and interface profile near onset; and
+    \item the onset-voltage trend for a fixed liquid and controlled electrode geometry.
+\end{enumerate}
+
+The experiment is not intended to demonstrate propulsion, optimize a cone-jet device, or characterize droplet breakup. Its scope is static or near-onset validation of the reduced model. Taylor's analytical result and later electrohydrodynamic literature provide the theoretical context for the comparison \cite{taylor1964disintegration,fernandez2007fluid,melcher1969electrohydrodynamics,saville1997electrohydrodynamics,hartman1999electrohydrodynamic}.
+
+\section{Predictions to be frozen before testing}
+
+Before experimental data are viewed, the team will record a frozen simulation package containing the Git commit, dependency versions, geometry, liquid properties, grid resolution, boundary conditions, predicted half-angle, predicted onset voltage, residual landscape, runtime, and numerical uncertainty. Model parameters will not be tuned to force agreement with the final measurements. If a later model revision is necessary, it will be labeled as a separate post-validation analysis.
+
+The primary comparison will report
+\begin{equation}
+\Delta \alpha = \alpha_{\mathrm{exp}}-\alpha_{\mathrm{sim}},
+\qquad
+\delta_V = \frac{V_{\mathrm{exp}}-V_{\mathrm{sim}}}{V_{\mathrm{sim}}}\times 100\%.
+\end{equation}
+Agreement will be assessed with uncertainty intervals rather than by requiring an exact \SI{49.29}{\degree} image measurement.
+
+\section{Measured observables and preregistered criteria}
+
+\subsection{Primary observables}
+\begin{itemize}
+    \item cone half-angle from calibrated silhouettes;
+    \item interface coordinates and profile root-mean-square error relative to the simulated contour;
+    \item onset voltage under a fixed operational definition;
+    \item repeatability across nominally identical trials;
+    \item electrode spacing, liquid condition, flow setting, temperature, humidity if available, and image metadata.
+\end{itemize}
+
+\subsection{Operational onset definition}
+
+Before data collection, onset will be defined as the lowest approved voltage setting at which a Taylor-cone-like interface remains within a predeclared geometric stability band for a fixed observation interval. The stability band, observation interval, voltage-step procedure, and rule for ambiguous transitions will be finalized with the supervisor before testing. The definition will not be changed after the final trials are inspected.
+
+\section{Apparatus architecture for engineering review}
+
+The final engineering package must contain three linked schematics before construction is considered:
+\begin{enumerate}
+    \item a complete electrical schematic showing the approved power source, manufacturer-specified current limiting, disconnects, interlock chain, emergency stop, discharge path, measurement instruments, protective earth, and every conductive exposed part;
+    \item a fluidic schematic showing the liquid reservoir, approved delivery equipment, tubing, fittings, nozzle, containment, spill control, and waste path; and
+    \item a physical layout showing enclosure dimensions, ventilation path, camera/backlight placement, separation distances, access panels, cables, and operator position.
+\end{enumerate}
+
+Students will not choose safety-critical component ratings or certify the earthing arrangement. Those decisions require review by the school and a suitably qualified electrical-safety authority. The final setup must use equipment within its manufacturer-rated operating conditions.
+
+\section{Response to high-voltage safety concerns}
+
+\subsection{Interlock and fail-safe logic}
+
+The previously proposed magnetic reed switch is not treated as a complete safety system. The revised design must use an approved, fail-safe interlock architecture whose safety function is reviewed before procurement or construction. The design requirement is that opening any access point causes the source to enter a de-energized state without relying on software or on the reed switch alone. A single component failure must not silently permit energization. Reset must require deliberate supervisor action after the enclosure is closed and the area is checked.
+
+The engineering schematic will document the state sequence for power-off, access-open, access-closed, enabled, tripped, emergency-stop, and reset conditions. The team will not claim that this sequence is safe until it has been reviewed and accepted by the school.
+
+\subsection{Residual-energy discharge}
+
+Breaking mains input does not prove that the high-voltage output is safe because internal or external capacitance may retain charge. The final design must therefore include a manufacturer-approved passive discharge provision or commercial supply with a documented discharge function. The review package must provide the manufacturer's stored-energy and discharge-time specifications and a supervisor-approved method for verifying a safe state before access.
+
+No student will open or modify the high-voltage supply. A trip will initiate a mandatory wait-and-verify procedure. The enclosure will remain inaccessible until the approved indication and verification procedure confirm that the system is in the safe state. The acceptable voltage threshold, waiting time, measurement method, and responsible person remain unresolved until qualified review.
+
+\subsection{Protective earth and bonding}
+
+The team will not connect a grounding braid to an improvised laboratory point. Before the experiment proceeds, school facilities staff or a qualified electrician must identify and approve the protective-earth connection available in the intended room. The final drawing must show a single reviewed bonding scheme for the enclosure, supply chassis, extractor, shielding, and other accessible conductive parts, while keeping protective-earth and measurement-return functions unambiguous. Bond continuity and the suitability of the laboratory circuit must be checked by authorized personnel using institutional procedures.
+
+\subsection{Current limiting, access, and emergency response}
+
+The final apparatus must minimize available current and stored energy using an approved supply and manufacturer-recommended limiting components. All live parts must be inaccessible during operation. The supervisor must control energization, the emergency stop must be reachable without approaching the apparatus, and the operating procedure must define what happens after any trip, unexpected sound, odor, arc, spill, loss of ventilation, or instrument fault. No person will touch, adjust, or retrieve anything from the enclosure while it is energized or awaiting discharge verification.
+
+\section{Response to chemical and explosion concerns}
+
+\subsection{No sealed vapor-accumulating enclosure}
+
+The earlier description of a sealed acrylic box is withdrawn. A sealed volume containing ethanol could permit vapor accumulation and is not acceptable without a professional hazardous-atmosphere assessment. The revised design must use a school-approved ventilated location and a ventilation arrangement reviewed for the intended small solvent quantity. The enclosure's purpose is physical access control and secondary containment; it must not be assumed to provide explosion protection.
+
+The final risk assessment must estimate the maximum liquid inventory, maximum credible spill, enclosure volume, ventilation assumptions, and vapor-generation scenario. Testing cannot proceed if the school cannot demonstrate that vapor concentration will remain acceptably below the applicable limit under both normal and credible fault conditions. Consumer gas sensors or student calculations alone will not be treated as proof of safety.
+
+\subsection{Ignition-source control}
+
+The high-voltage region is itself a potential ignition source. Consequently, approval requires a documented review of whether ethanol can be permitted at all in the proposed arrangement. All unrelated ignition sources must be excluded from the designated work area, including flames, hot surfaces, switching devices not approved for the location, and spark-producing activities. Only the minimum approved liquid quantity may enter the work area. The final protocol must specify ventilation start and verification, liquid introduction, energization, shutdown, spill response, waste handling, and room-clearance conditions.
+
+If the school concludes that flammable solvent and high voltage cannot be combined safely in its facilities, the physical design must change to an approved lower-hazard validation medium or the project must use external published data. The desire for hands-on validation does not override this gate.
+
+\subsection{Chemical controls}
+
+The final submission will include the current safety data sheet for every liquid and dopant, approved storage and labeling, compatible spill materials, PPE requirements, maximum quantity, transfer method, waste container, and disposal route. Doping chemistry will not be improvised. No chemical preparation or disposal will occur without supervisor authorization.
+
+\section{Optical and fluidic measurement plan}
+
+A camera and backlight outside the hazardous-access boundary will record the meniscus silhouette. A calibration target placed in the same imaging plane before testing will establish pixel scale. Exposure, focus, camera position, and magnification will be fixed for a trial block. The image-analysis pipeline will record the selected frames, segmentation settings, fitted flank interval, and uncertainty caused by edge selection and optical resolution.
+
+The liquid-delivery method and flow range must be selected from approved equipment and documented on the fluidic schematic. Because the solver is quasi-static and does not model full cone-jet flow, the primary analysis will use the lowest stable approved flow regime and will not claim general flow-rate prediction.
+
+\section{Trial matrix and analysis}
+
+The first approved campaign will deliberately remain small:
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.25\linewidth}p{0.25\linewidth}p{0.38\linewidth}}
+\toprule
+Element & Proposed minimum & Purpose \\
+\midrule
+Baseline condition & One fixed geometry and liquid condition & Establish repeatability before any sweep \\
+Repeated trials & At least five independent onset determinations, subject to approval & Estimate mean, spread, and transition ambiguity \\
+Electrode spacing & Two or three approved values & Test the predicted onset-voltage scaling trend \\
+Image frames & Multiple stable frames per trial & Estimate angle and profile uncertainty \\
+Controls & Calibration image, zero-voltage image, recorded environmental conditions & Detect imaging bias and document conditions \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The analysis will report individual measurements, mean, standard deviation, confidence or uncertainty intervals, excluded trials with reasons, and model--experiment differences. A result that disagrees with the solver will be reported rather than hidden or tuned away.
+
+\section{Supervision, timeline, and access request}
+
+The physical work is divided into approval, dry commissioning, and data collection. The following is an initial estimate for discussion, not a demand on the supervisor's schedule:
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.34\linewidth}p{0.18\linewidth}p{0.38\linewidth}}
+\toprule
+Activity & Estimated supervised time & Gate \\
+\midrule
+Final schematic and risk-review meeting & 1--2 hours & Written approval before procurement/construction \\
+Equipment inspection and non-energized assembly review & 1--2 hours & Supervisor accepts physical layout \\
+Dry commissioning with no flammable liquid & 2 hours & Interlock, shutdown, and safe-state procedures accepted \\
+Pilot session under approved conditions & 2 hours & Stop/go review before full trials \\
+Baseline repeated trials & 3--4 hours & Data-quality and safety review \\
+Optional spacing sweep & 3--4 hours & Only if baseline is repeatable and time permits \\
+Shutdown, inventory, and waste closeout & 1 hour & Records completed \\
+\midrule
+Total estimated supervised laboratory time & 13--17 hours & Spread across approved sessions \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A proposed calendar will be produced only after Mr. George identifies possible supervision windows and the school confirms the approval process. If the required one-to-one supervision cannot be scheduled, the experiment will not proceed. The project can still be completed using numerical verification and peer-reviewed external datasets.
+
+\section{Approval gates and stop-work criteria}
+
+Physical work may proceed only after all of the following are complete:
+\begin{itemize}
+    \item school and applicable SRC/ISEF approval obtained before experimentation;
+    \item final electrical, fluidic, grounding, ventilation, and physical-layout schematics accepted;
+    \item risk assessments and safety data sheets accepted;
+    \item qualified review of protective earth, discharge, current limiting, and interlocks completed;
+    \item supervision hours and room access confirmed in writing;
+    \item training, emergency procedure, and waste route documented;
+    \item dry commissioning completed before any approved liquid is introduced.
+\end{itemize}
+
+Work stops immediately for any arc, unexplained trip, loss of ventilation, spill, damaged cable or enclosure, failed interlock, uncertain grounding, absent supervisor, or deviation from the approved schematic. Students will not troubleshoot an energized system.
+
+\section{Open questions for school review}
+
+The following points cannot be resolved by the student team alone:
+\begin{enumerate}
+    \item Is a high-voltage/flammable-liquid experiment permissible in the school facility at all?
+    \item Who is qualified to approve the protective-earth and residual-energy controls?
+    \item What ventilation or hazardous-atmosphere assessment does the school require?
+    \item Which approved power source, enclosure, interlock components, instruments, and liquid-delivery equipment are available?
+    \item What maximum liquid inventory and chemical condition may be authorized?
+    \item Which SRC/ISEF forms and institutional reviews must be completed before work begins?
+    \item Can the estimated 13--17 hours of one-to-one supervision be scheduled?
+\end{enumerate}
+
+\section{Required attachments before approval}
+
+The next review package will append: complete schematics; bill of materials with manufacturer documentation; supply discharge specifications; institutional earthing review; ventilation assessment; chemical safety data sheets; risk assessment; operating and emergency procedures; training record; supervision calendar; applicable competition forms; and the frozen simulation prediction sheet. Until those attachments are complete and accepted, the experiment remains a proposal.
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}
