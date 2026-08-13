@@ -16,13 +16,18 @@ from solver.app_backend import (
 
 
 def _verification_params(spacing: float, nr: int = 31, nz: int = 45) -> ImmersedVerificationParams:
-    """Self-similar verification geometry at a given electrode spacing."""
+    """Self-similar verification geometry at a given electrode spacing.
+
+    Uses the grounded-box boundary condition, which is the one that reports a
+    physical (finite-domain) onset voltage.
+    """
     return ImmersedVerificationParams(
         nr=nr,
         nz=nz,
         electrode_spacing=spacing,
         apex_z=0.86 * spacing,
         apex_radius=0.05 * spacing,
+        bc_type="grounded",
     )
 
 

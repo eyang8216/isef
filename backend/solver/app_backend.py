@@ -324,6 +324,7 @@ class ImmersedVerificationParams:
     electrode_spacing: float = 10e-3   # domain side [m] (needle-to-plate gap)
     apex_z: float = 8.6e-3             # on-axis apex position [m] (0.86 * spacing)
     apex_radius: float = 0.5e-3        # apex cap radius [m] (5% of spacing)
+    bc_type: Literal["grounded", "taylor_farfield"] = "taylor_farfield"
     gamma: float = 0.022
     V0: float = 1000.0
 
@@ -332,7 +333,7 @@ class ImmersedVerificationParams:
 class ImmersedVerificationResult:
     """Outputs of the immersed verification run, ready for the app layer."""
 
-    # Grounded-box free boundary (P2)
+    # Free-boundary landscape (P2)
     recovered_angle_deg: float
     onset_voltage_V: float | None
     min_rms_Pa: float
@@ -379,11 +380,14 @@ def _solve_imposed_taylor(grid: AxisymmetricGrid, angle_deg: float, cap: float, 
 
 
 def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVerificationResult:
-    """Run the two committed verifications for the app tab.
+    """Run the committed immersed verifications for the app tab.
 
-    1. **Grounded-box free boundary (P2):** sweep the half-angle with the
+    1. **Free-boundary landscape (P2):** sweep the half-angle with the
        amplitude-projected residual (``_immersed_projected_stats``) and refine
-       around the minimum — the recovered angle and predicted onset voltage.
+       around the minimum.  With ``bc_type="grounded"`` the outer box is
+       grounded (the truncation baseline, recovering ~44 deg and a physical
+       onset voltage); with ``bc_type="taylor_farfield"`` the outer boundary is
+       set to the analytical Taylor potential (recovering ~49.3 deg).
     2. **Imposed-Taylor identity (P3i):** impose the exact analytic Taylor
        potential on the box ring, cone at 0, and compare the projected onset
        voltage at 49.29 deg with the analytic balance amplitude A* (ratio ~1.01).
@@ -394,16 +398,27 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
     grid = AxisymmetricGrid.from_params(GridParams(z_max, 0.0, z_max, params.nr, params.nz))
     alpha = taylor_cone_half_angle_deg()
 
-    # --- grounded-box landscape (P2) ---
+    # --- free-boundary landscape (recovered angle + onset voltage) ---
     z_min_w, z_max_w = 0.15 * z_max, 0.85 * z_max
+    taylor_z_min, taylor_z_max = 0.30 * z_max, 0.75 * z_max
     external = rectangular_electrodes(grid, powered="z_max", ground="z_min", far_dirichlet=True)
     normal_clearance = 3.0 * max(grid.dr, grid.dz)
     r_max_safe = min(grid.r[-1] * 0.95, grid.r[-1] - normal_clearance)
     dz_max = abs(params.apex_z - z_min_w)
     angle_upper = float(np.degrees(np.arctan(max(0.0, r_max_safe) / dz_max))) if dz_max > 0 else 89.0
 
-    def box_projected(angle_deg: float) -> tuple[float, float] | None:
+    taylor_physical = PhysicalParams(V0=1.0, gamma=params.gamma)
+
+    def projected(angle_deg: float) -> tuple[float, float] | None:
         try:
+            if params.bc_type == "taylor_farfield":
+                cone, phi = _solve_imposed_taylor(
+                    grid, float(angle_deg), params.apex_radius, params.apex_z
+                )
+                return _immersed_projected_stats(
+                    grid, cone, phi, taylor_physical,
+                    z_min=taylor_z_min, z_max=taylor_z_max, n_interface=41,
+                )
             cone = ImplicitCone(
                 apex_z=params.apex_z + 1e-10 * params.apex_z,
                 half_angle_deg=float(angle_deg),
@@ -422,21 +437,23 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
     coarse = np.unique(np.concatenate((np.arange(35.0, angle_upper + 1e-9, 2.5), [alpha])))
     coarse = coarse[coarse <= angle_upper]
     for a in coarse:
-        res = box_projected(float(a))
+        res = projected(float(a))
         if res is not None:
             rms_map[float(a)] = res[0]
     if not rms_map:
-        raise RuntimeError("immersed verification: all grounded-box candidates failed")
+        raise RuntimeError("immersed verification: all landscape candidates failed")
     coarse_argmin = min(rms_map, key=rms_map.get)
     refine = np.arange(max(30.0, coarse_argmin - 2.5), min(angle_upper, coarse_argmin + 2.51), 0.5)
     for a in refine:
-        res = box_projected(float(a))
+        res = projected(float(a))
         if res is not None:
             rms_map[float(a)] = res[0]
     argmin = min(rms_map, key=rms_map.get)
-    final = box_projected(argmin)
+    final = projected(argmin)
     rms_min = float(final[0])
-    onset_voltage = final[1]
+    # The projected onset voltage is physical only for the finite grounded box;
+    # the analytical Taylor far-field is scale-free and has no onset voltage.
+    onset_voltage = final[1] if params.bc_type == "grounded" else None
     land_angles = np.array(sorted(rms_map))
     land_rms = np.array([rms_map[a] for a in land_angles])
 
@@ -447,13 +464,12 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
     identity_ratio: float | None = None
     identity_argmin: float | None = None
     phi_identity: np.ndarray | None = None
-    id_z_min, id_z_max = 0.30 * z_max, 0.75 * z_max
     try:
         cap_id = 0.001 * z_max
         cone_id, phi_identity = _solve_imposed_taylor(grid, alpha, cap_id, params.apex_z)
         _, v0_taylor = _immersed_projected_stats(
             grid, cone_id, phi_identity, PhysicalParams(V0=1.0, gamma=params.gamma),
-            z_min=id_z_min, z_max=id_z_max, n_interface=41,
+            z_min=taylor_z_min, z_max=taylor_z_max, n_interface=41,
         )
         amp = _taylor_amplitude(params.gamma)
         if v0_taylor is not None and amp > 0:
@@ -464,7 +480,7 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
             cone_a, phi_a = _solve_imposed_taylor(grid, float(a), cap_id, params.apex_z)
             id_rms[float(a)] = _immersed_projected_stats(
                 grid, cone_a, phi_a, PhysicalParams(V0=1.0, gamma=params.gamma),
-                z_min=id_z_min, z_max=id_z_max, n_interface=41,
+                z_min=taylor_z_min, z_max=taylor_z_max, n_interface=41,
             )[0]
         identity_argmin = float(min(id_rms, key=id_rms.get))
     except (ValueError, RuntimeError):
@@ -487,7 +503,7 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
 
 
 def figure_verification_landscape(result: ImmersedVerificationResult) -> go.Figure:
-    """Grounded-box amplitude-projected residual RMS vs half-angle."""
+    """Free-boundary amplitude-projected residual RMS vs half-angle."""
     fig = go.Figure(go.Scatter(
         x=result.landscape_angles,
         y=result.landscape_rms,
@@ -504,7 +520,7 @@ def figure_verification_landscape(result: ImmersedVerificationResult) -> go.Figu
         annotation_text=f"argmin {result.recovered_angle_deg:.1f}°",
     )
     fig.update_layout(
-        title="Grounded-box amplitude-projected residual vs half-angle",
+        title="Free-boundary amplitude-projected residual vs half-angle",
         xaxis_title="Half-angle [deg]",
         yaxis_title="RMS residual [Pa]",
         yaxis_type="log",

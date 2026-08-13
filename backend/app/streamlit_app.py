@@ -249,9 +249,10 @@ with tab_verif:
         "Exercises the immersed free-boundary machinery: the cone is the powered boundary "
         "of its own Laplace solve and the residual projects out the onset voltage. "
         "**Recovered angle** is the half-angle minimising the amplitude-projected residual "
-        "on the grounded box; the **Taylor identity** imposes the exact analytic Taylor "
-        "potential and checks the projected onset voltage against the analytic balance "
-        "amplitude (ratio ~1.0 = exact match)."
+        "under the selected outer boundary condition (Taylor far-field recovers ~49°; "
+        "the grounded box recovers ~44°). The **Taylor identity** imposes the exact "
+        "analytic Taylor potential and checks the projected onset voltage against the "
+        "analytic balance amplitude (ratio ~1.0 = exact match)."
     )
 
     verif_spacing = st.number_input("Electrode spacing [mm]", min_value=0.5, max_value=50.0,
@@ -260,6 +261,15 @@ with tab_verif:
     verif_apex_um = st.number_input("Apex radius [μm]", min_value=10.0, max_value=2000.0,
                                     value=verif_spacing * 0.05 * 1e6, step=10.0, format="%.0f",
                                     help="Spherical cap radius at the apex (default 5% of spacing).")
+
+    verif_bc = st.radio(
+        "Outer boundary condition",
+        options=["Taylor far-field", "Grounded box"],
+        index=0,
+        help="Taylor far-field: analytical Taylor potential at the boundary (recovers ~49°). "
+             "Grounded box: φ=0 at the boundary (recovers the ~44° truncation artifact).",
+    )
+    verif_bc_type = "taylor_farfield" if verif_bc == "Taylor far-field" else "grounded"
 
     verif_grid = st.select_slider(
         "Grid resolution (nr × nz)",
@@ -282,6 +292,7 @@ with tab_verif:
             electrode_spacing=verif_spacing,
             apex_z=0.86 * verif_spacing,
             apex_radius=verif_apex_um * 1e-6,
+            bc_type=verif_bc_type,
         )
         try:
             with st.spinner("Running immersed verification…"):
@@ -315,9 +326,9 @@ with tab_verif:
 
         st.subheader("Verification diagnostics")
         col1, col2, col3 = st.columns(3)
-        col1.metric("Recovered angle (grounded box)", f"{verif.recovered_angle_deg:.2f}°",
-                    help="Half-angle minimising the amplitude-projected residual "
-                         "(Taylor reference value 49.29° — see caption below).",
+        col1.metric("Recovered angle", f"{verif.recovered_angle_deg:.2f}°",
+                    help="Half-angle minimising the amplitude-projected residual under the "
+                         "selected outer boundary condition (Taylor reference value 49.29°).",
                     border=True)
         onset_str = f"{verif.onset_voltage_V / 1e3:.2f} kV" if verif.onset_voltage_V else "—"
         col2.metric("Predicted onset voltage V0*", onset_str,
@@ -340,7 +351,7 @@ with tab_verif:
             st.plotly_chart(figure_imposed_taylor_field(verif))
 
         st.caption(f"Runtime: {verif.runtime_s:.1f} s. "
-                   "The grounded-box angle is the answer of the truncated-cone-in-a-box "
-                   "problem (not Taylor's meniscus limit — see examples/09_ideal_limit_study.py); "
-                   "the imposed-Taylor identity is the committed verification of the machinery "
+                   "Taylor far-field removes the finite-box truncation artifact (recovers ~49°); "
+                   "the grounded box recovers the truncated-cone-in-a-box angle (~44°). "
+                   "The imposed-Taylor identity is the committed verification of the machinery "
                    "against 49.29° (tests/test_taylor_onset.py).")

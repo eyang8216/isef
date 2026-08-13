@@ -92,13 +92,14 @@ def test_figure_builders_return_plotly_figures():
 
 def test_immersed_verification_runs_and_reports_sane_values():
     """The immersed verification tab's backend must run and report physically
-    sensible values: an interior recovered angle, a finite onset voltage in the
-    kilovolt range, and an imposed-Taylor amplitude identity near 1.0."""
+    sensible values: an interior recovered angle, the imposed-Taylor amplitude
+    identity near 1.0, and (for the Taylor far-field default) no onset voltage
+    because the ideal cone is scale-free."""
     from solver.app_backend import ImmersedVerificationParams, run_immersed_verification
 
     result = run_immersed_verification(ImmersedVerificationParams(nr=31, nz=45))
     assert 30.0 <= result.recovered_angle_deg <= 55.0
-    assert result.onset_voltage_V is not None and 1e3 < result.onset_voltage_V < 1e4
+    assert result.onset_voltage_V is None
     assert np.isfinite(result.min_rms_Pa) and result.min_rms_Pa > 0.0
     assert len(result.landscape_angles) >= 10
     assert result.landscape_rms.size == result.landscape_angles.size
