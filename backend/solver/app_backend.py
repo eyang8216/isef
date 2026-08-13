@@ -52,8 +52,8 @@ class RunParams:
     V0: float = 1000.0           # applied voltage [V]
     gamma: float = 0.022         # surface tension [N/m]
     # Geometry
-    electrode_spacing: float = 1.0   # domain height z_max [m]
-    nozzle_radius: float = 0.5       # domain radial extent r_max [m]
+    electrode_spacing: float = 10e-3  # domain height z_max [m] (needle-to-plate gap)
+    nozzle_radius: float = 10e-3      # domain radial extent r_max [m] (interface inlet)
     # Grid
     nr: int = 31
     nz: int = 51
@@ -310,14 +310,20 @@ def figure_space_charge(result: SolverResult) -> go.Figure:
 
 @dataclass(frozen=True)
 class ImmersedVerificationParams:
-    """UI-level parameters for the immersed free-boundary verification tab."""
+    """UI-level parameters for the immersed free-boundary verification tab.
+
+    All lengths are SI; the defaults are at realistic mm scale.  The
+    computational domain is a square of side ``electrode_spacing`` (the
+    needle-to-plate gap), with the apex at ``apex_z`` and a spherical cap of
+    radius ``apex_radius``.  The flank-sampling windows are fixed fractions of
+    ``electrode_spacing``, so rescaling the spacing rescales the whole problem.
+    """
 
     nr: int = 61
     nz: int = 89
-    r_max: float = 1.0
-    z_max: float = 1.0
-    apex_z: float = 0.86
-    apex_radius: float = 0.05
+    electrode_spacing: float = 10e-3   # domain side [m] (needle-to-plate gap)
+    apex_z: float = 8.6e-3             # on-axis apex position [m] (0.86 * spacing)
+    apex_radius: float = 0.5e-3        # apex cap radius [m] (5% of spacing)
     gamma: float = 0.022
     V0: float = 1000.0
 
@@ -384,11 +390,12 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
     """
     t0 = time.perf_counter()
     physical = PhysicalParams(V0=params.V0, gamma=params.gamma)
-    grid = AxisymmetricGrid.from_params(GridParams(params.r_max, 0.0, params.z_max, params.nr, params.nz))
+    z_max = params.electrode_spacing
+    grid = AxisymmetricGrid.from_params(GridParams(z_max, 0.0, z_max, params.nr, params.nz))
     alpha = taylor_cone_half_angle_deg()
 
     # --- grounded-box landscape (P2) ---
-    z_min_w, z_max_w = 0.15, 0.85
+    z_min_w, z_max_w = 0.15 * z_max, 0.85 * z_max
     external = rectangular_electrodes(grid, powered="z_max", ground="z_min", far_dirichlet=True)
     normal_clearance = 3.0 * max(grid.dr, grid.dz)
     r_max_safe = min(grid.r[-1] * 0.95, grid.r[-1] - normal_clearance)
@@ -440,12 +447,13 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
     identity_ratio: float | None = None
     identity_argmin: float | None = None
     phi_identity: np.ndarray | None = None
+    id_z_min, id_z_max = 0.30 * z_max, 0.75 * z_max
     try:
-        cap_id = 0.001
+        cap_id = 0.001 * z_max
         cone_id, phi_identity = _solve_imposed_taylor(grid, alpha, cap_id, params.apex_z)
         _, v0_taylor = _immersed_projected_stats(
             grid, cone_id, phi_identity, PhysicalParams(V0=1.0, gamma=params.gamma),
-            z_min=0.30, z_max=0.75, n_interface=41,
+            z_min=id_z_min, z_max=id_z_max, n_interface=41,
         )
         amp = _taylor_amplitude(params.gamma)
         if v0_taylor is not None and amp > 0:
@@ -456,7 +464,7 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
             cone_a, phi_a = _solve_imposed_taylor(grid, float(a), cap_id, params.apex_z)
             id_rms[float(a)] = _immersed_projected_stats(
                 grid, cone_a, phi_a, PhysicalParams(V0=1.0, gamma=params.gamma),
-                z_min=0.30, z_max=0.75, n_interface=41,
+                z_min=id_z_min, z_max=id_z_max, n_interface=41,
             )[0]
         identity_argmin = float(min(id_rms, key=id_rms.get))
     except (ValueError, RuntimeError):

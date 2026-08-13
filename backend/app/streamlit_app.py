@@ -70,13 +70,17 @@ def _run_verification_cached(params: ImmersedVerificationParams) -> "ImmersedVer
 with st.sidebar:
     st.header("Basic parameters")
 
-    V0 = st.number_input("Voltage V₀ [V]", min_value=1.0, max_value=1e6, value=1000.0, step=100.0)
-    gamma = st.number_input("Surface tension γ [N/m]", min_value=1e-4, max_value=1.0,
-                             value=0.022, format="%.4f")
-    electrode_spacing = st.number_input("Electrode spacing [m]", min_value=0.01, max_value=10.0,
-                                         value=1.0, format="%.3f")
-    nozzle_radius = st.number_input("Domain radius [m]", min_value=0.01, max_value=10.0,
-                                     value=1.0, format="%.3f")
+    V0 = st.number_input("Voltage V₀ [kV]", min_value=0.5, max_value=100.0, value=2.5, step=0.1,
+                         format="%.2f", help="Applied voltage; typical ethanol electrospray 1–5 kV.") * 1000.0
+    gamma = st.number_input("Surface tension γ [mN/m]", min_value=15.0, max_value=72.0,
+                            value=22.0, step=1.0, format="%.1f",
+                            help="Ethanol ≈ 22 mN/m; water ≈ 72 mN/m.") * 1e-3
+    electrode_spacing = st.number_input("Electrode spacing [mm]", min_value=0.5, max_value=50.0,
+                                        value=10.0, step=1.0, format="%.1f",
+                                        help="Nozzle tip to grounded plate distance.") * 1e-3
+    nozzle_radius = st.number_input("Nozzle / domain radius [mm]", min_value=0.5, max_value=50.0,
+                                    value=10.0, step=1.0, format="%.1f",
+                                    help="Domain radial extent (interface inlet radius).") * 1e-3
     grid_res = st.select_slider("Grid resolution (nr × nz)",
                                  options=["Coarse (21×31)", "Medium (31×51)", "Fine (41×71)"],
                                  value="Medium (31×51)")
@@ -101,9 +105,9 @@ with st.sidebar:
 
         if space_charge_model == "gaussian":
             rho0 = st.number_input("ρ₀ [C/m³]", value=1e-9, format="%.2e")
-            ell = st.number_input("ℓ (cloud width) [m]", value=0.1, format="%.3f")
-            apex_r = st.number_input("Apex r [m]", value=0.0, format="%.3f")
-            apex_z = st.number_input("Apex z [m]", value=electrode_spacing * 0.8, format="%.3f")
+            ell = st.number_input("ℓ (cloud width) [mm]", value=electrode_spacing * 0.1 * 1e3, format="%.1f") * 1e-3
+            apex_r = st.number_input("Apex r [mm]", value=0.0, format="%.2f") * 1e-3
+            apex_z = st.number_input("Apex z [mm]", value=electrode_spacing * 0.8 * 1e3, format="%.2f") * 1e-3
         else:
             rho0 = ell = apex_r = apex_z = None
 
@@ -250,6 +254,13 @@ with tab_verif:
         "amplitude (ratio ~1.0 = exact match)."
     )
 
+    verif_spacing = st.number_input("Electrode spacing [mm]", min_value=0.5, max_value=50.0,
+                                     value=10.0, step=1.0, format="%.1f",
+                                     help="Needle-to-plate gap for the verification domain.") * 1e-3
+    verif_apex_um = st.number_input("Apex radius [μm]", min_value=10.0, max_value=2000.0,
+                                    value=verif_spacing * 0.05 * 1e6, step=10.0, format="%.0f",
+                                    help="Spherical cap radius at the apex (default 5% of spacing).")
+
     verif_grid = st.select_slider(
         "Grid resolution (nr × nz)",
         options=["Fast (31×45)", "Default (61×89)", "Fine (121×177)"],
@@ -266,7 +277,12 @@ with tab_verif:
                           icon=":material/experiment:")
 
     if run_verif:
-        verif_params = ImmersedVerificationParams(nr=verif_nr, nz=verif_nz)
+        verif_params = ImmersedVerificationParams(
+            nr=verif_nr, nz=verif_nz,
+            electrode_spacing=verif_spacing,
+            apex_z=0.86 * verif_spacing,
+            apex_radius=verif_apex_um * 1e-6,
+        )
         try:
             with st.spinner("Running immersed verification…"):
                 verif = _run_verification_cached(verif_params)
