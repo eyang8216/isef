@@ -2,7 +2,7 @@
   "schema": "isef-taylor-cone/verification-run",
   "schema_version": 1,
   "kind": "immersed_verification_run",
-  "timestamp": "2026-08-13T08:02:17.886816+00:00",
+  "timestamp": "2026-08-13T08:49:38.449196+00:00",
   "parameters": {
     "nr": 61,
     "nz": 89,
@@ -20,7 +20,7 @@
     "taylor_angle_deg": 49.29008929210005,
     "identity_ratio_V0_over_A": 1.0105008058116014,
     "identity_argmin_deg": 51.0,
-    "runtime_s": 3.2496550829382613
+    "runtime_s": 3.36942350002937
   },
   "landscape": {
     "n_points": 17,
