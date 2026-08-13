@@ -92,3 +92,33 @@ def test_threshold_shielding_reduces_apex_field():
     assert s_interior > 0, (
         f"Expected interior S_E > 0 (field reduced vs Laplace), got {s_interior:.6f}"
     )
+
+
+def test_gaussian_shielding_metric_is_positive():
+    """The Gaussian closure's returned shielding metric must be computed over an
+    apex-local region of interest, so it is positive (field reduced) rather than
+    ~0 when the global peak sits on a Dirichlet-enforced electrode boundary."""
+    from solver.config import PhysicalParams
+    from solver.geometry import rectangular_electrodes
+    from solver.space_charge import solve_gaussian_shielding
+
+    grid = AxisymmetricGrid.from_params(GridParams(r_max=1.0, z_min=0.0, z_max=1.0, nr=31, nz=31))
+    masks = rectangular_electrodes(grid, powered="z_max", ground="z_min", far_dirichlet=True)
+    physical = PhysicalParams(V0=1000.0)
+    params = SpaceChargeParams(
+        model="gaussian",
+        rho0=1e-8,
+        ell=0.1,
+        apex_r=0.0,
+        apex_z=0.5,
+        relaxation=0.8,
+        tolerance=1e-7,
+        max_iterations=80,
+    )
+    result = solve_gaussian_shielding(grid, masks, physical, params)
+    assert result.converged
+    assert result.shielding_metric is not None
+    assert 0.001 < result.shielding_metric < 0.5, (
+        f"expected positive apex-local S_E (a few percent), got {result.shielding_metric:.6f}"
+    )
+

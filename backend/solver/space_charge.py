@@ -23,6 +23,24 @@ def gaussian_charge_density(grid: AxisymmetricGrid, params: SpaceChargeParams) -
     return params.rho0 * np.exp(-((R - params.apex_r) ** 2 + (Z - params.apex_z) ** 2) / (2.0 * params.ell ** 2))
 
 
+def _apex_local_mask(
+    grid: AxisymmetricGrid,
+    masks: GeometryMasks,
+    apex_r: float,
+    apex_z: float,
+    radius: float,
+) -> np.ndarray:
+    """Boolean mask of gas nodes within ``radius`` of ``(apex_r, apex_z)``.
+
+    Restricts the shielding metric to the localized region where a Gaussian
+    cloud actually acts, excluding Dirichlet boundary nodes whose field is
+    pinned by the electrodes and would otherwise dominate the global max.
+    """
+    gas = np.asarray(masks.gas, dtype=bool)
+    dist = np.hypot(grid.R - apex_r, grid.Z - apex_z)
+    return gas & (dist <= radius)
+
+
 def shielding_metric(E_shielded: np.ndarray, E_reference: np.ndarray, mask: np.ndarray | None = None) -> float:
     """Return `1 - max(E_shielded)/max(E_reference)` over an optional ROI.
 
@@ -138,6 +156,11 @@ def solve_gaussian_shielding(
     The Gaussian closure is prescribed by position/scale, but we still use the
     fixed-point/under-relaxation structure specified for Version 1 so later
     nonlinear closures can share the same convergence machinery.
+
+    The returned ``shielding_metric`` is evaluated over an apex-local region
+    of interest (gas nodes within ``3 * ell`` of the cloud centre), so it is
+    positive when the cloud reduces the near-apex field — a global max would
+    instead sit on the Dirichlet-fixed electrodes and read ~0.
     """
     params.validate()
     solver = solver or SolverParams()
@@ -152,7 +175,8 @@ def solve_gaussian_shielding(
     )
     phi_laplace = solve_laplace(grid, masks, physical, solver=solver)
     _, _, E_laplace = compute_electric_field(grid, phi_laplace)
-    metric = shielding_metric(E_mag, E_laplace)
+    mask = _apex_local_mask(grid, masks, params.apex_r, params.apex_z, 3.0 * params.ell)
+    metric = shielding_metric(E_mag, E_laplace, mask=mask) if mask.any() else None
     return SpaceChargeResult(phi=phi, rho_e=rho, Er=Er, Ez=Ez, E_mag=E_mag, iterations=it, converged=converged, history=history, shielding_metric=metric)
 
 
@@ -182,6 +206,10 @@ def solve_threshold_shielding(
     Shares the fixed-point under-relaxation machinery with the Gaussian
     closure via `_fixed_point_iterate`; only the charge update differs — here
     rho_e is a nonlinear function of the current |E|, not a prescribed cloud.
+
+    The returned ``shielding_metric`` is evaluated over the gas (interior)
+    nodes, excluding the Dirichlet-fixed electrodes, so it is positive when
+    the threshold charge reduces the interior field.
     """
     params.validate()
     solver = solver or SolverParams()
@@ -195,7 +223,7 @@ def solve_threshold_shielding(
     )
     phi_laplace = solve_laplace(grid, masks, physical, solver=solver)
     _, _, E_laplace = compute_electric_field(grid, phi_laplace)
-    metric = shielding_metric(E_mag, E_laplace)
+    metric = shielding_metric(E_mag, E_laplace, mask=masks.gas) if masks.gas.any() else None
     return SpaceChargeResult(
         phi=phi, rho_e=rho, Er=Er, Ez=Ez, E_mag=E_mag,
         iterations=it, converged=converged, history=history,
