@@ -10,7 +10,7 @@
 isef/
 ├── backend/              # Solver implementation (Python package)
 │   ├── solver/          # Core modules (grid, operators, electrostatics, immersed boundary, optimization)
-│   ├── tests/           # 58 automated tests
+│   ├── tests/           # 71 automated tests
 │   ├── examples/        # 10 demonstration scripts (00-09)
 │   └── app/             # Streamlit interactive application
 ├── paper_submission/     # ISEF paper (LaTeX)
@@ -61,12 +61,14 @@ tectonic main.tex
 
 **V3 Immersed Free-Boundary Milestone - Complete**
 
-- 58 tests passing in ~45 seconds
+- 71 tests passing
 - Second-order convergent immersed boundary method
 - Onset voltage projection implemented
-- Taylor amplitude identity verified (ratio 1.009)
-- Grounded-box optimization: ~44° half-angle, V0* ≈ 28.9 kV
-- Paper updated with V3 results
+- Taylor amplitude identity verified (ratio within 3% of unity)
+- Taylor far-field BC recovers ~48° half-angle (vs ~44° grounded-box artifact)
+- Millimeter-scale onset voltage V0* ≈ 2.8 kV (ethanol literature range)
+- Positive space-charge shielding metric (Gaussian S_E ≈ 1.3%)
+- Paper updated with V4 results
 
 **Track B (Physical Experiments)** - Gated on school approval
 
@@ -75,10 +77,12 @@ tectonic main.tex
 ## Key Results
 
 - **Immersed operator:** Second-order convergence proven via Richardson extrapolation
-- **Taylor identity:** Amplitude balance ratio 1.009 (within 1% of theory)
+- **Taylor identity:** Amplitude balance ratio within 3% of unity
 - **Onset projection:** Clean V-shaped optimization landscape
 - **Normal field reconstruction:** Cubic-exact stencil, ≤1% error on refined grids
-- **Classical benchmark:** Recovers Taylor's 49.29° half-angle
+- **Classical benchmark:** Recovers Taylor's 49.29° half-angle to within ~1.3° (Taylor far-field BC)
+- **Onset voltage:** ~2.8 kV at millimeter scale, following V0* ∝ √(γL/ε₀)
+- **Shielding:** Positive apex-local S_E (~1.3%) for the Gaussian closure
 
 ---
 

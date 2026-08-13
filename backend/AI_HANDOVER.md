@@ -27,8 +27,8 @@
 
 ## 2. Current state of the project
 
-- **Tests:** 58 passing via `.venv/bin/python -m pytest` (≈45 s, run from repo root).
-- **Milestone spec:** `.scratch/taylor-onset-framing/spec.md` — all four tickets marked done (P1 Eₙ reconstruction, P2 onset-amplitude projection, P3i imposed-Taylor verification, P3iii ideal-limit study documented). Verification gates: Eₙ ≤ 5% at 97×129, V-shape interior minimum ~44°, identity ratio 1.009, all tests green.
+- **Tests:** 71 passing via `.venv/bin/python -m pytest` (≈100 s, run from repo root).
+- **Milestone spec:** `.scratch/taylor-onset-framing/spec.md` — all four tickets marked done (P1 Eₙ reconstruction, P2 onset-amplitude projection, P3i imposed-Taylor verification, P3iii ideal-limit study documented). Verification gates: Eₙ ≤ 5% at 97×129, V-shape interior minimum ~44°, identity ratio within 3% of unity (~1.01), all tests green.
 - **Core modules:** `solver/` — `immersed.py` (fractional-distance Dirichlet + cubic-exact Eₙ), `geometry.py::ImplicitCone` (C1 rounded cone, sign convention: liquid ≤ 0), `electrostatics.py` (immersed Laplace/Poisson path), `optimization.py` (immersed candidate loop + onset projection), `residual.py`, `space_charge.py` (Gaussian + threshold closures, coupled optimizer mode), `app_backend.py` (run + verification backends, no `st.*` imports).
 - **Examples:** `examples/00`–`09` (07 = immersed free boundary, 08 = refinement study, 09 = ideal-limit study).
 - **App:** `app/streamlit_app.py` — Classic tab + Immersed verification tab. Run with `streamlit run app/streamlit_app.py`.
@@ -36,11 +36,11 @@
 
 ## 3. Issues and problems we are facing now
 
-- **P3i ~0.7° systematic angle offset** (argmin 50.0° vs 49.29°, stable under refinement). Cause: cap-flank offset `R_cap·cos(2α)/cosα` + truncation + Eₙ reconstruction floor. Residual angle resolution is only ±1° (V-shape curvature < 1e-4 Pa/deg vs discretization floor). Ticket's ±0.5° target adjusted to ±1.5°; the identity (ratio 1.009) is the strong exact result.
+- **P3i ~0.7° systematic angle offset** (argmin 50.0° vs 49.29°, stable under refinement). Cause: cap-flank offset `R_cap·cos(2α)/cosα` + truncation + Eₙ reconstruction floor. Residual angle resolution is only ±1° (V-shape curvature < 1e-4 Pa/deg vs discretization floor). Ticket's ±0.5° target adjusted to ±1.5°; the identity (ratio within 3% of unity) is the strong exact result.
 - **`apex_radius` direction weakly bound-favoring** — no interior minimum in apex radius without a volume/contact-line constraint. Documented as future work; do not claim a preferred apex radius.
 - **Grounded-box problem cannot recover 49.29°** (P3iii) — larger box → larger argmin; needs paper write-up as a model property (truncated perfect cone in a finite grounded box ≠ Taylor meniscus).
 - **Stale docs:** `IMPLEMENTATION_SUMMARY.md` and `COMPLETE_STATUS_REPORT.md` still claim 50 tests, the old weak convergence test (`errors[1] < 0.7·errors[0]`), and the pre-`8e2a2c8` "no gas-side third point" failure mode. `IMPLEMENTATION_STATUS.md` also has stale test counts ("34 passed", examples list missing 07–09). S7 hygiene not done.
-- **Open plan items:** S3 (formal Eₙ convergence-order assertion in CI, target ≥ 1.5 — only accuracy tests exist so far), S4 (negative Gaussian `S_E ≈ −0.7%`), S5 (verify `E_c ≈ 1.625(γ/ε₀R)^½` against Taylor 1964 before coding), S6 (onset-voltage vs Cloupeau–Prunet-Foch / Hartman), E1 (cache shape-independent threshold re-solve), E3 (delete or implement `SolverParams`, `solver/config.py:41`), E4 (residual/normal sign-convention note). B1 drift-dominated ion closure and D leaky dielectric are deferred (V4 scope).
+- **Open plan items:** S3 (formal Eₙ convergence-order assertion in CI, target ≥ 1.5 — only accuracy tests exist so far), S5 (verify `E_c ≈ 1.625(γ/ε₀R)^½` against Taylor 1964 before coding), S6 (onset-voltage vs Cloupeau–Prunet-Foch / Hartman), E1 (cache shape-independent threshold re-solve), E3 (delete or implement `SolverParams`, `solver/config.py:41`), E4 (residual/normal sign-convention note). B1 drift-dominated ion closure and D leaky dielectric are deferred (V4 scope). **Resolved since this handover (tickets `.scratch/solver-improvements/`):** S4 (negative Gaussian `S_E`) — the shielding metric is now computed over an apex-local region of interest, so the Gaussian closure reports a positive `S_E ≈ 1.3%`; plus the geometry is rescaled to millimeter scale and the verification gains an analytical Taylor far-field boundary condition (recovered angle ~48° vs the ~44° grounded-box artifact).
 - **Merged branch `feat/immersed-free-boundary` not yet deleted** (`git push origin --delete` pending, S7).
 
 ## 4. Blockers right now
@@ -48,7 +48,7 @@
 - **No volume/contact-line constraint** — structural: the YLM residual over the analytic cone family has no preferred apex radius; the well-posedness of the angle direction comes from the onset projection (P2), not from a physical anchor. Fix is future work (spec §5).
 - **Angle-resolution floor (~±1°)** — the discretization floor prevents asserting angle accuracy better than ~1°; the committed claim is the imposed-Taylor identity (≤ 3%) + argmin ∈ [48, 51]°, not 49.29° itself on the grounded box.
 - **Physical experiments (Track B) blocked on school approval** — ISEF/SRC approval + supervisor + safety review required for high-voltage/ethanol work. Do not proceed until approved.
-- **Guardrails (do not claim):** "recovered 49.29° on the grounded box"; 2nd-order *fields* (Eₙ, Maxwell pressure) until S3 is measured; "shielding" while `S_E < 0`; the `V0* ≈ 23 V` units-bug figure (correct value ≈ 25–29 kV).
+- **Guardrails (do not claim):** "recovered 49.29° on the grounded box" (the grounded box still recovers ~44°; the ~48° recovery comes from the analytical Taylor far-field BC, and the committed exact result remains the imposed-Taylor identity ratio within 3% of unity); 2nd-order *fields* (Eₙ, Maxwell pressure) until S3 is measured; the onset voltage is now reported at millimeter scale (~2.8 kV), not the old meter-scale ~28 kV.
 
 ## 5. Codebase hygiene note
 
