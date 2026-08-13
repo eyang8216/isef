@@ -75,7 +75,7 @@ The solver now implements a sharp immersed boundary method with fractional-dista
 \begin{equation}
 \frac{1}{2}\varepsilon_0 V_0^2 = \int_{\text{interface}} \gamma \kappa \, \mathrm{d}A
 \end{equation}
-is verified by imposing the exact analytic Taylor potential on the domain boundary with the rounded cone as the zero equipotential. The measured amplitude ratio is within 3\% of unity (grid-dependent, $\approx 1.01$), and the projected-residual argmin occurs within approximately \SI{1}{\degree} of the ideal \SI{49.29}{\degree}. This small systematic offset is attributed to the cap-flank geometry and the $\approx\pm1^{\circ}$ discretization resolution floor, and is stable under grid refinement. The strong result is the amplitude identity itself.
+is verified by imposing the exact analytic Taylor potential on the domain boundary with the rounded cone as the zero equipotential. The measured amplitude ratio is within 3\% of unity (grid-dependent, $\approx 1.01$), and the projected-residual argmin occurs within approximately \SI{2}{\degree} of the ideal \SI{49.29}{\degree}. This small systematic offset is attributed to the cap-flank geometry and the $\approx\pm1^{\circ}$ discretization resolution floor, and is stable under grid refinement. The strong result is the amplitude identity itself.
 
 \paragraph{Normal-Field Reconstruction.} The solver uses a cubic-exact one-sided stencil to reconstruct the normal electric field $E_n = -(\partial \phi / \partial n)$ at the immersed boundary:
 \begin{equation}

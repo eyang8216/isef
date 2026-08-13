@@ -92,6 +92,9 @@ def test_threshold_shielding_reduces_apex_field():
     assert s_interior > 0, (
         f"Expected interior S_E > 0 (field reduced vs Laplace), got {s_interior:.6f}"
     )
+    assert result.shielding_metric is not None and result.shielding_metric > 0, (
+        f"Expected solve_threshold_shielding to return positive S_E, got {result.shielding_metric:.6f}"
+    )
 
 
 def test_gaussian_shielding_metric_is_positive():
