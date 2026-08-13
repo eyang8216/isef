@@ -35,6 +35,7 @@ from solver.operators import build_axisymmetric_laplacian
 from solver.boundary_conditions import apply_dirichlet_values
 from solver.immersed import apply_immersed_dirichlet
 from solver.optimization import _immersed_projected_stats
+from solver.taylor_analytical import taylor_potential
 from solver.verification import taylor_cone_half_angle_deg
 
 ALPHA = taylor_cone_half_angle_deg()  # 49.290089 deg
@@ -52,14 +53,6 @@ P1 = lpmv(1, 0.5, np.cos(THETA0))
 ANALYTIC_AMPLITUDE = np.sqrt(2.0 * GAMMA * np.cos(np.radians(ALPHA)) / (EPS0 * P1**2 * np.sin(np.radians(ALPHA))))
 
 
-def _taylor_potential(r: np.ndarray, z: np.ndarray, amplitude: float = 1.0) -> np.ndarray:
-    """Exact exterior Taylor potential about the apex (0, APEX_Z); NaN at the
-    apex (rho=0) is replaced by the limit value 0."""
-    rho = np.sqrt(np.asarray(r) ** 2 + (np.asarray(z) - APEX_Z) ** 2)
-    cost = (np.asarray(z) - APEX_Z) / rho
-    return np.nan_to_num(amplitude * np.sqrt(rho) * lpmv(0, 0.5, cost))
-
-
 def _solve_imposed_taylor(grid: AxisymmetricGrid, angle_deg: float, cap: float) -> tuple[ImplicitCone, np.ndarray]:
     """Solve Laplace with the analytic Taylor potential on the box ring and the
     rounded cone (candidate angle, cap) as the immersed zero equipotential."""
@@ -69,7 +62,7 @@ def _solve_imposed_taylor(grid: AxisymmetricGrid, angle_deg: float, cap: float) 
         apex_radius=cap,
         boundary_value=0.0,
     )
-    phi_outer = _taylor_potential(grid.R, grid.Z, 1.0)
+    phi_outer = taylor_potential(grid.R, grid.Z, APEX_Z, 1.0)
     # Dirichlet ring on all four box sides. The bottom row (z=0) is almost
     # entirely inside the cone (the flank reaches r ~ 1.0 there) and is
     # overridden to 0 by the immersed pass; only the gas sliver keeps the

@@ -37,6 +37,7 @@ from .space_charge import (
     solve_threshold_shielding,
     shielding_metric,
 )
+from .taylor_analytical import taylor_potential
 from .verification import taylor_cone_half_angle_deg
 
 
@@ -350,14 +351,6 @@ def _taylor_amplitude(gamma: float) -> float:
     return float(np.sqrt(2.0 * gamma * np.cos(np.radians(alpha)) / (eps0 * p1**2 * np.sin(np.radians(alpha)))))
 
 
-def _taylor_potential(r, z, apex_z: float, amplitude: float = 1.0) -> np.ndarray:
-    """Exact exterior Taylor potential about the apex (0, apex_z); the NaN at
-    the apex (rho=0) is replaced by its limit value 0."""
-    rho = np.sqrt(np.asarray(r) ** 2 + (np.asarray(z) - apex_z) ** 2)
-    cost = (np.asarray(z) - apex_z) / rho
-    return np.nan_to_num(amplitude * np.sqrt(rho) * lpmv(0, 0.5, cost))
-
-
 def _solve_imposed_taylor(grid: AxisymmetricGrid, angle_deg: float, cap: float, apex_z: float):
     """Laplace solve with the analytic Taylor potential on the box ring and the
     rounded cone (candidate angle, cap) as the immersed zero equipotential."""
@@ -367,7 +360,7 @@ def _solve_imposed_taylor(grid: AxisymmetricGrid, angle_deg: float, cap: float, 
         apex_radius=cap,
         boundary_value=0.0,
     )
-    phi_outer = _taylor_potential(grid.R, grid.Z, apex_z, 1.0)
+    phi_outer = taylor_potential(grid.R, grid.Z, apex_z, 1.0)
     outer = np.zeros(grid.shape, bool)
     outer[-1, :] = True
     outer[:, 0] = True
