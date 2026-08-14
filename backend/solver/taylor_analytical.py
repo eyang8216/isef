@@ -40,11 +40,22 @@ def taylor_potential(r, z, apex_z: float, amplitude: float = 1.0) -> np.ndarray:
     -----
     Finite for ``theta < 180 deg``. The on-axis ray through the cone interior
     (``theta = 180 deg``, i.e. ``r = 0`` with ``z < apex_z``) is singular:
-    ``P_{1/2}(cos theta)`` diverges there, so the returned values are not
-    meaningful on that ray.
+    ``P_{1/2}(cos theta)`` diverges there. Those nodes are outside the physical
+    exterior domain, so the guard pins every non-finite value to the
+    cone-surface value 0 instead of leaking ``inf`` (or ``np.nan_to_num``'s
+    default ~1.8e308 stand-in) into a boundary condition. Cone-interior nodes
+    are overwritten by the immersed Dirichlet stencil anyway.
     """
     r = np.asarray(r)
     z = np.asarray(z)
     rho = np.sqrt(r**2 + (z - apex_z) ** 2)
-    cost = (z - apex_z) / rho
-    return np.nan_to_num(amplitude * np.sqrt(rho) * lpmv(0, 0.5, cost))
+    with np.errstate(divide="ignore", invalid="ignore"):
+        cost = (z - apex_z) / rho
+        pot = amplitude * np.sqrt(rho) * lpmv(0, 0.5, cost)
+    # P_{1/2}(cos theta) diverges on the singular axis ray (r = 0, z < apex_z,
+    # theta = 180 deg, inside the ideal cone): lpmv returns -inf there, and NaN
+    # at the apex (rho = 0). np.nan_to_num's default would replace that -inf
+    # with ~-1.8e308, which could contaminate a boundary condition if a
+    # singular-axis node ever lands on the Dirichlet mask. Pin every non-finite
+    # value to the cone-surface value 0 instead.
+    return np.where(np.isfinite(pot), pot, 0.0)

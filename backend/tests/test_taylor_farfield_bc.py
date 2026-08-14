@@ -7,11 +7,13 @@ from solver.app_backend import ImmersedVerificationParams, run_immersed_verifica
 
 def test_taylor_farfield_recovers_near_ideal_half_angle():
     """The Taylor far-field BC removes the finite-box truncation artifact: the
-    recovered half-angle lands near 49.3 deg (vs ~44 deg for the grounded box),
-    the residual is small, and the amplitude identity holds."""
+    recovered half-angle lands within ~1.5 deg of the ideal 49.29 deg (vs ~44
+    deg for the grounded box), the residual is small, and the amplitude
+    identity holds."""
     result = run_immersed_verification(ImmersedVerificationParams(bc_type="taylor_farfield"))
     assert 46.0 <= result.recovered_angle_deg <= 52.0, (
-        f"Taylor far-field recovered {result.recovered_angle_deg:.2f} deg, expected near 49.3"
+        f"Taylor far-field recovered {result.recovered_angle_deg:.2f} deg, "
+        "expected within ~1.5 deg of the ideal 49.29"
     )
     # The ideal Taylor cone is scale-free, so there is no physical onset voltage.
     assert result.onset_voltage_V is None

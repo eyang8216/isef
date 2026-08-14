@@ -387,7 +387,8 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
        around the minimum.  With ``bc_type="grounded"`` the outer box is
        grounded (the truncation baseline, recovering ~44 deg and a physical
        onset voltage); with ``bc_type="taylor_farfield"`` the outer boundary is
-       set to the analytical Taylor potential (recovering ~49.3 deg).
+       set to the analytical Taylor potential (recovering ~48 deg at the
+       default grid, within ~1.3 deg of the ideal 49.29 deg).
     2. **Imposed-Taylor identity (P3i):** impose the exact analytic Taylor
        potential on the box ring, cone at 0, and compare the projected onset
        voltage at 49.29 deg with the analytic balance amplitude A* (ratio ~1.01).
