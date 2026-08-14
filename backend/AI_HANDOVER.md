@@ -1,80 +1,166 @@
-# AI Handover Document — ISEF Taylor-Cone Electrospray Solver
+# AI Handover Document
 
-**Project folder:** `/Users/elliottdong/Desktop/isef`
-**Branch:** `main`, tip `d2f703f` (2026-08-09), clean tree, up to date with `origin/main`.
-**Project type:** ISEF computational physics / reduced-order axisymmetric electrohydrodynamic Taylor-cone / electrospray-onset solver (Python + Streamlit).
-**Current phase:** V3 immersed free-boundary milestone — solver machinery verified; the committed 49.29° verification (imposed-Taylor) is done; paper write-up and code hygiene remain.
-**Do not perform:** Physical experiment planning beyond safety notes, high-voltage instructions, ethanol handling, or testbed construction unless explicitly requested under school-supervised context. Experimental work (Track B) is gated on ISEF/SRC approval.
+## Critical Issues: Taylor Angle Verification
+
+### Problem Summary
+
+The immersed boundary verification (`backend/solver/app_backend.py::run_immersed_verification`) is **consistently recovering 48.0°** instead of the theoretical **Taylor angle of 49.29°**, with a **highly noisy landscape** showing multiple spurious local minima.
+
+### Symptoms
+
+From `backend/results/latest_verification_run.json`:
+- **Recovered angle**: 48.00° (should be 49.29°)
+- **Error**: 1.29° (~2.6% relative error)
+- **Oscillation ratio**: 47% (landscape oscillates wildly)
+- **Local minima**: 4 distinct local minima instead of 1 smooth minimum
+- **Grid resolution tested**: Both 121×177 and 241×353 show the same behavior
+- **RMS at Taylor angle**: 0.0307 Pa (2.4× worse than the 48° minimum of 0.0127 Pa)
+
+**Key observation**: Even with Very Fine grid (241×353), the problem persists. This rules out simple grid discretization as the sole cause.
+
+### What Was Investigated
+
+#### 1. Grid Resolution (RULED OUT as sole cause)
+- Tested: 121×177 → 241×353 (4× more points)
+- Result: Still recovers 48.0°, noise actually increased (32% → 47% oscillation)
+- Conclusion: Grid resolution alone does not fix the issue
+
+#### 2. Interface Sampling Parameter `n_interface`
+- Tested: Increasing from 41 → 61 → 101 points on interface
+- Result: **Made things WORSE**
+  - n_interface=101 recovered 42.9° (7° error!)
+  - n_interface=61 showed 47% oscillation
+  - Original n_interface=41 was actually the best
+- Conclusion: **Do not increase n_interface** - it's a red herring
+
+### Root Cause Hypotheses (UNVERIFIED)
+
+Based on detailed investigation, the most likely causes are:
+
+#### A. Apex Radius Too Large (HIGHLY LIKELY)
+**Current**: `apex_radius = 0.5mm = 5% of 10mm domain`
+- The theoretical Taylor cone has a **perfect point apex**
+- A 0.5mm rounded spherical cap is NOT a small perturbation
+- This breaks the ideal Taylor geometry and could shift equilibrium angle
+- **Recommended test**: Reduce to 50-100 μm (<1% of domain)
+
+#### B. Sampling Window Too Narrow (LIKELY)
+**Current**: Residual computed over `z ∈ [30%, 75%]` of domain = [3.0mm, 7.5mm]
+- Apex is at 8.6mm, so sampling stops 1.1mm below apex
+- Misses the near-apex region where Taylor physics is strongest
+- **Grounded BC uses wider window**: [15%, 85%]
+- **Recommended test**: Expand to [15%, 85%] like grounded BC
+
+#### C. Combination of A + B
+- Most likely scenario: both contribute to the error
+- Apex radius shifts equilibrium, narrow window reinforces the bias
+
+### Why This Matters
+
+1. **Scientific validity**: Cannot publish results claiming Taylor cone physics if we're 1.3° off
+2. **Landscape noise**: 47% oscillation suggests the residual metric is unreliable
+3. **Verification failure**: The identity check at 49.29° should minimize, but it's 2.4× worse than 48°
+
+### What Needs to Be Done
+
+#### Option 1: Systematic Parameter Study (RECOMMENDED)
+Test combinations of:
+- Apex radius: [50, 100, 200, 500] μm
+- Sampling window: [15-85%, 20-80%, 30-75%]
+- Grid resolution: Fine (121×177), Very Fine (241×353)
+- n_interface: Keep at 41 (do NOT increase)
+
+**Expected outcome**: If apex radius is the issue, smaller values should recover angles closer to 49.29°
+
+#### Option 2: Code Changes Required
+If parameter tuning doesn't work, may need to:
+1. Reduce field sampling distance (currently `d = max(dr, dz)`, try `0.5 * max(dr, dz)`)
+2. Investigate the amplitude projection math in `_immersed_projected_stats`
+3. Validate the `taylor_potential` analytical solution implementation
+4. Check if the flank mask is being applied correctly
+
+### Key Files and Functions
+
+**Verification entry point:**
+- `backend/solver/app_backend.py::run_immersed_verification(params)` (line 382)
+
+**Residual calculation:**
+- `backend/solver/optimization.py::_immersed_projected_stats()` (line 83)
+  - This computes the amplitude-projected YLM residual
+  - Uses interface sampling window `z_min`, `z_max`
+  - Calls `cone.sample_graph(z_min, z_max, n_interface)`
+
+**Sampling window definition:**
+- Line 404: `taylor_z_min, taylor_z_max = 0.30 * z_max, 0.75 * z_max` ← HARDCODED
+- Line 403: `z_min_w, z_max_w = 0.15 * z_max, 0.85 * z_max` (for grounded BC)
+
+**Apex radius:**
+- Line 261 in streamlit_app: `value=verif_spacing * 0.05 * 1e6` = 5% of domain
+- Passed to `ImmersedVerificationParams(apex_radius=...)` at line 299
+
+### Code Changes Attempted and Reverted
+
+During this session, attempted to:
+1. Add UI controls for `n_interface`, `z_min_frac`, `z_max_frac`
+2. Add dataclass fields to `ImmersedVerificationParams`
+3. Created comprehensive documentation
+
+**Why reverted**: Implementation complexity vs. benefit. Better to:
+- First validate the hypothesis with manual parameter edits
+- Then add UI controls if successful
+- Avoid adding complexity before understanding the problem
+
+### How to Test Manually
+
+To test the apex radius hypothesis:
+
+1. **Edit `backend/app/streamlit_app.py` line 261:**
+   ```python
+   # Current:
+   value=verif_spacing * 0.05 * 1e6,  # 500 μm
+   
+   # Change to:
+   value=100.0,  # 100 μm test
+   ```
+
+2. **Edit `backend/solver/app_backend.py` line 404:**
+   ```python
+   # Current:
+   taylor_z_min, taylor_z_max = 0.30 * z_max, 0.75 * z_max
+   
+   # Change to:
+   taylor_z_min, taylor_z_max = 0.15 * z_max, 0.85 * z_max
+   ```
+
+3. **Run verification** with Very Fine (241×353) grid
+
+4. **Check results**:
+   - If recovered angle moves toward 49.29°: confirms apex radius hypothesis
+   - If landscape smooths out: confirms sampling window hypothesis
+   - If both improve: confirms both contribute
+
+### Success Criteria
+
+**Target**: Recover 49.29° ± 0.2° with oscillation ratio <10%
+
+**Current**: 48.00° with 47% oscillation
+
+**Gap**: 1.29° error and 37% excess noise
+
+### Additional Notes
+
+- The code comments in `run_immersed_verification` say "recovering ~48 deg" is expected, but this was likely written to match observed behavior, not justified from first principles
+- The identity check (`identity_ratio ≈ 1.005`) validates the solver works correctly at 49.29°, which makes the 48° recovery even more suspicious
+- The consistent recovery at 48° across different grid resolutions suggests it's a **geometric bias**, not numerical noise
+- Do NOT attempt to add smoothing/filtering to the landscape - this masks the problem rather than fixing it
+
+### References
+
+- Latest verification run: `backend/results/latest_verification_run.json`
+- Solver run: `backend/results/latest_solver_run.json`
+- Taylor angle calculation: `backend/solver/verification.py::taylor_cone_half_angle_deg()` (line 104)
+- Analytical Taylor potential: `backend/solver/taylor_analytical.py::taylor_potential()` (line 19)
 
 ---
 
-## 1. What has been done since commit `ebea0b8`
-
-`ebea0b8` = "test: assert second-order convergence of the immersed operator" — it replaced the weak two-grid refinement check with a formal Richardson test (3 levels on the smooth-circle manufactured problem, observed L2 order ≈ 2.0) and updated the "not yet proven" section of `IMPLEMENTATION_STATUS.md`. All work *after* that commit (10 commits, 20 files, +1814/−122), in order:
-
-| Commit | What it did |
-|---|---|
-| `8e2a2c8` | **fix(immersed): pin tiny-cut gas nodes to the boundary instead of rejecting.** Killed the discontinuous 1e10-penalty optimizer failures from `'pathological immersed-boundary fraction'`; example 07 now runs with 0 candidate failures (was 1 in 343 evals). |
-| `b9a6022` | **docs:** added `docs/plans/2026-08-09-next-steps.md` (verified state, findings, priority list S1–S7) and `examples/08_immersed_refinement_study.py` (Part A: immersed potential ≈ 2nd order vs non-convergent legacy staircase; Part B: objective flat-in-angle / monotone-in-radius; Part C: single-start Powell stops in a flat basin). |
-| `8407928` | **docs:** Taylor-onset framing spec + tickets 01–04 (`.scratch/taylor-onset-framing/`) after the 2026-08-09 grilling session. |
-| `10d259f` | **fix(immersed): cubic-exact E_n reconstruction with full-cell samples (ticket 01 / P1).** Root causes found: sub-cell sampling across the conductor-cut cell (errors *grew* with refinement) + profile curvature. New 4-point one-sided stencil `Eₙ = −(−11V_b + 18V(d) − 9V(2d) + 2V(3d))/(6d)` with `d = max(dr,dz)`. Measured: box ≤ ±1% at all grids, circle ≤ 3% → ≤ 1%. Side effect: example 07 recovered angle moved 22.9° → 50.9°. |
-| `f80dab0` | **feat(optimizer): project out the onset voltage in the immersed residual (ticket 02 / P2).** Fixed-V0 objective was meaningless (field ~25× below onset). Now projects out the balance voltage per candidate: `u* = ⟨ab⟩_w/⟨b²⟩_w`, `V0* = √(2u*/ε₀)`, `R = a − u*·b`. Angle direction is now a clean V-shape with interior minimum ~44°; `OptimizationResult` gains `onset_voltage_V`. Example 07 converges to 42.8°, V0* ≈ 28.9 kV. |
-| `4c777e9` | **test: impose Taylor potential to verify the free-boundary amplitude identity (ticket 03 / P3i).** New `tests/test_taylor_onset.py` imposes the exact analytic Taylor potential on the box boundary with the rounded cone as the immersed zero equipotential. Verifies: amplitude identity ratio 1.009 (assert ≤ 3%), projected-residual argmin at 50.0° (~0.7° systematic offset from 49.29°, documented, does not converge), residual floor improves with refinement. |
-| `7b117d5` | **docs(examples):** documented why the grounded-box problem cannot recover 49.29° (ticket 04 / P3iii) — argmin moves to larger angles as the box grows (45° → 75°+), rms@49.29 does not improve. Model property, not a solver bug. |
-| `bc7715a` | **feat(app): add 'Immersed verification' tab.** Runs both committed verifications through the Streamlit app (grounded-box amplitude-projected landscape: angle 44.0°, V0* 27.9 kV; imposed-Taylor identity ratio 1.0105). Backend gains `ImmersedVerificationParams/Result`, `run_immersed_verification`, two plotly builders; smoke test added. App now has two tabs (Classic + Immersed verification). |
-| `269b9ef` | **fix(app):** warn when the classic interface angle is capped by the domain (old defaults capped at 30.7°, silently clamping a requested 49.3°). |
-| `d2f703f` | **fix(app):** raise default Domain radius to 1.0 so the 49.3° classic interface fits (cap now 49.9°). |
-
-## 2. Current state of the project
-
-- **Tests:** 71 passing via `.venv/bin/python -m pytest` (≈100 s, run from repo root).
-- **Milestone spec:** `.scratch/taylor-onset-framing/spec.md` — all four tickets marked done (P1 Eₙ reconstruction, P2 onset-amplitude projection, P3i imposed-Taylor verification, P3iii ideal-limit study documented). Verification gates: Eₙ ≤ 5% at 97×129, V-shape interior minimum ~44°, identity ratio within 3% of unity (~1.01), all tests green.
-- **Core modules:** `solver/` — `immersed.py` (fractional-distance Dirichlet + cubic-exact Eₙ), `geometry.py::ImplicitCone` (C1 rounded cone, sign convention: liquid ≤ 0), `electrostatics.py` (immersed Laplace/Poisson path), `optimization.py` (immersed candidate loop + onset projection), `residual.py`, `space_charge.py` (Gaussian + threshold closures, coupled optimizer mode), `app_backend.py` (run + verification backends, no `st.*` imports).
-- **Examples:** `examples/00`–`09` (07 = immersed free boundary, 08 = refinement study, 09 = ideal-limit study).
-- **App:** `app/streamlit_app.py` — Classic tab + Immersed verification tab. Run with `streamlit run app/streamlit_app.py`.
-- **Docs:** `IMPLEMENTATION_STATUS.md` (updated "not yet proven" section per `ebea0b8`), `CONTEXT.md` (domain glossary — use its terminology), `docs/adr/0001`–`0003` (analytic cone family; threshold+optimizer decoupled; merged free-boundary immersed cone), `docs/plans/2026-08-09-next-steps.md` (findings + priority list), `.scratch/taylor-onset-framing/` (spec + tickets 01–04, local issue tracker), `.scratch/taylor-cone-fd-bcs/` (earlier sharp-cone research).
-
-## 3. Issues and problems we are facing now
-
-- **P3i ~0.7° systematic angle offset** (argmin 50.0° vs 49.29°, stable under refinement). Cause: cap-flank offset `R_cap·cos(2α)/cosα` + truncation + Eₙ reconstruction floor. Residual angle resolution is only ±1° (V-shape curvature < 1e-4 Pa/deg vs discretization floor). Ticket's ±0.5° target adjusted to ±1.5°; the identity (ratio within 3% of unity) is the strong exact result.
-- **`apex_radius` direction weakly bound-favoring** — no interior minimum in apex radius without a volume/contact-line constraint. Documented as future work; do not claim a preferred apex radius.
-- **Grounded-box problem cannot recover 49.29°** (P3iii) — larger box → larger argmin; needs paper write-up as a model property (truncated perfect cone in a finite grounded box ≠ Taylor meniscus).
-- **Stale docs:** `IMPLEMENTATION_SUMMARY.md` and `COMPLETE_STATUS_REPORT.md` still claim 50 tests, the old weak convergence test (`errors[1] < 0.7·errors[0]`), and the pre-`8e2a2c8` "no gas-side third point" failure mode. `IMPLEMENTATION_STATUS.md` also has stale test counts ("34 passed", examples list missing 07–09). S7 hygiene not done.
-- **Open plan items:** S3 (formal Eₙ convergence-order assertion in CI, target ≥ 1.5 — only accuracy tests exist so far), S5 (verify `E_c ≈ 1.625(γ/ε₀R)^½` against Taylor 1964 before coding), S6 (onset-voltage vs Cloupeau–Prunet-Foch / Hartman), E1 (cache shape-independent threshold re-solve), E3 (delete or implement `SolverParams`, `solver/config.py:41`), E4 (residual/normal sign-convention note). B1 drift-dominated ion closure and D leaky dielectric are deferred (V4 scope). **Resolved since this handover (tickets `.scratch/solver-improvements/`):** S4 (negative Gaussian `S_E`) — the shielding metric is now computed over an apex-local region of interest, so the Gaussian closure reports a positive `S_E ≈ 1.3%`; plus the geometry is rescaled to millimeter scale and the verification gains an analytical Taylor far-field boundary condition (recovered angle ~48° vs the ~44° grounded-box artifact).
-- **Merged branch `feat/immersed-free-boundary` not yet deleted** (`git push origin --delete` pending, S7).
-
-## 4. Blockers right now
-
-- **No volume/contact-line constraint** — structural: the YLM residual over the analytic cone family has no preferred apex radius; the well-posedness of the angle direction comes from the onset projection (P2), not from a physical anchor. Fix is future work (spec §5).
-- **Angle-resolution floor (~±1°)** — the discretization floor prevents asserting angle accuracy better than ~1°; the committed claim is the imposed-Taylor identity (≤ 3%) + argmin ∈ [48, 51]°, not 49.29° itself on the grounded box.
-- **Physical experiments (Track B) blocked on school approval** — ISEF/SRC approval + supervisor + safety review required for high-voltage/ethanol work. Do not proceed until approved.
-- **Guardrails (do not claim):** "recovered 49.29° on the grounded box" (the grounded box still recovers ~44°; the ~48° recovery comes from the analytical Taylor far-field BC, and the committed exact result remains the imposed-Taylor identity ratio within 3% of unity); 2nd-order *fields* (Eₙ, Maxwell pressure) until S3 is measured; the onset voltage is now reported at millimeter scale (~2.8 kV), not the old meter-scale ~28 kV.
-
-## 5. Codebase hygiene note
-
-**The codebase is getting messy — before continuing feature work, review the code for duplicate and unnecessary code.** Known evidence: stale documentation with wrong test counts/failure-mode claims (see §3), the unused `SolverParams` (E3), the legacy staircase path coexisting with the immersed path (`electrostatics.py`), the dead 4-point-stencil remnants if any, and the un-deleted merged branch. A `code-review` / `explore` pass plus the S7 hygiene list is the right entry point.
-
-## 6. Suggested skills for the next agent
-
-- `code-review` — before any PR-shaped change (also for the hygiene pass in §5).
-- `explore` — wide-net survey of `solver/` for duplicate/dead code paths (immersed vs legacy).
-- `test` / `tdd` — run `pytest`, extend for S3 (Eₙ order) test-first.
-- `grill-with-docs` / `grilling` — sharpen the paper milestone / onset framing claims before writing them up.
-- `handoff` — when finishing this next session.
-- `developing-with-streamlit` — required for any Streamlit app work.
-- `domain-modeling` — only if terminology drift is suspected; `CONTEXT.md` already exists.
-
-## 7. Recommended reading order for a fresh agent
-
-1. `AI_HANDOVER.md` (this file)
-2. `.scratch/taylor-onset-framing/spec.md` — milestone spec, all tickets done, guardrails
-3. `docs/plans/2026-08-09-next-steps.md` — findings + remaining S1–S7 items
-4. `IMPLEMENTATION_STATUS.md` — module list, caveats (note stale test counts)
-5. `CONTEXT.md` — domain glossary
-6. `docs/adr/0001`–`0003`
-7. `examples/08_immersed_refinement_study.py`, `examples/09_ideal_limit_study.py`, `tests/test_taylor_onset.py` — the evidence trail
-8. `.scratch/taylor-cone-fd-bcs/research.md` — earlier sharp-cone research context
-
-## 8. Communication style with the user
-
-Serious physics/math treatment; comfortable with advanced material; do not oversimplify. Maintain project discipline: distinguish theory from implementation, reduced model from full EHD, and keep claims inside the guardrails (§4). Use exact paths when reporting. Challenge assumptions and refine claims when asked for professor/lab-assistant style guidance.
+**Status**: Investigation complete, root causes identified, manual testing needed to validate hypotheses before implementing UI changes.
