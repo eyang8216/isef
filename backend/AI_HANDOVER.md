@@ -1,5 +1,82 @@
 # AI Handover Document
 
+## ✅ RESOLVED (2026-08-16) — Verified root cause and committed fix
+
+**The 1.3° bias is fixed. With the new defaults (121×177 grid, 0.5% apex cap,
+window [0.30, 0.60]), the recovered angle is 49.203° (error −0.087°), identity
+ratio 1.0005, identity exponent crossing 49.254°.**
+
+### What the investigation actually found (all claims below verified by experiment)
+
+1. **The projected-residual argmin is an ill-conditioned observable — this is
+   the root cause, not the apex radius or the window.**
+   The amplitude projection absorbs the dominant `1/ρ` term of the balance, so
+   the remaining landscape is flat to within its discretization floor over
+   ±2° around the minimum (depth `rms(49.29°)/min` measured 1.0–4.4×) and is
+   dominated by near-apex `E_n` reconstruction noise. The argmin wanders with
+   grid/cap/window: measured 47.6°–52° across the parameter matrix (e.g.
+   cap=10μm → 51.0°, cap=200μm → 49.29° *by coincidence*, cap=500μm → 48.0°,
+   window [0.35,0.70] → 44.25°, [0.40,0.75] → 51.7°). The old "48.00°" was
+   **noise, not physics** — it did not converge with refinement (48.0° at
+   both 121×177 and 241×353) and the identity-case argmin was biased the
+   *opposite* way (50–51°).
+
+2. **Hypothesis A (apex radius) — REFUTED as stated.** Smaller caps do NOT
+   monotonically recover 49.29°: cap 500→200→100→50→10μm gave argmins
+   48.0→49.29→50.5→51.0→51.0 at 61×89. The cap does shift the physics, but
+   only ~0.4° (measured via the exponent observable: 48.83° at 500μm vs
+   49.22° at 50μm), and it is NOT the 1.29° error.
+
+3. **Hypothesis B (sampling window) — REFUTED as stated.** Widening the
+   window to [0.15, 0.85] makes things *worse* (argmin 46.0°, identity ratio
+   1.085) because the base samples are distorted by the bottom wall. The
+   correct move is *narrowing* away from the apex: [0.30, 0.60] lowers the
+   residual floor ~10× and removes cap sensitivity.
+
+4. **The machinery is accurate.** The solve reproduces the analytic Taylor
+   field (reconstructed `E_n` within 0.4% of `A·ρ^{-1/2}|P₁|`), and the
+   identity ratio is 1.0005–1.0032 at the new window. The identity ratio
+   1.063/argmin 52.0° in the old JSON was an artifact of n_interface=121 +
+   window [0.15, 0.85] (both now known-bad choices).
+
+### The fix (committed)
+
+- **New primary observable**: the flank field power-law exponent
+  `E_n² ~ ρ^p`. The YLM balance is scale-consistent iff `p = −1` (capillary
+  `γκ ~ cotα/ρ` on the flank). The crossing of `p(α)+1 = 0` is monotone in
+  α, grid-convergent (49.13 → 49.22 → 49.23° at 61×89 → 121×177 → 241×353,
+  cap=50μm), and robust to window (±0.05°). Implemented as
+  `optimization.flank_field_exponent()` + `_exponent_crossing_deg()` in
+  `app_backend.py`.
+- **Defaults changed**: `apex_radius` 0.5mm → 0.05mm (0.5% of spacing);
+  Taylor window [0.30, 0.75] → [0.30, 0.60]; default grid 61×89 → 121×177.
+  UI: apex slider default 5% → 0.5%, grid slider gains "Very Fine (241×353)".
+- **Grounded BC unchanged in meaning**: the exponent never crosses −1 there
+  (field decays more slowly than ρ^{-1}), so the argmin fallback keeps the
+  ~43° truncation-artifact behavior and the 2.8–3.0 kV onset voltage.
+- `identity_argmin_deg` (noisy, reported 52.0°) replaced by
+  `identity_exponent_crossing_deg` (~49.25°); JSON schema bumped to v2.
+- Tests: `test_taylor_onset.py` rewritten around the exponent crossing
+  (asserts |crossing − 49.29| ≤ 0.1–0.2° by grid); new
+  `test_free_boundary_recovers_taylor_angle` guards |recovered − 49.29| ≤
+  0.2° at the default grid.
+
+### Verified results at the new defaults
+
+| Grid | Recovered (exponent) | Identity ratio | Identity crossing |
+|---|---|---|---|
+| 61×89  | 49.134° | 1.0069 | 49.18° |
+| 121×177 (default) | 49.203° | 1.0005 | 49.254° |
+| 241×353 | 49.23° | 1.0024 | 49.26° |
+
+Success criteria met: **49.29° ± 0.2° at the default grid; oscillation ratio
+no longer applies to the recovered-angle observable** (the exponent curve is
+monotone; the residual landscape is still plotted for diagnostics).
+
+---
+
+## Historical record (original problem statement — superseded findings below)
+
 ## Critical Issues: Taylor Angle Verification
 
 ### Problem Summary
@@ -63,6 +140,12 @@ Based on detailed investigation, the most likely causes are:
 
 ### What Needs to Be Done
 
+> **SUPERSEDED 2026-08-16**: the systematic parameter study was executed and
+> the root cause turned out to be the *observable* (projected-residual argmin),
+> not the parameters. See the RESOLVED section at the top. The parameter
+> studies that refuted the original hypotheses are preserved in the "What Was
+> Investigated" section below.
+
 #### Option 1: Systematic Parameter Study (RECOMMENDED)
 Test combinations of:
 - Apex radius: [50, 100, 200, 500] μm
@@ -72,12 +155,21 @@ Test combinations of:
 
 **Expected outcome**: If apex radius is the issue, smaller values should recover angles closer to 49.29°
 
+> **Result (2026-08-16)**: executed. Argmins did NOT converge to 49.29° with
+> smaller caps (48.0 → 51.0°); wider windows made things worse. The argmin
+> was noise. The exponent observable (see RESOLVED) does converge.
+
 #### Option 2: Code Changes Required
 If parameter tuning doesn't work, may need to:
 1. Reduce field sampling distance (currently `d = max(dr, dz)`, try `0.5 * max(dr, dz)`)
 2. Investigate the amplitude projection math in `_immersed_projected_stats`
 3. Validate the `taylor_potential` analytical solution implementation
 4. Check if the flank mask is being applied correctly
+
+> **Result (2026-08-16)**: none of these were the cause. The solve, E_n
+> reconstruction (0.4% vs analytic), amplitude projection, and `taylor_potential`
+> are all verified accurate. The implemented fix is a new observable, not a
+> code fix in these components.
 
 ### Key Files and Functions
 
@@ -163,4 +255,9 @@ To test the apex radius hypothesis:
 
 ---
 
-**Status**: Investigation complete, root causes identified, manual testing needed to validate hypotheses before implementing UI changes.
+**Status**: ~~Investigation complete, root causes identified, manual testing
+needed to validate hypotheses before implementing UI changes.~~
+**RESOLVED 2026-08-16**: root cause verified (ill-conditioned residual-argmin
+observable), fix implemented and committed (flank exponent crossing + default
+cap/window/grid changes), tests updated and passing. See the top of this
+document.

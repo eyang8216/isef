@@ -248,38 +248,40 @@ with tab_verif:
     st.caption(
         "Exercises the immersed free-boundary machinery: the cone is the powered boundary "
         "of its own Laplace solve and the residual projects out the onset voltage. "
-        "**Recovered angle** is the half-angle minimising the amplitude-projected residual "
-        "under the selected outer boundary condition (Taylor far-field recovers ~49°; "
-        "the grounded box recovers ~44°). The **Taylor identity** imposes the exact "
-        "analytic Taylor potential and checks the projected onset voltage against the "
-        "analytic balance amplitude (ratio ~1.0 = exact match)."
+        "**Recovered angle** is the half-angle at which the flank field's power-law exponent "
+        "crosses the balance condition (Taylor far-field recovers ≈49.2° at the Fine grid; "
+        "the grounded box falls back to the ~43–46° truncation artifact). The **Taylor identity** "
+        "imposes the exact analytic Taylor potential and checks the projected onset voltage "
+        "against the analytic balance amplitude (ratio ≈1.000 = exact match)."
     )
 
     verif_spacing = st.number_input("Electrode spacing [mm]", min_value=0.5, max_value=50.0,
                                      value=10.0, step=1.0, format="%.1f",
                                      help="Needle-to-plate gap for the verification domain.") * 1e-3
     verif_apex_um = st.number_input("Apex radius [μm]", min_value=10.0, max_value=2000.0,
-                                    value=verif_spacing * 0.05 * 1e6, step=10.0, format="%.0f",
-                                    help="Spherical cap radius at the apex (default 5% of spacing).")
+                                    value=verif_spacing * 0.005 * 1e6, step=10.0, format="%.0f",
+                                    help="Spherical cap radius at the apex (default 0.5% of spacing; "
+                                         "larger caps blunt the singular field and bias the recovered angle).")
 
     verif_bc = st.radio(
         "Outer boundary condition",
         options=["Taylor far-field", "Grounded box"],
         index=0,
-        help="Taylor far-field: analytical Taylor potential at the boundary (recovers ~49°). "
-             "Grounded box: φ=0 at the boundary (recovers the ~44° truncation artifact).",
+        help="Taylor far-field: analytical Taylor potential at the boundary (recovers ≈49.2°). "
+             "Grounded box: φ=0 at the boundary (recovers the ~43° truncation artifact).",
     )
     verif_bc_type = "taylor_farfield" if verif_bc == "Taylor far-field" else "grounded"
 
     verif_grid = st.select_slider(
         "Grid resolution (nr × nz)",
-        options=["Fast (31×45)", "Default (61×89)", "Fine (121×177)"],
-        value="Default (61×89)",
+        options=["Fast (31×45)", "Default (61×89)", "Fine (121×177)", "Very Fine (241×353)"],
+        value="Fine (121×177)",
     )
     _verif_grid_map = {
         "Fast (31×45)": (31, 45),
         "Default (61×89)": (61, 89),
         "Fine (121×177)": (121, 177),
+        "Very Fine (241×353)": (241, 353),
     }
     verif_nr, verif_nz = _verif_grid_map[verif_grid]
 
@@ -327,9 +329,11 @@ with tab_verif:
         st.subheader("Verification diagnostics")
         col1, col2, col3 = st.columns(3)
         col1.metric("Recovered angle", f"{verif.recovered_angle_deg:.2f}°",
-                    help="Half-angle minimising the amplitude-projected residual under the "
-                         "selected outer boundary condition (Taylor reference value 49.29°).",
+                    help="Half-angle where the flank field exponent E_n² ~ ρ^p crosses p = -1, "
+                         "the scale-consistency condition of the Young-Laplace-Maxwell balance "
+                         "under the selected outer boundary condition (Taylor reference 49.29°).",
                     border=True)
+        st.caption(f"Recovered-angle method: {verif.recovered_angle_method}")
         onset_str = f"{verif.onset_voltage_V / 1e3:.2f} kV" if verif.onset_voltage_V else "—"
         col2.metric("Predicted onset voltage V0*", onset_str,
                     help="Amplitude projected out of the residual, reported as a voltage.",
@@ -338,10 +342,10 @@ with tab_verif:
 
         col4, col5 = st.columns(2)
         col4.metric("Taylor identity ratio V0*/A*", f"{verif.identity_ratio:.4f}" if verif.identity_ratio else "—",
-                    help="Ratio of the projected onset voltage to the analytic balance amplitude at the Taylor angle. 1.0 = exact match (measured ~1.01).",
+                    help="Ratio of the projected onset voltage to the analytic balance amplitude at the Taylor angle. 1.0 = exact match (measured ~1.000 at Fine grid).",
                     border=True)
-        col5.metric("Identity residual argmin", f"{verif.identity_argmin_deg:.1f}°" if verif.identity_argmin_deg else "—",
-                    help="Half-angle of minimum projected residual under the imposed Taylor potential.",
+        col5.metric("Identity exponent crossing", f"{verif.identity_exponent_crossing_deg:.2f}°" if verif.identity_exponent_crossing_deg else "—",
+                    help="Half-angle where the flank exponent crosses p = -1 under the imposed Taylor potential (~49.2°).",
                     border=True)
 
         col_land, col_field = st.columns(2)
@@ -351,7 +355,8 @@ with tab_verif:
             st.plotly_chart(figure_imposed_taylor_field(verif))
 
         st.caption(f"Runtime: {verif.runtime_s:.1f} s. "
-                   "Taylor far-field removes the finite-box truncation artifact (recovers ~49°); "
-                   "the grounded box recovers the truncated-cone-in-a-box angle (~44°). "
+                   "Taylor far-field removes the finite-box truncation artifact: the flank "
+                   "exponent crossing recovers ≈49.2° at the Fine grid (49.29° ideal). "
+                   "The grounded box falls back to the truncated-cone-in-a-box angle (~43–46°). "
                    "The imposed-Taylor identity is the committed verification of the machinery "
                    "against 49.29° (tests/test_taylor_onset.py).")

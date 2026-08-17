@@ -26,7 +26,7 @@ def _verification_params(spacing: float, nr: int = 31, nz: int = 45) -> Immersed
         nz=nz,
         electrode_spacing=spacing,
         apex_z=0.86 * spacing,
-        apex_radius=0.05 * spacing,
+        apex_radius=0.005 * spacing,
         bc_type="grounded",
     )
 
@@ -36,7 +36,7 @@ def test_default_verification_geometry_is_mm_scale():
     params = ImmersedVerificationParams()
     assert params.electrode_spacing == pytest.approx(10e-3)
     assert params.apex_z == pytest.approx(8.6e-3)
-    assert params.apex_radius == pytest.approx(0.5e-3)
+    assert params.apex_radius == pytest.approx(0.05e-3)  # 0.5% of spacing
 
 
 def test_onset_voltage_scales_as_sqrt_of_spacing():

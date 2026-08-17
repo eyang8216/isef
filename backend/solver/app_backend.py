@@ -30,7 +30,7 @@ from .grid import AxisymmetricGrid
 from .immersed import apply_immersed_dirichlet
 from .interface import straight_cone_interface
 from .operators import build_axisymmetric_laplacian
-from .optimization import _immersed_masks, _immersed_projected_stats
+from .optimization import _immersed_masks, _immersed_projected_stats, flank_field_exponent
 from .residual import compute_residual
 from .space_charge import (
     solve_gaussian_shielding,
@@ -319,11 +319,11 @@ class ImmersedVerificationParams:
     ``electrode_spacing``, so rescaling the spacing rescales the whole problem.
     """
 
-    nr: int = 61
-    nz: int = 89
+    nr: int = 121
+    nz: int = 177
     electrode_spacing: float = 10e-3   # domain side [m] (needle-to-plate gap)
     apex_z: float = 8.6e-3             # on-axis apex position [m] (0.86 * spacing)
-    apex_radius: float = 0.5e-3        # apex cap radius [m] (5% of spacing)
+    apex_radius: float = 0.05e-3       # apex cap radius [m] (0.5% of spacing)
     bc_type: Literal["grounded", "taylor_farfield"] = "taylor_farfield"
     gamma: float = 0.022
     V0: float = 1000.0
@@ -335,6 +335,7 @@ class ImmersedVerificationResult:
 
     # Free-boundary landscape (P2)
     recovered_angle_deg: float
+    recovered_angle_method: str   # "exponent_crossing" or "argmin_fallback"
     onset_voltage_V: float | None
     min_rms_Pa: float
     landscape_angles: np.ndarray
@@ -342,7 +343,7 @@ class ImmersedVerificationResult:
     # Imposed-Taylor identity (P3i)
     taylor_angle_deg: float
     identity_ratio: float | None       # V0* / A* at the Taylor angle (1.0 = exact)
-    identity_argmin_deg: float | None
+    identity_exponent_crossing_deg: float | None
     phi_identity: np.ndarray | None    # imposed-Taylor solve at 49.29 deg
     grid_r: np.ndarray | None
     grid_z: np.ndarray | None
@@ -379,19 +380,48 @@ def _solve_imposed_taylor(grid: AxisymmetricGrid, angle_deg: float, cap: float, 
     return cone, grid.unflatten(spsolve(Aop, b))
 
 
+def _exponent_crossing_deg(angle_to_p: dict[float, float]) -> float | None:
+    """Half-angle where the flank exponent ``p(alpha) + 1`` changes sign.
+
+    Linear interpolation between consecutive sweep samples; returns ``None``
+    when the exponent stays on one side of ``-1`` across the whole sweep (the
+    finite grounded box, whose field decays more slowly than ``rho^-1``).
+    """
+    angles = np.array(sorted(angle_to_p))
+    ps = np.array([angle_to_p[a] for a in angles])
+    for i in range(len(angles) - 1):
+        lo, hi = ps[i] + 1.0, ps[i + 1] + 1.0
+        if lo * hi <= 0.0:
+            if abs(lo - hi) < 1e-300:
+                return float(0.5 * (angles[i] + angles[i + 1]))
+            t = lo / (lo - hi)
+            return float(angles[i] + t * (angles[i + 1] - angles[i]))
+    return None
+
+
 def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVerificationResult:
     """Run the committed immersed verifications for the app tab.
 
     1. **Free-boundary landscape (P2):** sweep the half-angle with the
        amplitude-projected residual (``_immersed_projected_stats``) and refine
-       around the minimum.  With ``bc_type="grounded"`` the outer box is
-       grounded (the truncation baseline, recovering ~44 deg and a physical
-       onset voltage); with ``bc_type="taylor_farfield"`` the outer boundary is
-       set to the analytical Taylor potential (recovering ~48 deg at the
-       default grid, within ~1.3 deg of the ideal 49.29 deg).
+       around the minimum and the exponent crossing.  The **recovered angle**
+       is the half-angle at which the flank field's power-law exponent
+       ``E_n^2 ~ rho^p`` crosses ``p = -1`` — the scale-consistency condition
+       of the Young-Laplace-Maxwell balance (capillary ``gamma kappa ~
+       1/rho`` on the flank).  Unlike the projected-residual argmin, which is
+       flat to within its discretization floor near the minimum and wanders
+       with grid/cap/window (measured 2026-08-16: 47.6-52 deg), the exponent
+       is monotone in the half-angle and grid-convergent (49.13 -> 49.22 ->
+       49.23 deg at 61x89 -> 121x177 -> 241x353 with a 0.5% cap; ideal
+       49.29 deg).  With ``bc_type="grounded"`` the exponent never crosses
+       ``-1`` (truncation baseline, recovering ~43-46 deg via the argmin
+       fallback, with a physical onset voltage); with
+       ``bc_type="taylor_farfield"`` the analytic Taylor far field is imposed
+       and the crossing recovers ~49.2 deg at the default grid.
     2. **Imposed-Taylor identity (P3i):** impose the exact analytic Taylor
        potential on the box ring, cone at 0, and compare the projected onset
-       voltage at 49.29 deg with the analytic balance amplitude A* (ratio ~1.01).
+       voltage at 49.29 deg with the analytic balance amplitude A*
+       (ratio ~1.00), and report the identity exponent crossing (~49.2 deg).
     """
     t0 = time.perf_counter()
     physical = PhysicalParams(V0=params.V0, gamma=params.gamma)
@@ -401,7 +431,12 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
 
     # --- free-boundary landscape (recovered angle + onset voltage) ---
     z_min_w, z_max_w = 0.15 * z_max, 0.85 * z_max
-    taylor_z_min, taylor_z_max = 0.30 * z_max, 0.75 * z_max
+    # The Taylor far-field flank window keeps well below the apex (cap and
+    # sub-grid singularity) and clear of the base: [0.30, 0.60] of the domain
+    # (measured 2026-08-16: [0.30, 0.75] adds near-apex samples whose E_n
+    # reconstruction error dominates the projected residual, and [0.15, 0.85]
+    # adds base samples distorted by the bottom wall).
+    taylor_z_min, taylor_z_max = 0.30 * z_max, 0.60 * z_max
     external = rectangular_electrodes(grid, powered="z_max", ground="z_min", far_dirichlet=True)
     normal_clearance = 3.0 * max(grid.dr, grid.dz)
     r_max_safe = min(grid.r[-1] * 0.95, grid.r[-1] - normal_clearance)
@@ -410,7 +445,8 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
 
     taylor_physical = PhysicalParams(V0=1.0, gamma=params.gamma)
 
-    def projected(angle_deg: float) -> tuple[float, float] | None:
+    def evaluate(angle_deg: float) -> tuple[float, float | None, float] | None:
+        """(rms, onset_voltage_V, flank_exponent) for one candidate angle."""
         try:
             if params.bc_type == "taylor_farfield":
                 cone, phi = _solve_imposed_taylor(
@@ -419,7 +455,10 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
                 return _immersed_projected_stats(
                     grid, cone, phi, taylor_physical,
                     z_min=taylor_z_min, z_max=taylor_z_max, n_interface=41,
-                )
+                ) + (flank_field_exponent(
+                    grid, cone, phi,
+                    z_min=taylor_z_min, z_max=taylor_z_max, n_interface=41,
+                ),)
             cone = ImplicitCone(
                 apex_z=params.apex_z + 1e-10 * params.apex_z,
                 half_angle_deg=float(angle_deg),
@@ -430,40 +469,48 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
             phi = solve_laplace(grid, masks, physical, immersed=cone)
             return _immersed_projected_stats(
                 grid, cone, phi, physical, z_min=z_min_w, z_max=z_max_w, n_interface=41
-            )
+            ) + (flank_field_exponent(
+                grid, cone, phi, z_min=z_min_w, z_max=z_max_w, n_interface=41,
+            ),)
         except (ValueError, RuntimeError):
             return None
 
-    rms_map: dict[float, float] = {}
+    evals: dict[float, tuple[float, float | None, float]] = {}
+
+    def record(angle_deg: float) -> None:
+        res = evaluate(float(angle_deg))
+        if res is not None:
+            evals[float(angle_deg)] = res
+
     coarse = np.unique(np.concatenate((np.arange(35.0, angle_upper + 1e-9, 2.5), [alpha])))
     coarse = coarse[coarse <= angle_upper]
     for a in coarse:
-        res = projected(float(a))
-        if res is not None:
-            rms_map[float(a)] = res[0]
-    if not rms_map:
+        record(float(a))
+    if not evals:
         raise RuntimeError("immersed verification: all landscape candidates failed")
-    coarse_argmin = min(rms_map, key=rms_map.get)
-    refine = np.arange(max(30.0, coarse_argmin - 2.5), min(angle_upper, coarse_argmin + 2.51), 0.5)
+    coarse_argmin = min(evals, key=lambda a: evals[a][0])
+    coarse_cross = _exponent_crossing_deg({a: evals[a][2] for a in evals})
+    focus = coarse_cross if coarse_cross is not None else coarse_argmin
+    refine = np.arange(max(30.0, focus - 2.5), min(angle_upper, focus + 2.51), 0.5)
     for a in refine:
-        res = projected(float(a))
-        if res is not None:
-            rms_map[float(a)] = res[0]
-    argmin = min(rms_map, key=rms_map.get)
-    final = projected(argmin)
-    rms_min = float(final[0])
+        record(float(a))
+    argmin = min(evals, key=lambda a: evals[a][0])
+    rms_min = float(evals[argmin][0])
     # The projected onset voltage is physical only for the finite grounded box;
     # the analytical Taylor far-field is scale-free and has no onset voltage.
-    onset_voltage = final[1] if params.bc_type == "grounded" else None
-    land_angles = np.array(sorted(rms_map))
-    land_rms = np.array([rms_map[a] for a in land_angles])
+    onset_voltage = evals[argmin][1] if params.bc_type == "grounded" else None
+    crossing = _exponent_crossing_deg({a: evals[a][2] for a in evals})
+    recovered_angle = crossing if crossing is not None else argmin
+    recovered_method = "exponent_crossing" if crossing is not None else "argmin_fallback"
+    land_angles = np.array(sorted(evals))
+    land_rms = np.array([evals[a][0] for a in land_angles])
 
     # --- imposed-Taylor identity (P3i) ---
     # The cone is at potential 0 here, so the projection is normalized to the
     # imposed outer amplitude (V0 = A = 1); V0* then equals the best-fit balance
     # amplitude A*.
     identity_ratio: float | None = None
-    identity_argmin: float | None = None
+    identity_crossing: float | None = None
     phi_identity: np.ndarray | None = None
     try:
         cap_id = 0.001 * z_max
@@ -476,26 +523,30 @@ def run_immersed_verification(params: ImmersedVerificationParams) -> ImmersedVer
         if v0_taylor is not None and amp > 0:
             identity_ratio = float(v0_taylor / amp)
         id_angles = np.arange(47.0, 52.01, 1.0)
-        id_rms: dict[float, float] = {}
+        id_p: dict[float, float] = {}
         for a in id_angles:
             cone_a, phi_a = _solve_imposed_taylor(grid, float(a), cap_id, params.apex_z)
-            id_rms[float(a)] = _immersed_projected_stats(
-                grid, cone_a, phi_a, PhysicalParams(V0=1.0, gamma=params.gamma),
-                z_min=taylor_z_min, z_max=taylor_z_max, n_interface=41,
-            )[0]
-        identity_argmin = float(min(id_rms, key=id_rms.get))
+            try:
+                id_p[float(a)] = flank_field_exponent(
+                    grid, cone_a, phi_a,
+                    z_min=taylor_z_min, z_max=taylor_z_max, n_interface=41,
+                )
+            except (ValueError, RuntimeError):
+                continue
+        identity_crossing = _exponent_crossing_deg(id_p)
     except (ValueError, RuntimeError):
         pass
 
     return ImmersedVerificationResult(
-        recovered_angle_deg=float(argmin),
+        recovered_angle_deg=float(recovered_angle),
+        recovered_angle_method=recovered_method,
         onset_voltage_V=onset_voltage,
         min_rms_Pa=rms_min,
         landscape_angles=land_angles,
         landscape_rms=land_rms,
         taylor_angle_deg=alpha,
         identity_ratio=identity_ratio,
-        identity_argmin_deg=identity_argmin,
+        identity_exponent_crossing_deg=identity_crossing,
         phi_identity=phi_identity,
         grid_r=grid.r,
         grid_z=grid.z,
@@ -518,10 +569,10 @@ def figure_verification_landscape(result: ImmersedVerificationResult) -> go.Figu
     )
     fig.add_vline(
         x=result.recovered_angle_deg, line_dash="dash", line_color="firebrick",
-        annotation_text=f"argmin {result.recovered_angle_deg:.1f}°",
+        annotation_text=f"recovered {result.recovered_angle_deg:.2f}°",
     )
     fig.update_layout(
-        title="Free-boundary amplitude-projected residual vs half-angle",
+        title="Free-boundary projected residual vs half-angle (recovered = flank exponent crossing)",
         xaxis_title="Half-angle [deg]",
         yaxis_title="RMS residual [Pa]",
         yaxis_type="log",
@@ -635,20 +686,23 @@ def verification_run_to_dict(params: ImmersedVerificationParams,
     """
     return {
         "schema": "isef-taylor-cone/verification-run",
-        "schema_version": 1,
+        "schema_version": 2,
         "kind": "immersed_verification_run",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "parameters": asdict(params),
         "outputs": {
             "recovered_angle_deg": float(result.recovered_angle_deg),
+            "recovered_angle_method": result.recovered_angle_method,
             "onset_voltage_V": (float(result.onset_voltage_V)
                                 if result.onset_voltage_V is not None else None),
             "min_rms_Pa": float(result.min_rms_Pa),
             "taylor_angle_deg": float(result.taylor_angle_deg),
             "identity_ratio_V0_over_A": (float(result.identity_ratio)
                                          if result.identity_ratio is not None else None),
-            "identity_argmin_deg": (float(result.identity_argmin_deg)
-                                    if result.identity_argmin_deg is not None else None),
+            "identity_exponent_crossing_deg": (
+                float(result.identity_exponent_crossing_deg)
+                if result.identity_exponent_crossing_deg is not None else None
+            ),
             "runtime_s": float(result.runtime_s),
         },
         "landscape": {
