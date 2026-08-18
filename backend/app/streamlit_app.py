@@ -70,31 +70,33 @@ def _run_verification_cached(params: ImmersedVerificationParams) -> "ImmersedVer
 with st.sidebar:
     st.header("Basic parameters")
 
-    V0 = st.number_input("Voltage V₀ [kV]", min_value=0.5, max_value=100.0, value=2.5, step=0.1,
-                         format="%.2f", help="Applied voltage; typical ethanol electrospray 1–5 kV.") * 1000.0
     gamma = st.number_input("Surface tension γ [mN/m]", min_value=15.0, max_value=72.0,
                             value=22.0, step=1.0, format="%.1f",
-                            help="Ethanol ≈ 22 mN/m; water ≈ 72 mN/m.") * 1e-3
+                            help="Surface tension of the working fluid. Determines the capillary "
+                                 "pressure scale γκ. Common values: Ethanol ≈ 22 mN/m, Water ≈ "
+                                 "72 mN/m, Formamide ≈ 58 mN/m. This affects the balance between "
+                                 "electrostatic and capillary forces.") * 1e-3
     electrode_spacing = st.number_input("Electrode spacing [mm]", min_value=0.5, max_value=50.0,
                                         value=10.0, step=1.0, format="%.1f",
-                                        help="Nozzle tip to grounded plate distance.") * 1e-3
+                                        help="Distance from emitter tip to grounded counter-electrode. "
+                                             "Sets the domain height (z_max). Typical experimental "
+                                             "values: 10–50 mm for benchtop electrospray, 1–5 mm for "
+                                             "microdevices. NOTE: this is a model geometry parameter, "
+                                             "not a prescription for optimal experimental spacing.") * 1e-3
     nozzle_radius = st.number_input("Nozzle / domain radius [mm]", min_value=0.5, max_value=50.0,
                                     value=10.0, step=1.0, format="%.1f",
-                                    help="Domain radial extent (interface inlet radius).") * 1e-3
-    grid_res = st.select_slider("Grid resolution (nr × nz)",
-                                 options=["Coarse (21×31)", "Medium (31×51)", "Fine (41×71)"],
-                                 value="Medium (31×51)")
-    _grid_map = {
-        "Coarse (21×31)": (21, 31),
-        "Medium (31×51)": (31, 51),
-        "Fine (41×71)": (41, 71),
-    }
-    nr, nz = _grid_map[grid_res]
+                                    help="Radial extent of the computational domain (r_max) and "
+                                         "initial nozzle outer radius. Should be large enough to "
+                                         "minimize radial boundary effects on the solution. For a "
+                                         "square domain, set equal to the electrode spacing.") * 1e-3
 
     space_charge_model = st.selectbox(
         "Space-charge model",
         options=["none", "gaussian", "threshold"],
         index=0,
+        help="Optional phenomenological space-charge shielding model to account for ion emission. "
+             "'none': vacuum electrostatics (Laplace equation). 'gaussian': Gaussian charge "
+             "distribution with exponential decay. 'threshold': field-threshold activation model.",
     )
 
     # ---------------------------------------------------------------------------
@@ -119,42 +121,74 @@ with st.sidebar:
             E_c = E_s = rho_max = None
 
         st.subheader("Iteration controls")
-        relaxation = st.slider("Under-relaxation ω", min_value=0.1, max_value=1.0, value=0.5, step=0.05)
-        sc_max_iterations = st.number_input("Max iterations", min_value=5, max_value=500, value=50)
+        relaxation = st.slider("Under-relaxation ω", min_value=0.1, max_value=1.0, value=0.5, step=0.05,
+                               help="Under-relaxation factor for the fixed-point iteration. Lower "
+                                    "values are more stable but slower; raise only if the iteration "
+                                    "fails to move.")
+        sc_max_iterations = st.number_input("Max iterations", min_value=5, max_value=500, value=50,
+                                            help="Cap on space-charge fixed-point iterations before "
+                                                 "reporting divergence.")
 
         st.subheader("Interface for residual diagnostics")
         interface_half_angle_deg = st.slider("Cone half-angle [°]", min_value=1.0, max_value=89.0,
-                                              value=49.3, step=0.1)
+                                             value=49.3, step=0.1,
+                                             help="Half-angle of the prescribed conical interface used "
+                                                  "for residual diagnostics. The theoretical Taylor "
+                                                  "angle is 49.29°. This is an INPUT parameter for "
+                                                  "diagnostics, not a prediction from the solver.")
 
 # ---------------------------------------------------------------------------
-# Run button
+# Tabs
 # ---------------------------------------------------------------------------
-params = RunParams(
-    V0=V0,
-    gamma=gamma,
-    electrode_spacing=electrode_spacing,
-    nozzle_radius=nozzle_radius,
-    nr=nr,
-    nz=nz,
-    space_charge_model=space_charge_model,
-    rho0=rho0,
-    ell=ell,
-    apex_r=apex_r,
-    apex_z=apex_z,
-    E_c=E_c,
-    E_s=E_s,
-    rho_max=rho_max,
-    relaxation=relaxation,
-    sc_max_iterations=sc_max_iterations,
-    interface_half_angle_deg=interface_half_angle_deg,
-)
-
 tab_classic, tab_verif = st.tabs(["Classic diagnostics", "Immersed verification"])
 
 # ---------------------------------------------------------------------------
 # Tab 1 — classic diagnostics (legacy fixed-V0 residual on a prescribed cone)
 # ---------------------------------------------------------------------------
 with tab_classic:
+    st.subheader("Classic solver parameters")
+
+    V0 = st.number_input("Voltage V₀ [kV]", min_value=0.5, max_value=100.0, value=2.5, step=0.1,
+                         format="%.2f",
+                         help="Applied potential at the emitter relative to the grounded plate. "
+                              "Typical experimental onset voltages: 1–5 kV for ethanol, 2–10 kV for water. "
+                              "Higher voltages increase electric field strength and Maxwell stress. "
+                              "Only used by the Classic diagnostics tab.") * 1000.0
+    grid_res = st.select_slider("Grid resolution (nr × nz)",
+                                options=["Coarse (21×31)", "Medium (31×51)", "Fine (41×71)"],
+                                value="Medium (31×51)",
+                                help="Finite-difference grid resolution (radial × axial). Higher "
+                                     "resolution improves accuracy but increases computation time. "
+                                     "Coarse: quick tests, Medium: routine work, Fine: "
+                                     "publication quality. Independent from the verification grid.",
+                                key="classic_grid")
+    _grid_map = {
+        "Coarse (21×31)": (21, 31),
+        "Medium (31×51)": (31, 51),
+        "Fine (41×71)": (41, 71),
+    }
+    nr, nz = _grid_map[grid_res]
+
+    params = RunParams(
+        V0=V0,
+        gamma=gamma,
+        electrode_spacing=electrode_spacing,
+        nozzle_radius=nozzle_radius,
+        nr=nr,
+        nz=nz,
+        space_charge_model=space_charge_model,
+        rho0=rho0,
+        ell=ell,
+        apex_r=apex_r,
+        apex_z=apex_z,
+        E_c=E_c,
+        E_s=E_s,
+        rho_max=rho_max,
+        relaxation=relaxation,
+        sc_max_iterations=sc_max_iterations,
+        interface_half_angle_deg=interface_half_angle_deg,
+    )
+
     run = st.button("Run solver", type="primary", icon=":material/play_arrow:")
 
     if run:
@@ -255,27 +289,47 @@ with tab_verif:
         "against the analytic balance amplitude (ratio ≈1.000 = exact match)."
     )
 
-    verif_spacing = st.number_input("Electrode spacing [mm]", min_value=0.5, max_value=50.0,
-                                     value=10.0, step=1.0, format="%.1f",
-                                     help="Needle-to-plate gap for the verification domain.") * 1e-3
+    # Electrode spacing is shared from the sidebar (single source of truth for both
+    # tabs). The verification domain is a square of side = electrode_spacing, apex at
+    # 0.86×spacing, and the default apex radius is 0.5% of spacing — all derived here.
     verif_apex_um = st.number_input("Apex radius [μm]", min_value=10.0, max_value=2000.0,
-                                    value=verif_spacing * 0.005 * 1e6, step=10.0, format="%.0f",
-                                    help="Spherical cap radius at the apex (default 0.5% of spacing; "
-                                         "larger caps blunt the singular field and bias the recovered angle).")
+                                    value=electrode_spacing * 0.005 * 1e6, step=10.0, format="%.0f",
+                                    help="Rounding radius at the cone apex to avoid singular "
+                                         "fields. Default 50 μm = 0.5% of the electrode spacing "
+                                         "(standard practice). Smaller values approach the "
+                                         "sharp-cone limit but require finer grids near the apex.")
 
-    verif_bc = st.radio(
-        "Outer boundary condition",
-        options=["Taylor far-field", "Grounded box"],
-        index=0,
-        help="Taylor far-field: analytical Taylor potential at the boundary (recovers ≈49.2°). "
-             "Grounded box: φ=0 at the boundary (recovers the ~43° truncation artifact).",
+    # COMMENTED OUT: Grounded BC option (negative control, kept for easy reversion).
+    # The grounded box (φ=0 at all outer boundaries) is a negative control that demonstrates
+    # the finite-box truncation artifact (recovers ~43–46° instead of the Taylor 49.29°).
+    # It is educational only and not needed for routine verification. To restore the option,
+    # uncomment the radio below and delete the fixed assignment.
+    # verif_bc = st.radio(
+    #     "Outer boundary condition",
+    #     options=["Taylor far-field", "Grounded box"],
+    #     index=0,
+    #     help="Taylor far-field: analytical Taylor potential at the boundary (recovers ≈49.2°). "
+    #          "Grounded box: φ=0 at the boundary (recovers the ~43° truncation artifact).",
+    # )
+    # verif_bc_type = "taylor_farfield" if verif_bc == "Taylor far-field" else "grounded"
+    verif_bc_type = "taylor_farfield"  # Always use the primary test (Taylor far-field BC)
+
+    st.caption(
+        "The verification uses the **Taylor far-field** boundary condition: the exact analytical "
+        "Taylor potential is imposed on the outer boundary. This is the correct verification test "
+        "(recovers ≈49.2° → 49.29°). A \"grounded\" option (all boundaries at φ=0) exists in the "
+        "code as a negative control to demonstrate truncation artifacts but is commented out for "
+        "clarity."
     )
-    verif_bc_type = "taylor_farfield" if verif_bc == "Taylor far-field" else "grounded"
 
     verif_grid = st.select_slider(
         "Grid resolution (nr × nz)",
         options=["Fast (31×45)", "Default (61×89)", "Fine (121×177)", "Very Fine (241×353)"],
         value="Fine (121×177)",
+        help="Grid resolution for the angle sweep. Higher grids reduce discretization error. "
+             "Fast: ≈49.1° recovered angle, Fine: ≈49.2°, Very Fine: ≈49.23° (approaching "
+             "theoretical 49.29°). Use Fine (121×177) for standard verification, Very Fine for "
+             "convergence studies.",
     )
     _verif_grid_map = {
         "Fast (31×45)": (31, 45),
@@ -291,8 +345,8 @@ with tab_verif:
     if run_verif:
         verif_params = ImmersedVerificationParams(
             nr=verif_nr, nz=verif_nz,
-            electrode_spacing=verif_spacing,
-            apex_z=0.86 * verif_spacing,
+            electrode_spacing=electrode_spacing,
+            apex_z=0.86 * electrode_spacing,
             apex_radius=verif_apex_um * 1e-6,
             bc_type=verif_bc_type,
         )
