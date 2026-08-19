@@ -1,59 +1,60 @@
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-htmlcov/
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
 .venv/
 venv/
-env/
+ENV/
 
-# Python packaging (editable install artifacts)
-*.egg-info/
-build/
-dist/
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# Jupyter
-.ipynb_checkpoints/
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
 
-# LaTeX intermediates
+# OS
+.DS_Store
+Thumbs.db
+
+# LaTeX
 *.aux
-*.bbl
-*.bcf
-*.blg
-*.fdb_latexmk
-*.fls
 *.log
 *.out
-*.run.xml
-*.synctex.gz
 *.toc
-*.xdv
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.bbl
+*.blg
+paper_submission/build/
 
-# Obsidian local UI state (keep notes, ignore machine-specific workspace)
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
+# Experimental data (raw images, videos - keep metadata and results)
+backend/results/experimental_data/images/*.jpg
+backend/results/experimental_data/images/*.png
+backend/results/experimental_data/images/*.mp4
+backend/results/experimental_data/images/*.avi
 
-# Secrets / local env
-.env
-.env.*
-*.pem
-*.key
+# Keep directory structure but not contents
+!backend/results/experimental_data/images/.gitkeep
+!backend/results/experimental_data/metadata/.gitkeep
+!backend/results/experimental_data/frozen_predictions/.gitkeep
+!backend/results/experimental_data/profiles/.gitkeep
 
-# reasonix
-.reasonix/
+# Claude AI session data (local only)
+.claude/
 
-# Agent skills (installed locally per machine, not versioned)
-.agents/skills/
-.claude/skills/
-
-# agent-generated review reports (one-off artifacts, not source)
-architecture-review-*.html
+# Temporary PDFs during drafting
+ISEF*.pdf

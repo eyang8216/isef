@@ -1,4 +1,4 @@
-\section{Planned Experimental Methodology}
+\section{Experimental Methodology}
 
 \subsection{Purpose}
 
@@ -17,13 +17,73 @@ The planned primary observables are:
 
 \subsection{Controlled and Recorded Variables}
 
-The experiment will record electrode spacing, needle or nozzle geometry, liquid identity, surface tension or literature surface-tension value, conductivity or dopant condition, applied voltage, flow rate, camera calibration scale, frame rate, temperature, humidity if available, and trial notes. A metadata template will be prepared before data collection to ensure repeatability.
+Each experimental trial will record a comprehensive metadata package to ensure reproducibility:
+
+\paragraph{Geometric Parameters}
+\begin{itemize}
+    \item electrode spacing $L$ (mm, measured with calipers)
+    \item needle outer diameter $d_{\mathrm{out}}$ (mm, from manufacturer specification)
+    \item needle inner diameter $d_{\mathrm{in}}$ (mm, from manufacturer specification)
+    \item extractor electrode geometry (plate, ring, or aperture dimensions)
+    \item alignment offsets (radial centering, axial positioning relative to reference)
+\end{itemize}
+
+\paragraph{Fluid Properties}
+\begin{itemize}
+    \item liquid identity (solvent name, purity grade, supplier)
+    \item surface tension $\gamma$ (N/m, from literature or pendant-drop measurement)
+    \item electrical conductivity $\sigma$ (S/m, measured or literature value)
+    \item dopant identity and concentration if applicable (e.g., NaCl, formic acid)
+    \item liquid temperature $T$ (\si{\celsius}, recorded at start and end of session)
+\end{itemize}
+
+\paragraph{Operational Settings}
+\begin{itemize}
+    \item applied voltage $V_{\mathrm{app}}$ (V, from power supply display or multimeter verification)
+    \item flow rate $Q$ (\si{\micro\liter/\minute}, from syringe pump setting)
+    \item observation duration per voltage step (s)
+    \item voltage ramp rate and step size (V/step)
+\end{itemize}
+
+\paragraph{Imaging Parameters}
+\begin{itemize}
+    \item camera model, resolution (pixels), and frame rate (fps)
+    \item lens focal length and working distance (mm)
+    \item calibration scale (pixels/mm, from calibration target or known needle diameter)
+    \item backlight type and intensity setting
+    \item exposure time and gain settings
+\end{itemize}
+
+\paragraph{Environmental and Session Metadata}
+\begin{itemize}
+    \item ambient temperature and humidity if available
+    \item date, time, and trial sequence number
+    \item operator identity and supervisor present
+    \item equipment serial numbers or laboratory notebook reference
+    \item any anomalies or notes (e.g., air bubbles, liquid spill, premature spray)
+\end{itemize}
+
+A JSON metadata template will be prepared before data collection and completed for every trial to enable exact replication of the experimental conditions in simulation.
 
 \subsection{Experimental Design}
 
 The planned validation experiment uses a supervised electrospray/Taylor-cone imaging setup. A conductive or doped liquid will be delivered at controlled low flow rate to a needle/nozzle facing a grounded extractor electrode. A camera and backlight will record the meniscus silhouette near onset. Voltage will be varied under supervision until a stable Taylor-cone-like shape is observed. The stable frame sequence will be analyzed with the image-processing pipeline described in Section~\ref{sec:image-processing}.
 
 Primary validation should begin with one carefully controlled geometry and one low-flow operating condition, repeated several times. Additional trials may vary electrode spacing, voltage, or flow condition to test trends. Because the present solver is primarily electrostatic--capillary and static, flow-rate-dependent conclusions will be treated cautiously unless additional flow physics is added.
+
+\paragraph{Apparatus Configuration.} The apparatus will consist of:
+\begin{enumerate}
+    \item A grounded, ventilated enclosure with fail-safe interlocks preventing access during energization.
+    \item A current-limited high-voltage DC power supply (rated 0--10~kV, manufacturer-specified current limiting, discharge provision) mounted externally with shielded cabling entering the enclosure.
+    \item A precision syringe pump delivering conductive liquid through PTFE tubing to a stainless steel hypodermic needle or blunt-tip nozzle.
+    \item A grounded extractor electrode (plate, ring, or aperture) positioned at adjustable spacing from the needle tip.
+    \item A calibrated camera with macro lens and telecentric or low-distortion optics, positioned perpendicular to the cone axis with a diffuse LED backlight producing silhouette contrast.
+    \item A calibration target (precision-machined scale or known needle diameter verified by microscopy) placed in the focal plane for pixel-to-millimeter conversion.
+\end{enumerate}
+
+\paragraph{Voltage Ramp Protocol.} Voltage will be increased in discrete steps (e.g., \SI{100}{V} or \SI{200}{V} increments) with a fixed dwell time (e.g., 10--30~s) at each step. Video recording will run continuously. The operator will note the qualitative meniscus state at each step: hemispherical, deformed, conical-unstable, conical-stable, or spray. Voltage will be increased until stable cone formation is observed or until spray onset occurs, then decreased to confirm hysteresis or repeatability. At least three independent trials will be conducted for each geometry to assess repeatability.
+
+\paragraph{Flow Rate Selection.} Flow rate will be set to the minimum stable value that maintains the liquid meniscus without receding into the needle bore. Literature suggests typical electrospray onset occurs at 0.1--10~\si{\micro\liter/\minute} for millimeter-scale needles. A preliminary flow sweep under low voltage will identify the minimum stable flow, which will then be held constant during the voltage ramp. Flow-rate variation trials may be conducted as secondary experiments to test sensitivity, but the solver comparison will prioritize the quasi-static low-flow limit where the electrostatic--capillary balance dominates over hydrodynamic effects.
 
 \subsection{Planned Trial Matrix}
 
@@ -50,6 +110,54 @@ Fluid condition & One characterized fluid & Optional conductivity variation & Mo
 
 The experimental onset voltage will be defined operationally as the lowest applied voltage at which a stable Taylor-cone-like interface persists for a specified observation window without immediate collapse or uncontrolled breakup. The final observation-window length and stability criteria will be fixed before data collection to reduce subjective bias.
 
+\paragraph{Quantitative Stability Criteria.} A frame sequence will be classified as ``stable cone'' if:
+\begin{enumerate}
+    \item The meniscus exhibits a clearly conical profile over at least 50\% of the distance from the needle tip to the apex.
+    \item The extracted half-angle remains within $\pm 5^{\circ}$ of its mean value over the observation window (e.g., 10~s or 100 consecutive frames at 10~fps).
+    \item The apex position does not drift by more than one needle diameter in the axial direction during the observation window.
+    \item No visible droplet emission, jet breakup, or electrical discharge occurs during the observation window.
+\end{enumerate}
+
+The observation window duration will be selected to be long enough to reject transient deformations but short enough to avoid liquid evaporation or electrode contamination. A preliminary value of 10--20~s is proposed, to be finalized during apparatus commissioning.
+
+\paragraph{Onset Voltage Assignment.} The experimental onset voltage $V_{\mathrm{exp}}$ will be recorded as the lowest voltage step at which the stability criteria are satisfied. If the meniscus oscillates between stable and unstable states near a particular voltage, the midpoint of the transition band will be recorded along with the bandwidth as an uncertainty estimate. If hysteresis is observed (different onset voltages during ramp-up versus ramp-down), both values will be reported and the average will be used for comparison unless the hysteresis is large enough to indicate a qualitatively different physical regime.
+
 \subsection{Definition of Simulated Onset}
 
 The simulated onset voltage requires a formal numerical criterion. The planned criterion is to sweep applied voltage and identify the lowest voltage for which a Taylor-cone-like candidate interface satisfies a pre-defined residual threshold and physically reasonable half-angle range. An alternative or secondary criterion is the voltage at which apex-region Maxwell pressure becomes comparable to capillary pressure. The final criterion will be selected and documented before comparison with experimental onset data.
+
+\paragraph{Residual Threshold Criterion.} The primary numerical criterion will be:
+\begin{equation}
+V_{\mathrm{sim}}^{\mathrm{onset}} = \min\left\{V \,:\, \resid_{\mathrm{RMS}}(V) < \tau \,\wedge\, 35^{\circ} \leq \alpha_{\mathrm{opt}}(V) \leq 60^{\circ}\right\},
+\end{equation}
+where $\tau$ is a residual threshold (e.g., \SI{0.1}{Pa} or 1\% of the capillary pressure scale $\gamma/L$) and $\alpha_{\mathrm{opt}}(V)$ is the half-angle recovered by the immersed optimizer at applied voltage $V$. The angle bounds exclude unphysical solutions (too shallow or too steep to be electrospray-relevant). The voltage sweep will use a fine step size (e.g., \SI{50}{V} or \SI{100}{V}) to resolve the onset threshold with comparable precision to the experimental ramp.
+
+\paragraph{Pressure Balance Criterion (Alternative).} A secondary criterion compares the Maxwell pressure scale to the capillary pressure scale:
+\begin{equation}
+V_{\mathrm{sim}}^{\mathrm{onset}} = \text{voltage where } \frac{\varepsilon_0 E_{\mathrm{apex}}^2 / 2}{\gamma / R_{\mathrm{apex}}} \geq C,
+\end{equation}
+where $C \approx 1$ is a dimensionless threshold and $E_{\mathrm{apex}}$, $R_{\mathrm{apex}}$ are evaluated in the apex region. This criterion does not require optimization and may be more robust for coarse grids, but it is less directly tied to the shape-residual metric used elsewhere in the solver. The residual threshold criterion will be the primary definition unless preliminary trials show it is too sensitive to grid resolution or produces onset voltages far outside the experimental range.
+
+\subsection{Preregistration and Prediction Freezing}
+
+To prevent post-hoc parameter tuning or confirmation bias, the simulation predictions will be frozen before experimental data are analyzed. The preregistration protocol is:
+
+\paragraph{Step 1: Metadata Collection.} After a trial is completed, the operator will record all geometric, fluid, and operational metadata in a structured JSON file (see template in Appendix~\ref{app:metadata-template}). The raw image files will be saved with timestamps and trial identifiers. No image processing or profile extraction will be performed at this stage.
+
+\paragraph{Step 2: Matched Simulation.} A designated team member (not the person who collected the data) will extract the geometric parameters (electrode spacing $L$, needle diameter $d$, fluid properties $\gamma$, $\sigma$) from the metadata file and configure the solver with exactly matching geometry. The simulation will run with the default grid resolution and boundary conditions documented in the code repository at the time of data collection (Git commit hash recorded). The voltage sweep will use the same step size as the experimental ramp.
+
+\paragraph{Step 3: Prediction Package.} The simulation will output a prediction package containing:
+\begin{itemize}
+    \item predicted onset voltage $V_{\mathrm{sim}}^{\mathrm{onset}}$ (V),
+    \item predicted interface profile $R_{\mathrm{sim}}(z)$ at the predicted onset voltage,
+    \item predicted half-angle $\alpha_{\mathrm{sim}}$ (degrees),
+    \item residual RMS value at the predicted solution (\si{Pa}),
+    \item voltage-sweep landscape (residual vs voltage curve),
+    \item numerical uncertainty estimate (grid convergence study or single-grid extrapolation),
+    \item runtime and computational cost.
+\end{itemize}
+This package will be saved with a timestamp and cryptographic hash (SHA-256 of the output JSON file) to a ``frozen predictions'' directory. The hash will be logged in a tamper-evident record (e.g., appended to a Git-tracked log file with commit signature).
+
+\paragraph{Step 4: Image Processing.} Only after the prediction package is frozen will the experimental images be processed using the computer-vision pipeline (Section~\ref{sec:image-processing}). The extracted profile, half-angle, and onset voltage will be compared against the frozen predictions. If a processing error is discovered (e.g., incorrect calibration scale, wrong frame selection), the correction will be documented and the prediction will \emph{not} be re-run. If the simulation is later revised (e.g., grid refinement, different boundary condition), it will be labeled as a post-validation analysis and reported separately.
+
+This protocol ensures that the comparison is a genuine test of the solver's predictive capability, not a demonstration that parameters can be tuned to match data after the fact.
