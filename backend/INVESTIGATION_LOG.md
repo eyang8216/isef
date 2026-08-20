@@ -1,6 +1,6 @@
-# AI Handover Document
+# Taylor Angle Investigation Log
 
-## ✅ RESOLVED (2026-08-16) — Verified root cause and committed fix
+## ✅ RESOLVED (2026-08-16) — Root cause identified and fixed
 
 **The 1.3° bias is fixed. With the new defaults (121×177 grid, 0.5% apex cap,
 window [0.30, 0.60]), the recovered angle is 49.203° (error −0.087°), identity
