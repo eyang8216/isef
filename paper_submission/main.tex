@@ -1,7 +1,8 @@
 \documentclass[11pt]{article}
 
 \usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb,bm}
+\usepackage{amsmath,amssymb}
+% bm package removed due to network issues - can be re-added if bold math needed
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{array}
@@ -35,7 +36,9 @@
 \newcommand{\tbd}{\textcolor{red!70!black}{TBD}}
 
 \title{\textbf{A Lightweight Axisymmetric Electrostatic--Capillary Solver for Taylor-Cone Onset with Planned Experimental Validation}}
-\author{Hong Kong Student Research Project\\ISEF Selection Submission Draft}
+\author{Ethan Yang, Elliot Dong, Curtis Lau\\
+Independent Schools Foundation Academy\\
+Hong Kong SAR}
 \date{\today}
 
 \begin{document}
@@ -53,7 +56,7 @@
 \input{sections/03_research_question}
 \input{sections/04_theoretical_model}
 \input{sections/05_solver_architecture}
-\input{sections/06_numerical_validation}
+\input{sections/06_numerical_verification}
 \input{sections/07_experimental_methodology}
 \input{sections/08_image_processing_comparison}
 \input{sections/09_expected_results_placeholders}
