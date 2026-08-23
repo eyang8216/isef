@@ -1,0 +1,17 @@
+{
+  "name": "Water electrospray (standard)",
+  "description": "Water electrospray with typical experimental parameters",
+  "parameters": {
+    "gamma": 0.072,
+    "electrode_spacing": 0.020,
+    "nozzle_radius": 0.020,
+    "V0": 5000.0,
+    "space_charge_model": "none",
+    "interface_half_angle_deg": 49.3
+  },
+  "grid": {
+    "nr": 31,
+    "nz": 51
+  },
+  "reference": "Standard water electrospray configuration. Water surface tension ≈ 72 mN/m at 20°C."
+}

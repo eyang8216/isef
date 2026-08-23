@@ -44,10 +44,24 @@ python -m pytest backend/tests/
 python backend/examples/07_immersed_free_boundary.py
 ```
 
-### Run Streamlit App
+### Run Streamlit App (New Professional Interface)
 ```bash
 streamlit run backend/app/streamlit_app.py
 ```
+
+**New in v2.0:**
+- Multi-page architecture with Overview, Solver, Verification, Documentation
+- Academic styling with professional plots (generous spacing)
+- Parameter presets (Ethanol, Water, Formamide)
+- Enhanced visualizations with 550-600px plot heights
+- Comprehensive scientist user guide
+
+**Legacy app** (original single-file version) preserved as:
+```bash
+streamlit run backend/app/streamlit_app_legacy.py
+```
+
+See `backend/app/README.md` for detailed app documentation.
 
 ### Compile Paper
 ```bash

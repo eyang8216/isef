@@ -1,0 +1,17 @@
+{
+  "name": "Ethanol electrospray (standard)",
+  "description": "Typical ethanol electrospray configuration based on Gamero-Castaño (2008)",
+  "parameters": {
+    "gamma": 0.022,
+    "electrode_spacing": 0.010,
+    "nozzle_radius": 0.010,
+    "V0": 2500.0,
+    "space_charge_model": "none",
+    "interface_half_angle_deg": 49.3
+  },
+  "grid": {
+    "nr": 31,
+    "nz": 51
+  },
+  "reference": "Gamero-Castaño, M. (2008). Energy dissipation in electrosprays and the geometric scaling of the transition region of cone-jets. J. Fluid Mech., 662, 493-513."
+}

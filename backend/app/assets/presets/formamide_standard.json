@@ -1,0 +1,17 @@
+{
+  "name": "Formamide electrospray (standard)",
+  "description": "Formamide electrospray configuration",
+  "parameters": {
+    "gamma": 0.058,
+    "electrode_spacing": 0.015,
+    "nozzle_radius": 0.015,
+    "V0": 3500.0,
+    "space_charge_model": "none",
+    "interface_half_angle_deg": 49.3
+  },
+  "grid": {
+    "nr": 31,
+    "nz": 51
+  },
+  "reference": "Formamide surface tension ≈ 58 mN/m. Common working fluid for electrospray research."
+}

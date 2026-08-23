@@ -55,6 +55,7 @@ backend/results/experimental_data/images/*.avi
 
 # Claude AI session data (local only)
 .claude/
+.agents/
 
 # Temporary PDFs during drafting
 ISEF*.pdf
