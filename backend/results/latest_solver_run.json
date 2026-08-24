@@ -2,7 +2,7 @@
   "schema": "isef-taylor-cone/classic-run",
   "schema_version": 1,
   "kind": "classic_solver_run",
-  "timestamp": "2026-08-23T13:33:39.544172+00:00",
+  "timestamp": "2026-08-24T00:22:59.697050+00:00",
   "parameters": {
     "V0": 2500.0,
     "gamma": 0.022,
@@ -29,7 +29,7 @@
     "peak_field_V_m": 341761.4726920394,
     "rms_residual_Pa": 1593.1666612679746,
     "shielding_metric_SE": null,
-    "runtime_s": 0.03210974999819882,
+    "runtime_s": 0.039282083002035506,
     "converged": true,
     "iterations": 1
   },

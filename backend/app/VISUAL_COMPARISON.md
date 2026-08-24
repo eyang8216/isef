@@ -44,7 +44,7 @@ streamlit_app.py (120 lines, navigation)
   - Title with icon: "⚗️ Taylor-Cone Electrostatic-Capillary Solver"
   - Subtitle: "A Lightweight Axisymmetric Solver for Onset Prediction"
   - Institution: "ISEF 2026 | Independent Schools Foundation Academy"
-  - Authors: "Ethan Yang, Elliot Dong, Curtis Lau"
+  - Authors: "Ethan Yang, Elliott Dong, Curtis Lau"
 - Plots: 550-600px height, academic colormaps, generous margins
 - Four pages: Overview, Solver, Verification, Documentation
 

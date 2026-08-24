@@ -495,4 +495,4 @@ This tool bridges **numerical methods** (finite differences, immersed boundaries
 
 **Document Version:** 1.0
 **Last Updated:** 2026-08-23
-**Authors:** Elliot Dong (for creator reference)
+**Authors:** Elliott Dong (for creator reference)

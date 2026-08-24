@@ -16,7 +16,7 @@ st.set_page_config(
 st.title("⚗️ Taylor-Cone Electrostatic-Capillary Solver")
 st.caption("**A Lightweight Axisymmetric Solver for Onset Prediction**")
 st.caption("🎓 ISEF 2026 | Independent Schools Foundation Academy, Hong Kong SAR")
-st.caption("👥 Ethan Yang, Elliot Dong, Curtis Lau")
+st.caption("👥 Ethan Yang, Elliott Dong, Curtis Lau")
 
 # About section
 with st.expander("ℹ️ About this solver", expanded=False):
