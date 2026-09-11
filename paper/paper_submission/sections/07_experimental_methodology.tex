@@ -1,0 +1,108 @@
+\section{Experimental Procedure and Validation Design}\label{sec:experimental-procedure}
+
+\subsection{Purpose and Scope}
+
+The experimental component is designed as a supervised validation of the observables represented by the present reduced-order model: the shape of a charged liquid--gas interface, its approximately conical flank, and the dependence of that shape on electrode geometry and applied voltage. Taylor's ideal result is a static electrostatic--capillary result for an effectively perfect cone; an operating electrospray is instead a coupled electrohydrodynamic system in which flow rate, conductivity, viscosity, charge transport, jet formation, and space charge can affect the observed cone and its stability \cite{taylor1964disintegration,fernandez2007fluid,melcher1969electrohydrodynamics,saville1997electrohydrodynamics}.
+
+Accordingly, the experiment will be treated as a validation of the model only within a declared regime. The primary test is whether the solver predicts the measured interface geometry for a fixed, fully documented nozzle--extractor configuration and a low-flow, no-jet or near-onset condition. Onset voltage and cone-jet stability are secondary tests because the present solver does not contain a full transient flow, charge-transport, jet-breakup, or gas-flow model. Agreement in onset voltage alone therefore cannot establish that the static model is correct.
+
+No physical apparatus will be constructed or energized until the procedure has been reviewed and approved by the supervising teacher, the school safety process, and any applicable institutional review or risk-assessment process. This section is a research plan, not an authorization to operate high-voltage equipment.
+
+\subsection{Hypotheses and Testable Predictions}
+
+The preregistered hypotheses are:
+
+\begin{enumerate}
+    \item Under a fixed geometry and a sufficiently slow, stable operating condition, the measured liquid interface will contain an approximately conical flank whose fitted half-angle can be compared with the simulated interface angle.
+    \item At matched geometry and fluid properties, the simulation will predict the direction and approximate magnitude of changes in interface shape when the electrode spacing or applied voltage is varied within the model's stated regime.
+    \item The prediction error will be distinguishable from image-processing and repeatability uncertainty. If it is not, the experiment will be reported as inconclusive rather than as validation.
+\end{enumerate}
+
+The ideal $49.29^\circ$ Taylor half-angle is a theoretical benchmark, not an acceptance value that every finite needle experiment must reproduce. Finite nozzle radius, finite electrode spacing, counter-electrode geometry, flow, conductivity, and the choice of where the flank is fitted can shift the measured angle. Published experimental and modeling studies show that electrode geometry, capillary diameter, voltage, flow rate, and conductivity influence electrospray behavior and onset conditions \cite{hartman1999electrohydrodynamic,cloupeau1989conejet,cloupeau1994modes}.
+
+\subsection{Variables and Observables}
+
+The primary response variables are the reconstructed interface profile $R_{\mathrm{exp}}(z)$, the flank half-angle $\alpha_{\mathrm{exp}}$, and the repeat-to-repeat variation of those quantities. The onset voltage $V_{\mathrm{on}}$ and qualitative operating state are secondary response variables. The operating-state labels will be defined before analysis as: no visible electrical deformation, deformed meniscus, unstable cone-like state, stable cone or cone--jet state, and post-onset spray or breakup. These labels are descriptive observations, not claims that the reduced model resolves all underlying dynamics.
+
+Every trial will record the following variables:
+
+\paragraph{Geometry.} Record the nozzle material and dimensions, inner and outer diameters, exposed length, electrode type and dimensions, electrode spacing, axial alignment, radial offset, and the reference coordinate used for image--simulation alignment. The extractor geometry must be held fixed for the primary comparison because counter-electrode shape and spacing affect onset behavior \cite{karimi2019curved}.
+
+\paragraph{Fluid.} Record liquid identity, supplier and lot where available, composition, preparation date, temperature, surface tension $\gamma$, density $\rho$, dynamic viscosity $\mu$, electrical conductivity $\sigma$, and relative permittivity $\varepsilon_r$. Values taken from literature must include the temperature and composition for which they apply; values that dominate the uncertainty should be measured or independently checked. Conductivity and flow rate are not incidental metadata: they alter the electrospray operating regime and can change the relation between cone shape and applied voltage \cite{hartman1999electrohydrodynamic,fernandez1994current}.
+
+\paragraph{Operation.} Record applied voltage and polarity, measured or independently verified voltage where permitted by the approved apparatus, flow rate, voltage step or ramp, dwell time, stabilization time after each change, and whether the run is an increasing or decreasing voltage sweep. The experiment should not use a nominal flow-rate range as a literature-derived guarantee of stability. Instead, the allowed flow range will be selected during supervised commissioning and reported with the resulting stability map. Cone--jet studies show that stable operation occupies a regime bounded by flow and electrical conditions rather than a universal flow interval \cite{cloupeau1989conejet,cloupeau1994modes,hartman1999electrohydrodynamic}.
+
+\paragraph{Imaging.} Record camera model, sensor resolution, frame rate, exposure, gain, lens, working distance, illumination, optical axis, field of view, calibration target, and any image-processing settings. The camera must view the cone approximately normal to its axis, and the optical arrangement must be checked for perspective and distortion. A planar calibration target and distortion model may be used following a calibrated-camera procedure such as Zhang's method \cite{zhang2000calibration}; a known needle diameter is a useful scale check but should not be the sole calibration if the needle is out of the focal plane.
+
+\paragraph{Environmental and provenance metadata.} Record date, time, ambient conditions when available, equipment identifiers, supervisor, operator, trial identifier, raw-video filename, analysis-code commit, and anomalies such as bubbles, wetting changes, contamination, vibration, discharge, or loss of alignment. Raw images must be retained and never overwritten by processed images.
+
+\subsection{Approved Apparatus Concept}
+
+The intended configuration is a liquid supplied through a nozzle facing a grounded counter-electrode, with optical imaging of the meniscus and cone. The final apparatus, voltage range, fluid, enclosure, interlocks, current limiting, discharge procedure, ventilation, and grounding scheme must be specified and approved by the supervisor before use. The paper will report the actual components and settings used, not the provisional examples in this planning document.
+
+The primary geometry should use one nozzle and one counter-electrode configuration throughout the baseline trials. A second geometry may be added only after the baseline procedure is repeatable. Changing nozzle diameter, gap, extractor shape, fluid composition, or flow rate simultaneously would make the result non-identifiable because several mechanisms would change at once.
+
+\subsection{Commissioning and Calibration}
+
+Before collecting validation data, the team will perform a non-energized calibration and imaging check. The optical axis, field of view, focus, illumination uniformity, pixel scale, and distortion correction will be documented. Calibration should be performed in the same focal plane and with the same lens configuration used for the cone images. The scale will be checked against an independent dimension, such as the measured nozzle diameter, and the discrepancy will be included in the uncertainty budget.
+
+The image-processing pipeline will first be tested on synthetic silhouettes with known angle, profile, blur, pixel scale, and noise. This test evaluates measurement bias only; it does not validate the physical solver. The acceptance limits for angle and profile recovery will be fixed before experimental images are processed, and the synthetic test set will not be tuned using the experimental frames.
+
+\subsection{Trial Procedure}
+
+For each approved trial, the operator will first confirm the configuration, fluid identification, calibration status, enclosure status, and data-recording path. The liquid supply and imaging system will be allowed to reach the documented initial condition. The system will then be observed at the approved baseline condition before any voltage sweep.
+
+Voltage changes, dwell times, and any flow adjustments will follow the supervisor-approved operating procedure. Video will be recorded continuously or at a documented sampling schedule. After each change, the operator will record the applied condition and allow the prescribed stabilization interval before classifying the state. The classification will be based on predeclared image and observation criteria rather than on the desired outcome.
+
+The voltage sweep will be performed in both increasing and, only if approved, decreasing directions so that possible hysteresis is visible. If the increasing and decreasing transitions differ, both values will be reported; they will not be silently averaged into a single onset value. At least three independent repeats should be attempted for the baseline condition when material and time allow, with the independence definition stated explicitly (for example, separate refill and reinitialization rather than many adjacent frames from one run).
+
+The experiment will stop immediately under the supervisor-approved stop conditions, including any sign of electrical discharge, uncontrolled spray, leakage, overheating, loss of enclosure integrity, or other unsafe condition. These conditions are safety controls and are not scientific exclusion rules to be applied selectively after seeing the results.
+
+\subsection{Operational Definition of Experimental Onset}
+
+Because ``onset'' is used differently in the literature, this project will distinguish two observables. \emph{Deformation onset} is the first voltage at which the meniscus departs from its baseline shape by a predeclared image-based criterion. \emph{Cone--jet onset} is the first voltage at which a cone-like meniscus and sustained jet or spray satisfy a predeclared stability criterion. The paper will state which definition is used in each comparison. Studies of electrospray operation commonly identify multiple regimes and a finite stability region rather than a single universal threshold \cite{cloupeau1989conejet,cloupeau1994modes,hartman1999electrohydrodynamic,karimi2019curved}.
+
+A provisional stability rule may require a contiguous observation window in which the fitted flank angle and apex position remain within predeclared tolerances, with no visible breakup or discharge. The numerical tolerances and observation duration must be set during commissioning and frozen before the validation dataset is analyzed. They are operational measurement rules, not universal physical constants, and will be reported as such.
+
+The experimental onset uncertainty will include voltage-step resolution, repeat-to-repeat variation, and any transition bandwidth. If the state changes within a voltage interval, the result will be reported as an interval rather than as an artificially precise single number.
+
+\subsection{Model--Experiment Matching}
+
+For each trial, the simulation input will be generated from the recorded metadata. The matched input must include the actual electrode geometry, gap, nozzle reference geometry, fluid surface tension, and any other parameters used by the model. The gas boundary conditions and immersed-interface conventions will be recorded with the solver commit. If a measured quantity is unavailable, the input will be reported as an assumption and varied in a sensitivity analysis rather than hidden.
+
+The primary comparison will use the interface profile at a matched operating condition. If the solver predicts an onset amplitude rather than a dynamic cone--jet transition, that prediction will be compared with the measured electrostatic--capillary state, not labeled as a prediction of dynamic onset. The present model's grounded-box result and imposed-Taylor verification are numerical verification results; they do not, by themselves, establish agreement with a real finite-nozzle experiment.
+
+The simulation prediction package will be frozen before image processing. It will contain the predicted profile, angle, model-defined voltage quantity, residual diagnostics, grid-resolution information, input metadata, solver commit, and a SHA-256 hash of the output file. Any later parameter change will be labeled post-validation analysis.
+
+\subsection{Image Analysis}
+
+The analysis will use raw frames, not screenshots or manually redrawn contours. The pipeline will: correct or document lens distortion; crop a fixed region of interest; apply a predeclared intensity normalization or denoising operation; detect the liquid--gas boundary; select the physically connected contour; convert pixels to $(r,z)$ coordinates; and save both the extracted contour and processing parameters. A calibration target is preferred; the needle-diameter method is a secondary check.
+
+The cone angle will be fitted only over a predeclared flank window that excludes the rounded apex, nozzle attachment, and any visible jet. The fitting convention must match the solver's convention. If $r=mz+b$ is fitted in coordinates where $z$ is axial distance along the cone, then $\alpha_{\mathrm{exp}}=\arctan(m)$ after confirming that the selected coordinate orientation makes $m$ positive. The angle uncertainty will combine regression uncertainty, frame-to-frame variation, calibration uncertainty, and sensitivity to the allowed flank window.
+
+The two sides of a nominally axisymmetric silhouette will be analyzed separately before being averaged. Their difference is a useful diagnostic of optical misalignment, asymmetric wetting, vibration, or genuinely non-axisymmetric behavior. A trial that visibly violates axisymmetry will not be silently forced into an axisymmetric comparison; it will be flagged and analyzed separately.
+
+\subsection{Validation Metrics and Acceptance Logic}
+
+The primary profile metric is
+\begin{equation}
+\mathrm{RMSE}_{R}=\sqrt{\frac{1}{N}\sum_{i=1}^{N}\left[R_{\mathrm{sim}}(z_i)-R_{\mathrm{exp}}(z_i)\right]^2},
+\end{equation}
+with a normalized value reported relative to a declared characteristic length $L_c$. The angle error and voltage error are
+\begin{equation}
+\Delta\alpha=\left|\alpha_{\mathrm{sim}}-\alpha_{\mathrm{exp}}\right|,
+\qquad
+\epsilon_V=\frac{\left|V_{\mathrm{sim}}-V_{\mathrm{exp}}\right|}{V_{\mathrm{exp}}}.
+\end{equation}
+
+No universal literature threshold will be assigned to these errors. Before data collection, the team will declare a measurement-based acceptance rule, for example: the model is supported for a metric if its prediction lies within the predeclared combined uncertainty interval and if the residual is smaller than a specified baseline model or calibration-error scale. The rule must be fixed before inspecting the experimental result. A prediction outside the interval is evidence of model discrepancy, not permission to retune the simulation.
+
+Results will include repeat means, standard deviations or confidence intervals appropriate to the sample size, and an uncertainty budget separating calibration, contour extraction, frame selection, repeatability, and model-input uncertainty. Profile errors will also be reported separately for apex, flank, and base regions because the current model does not represent all three regions with equal fidelity.
+
+\subsection{What Would Count as Validation?}
+
+A successful experiment would provide evidence for the model only if: the apparatus and fluid properties are documented; the image pipeline passes the blinded synthetic test; repeated trials are stable enough to define uncertainty; the measured geometry lies within the frozen prediction interval at matched conditions; and the result is reproduced across at least one controlled change in geometry or voltage without refitting model parameters.
+
+A result that reproduces an approximately conical silhouette but misses the profile, angle trend, or onset behavior would support only the qualitative Taylor-cone picture. A result that matches the half-angle at one condition but fails under a controlled geometry change would not validate the solver. Conversely, a mismatch in dynamic cone--jet onset would not necessarily falsify the static electrostatic--capillary model, because flow, conductivity, charge transport, space charge, and jet dynamics are outside its present scope. Those mechanisms would need to be measured or modeled before making a stronger claim.
+
+The realistic outcome is therefore a tiered validation statement: (i) image-analysis validity, (ii) static interface-shape comparison, (iii) controlled geometry/voltage trend comparison, and only then (iv) limited onset-voltage comparison. The experiment has a credible possibility of validating the model's geometry predictions, but a substantially lower possibility of validating its full electrospray onset physics without extending the model to include the missing electrohydrodynamic mechanisms.

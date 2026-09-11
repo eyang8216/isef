@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 13: Periodicity (HL) - IB Chemistry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #f8f9fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .navbar-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Content Sections */
+        .section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .section ul, .section ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            background: #f0f4ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .objectives-list li {
+            padding: 0.5rem 0;
+            color: #333;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #333;
+            line-height: 1.7;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .problem-container:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .problem-number {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .problem-question {
+            margin: 1rem 0;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .toggle-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .solution {
+            display: none;
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #28a745;
+        }
+
+        .solution.active {
+            display: block;
+        }
+
+        .solution h4 {
+            color: #28a745;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Exam Tips */
+        .exam-tips {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .exam-tips h3 {
+            color: #d63031;
+            margin-bottom: 1rem;
+        }
+
+        .exam-tips li {
+            color: #2d3436;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Applications Box */
+        .applications-box {
+            background: linear-gradient(135deg, #a8e6cf 0%, #56ab91 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .applications-box h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .applications-box p {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            bottom: 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-prev {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-prev:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .chatbot-icon {
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        /* Math formatting */
+        .math {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar h1 {
+                font-size: 1.2rem;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>Topic 13: Periodicity (HL)</h1>
+            <div class="navbar-badge">IB Chemistry HL</div>
+        </div>
+    </nav>
+
+    <!-- Progress Tracking -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-label">
+                <span>Lesson Progress</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Learning Objectives -->
+        <div class="section">
+            <h2>Learning Objectives</h2>
+            <div class="objectives-list">
+                <ul>
+                    <li>13.1.1 - Explain the trends and discontinuities in atomic radius, ionic radius, ionization energy, electron affinity, and electronegativity across periods and down groups</li>
+                    <li>13.1.2 - Compare and explain the properties of elements in the same group or period using periodic trends</li>
+                    <li>13.2.1 - Describe the characteristic properties of transition elements including variable oxidation states, formation of colored complexes, catalytic activity, and formation of complex ions with ligands</li>
+                    <li>13.2.2 - Explain why Sc and Zn are not considered typical transition elements</li>
+                    <li>13.2.3 - Define ligands as molecules or ions that form coordinate bonds with a central metal atom or ion</li>
+                    <li>13.2.4 - Describe and explain the origin of color in transition metal complexes in terms of d-orbital splitting and electron transitions</li>
+                    <li>13.2.5 - Explain the relationships between the color observed, the color absorbed, and the complementary color using the visible spectrum</li>
+                    <li>13.2.6 - Explain catalytic activity of transition metals and their compounds in terms of variable oxidation states and adsorption properties</li>
+                    <li>13.2.7 - Describe examples of catalysis by transition metals and their compounds including iron in the Haber process, vanadium(V) oxide in the Contact process, and catalytic converters</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="section">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Atomic radius</div>
+                <div class="definition-text">Half the distance between the nuclei of two adjacent atoms of the same element in the solid state (metallic or covalent radius).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Ionic radius</div>
+                <div class="definition-text">The distance from the nucleus of an ion to the outermost electron shell, determined from the distance between nuclei in ionic crystals.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">First ionization energy</div>
+                <div class="definition-text">The energy required to remove one mole of electrons from one mole of gaseous atoms to form one mole of gaseous ions with a +1 charge: M(g) → M<sup>+</sup>(g) + e<sup>-</sup></div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Electron affinity</div>
+                <div class="definition-text">The energy change when one mole of gaseous atoms gains one mole of electrons to form one mole of gaseous ions with a -1 charge: X(g) + e<sup>-</sup> → X<sup>-</sup>(g)</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Electronegativity</div>
+                <div class="definition-text">The ability of an atom to attract a shared pair of electrons in a covalent bond (Pauling scale).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Transition element</div>
+                <div class="definition-text">A d-block element that forms at least one stable ion with a partially filled d-subshell.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Ligand</div>
+                <div class="definition-text">A molecule or ion that forms a coordinate (dative covalent) bond with a central metal atom or ion by donating a lone pair of electrons.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Complex ion</div>
+                <div class="definition-text">A central metal atom or ion surrounded by ligands bonded through coordinate bonds.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Coordination number</div>
+                <div class="definition-text">The number of coordinate bonds formed between the central metal ion and its ligands.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Crystal field splitting</div>
+                <div class="definition-text">The splitting of d-orbitals into different energy levels when ligands approach a central metal ion, caused by electrostatic repulsion.</div>
+            </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="section">
+            <h2>Introduction to Periodicity</h2>
+            <p>Periodicity is the recurring pattern of chemical and physical properties across the periodic table. At the Standard Level, you learned basic trends across Period 3. At Higher Level, we deepen our understanding of WHY these trends exist and explore the fascinating chemistry of transition metals.</p>
+            <p>The periodic table's power lies in its predictive ability—understanding the electronic structure of atoms allows us to predict and explain chemical behavior. This topic builds directly on Topic 2 (Atomic Structure) and Topic 3 (Periodicity SL), extending into the d-block elements that have unique properties crucial to industrial chemistry, biological systems, and materials science.</p>
+            <p><strong>Prerequisite Knowledge:</strong></p>
+            <ul>
+                <li>Electronic configuration and orbital notation (Topic 2)</li>
+                <li>Basic periodic trends across Period 3 (Topic 3)</li>
+                <li>Bonding theories including coordinate bonding (Topic 4)</li>
+                <li>Electromagnetic spectrum and energy-wavelength relationships (Topic 2, Topic 7)</li>
+            </ul>
+        </div>
+
+        <!-- 13.1 Periodic Trends -->
+        <div class="section">
+            <h2>13.1 Periodic Trends (HL Extension)</h2>
+
+            <h3>Understanding Atomic Radius</h3>
+            <p><strong>Across a Period (left to right):</strong><br>
+            Atomic radius DECREASES across a period. Why? Although electrons are being added to the same principal energy level, the nuclear charge increases with each successive element. This increased positive charge pulls all electrons closer to the nucleus, creating a stronger effective nuclear charge (Z<sub>eff</sub>) that isn't fully shielded by the inner electrons.</p>
+            <p>For example, comparing Na to Cl:</p>
+            <ul>
+                <li>Na: [Ne] 3s¹ with 11 protons</li>
+                <li>Cl: [Ne] 3s² 3p⁵ with 17 protons</li>
+            </ul>
+            <p>Both have electrons in the third shell, but chlorine's 17 protons exert much stronger attraction than sodium's 11 protons. The shielding from inner electrons (1s² 2s² 2p⁶) is roughly constant across the period, so the increasing nuclear charge dominates.</p>
+
+            <p><strong>Down a Group (top to bottom):</strong><br>
+            Atomic radius INCREASES down a group. Each successive element adds another complete electron shell, dramatically increasing the distance between the nucleus and valence electrons. Although nuclear charge also increases, the shielding effect from additional inner shells outweighs this, and the atomic radius increases.</p>
+
+            <h3>Ionic Radius Trends</h3>
+            <p>Ionic radii follow similar patterns but with important considerations:</p>
+
+            <p><strong>Cations vs. Parent Atoms:</strong> Cations are SMALLER than their parent atoms because:</p>
+            <ol>
+                <li>Loss of electrons reduces electron-electron repulsion</li>
+                <li>Often an entire shell is lost</li>
+                <li>The same nuclear charge acts on fewer electrons</li>
+            </ol>
+            <p>Example: Na atom (186 pm) → Na⁺ ion (102 pm)</p>
+
+            <p><strong>Anions vs. Parent Atoms:</strong> Anions are LARGER than their parent atoms because:</p>
+            <ol>
+                <li>Added electrons increase electron-electron repulsion</li>
+                <li>The nuclear charge is spread over more electrons</li>
+                <li>The electron cloud expands</li>
+            </ol>
+            <p>Example: Cl atom (99 pm) → Cl⁻ ion (181 pm)</p>
+
+            <p><strong>Isoelectronic Series:</strong> Ions with the same electron configuration show decreasing radius with increasing nuclear charge. For the series O²⁻, F⁻, Na⁺, Mg²⁺, Al³⁺ (all with 10 electrons):</p>
+            <p>O²⁻ (140 pm) > F⁻ (133 pm) > Na⁺ (102 pm) > Mg²⁺ (72 pm) > Al³⁺ (54 pm)</p>
+            <p>The increasing nuclear charge pulls the same electron cloud progressively tighter.</p>
+
+            <h3>Ionization Energy Trends</h3>
+            <p>First ionization energy generally INCREASES across a period and DECREASES down a group. The reasoning follows effective nuclear charge and distance arguments.</p>
+
+            <p><strong>Key Discontinuities to Explain:</strong></p>
+
+            <p><strong>1. Group 2 to Group 13 dip:</strong> Be (899 kJ/mol) > B (801 kJ/mol)</p>
+            <ul>
+                <li>Boron's electron enters the higher-energy 2p orbital, which is further from the nucleus and experiences more shielding than the 2s orbital</li>
+                <li>2p electrons are easier to remove than 2s electrons</li>
+            </ul>
+
+            <p><strong>2. Group 15 to Group 16 dip:</strong> N (1402 kJ/mol) > O (1314 kJ/mol)</p>
+            <ul>
+                <li>Nitrogen: 2p³ configuration has one electron in each p orbital (parallel spins, stable)</li>
+                <li>Oxygen: 2p⁴ configuration requires pairing in one p orbital (increased repulsion)</li>
+                <li>The paired electron in oxygen experiences extra repulsion, making it easier to remove</li>
+            </ul>
+
+            <p><strong>Successive Ionization Energies:</strong> Large jumps occur when removing electrons from a lower shell or breaking a stable noble gas configuration. For sodium:</p>
+            <ul>
+                <li>IE₁ = 496 kJ/mol (removing 3s¹)</li>
+                <li>IE₂ = 4562 kJ/mol (huge jump—removing from stable 2p⁶ core)</li>
+            </ul>
+            <p>This dramatic increase confirms sodium forms Na⁺, not Na²⁺, under normal conditions.</p>
+
+            <h3>Electron Affinity Trends</h3>
+            <p>Electron affinity becomes MORE NEGATIVE (more exothermic, more favorable) across a period as effective nuclear charge increases, making atoms more eager to gain electrons. Down a group, electron affinity generally becomes LESS NEGATIVE as the added electron enters shells further from the nucleus.</p>
+
+            <p><strong>Important Anomalies:</strong></p>
+            <ul>
+                <li>Group 17 (halogens) show the most negative electron affinities (F: -328 kJ/mol, Cl: -349 kJ/mol)</li>
+                <li>Fluorine is slightly less exothermic than chlorine due to severe electron-electron repulsion in the very small 2p orbital</li>
+                <li>Noble gases have positive electron affinities (endothermic) as they have stable completed shells</li>
+            </ul>
+
+            <h3>Electronegativity Trends</h3>
+            <p>Electronegativity INCREASES across a period and DECREASES down a group, following the same nuclear charge and distance reasoning. Fluorine (3.98) is the most electronegative element; francium (~0.7) is the least.</p>
+            <p><strong>Pauling Scale:</strong> Fluorine is assigned 3.98, and other elements are scaled relative to it based on bond energy data. The scale quantifies an atom's ability to attract bonding electrons—crucial for predicting bond polarity and reaction mechanisms.</p>
+        </div>
+
+        <!-- 13.2 Transition Elements -->
+        <div class="section">
+            <h2>13.2 Transition Element Chemistry</h2>
+
+            <h3>Why Are Transition Elements Special?</h3>
+            <p>Transition elements (Ti through Cu in Period 4) possess unique properties that distinguish them from s-block and p-block elements:</p>
+            <ol>
+                <li><strong>Variable oxidation states</strong></li>
+                <li><strong>Formation of colored compounds</strong></li>
+                <li><strong>Catalytic activity</strong></li>
+                <li><strong>Formation of complex ions with ligands</strong></li>
+                <li><strong>Magnetic properties</strong> (often paramagnetic)</li>
+            </ol>
+            <p>These properties arise from the availability of d-orbitals for bonding and the similar energies of 3d and 4s orbitals.</p>
+
+            <h3>Electronic Configuration and the Definition</h3>
+            <p>The formal definition states: <strong>A transition element forms at least one stable ion with a partially filled d-subshell.</strong></p>
+            <p>This excludes:</p>
+            <ul>
+                <li><strong>Scandium (Sc):</strong> [Ar] 3d¹ 4s² → Sc³⁺: [Ar] 3d⁰ (loses all d-electrons)</li>
+                <li><strong>Zinc (Zn):</strong> [Ar] 3d¹⁰ 4s² → Zn²⁺: [Ar] 3d¹⁰ (d-subshell remains full)</li>
+            </ul>
+            <p>Neither forms ions with partially filled d-orbitals, so they're not considered typical transition elements despite being d-block elements.</p>
+
+            <p><strong>Chromium and Copper Anomalies:</strong></p>
+            <ul>
+                <li>Cr: [Ar] 3d⁵ 4s¹ (not 3d⁴ 4s²) — half-filled d and s subshells provide extra stability</li>
+                <li>Cu: [Ar] 3d¹⁰ 4s¹ (not 3d⁹ 4s²) — filled d subshell provides extra stability</li>
+            </ul>
+            <p>These configurations are lower in energy due to exchange energy and symmetry.</p>
+
+            <h3>Variable Oxidation States</h3>
+            <p>Transition metals show multiple oxidation states because the 3d and 4s orbital energies are very similar. For example:</p>
+            <ul>
+                <li><strong>Iron:</strong> Fe²⁺ (ferrous), Fe³⁺ (ferric)</li>
+                <li><strong>Manganese:</strong> +2, +3, +4, +6, +7 (in MnO₄⁻)</li>
+                <li><strong>Vanadium:</strong> +2, +3, +4, +5</li>
+            </ul>
+            <p>The ability to easily gain or lose d-electrons makes transition metals excellent oxidizing and reducing agents, and enables their catalytic activity.</p>
+            <p><strong>Trend:</strong> Early transition metals (Ti, V, Cr, Mn) show higher maximum oxidation states because they can use all their d and s electrons in bonding. Later transition metals (Co, Ni, Cu) have higher effective nuclear charges that hold d-electrons more tightly, limiting high oxidation states.</p>
+
+            <h3>Complex Ion Formation and Ligands</h3>
+            <p>A <strong>complex ion</strong> consists of a central metal ion surrounded by ligands. Ligands are molecules or ions with lone pairs that form <strong>coordinate bonds</strong> (dative covalent bonds) with the metal by donating both electrons.</p>
+
+            <p><strong>Common Ligands:</strong></p>
+            <ul>
+                <li><strong>Monodentate</strong> (donate one pair): H₂O, NH₃, Cl⁻, CN⁻, OH⁻</li>
+                <li><strong>Bidentate</strong> (donate two pairs): ethylenediamine (en), oxalate (C₂O₄²⁻)</li>
+                <li><strong>Polydentate</strong> (chelating): EDTA⁴⁻ (hexadentate)</li>
+            </ul>
+
+            <p><strong>Examples of Complex Ions:</strong></p>
+            <ul>
+                <li>[Cu(H₂O)₆]²⁺ — octahedral, coordination number 6</li>
+                <li>[Cu(NH₃)₄(H₂O)₂]²⁺ — octahedral (NH₃ partially replaces H₂O)</li>
+                <li>[CuCl₄]²⁻ — tetrahedral, coordination number 4</li>
+                <li>[Ag(NH₃)₂]⁺ — linear, coordination number 2</li>
+            </ul>
+
+            <p><strong>Coordination Number:</strong> Typically 6 (octahedral) or 4 (tetrahedral or square planar), determined by:</p>
+            <ul>
+                <li>Size of the metal ion</li>
+                <li>Size of the ligands</li>
+                <li>Electronic factors</li>
+            </ul>
+
+            <h3>Origin of Color in Transition Metal Complexes</h3>
+            <p>The brilliant colors of transition metal compounds arise from <strong>d-orbital splitting</strong> and electronic transitions.</p>
+
+            <p><strong>Crystal Field Theory:</strong><br>
+            When ligands approach a metal ion, they create an electrostatic field that splits the five degenerate d-orbitals into different energy levels. In an octahedral complex:</p>
+            <ul>
+                <li><strong>e<sub>g</sub> orbitals</strong> (d<sub>z²</sub> and d<sub>x²-y²</sub>): point directly at ligands, higher energy</li>
+                <li><strong>t<sub>2g</sub> orbitals</strong> (d<sub>xy</sub>, d<sub>xz</sub>, d<sub>yz</sub>): point between ligands, lower energy</li>
+            </ul>
+            <p>The energy gap between these sets is called <strong>Δ<sub>o</sub></strong> (crystal field splitting energy).</p>
+
+            <p><strong>Color Production:</strong></p>
+            <ol>
+                <li>When white light passes through a solution, photons with energy equal to Δ<sub>o</sub> are absorbed</li>
+                <li>This energy promotes an electron from t<sub>2g</sub> to e<sub>g</sub> (d-d transition)</li>
+                <li>The wavelength absorbed depends on Δ<sub>o</sub>: E = hν = hc/λ</li>
+                <li>The color we observe is the <strong>complementary color</strong> to the absorbed wavelength</li>
+            </ol>
+
+            <p><strong>Complementary Color Pairs:</strong></p>
+            <ul>
+                <li>Violet absorbed (400 nm) → Yellow observed</li>
+                <li>Blue absorbed (450 nm) → Orange observed</li>
+                <li>Green absorbed (530 nm) → Red-purple observed</li>
+                <li>Yellow absorbed (580 nm) → Violet observed</li>
+                <li>Orange absorbed (600 nm) → Blue observed</li>
+                <li>Red absorbed (650 nm) → Green observed</li>
+            </ul>
+
+            <p><strong>Example:</strong> [Cu(H₂O)₆]²⁺ appears blue because it absorbs orange/red light (~600-700 nm), promoting the single 3d⁹ electron to a higher energy state.</p>
+
+            <p><strong>Factors Affecting Color:</strong></p>
+            <ol>
+                <li><strong>Identity of the metal:</strong> Different metals have different Δ<sub>o</sub> values</li>
+                <li><strong>Oxidation state:</strong> Higher oxidation states generally increase Δ<sub>o</sub></li>
+                <li><strong>Nature of ligands:</strong> Strong field ligands (CN⁻, CO) create large Δ<sub>o</sub>; weak field ligands (I⁻, Br⁻) create small Δ<sub>o</sub></li>
+                <li><strong>Geometry:</strong> Tetrahedral complexes have smaller splitting than octahedral</li>
+            </ol>
+
+            <p><strong>Why Sc³⁺ and Zn²⁺ are Colorless:</strong></p>
+            <ul>
+                <li>Sc³⁺: [Ar] 3d⁰ — no d-electrons, no d-d transitions possible</li>
+                <li>Zn²⁺: [Ar] 3d¹⁰ — full d-subshell, no transitions within d-orbitals possible</li>
+            </ul>
+            <p>Both form white/colorless compounds.</p>
+
+            <h3>Catalytic Properties</h3>
+            <p>Transition metals and their compounds are exceptional catalysts because:</p>
+            <ol>
+                <li><strong>Variable Oxidation States:</strong> Enable redox cycling
+                    <ul>
+                        <li>Metal can accept electrons (be reduced) then donate electrons (be oxidized)</li>
+                        <li>Provides alternative reaction pathways with lower activation energy</li>
+                    </ul>
+                </li>
+                <li><strong>Ability to Form Complex Ions:</strong> Reactant molecules can bond to the metal surface or ion
+                    <ul>
+                        <li>Adsorption brings reactants into proximity and correct orientation</li>
+                        <li>Weakens bonds in reactant molecules</li>
+                    </ul>
+                </li>
+                <li><strong>Availability of d-Orbitals:</strong> Can accept and donate electrons easily</li>
+            </ol>
+
+            <p><strong>Industrial Examples:</strong></p>
+
+            <p><strong>Iron in the Haber Process:</strong></p>
+            <p>N₂(g) + 3H₂(g) ⇌ 2NH₃(g)</p>
+            <ul>
+                <li>Fe surface provides sites for N₂ and H₂ adsorption</li>
+                <li>Strong N≡N triple bond weakens when N₂ bonds to Fe surface</li>
+                <li>N and H atoms react on the surface, NH₃ desorbs</li>
+                <li>Temperature: 450°C, Pressure: 200 atm, Fe catalyst (often with K₂O promoter)</li>
+            </ul>
+
+            <p><strong>Vanadium(V) Oxide in the Contact Process:</strong></p>
+            <p>2SO₂(g) + O₂(g) → 2SO₃(g)</p>
+            <p>V₂O₅ cycles between oxidation states:</p>
+            <ul>
+                <li>SO₂ + V₂O₅ → SO₃ + V₂O₄ (V⁵⁺ → V⁴⁺)</li>
+                <li>V₂O₄ + ½O₂ → V₂O₅ (V⁴⁺ → V⁵⁺)</li>
+            </ul>
+            <p>The catalyst is regenerated, and the activation energy is lowered.</p>
+
+            <p><strong>Catalytic Converters (Automotive):</strong></p>
+            <p>Platinum, palladium, and rhodium catalyze:</p>
+            <ul>
+                <li>Oxidation: 2CO + O₂ → 2CO₂</li>
+                <li>Oxidation: C<sub>x</sub>H<sub>y</sub> + O₂ → CO₂ + H₂O</li>
+                <li>Reduction: 2NO + 2CO → N₂ + 2CO₂</li>
+            </ul>
+            <p>These precious metals provide active sites for gas molecule adsorption and reaction, converting toxic pollutants to less harmful products.</p>
+        </div>
+
+        <!-- Common Misconceptions -->
+        <div class="section">
+            <h2>Common Misconceptions and IB Pitfalls</h2>
+
+            <div class="exam-tips">
+                <ul>
+                    <li><strong>Misconception 1: "Atomic radius and ionic radius follow identical trends"</strong><br>
+                    FALSE. While the general trends are similar, you must distinguish between cations (smaller than parent atoms) and anions (larger than parent atoms). Always specify whether you're discussing atomic or ionic radius.</li>
+
+                    <li><strong>Misconception 2: "All d-block elements are transition elements"</strong><br>
+                    FALSE. Sc and Zn are d-block elements but not transition elements by the IB definition. Always check that ions have partially filled d-subshells.</li>
+
+                    <li><strong>Misconception 3: "The color observed is the color absorbed"</strong><br>
+                    FALSE. The color observed is the COMPLEMENTARY color to the absorbed wavelength. If a complex absorbs blue light, it appears orange/red. Always use the color wheel or complementary pairs.</li>
+
+                    <li><strong>Misconception 4: "Higher ionization energy means more reactive"</strong><br>
+                    FALSE. Higher ionization energy means LESS likely to lose electrons, so metals with HIGH ionization energies are LESS reactive (as metals). Metals want to lose electrons, so LOW ionization energy indicates HIGH metallic reactivity.</li>
+
+                    <li><strong>Misconception 5: "Ligands donate electrons to fill the d-orbitals"</strong><br>
+                    FALSE. Ligands don't donate into d-orbitals; they donate into empty s, p, or hybridized orbitals. The d-electrons remain on the metal and undergo transitions between split d-orbital energy levels.</li>
+
+                    <li><strong>Misconception 6: "4s electrons are always lost before 3d electrons"</strong><br>
+                    TRUE for ionization, but remember that when FILLING, 4s fills before 3d. The energy ordering changes when electrons are present.</li>
+
+                    <li><strong>Misconception 7: "All transition metal compounds are colored"</strong><br>
+                    FALSE. Compounds with d⁰ or d¹⁰ configurations are typically colorless/white because d-d transitions cannot occur.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Real-World Applications -->
+        <div class="section">
+            <h2>Real-World Applications</h2>
+
+            <div class="applications-box">
+                <h3>Hemoglobin and Oxygen Transport</h3>
+                <p>The iron(II) ion in hemoglobin forms a complex with a porphyrin ligand and can reversibly bind O₂. This is a biological application of coordinate bonding and variable oxidation states. Iron(II) is preferred because iron(III) binds oxygen too strongly (forming methemoglobin, which doesn't release O₂ effectively).</p>
+            </div>
+
+            <div class="applications-box">
+                <h3>Photography (Historical)</h3>
+                <p>Silver halides (AgBr) in photographic film decompose when exposed to light. The "fixing" process uses sodium thiosulfate to form the soluble complex [Ag(S₂O₃)₂]³⁻, removing unexposed silver halides. This demonstrates complex ion formation and solubility.</p>
+            </div>
+
+            <div class="applications-box">
+                <h3>Colored Gemstones</h3>
+                <p><strong>Ruby:</strong> Al₂O₃ with trace Cr³⁺ (d³ configuration) → red color<br>
+                <strong>Emerald:</strong> Be₃Al₂Si₆O₁₈ with Cr³⁺ or V³⁺ → green color<br>
+                <strong>Blue sapphire:</strong> Al₂O₃ with Fe²⁺ and Ti⁴⁺ impurities → blue color</p>
+                <p>The brilliant colors arise from d-d transitions in the trace transition metal ions within the crystal lattice.</p>
+            </div>
+
+            <div class="applications-box">
+                <h3>Medical Imaging (MRI Contrast Agents)</h3>
+                <p>Gadolinium(III) complexes are used as MRI contrast agents. The Gd³⁺ ion (4f⁷ configuration) is paramagnetic and enhances image contrast. It must be complexed with strong ligands (like DTPA) to prevent toxicity.</p>
+            </div>
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="section">
+            <h2>Exam Tips</h2>
+
+            <div class="exam-tips">
+                <h3>Key Strategies for Success</h3>
+                <ul>
+                    <li>When explaining periodic trends, always provide the underlying REASON (effective nuclear charge, shielding, distance). IB examiners award marks for explanation, not just stating the trend.</li>
+
+                    <li>For ionization energy questions, look for and explain discontinuities at Group 2→13 and Group 15→16. These commonly appear in Paper 2 data-based questions.</li>
+
+                    <li>When asked why Sc and Zn aren't transition elements, cite the DEFINITION: 'forms at least one ion with partially filled d-subshell.' Then show that Sc³⁺ has d⁰ and Zn²⁺ has d¹⁰.</li>
+
+                    <li>Color questions: always work through the full logic chain: (1) energy of absorbed light, (2) wavelength absorbed, (3) complementary color observed. Don't jump to the answer.</li>
+
+                    <li>For catalysis questions, mention BOTH variable oxidation states AND adsorption/formation of complexes. One alone is usually insufficient for full marks.</li>
+
+                    <li>When drawing electronic configurations for transition metals, remember Cr and Cu exceptions (3d⁵4s¹ and 3d¹⁰4s¹), and when forming ions, remove 4s electrons BEFORE 3d.</li>
+
+                    <li>Complex ion formula questions: balance the overall charge carefully. Sum the metal charge and ligand charges to get the complex charge.</li>
+
+                    <li>In Paper 3 questions, you may need to calculate wavelength from energy: Use E = hc/λ, with h = 6.63×10⁻³⁴ J·s, c = 3.00×10⁸ m/s. Convert nm to m!</li>
+
+                    <li>For isoelectronic series, remember radius DECREASES with increasing nuclear charge (more protons pulling same number of electrons).</li>
+
+                    <li>Electron affinity values: MORE NEGATIVE = more exothermic = more favorable. Don't confuse the sign convention.</li>
+
+                    <li>When comparing ionic and atomic radius, always note whether it's a cation (smaller) or anion (larger), and explain WHY using electron-electron repulsion and nuclear charge arguments.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="section">
+            <h2>Practice Problems</h2>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <div class="problem-number">Problem 1</div>
+                    <button class="toggle-btn" onclick="toggleSolution(1)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p>The first ionization energies (in kJ mol⁻¹) for five consecutive elements in Period 3 are: 578, 787, 1012, 999, 1251.</p>
+                    <p><strong>a)</strong> Identify which elements these values correspond to.<br>
+                    <strong>b)</strong> Explain why there is a general increase across this series.<br>
+                    <strong>c)</strong> Explain the discontinuity between the third and fourth values.</p>
+                </div>
+                <div class="solution" id="solution-1">
+                    <h4>Solution</h4>
+                    <p><strong>a)</strong> The elements are: Mg (578), Al (787), Si (1012), P (999), S (1251).</p>
+
+                    <p><strong>b)</strong> General increase: As we move from left to right across Period 3, the nuclear charge increases while electrons are added to the same principal energy level (n=3). The shielding effect from inner shells (1s² 2s² 2p⁶) remains relatively constant. Therefore, the effective nuclear charge (Z<sub>eff</sub>) experienced by valence electrons increases, making them harder to remove. This results in increasing ionization energy.</p>
+
+                    <p><strong>c)</strong> Discontinuity (Si: 1012 → P: 999): Silicon has the configuration [Ne] 3s² 3p², while phosphorus has [Ne] 3s² 3p³. Phosphorus has a half-filled p subshell with one electron in each of the three p orbitals, all with parallel spins. This configuration has extra stability due to exchange energy and symmetrical electron distribution. Additionally, silicon's third p electron must pair up with another electron in the same orbital, experiencing electron-electron repulsion. When we remove an electron from phosphorus, we're breaking a stable half-filled configuration, but when we remove from silicon, we're relieving some electron-electron repulsion. Therefore, it requires slightly less energy to remove an electron from silicon than would be predicted by the trend, and phosphorus requires slightly more, creating the observed discontinuity.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <div class="problem-number">Problem 2</div>
+                    <button class="toggle-btn" onclick="toggleSolution(2)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p>Compare and explain the ionic radii in the following isoelectronic series: N³⁻, O²⁻, F⁻, Na⁺, Mg²⁺, Al³⁺.</p>
+                    <p>All these ions have 10 electrons (the neon configuration).</p>
+                </div>
+                <div class="solution" id="solution-2">
+                    <h4>Solution</h4>
+                    <p><strong>Order from largest to smallest:</strong> N³⁻ > O²⁻ > F⁻ > Na⁺ > Mg²⁺ > Al³⁺</p>
+
+                    <p><strong>Explanation:</strong> All these ions have exactly 10 electrons (1s² 2s² 2p⁶), but they have different nuclear charges:</p>
+                    <ul>
+                        <li>N³⁻: 7 protons, 10 electrons</li>
+                        <li>O²⁻: 8 protons, 10 electrons</li>
+                        <li>F⁻: 9 protons, 10 electrons</li>
+                        <li>Na⁺: 11 protons, 10 electrons</li>
+                        <li>Mg²⁺: 12 protons, 10 electrons</li>
+                        <li>Al³⁺: 13 protons, 10 electrons</li>
+                    </ul>
+
+                    <p>Since all ions have the same electron configuration, the shielding effect is identical for each. The only variable is the nuclear charge. As nuclear charge increases, the attraction between the nucleus and the electron cloud increases, pulling the electrons closer to the nucleus and decreasing the ionic radius.</p>
+
+                    <p>N³⁻ has the fewest protons (7) attracting 10 electrons, resulting in weak nuclear attraction and the largest radius. Al³⁺ has the most protons (13) attracting the same 10 electrons, resulting in strong nuclear attraction and the smallest radius.</p>
+
+                    <p>Additionally, note that the anions (N³⁻, O²⁻, F⁻) are all larger than the cations (Na⁺, Mg²⁺, Al³⁺) because the anions have more electrons than protons, while cations have more protons than electrons, resulting in stronger nuclear control in cations.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <div class="problem-number">Problem 3</div>
+                    <button class="toggle-btn" onclick="toggleSolution(3)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p>A solution containing copper(II) ions appears blue.</p>
+                    <p><strong>a)</strong> Explain why copper(II) complexes are colored using crystal field theory.<br>
+                    <strong>b)</strong> If the complex absorbs light at 600 nm, calculate the crystal field splitting energy (Δ<sub>o</sub>) in kJ mol⁻¹.<br>
+                    <strong>c)</strong> State what color is being absorbed and explain why the solution appears blue.</p>
+                    <p><strong>Constants:</strong> h = 6.63 × 10⁻³⁴ J·s, c = 3.00 × 10⁸ m/s, N<sub>A</sub> = 6.022 × 10²³ mol⁻¹</p>
+                </div>
+                <div class="solution" id="solution-3">
+                    <h4>Solution</h4>
+                    <p><strong>a)</strong> Copper(II) has the electronic configuration [Ar] 3d⁹ (one electron is missing from the 3d subshell). When ligands (such as water molecules) surround the Cu²⁺ ion in an octahedral complex, the five degenerate d-orbitals split into two sets:</p>
+                    <ul>
+                        <li>Lower energy t<sub>2g</sub> orbitals (d<sub>xy</sub>, d<sub>xz</sub>, d<sub>yz</sub>)</li>
+                        <li>Higher energy e<sub>g</sub> orbitals (d<sub>z²</sub>, d<sub>x²-y²</sub>)</li>
+                    </ul>
+                    <p>The energy difference between these sets is Δ<sub>o</sub>. When white light passes through the solution, photons with energy equal to Δ<sub>o</sub> are absorbed, promoting electrons from the t<sub>2g</sub> to the e<sub>g</sub> level. This d-d transition removes specific wavelengths from the transmitted light, and the remaining wavelengths combine to produce the observed color.</p>
+
+                    <p><strong>b)</strong> First, calculate the energy of one photon:</p>
+                    <p>E = hc/λ = (6.63 × 10⁻³⁴ J·s)(3.00 × 10⁸ m/s) / (600 × 10⁻⁹ m)</p>
+                    <p>E = 1.989 × 10⁻²⁵ / 6.00 × 10⁻⁷ = 3.315 × 10⁻¹⁹ J</p>
+
+                    <p>For one mole of photons:</p>
+                    <p>Δ<sub>o</sub> = E × N<sub>A</sub> = (3.315 × 10⁻¹⁹ J)(6.022 × 10²³ mol⁻¹)</p>
+                    <p>Δ<sub>o</sub> = 1.996 × 10⁵ J mol⁻¹ = <strong>200 kJ mol⁻¹</strong></p>
+
+                    <p><strong>c)</strong> Light at 600 nm is in the orange-red region of the visible spectrum (orange light is absorbed). According to complementary color theory, when orange/red light is absorbed, the complementary color observed is blue-cyan. Therefore, the solution appears blue because it absorbs orange-red wavelengths and transmits/reflects blue wavelengths.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <div class="problem-number">Problem 4</div>
+                    <button class="toggle-btn" onclick="toggleSolution(4)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p><strong>a)</strong> Define what is meant by a transition element and explain why zinc is not classified as a transition element.<br>
+                    <strong>b)</strong> State two characteristic properties of transition elements that zinc does not exhibit.<br>
+                    <strong>c)</strong> Explain why these properties are absent in zinc.</p>
+                </div>
+                <div class="solution" id="solution-4">
+                    <h4>Solution</h4>
+                    <p><strong>a) Definition:</strong> A transition element is a d-block element that forms at least one stable ion with a partially filled d-subshell.</p>
+
+                    <p>Zinc (Zn) has the electronic configuration [Ar] 3d¹⁰ 4s². When it forms ions, it loses the two 4s electrons to form Zn²⁺: [Ar] 3d¹⁰. The d-subshell is completely filled (10 electrons), not partially filled. Since zinc does not form any ions with a partially filled d-subshell, it is not classified as a transition element, even though it is in the d-block of the periodic table.</p>
+
+                    <p><strong>b)</strong> Two characteristic properties that zinc does not exhibit:</p>
+                    <ol>
+                        <li>Formation of colored compounds</li>
+                        <li>Variable oxidation states (zinc only forms +2 ions under normal conditions)</li>
+                    </ol>
+                    <p>(Other acceptable answers: catalytic activity, paramagnetism)</p>
+
+                    <p><strong>c)</strong> Both properties are absent because they depend on having a partially filled d-subshell:</p>
+
+                    <p><strong>1. Colored compounds:</strong> Color in transition metal complexes arises from d-d electron transitions. When visible light is absorbed, an electron is promoted from a lower-energy d-orbital to a higher-energy d-orbital (the d-orbitals are split by the crystal field of surrounding ligands). Zinc(II) ions have a completely filled d¹⁰ configuration, so there are no vacant d-orbitals for electrons to be promoted into. Therefore, d-d transitions cannot occur, and zinc compounds are typically white or colorless.</p>
+
+                    <p><strong>2. Variable oxidation states:</strong> Transition elements can access multiple oxidation states because they can use their d-electrons in bonding, and the 3d and 4s orbital energies are similar. Zinc has a full d¹⁰ subshell, and removing these electrons would require very high energy because the d-electrons are held tightly by the nucleus and the full d-subshell is particularly stable. Therefore, zinc only exhibits the +2 oxidation state (losing the two 4s electrons), not the variable oxidation states characteristic of transition elements.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <div class="problem-number">Problem 5</div>
+                    <button class="toggle-btn" onclick="toggleSolution(5)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p>Iron is used as a catalyst in the Haber process for ammonia synthesis:</p>
+                    <p>N₂(g) + 3H₂(g) ⇌ 2NH₃(g)</p>
+                    <p><strong>a)</strong> Explain two reasons why transition metals like iron are effective catalysts.<br>
+                    <strong>b)</strong> Describe how iron catalyzes the Haber process at the molecular level.<br>
+                    <strong>c)</strong> Suggest why iron is chosen over more expensive transition metals like platinum.</p>
+                </div>
+                <div class="solution" id="solution-5">
+                    <h4>Solution</h4>
+                    <p><strong>a)</strong> Two reasons why transition metals are effective catalysts:</p>
+
+                    <p><strong>1. Variable oxidation states:</strong> Transition metals can easily change oxidation state by accepting or donating electrons. This allows them to participate in redox cycles, providing alternative reaction pathways with lower activation energies. The metal can be reduced by one reactant, then oxidized by another, facilitating electron transfer between reactants.</p>
+
+                    <p><strong>2. Ability to form complex ions and adsorb molecules:</strong> Transition metals have d-orbitals available for bonding, allowing reactant molecules to coordinate to the metal surface or ion. This brings reactant molecules into close proximity and correct orientation for reaction. Adsorption can also weaken bonds in reactant molecules (e.g., the N≡N triple bond), making them more reactive.</p>
+
+                    <p><strong>b)</strong> Mechanism of iron catalysis in the Haber process:</p>
+                    <p><strong>Step 1:</strong> N₂ molecules adsorb onto the iron surface, bonding to iron atoms through their lone pairs.</p>
+                    <p><strong>Step 2:</strong> The strong N≡N triple bond (bond enthalpy 945 kJ mol⁻¹) is weakened as electron density is donated to the iron and back-donated from iron d-orbitals into the π* antibonding orbitals of N₂.</p>
+                    <p><strong>Step 3:</strong> The N≡N bond breaks, forming N atoms bonded to the iron surface.</p>
+                    <p><strong>Step 4:</strong> H₂ molecules similarly adsorb and dissociate into H atoms on the iron surface.</p>
+                    <p><strong>Step 5:</strong> N and H atoms migrate across the surface and react in a stepwise manner: N + H → NH, NH + H → NH₂, NH₂ + H → NH₃.</p>
+                    <p><strong>Step 6:</strong> NH₃ molecules desorb from the iron surface, regenerating active sites for more reactant molecules.</p>
+                    <p>The iron catalyst provides an alternative pathway with lower activation energy than the uncatalyzed gas-phase reaction, significantly increasing the reaction rate.</p>
+
+                    <p><strong>c)</strong> Iron is chosen over platinum for economic and practical reasons:</p>
+                    <p><strong>1. Cost:</strong> Iron is abundant and inexpensive, while platinum is a precious metal that is rare and expensive. The Haber process operates on an enormous industrial scale (millions of tonnes of ammonia per year), so catalyst cost is a major consideration.</p>
+                    <p><strong>2. Effectiveness:</strong> While platinum might be a more active catalyst per unit mass, iron with promoters (such as K₂O, Al₂O₃, and CaO) provides sufficient catalytic activity for the Haber process at acceptable temperatures and pressures.</p>
+                    <p><strong>3. Durability:</strong> Iron catalysts are robust and can withstand the harsh conditions of the Haber process (450°C, 200 atm) for extended periods before needing replacement.</p>
+                    <p><strong>4. Availability:</strong> Iron's abundance ensures reliable supply for continuous industrial operation.</p>
+                    <p>The economic optimization balances catalyst activity with cost, making iron the practical choice despite the existence of more active (but prohibitively expensive) alternatives.</p>
+                </div>
+            </div>
+
+        </div>
+
+    <!-- Lesson Navigation Footer -->
+    <div class="lesson-footer">
+        <div class="footer-content">
+            <button class="footer-btn btn-prev" onclick="previousLesson()">← Previous Lesson</button>
+            <div style="text-align: center; color: #666;">
+                <strong>Topic 13: Periodicity (HL)</strong>
+            </div>
+            <button class="footer-btn btn-next" onclick="nextLesson()">Next Lesson →</button>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="openChatbot()">
+        <div class="chatbot-icon">💬</div>
+    </div>
+    </div>
+
+    <script>
+        // Progress Tracking
+        function updateProgress() {
+            const sections = document.querySelectorAll('.section');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = Math.round(progress) + '%';
+
+            // Mark sections as read when scrolled into view
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < windowHeight * 0.75) {
+                    section.style.opacity = '1';
+                }
+            });
+        }
+
+        // Toggle solution visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = event.target;
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('active');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Navigation functions
+        function previousLesson() {
+            alert('Navigate to the previous lesson (Topic 12)');
+            // In production, this would navigate to the actual previous lesson
+            // window.location.href = 'topic_12.html';
+        }
+
+        function nextLesson() {
+            alert('Navigate to the next lesson (Topic 14)');
+            // In production, this would navigate to the actual next lesson
+            // window.location.href = 'topic_14.html';
+        }
+
+        // Chatbot widget
+        function openChatbot() {
+            alert('Chatbot feature - Connect to your AI tutor for help with this topic!');
+            // In production, this would open a chatbot interface
+            // You could integrate with OpenAI, Claude, or a custom chatbot
+        }
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize
+        window.addEventListener('scroll', updateProgress);
+        window.addEventListener('load', updateProgress);
+
+        // Add animation to sections on load
+        window.addEventListener('load', () => {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                setTimeout(() => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Press 'P' for previous lesson
+            if (e.key === 'p' || e.key === 'P') {
+                if (!e.target.matches('input, textarea')) {
+                    previousLesson();
+                }
+            }
+            // Press 'N' for next lesson
+            if (e.key === 'n' || e.key === 'N') {
+                if (!e.target.matches('input, textarea')) {
+                    nextLesson();
+                }
+            }
+            // Press 'C' for chatbot
+            if (e.key === 'c' || e.key === 'C') {
+                if (!e.target.matches('input, textarea')) {
+                    openChatbot();
+                }
+            }
+        });
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const progress = document.getElementById('progress-fill').style.width;
+            localStorage.setItem('topic13_progress', progress);
+        }
+
+        // Load saved progress
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('topic13_progress');
+            if (savedProgress) {
+                // Scroll to saved position on user request
+                console.log('Saved progress:', savedProgress);
+            }
+        }
+
+        window.addEventListener('beforeunload', saveProgress);
+        window.addEventListener('load', loadProgress);
+
+        // Print-friendly formatting
+        window.addEventListener('beforeprint', () => {
+            // Expand all solutions for printing
+            document.querySelectorAll('.solution').forEach(solution => {
+                solution.classList.add('active');
+            });
+        });
+
+        window.addEventListener('afterprint', () => {
+            // Collapse solutions after printing
+            document.querySelectorAll('.solution').forEach(solution => {
+                solution.classList.remove('active');
+            });
+        });
+
+        // Add "Back to Top" functionality on scroll
+        let backToTopBtn = document.createElement('button');
+        backToTopBtn.innerHTML = '↑';
+        backToTopBtn.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 998;
+        `;
+        document.body.appendChild(backToTopBtn);
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.style.opacity = '1';
+            } else {
+                backToTopBtn.style.opacity = '0';
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Interactive feature: Highlight text on selection
+        document.addEventListener('mouseup', () => {
+            const selection = window.getSelection();
+            if (selection.toString().length > 0) {
+                console.log('Selected text:', selection.toString());
+                // Could add annotation or note-taking features here
+            }
+        });
+    </script>
+</body>
+</html>

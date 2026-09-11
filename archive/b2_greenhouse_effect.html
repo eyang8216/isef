@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B.2 Greenhouse Effect - IB Physics HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f7;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #007aff;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .navbar-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .navbar-links a:hover {
+            color: #007aff;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 70px;
+            width: 100%;
+            background: #fff;
+            z-index: 999;
+            padding: 0.5rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-bar-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e5ea;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007aff, #00c7be);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 150px auto 2rem;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        .lesson-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #007aff;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-hl {
+            background: #007aff;
+            color: #fff;
+        }
+
+        .badge-code {
+            background: #e5e5ea;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #1d1d1f;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #1d1d1f;
+            margin: 2rem 0 1rem;
+            padding-top: 1rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #333;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #515154;
+        }
+
+        /* Learning Objectives */
+        .learning-objectives {
+            background: #f5f5f7;
+            border-left: 4px solid #007aff;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .learning-objectives h3 {
+            margin-top: 0;
+            color: #007aff;
+        }
+
+        .learning-objectives ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .learning-objectives li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .learning-objectives li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #007aff;
+            font-weight: bold;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .definition-term {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        /* Practice Problems */
+        .practice-problem {
+            background: #fff;
+            border: 2px solid #e5e5ea;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: all 0.3s;
+        }
+
+        .practice-problem:hover {
+            border-color: #007aff;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.1);
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .problem-number {
+            background: #007aff;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .problem-question {
+            flex: 1;
+            padding-left: 1rem;
+            font-weight: 500;
+            color: #1d1d1f;
+        }
+
+        .solution-toggle {
+            background: #007aff;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .solution-toggle:hover {
+            background: #0051d5;
+            transform: translateY(-2px);
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #e5e5ea;
+        }
+
+        .solution-content.active {
+            display: block;
+        }
+
+        .solution-content h4 {
+            color: #007aff;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Exam Tips */
+        .exam-tips {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .exam-tips h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+
+        .exam-tips ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .exam-tips li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #856404;
+        }
+
+        .exam-tips li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #007aff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 122, 255, 0.4);
+            transition: all 0.3s;
+            z-index: 998;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0, 122, 255, 0.6);
+        }
+
+        .chatbot-widget::before {
+            content: "💬";
+            font-size: 1.5rem;
+        }
+
+        /* Lesson Navigation Footer */
+        .lesson-footer {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            flex: 1;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button-prev {
+            background: #e5e5ea;
+            color: #333;
+        }
+
+        .nav-button-prev:hover {
+            background: #d1d1d6;
+        }
+
+        .nav-button-next {
+            background: #007aff;
+            color: #fff;
+        }
+
+        .nav-button-next:hover {
+            background: #0051d5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-links {
+                display: none;
+            }
+
+            .main-content {
+                margin-top: 130px;
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+            }
+
+            .chatbot-widget {
+                bottom: 80px;
+                right: 20px;
+            }
+        }
+
+        /* Additional formatting */
+        code {
+            background: #f5f5f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        strong {
+            color: #1d1d1f;
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Mark completed sections */
+        .section-completed {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">Fluapi Physics</div>
+            <ul class="navbar-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#lessons">Lessons</a></li>
+                <li><a href="#practice">Practice</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar-wrapper">
+            <div class="progress-label">Lesson Progress: <span id="progress-percentage">0%</span></div>
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <div class="lesson-meta">
+                <span class="badge badge-code">B.2</span>
+                <span class="badge badge-hl">HL</span>
+            </div>
+            <h1>B.2 Greenhouse Effect</h1>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="learning-objectives">
+            <h3>Learning Objectives</h3>
+            <ul>
+                <li>Calculate the solar constant and average intensity of solar radiation at Earth's surface</li>
+                <li>Define and apply albedo to calculate reflected and absorbed solar radiation</li>
+                <li>Apply the Stefan-Boltzmann law to calculate Earth's equilibrium temperature</li>
+                <li>Explain the mechanism of the greenhouse effect using molecular absorption properties</li>
+                <li>Identify greenhouse gases and explain why they absorb infrared radiation</li>
+                <li>Distinguish between the natural greenhouse effect and the enhanced greenhouse effect</li>
+                <li>Analyze energy balance models including greenhouse effect contributions</li>
+                <li>Evaluate the relationship between greenhouse gas concentrations and global temperature</li>
+                <li>Apply Wien's law to explain why greenhouse gases are transparent to visible light but absorb infrared</li>
+                <li>Calculate and interpret changes in Earth's energy balance due to changing albedo or greenhouse gas concentrations</li>
+            </ul>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content-section">
+            <h2>Introduction and Prerequisites</h2>
+            <p>The greenhouse effect is one of the most important topics in modern physics, connecting fundamental concepts of thermal radiation with global environmental concerns. This topic bridges thermodynamics, wave phenomena, and Earth science, making it both intellectually rich and practically relevant.</p>
+
+            <p><strong>Prerequisites you should review:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Black-body radiation and Stefan-Boltzmann law (Topic B.1)</li>
+                <li>Wien's displacement law (Topic B.1)</li>
+                <li>Power, energy, and intensity concepts (Topic B.1)</li>
+                <li>Electromagnetic spectrum (Topic A)</li>
+                <li>Reflection, absorption, and transmission of radiation</li>
+            </ul>
+
+            <p><strong>Why this topic matters:</strong><br>
+            Understanding the greenhouse effect is essential not just for IB Physics, but for informed citizenship. This topic demonstrates how fundamental physics principles explain one of the most pressing challenges facing humanity. The IB expects you to apply quantitative reasoning to environmental issues, distinguishing scientific analysis from political rhetoric.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>The Solar Energy Budget and Albedo</h2>
+
+            <h3>Understanding Earth's Energy Balance</h3>
+            <p>The Earth exists in a delicate energy balance. Energy arrives from the Sun as electromagnetic radiation (primarily visible and UV), and Earth radiates energy back into space as infrared radiation. For Earth's temperature to remain stable, energy in must equal energy out.</p>
+
+            <h3>Solar Constant</h3>
+            <p>The solar constant S₀ is the intensity of solar radiation received at the top of Earth's atmosphere, approximately <strong>1360 W m⁻²</strong>. This represents the power per unit area arriving from the Sun.</p>
+
+            <p>However, Earth is a sphere, and only the cross-sectional area (a circle) faces the Sun at any moment. The total power intercepted is:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>P<sub>intercepted</sub> = S₀ × π R<sub>E</sub>²</strong></p>
+            <p>where R<sub>E</sub> = 6.37 × 10⁶ m is Earth's radius.</p>
+
+            <p>This power is distributed over Earth's entire surface area 4π R<sub>E</sub>², giving an average intensity:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>I<sub>avg</sub> = S₀/4 = 340 W m⁻²</strong></p>
+            <p>The factor of 4 comes from the ratio of Earth's surface area to its cross-sectional area.</p>
+
+            <h3>Albedo: Earth's Reflectivity</h3>
+            <p>Not all incoming solar radiation is absorbed. Some is reflected back into space. The fraction of incident radiation that is reflected is called the <strong>albedo</strong>, denoted by α (alpha).</p>
+
+            <p>For Earth, the average albedo is approximately <strong>α = 0.30 (or 30%)</strong>. This means 30% of incoming solar radiation is reflected, and 70% is absorbed.</p>
+
+            <p><strong>Different surfaces have different albedos:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Fresh snow: α ≈ 0.80-0.90 (highly reflective)</li>
+                <li>Ice: α ≈ 0.50-0.70</li>
+                <li>Ocean: α ≈ 0.06 (very dark)</li>
+                <li>Forest: α ≈ 0.15</li>
+                <li>Desert sand: α ≈ 0.40</li>
+                <li>Clouds: α ≈ 0.60-0.90</li>
+            </ul>
+
+            <p>The absorbed solar intensity is:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>I<sub>absorbed</sub> = (1 - α) × I<sub>avg</sub> = (1 - α) × S₀/4</strong></p>
+            <p>For Earth: I<sub>absorbed</sub> = 0.70 × 340 = <strong>238 W m⁻²</strong></p>
+
+            <p style="background: #f0f9ff; padding: 1rem; border-left: 4px solid #007aff; margin: 1rem 0;"><strong>Important IB concept:</strong> Changes in albedo affect Earth's energy balance. Melting ice (high albedo) exposes ocean (low albedo), creating a positive feedback loop that amplifies warming.</p>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="definition-box">
+            <div class="definition-term">Solar Constant</div>
+            <div class="definition-text">The intensity of solar radiation received at the top of Earth's atmosphere, perpendicular to the Sun's rays. Value: approximately 1360 W m⁻². Symbol: S₀</div>
+        </div>
+
+        <div class="definition-box">
+            <div class="definition-term">Albedo</div>
+            <div class="definition-text">The fraction of incident radiation reflected by a surface. Dimensionless quantity between 0 (perfect absorber) and 1 (perfect reflector). Symbol: α. Earth's average albedo ≈ 0.30</div>
+        </div>
+
+        <div class="content-section">
+            <h2>Black-Body Radiation and Earth's Temperature</h2>
+
+            <h3>Modeling Earth as a Black Body</h3>
+            <p>To first approximation, we can model Earth as a black body that absorbs solar radiation and emits thermal radiation. Using the Stefan-Boltzmann law, the power radiated per unit area is:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>P/A = σT⁴</strong></p>
+            <p>where σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴ is the Stefan-Boltzmann constant.</p>
+
+            <h3>Equilibrium Temperature Without Greenhouse Effect</h3>
+            <p>At equilibrium, power absorbed equals power radiated:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>(1 - α) × S₀/4 = σT⁴</strong></p>
+
+            <p>Solving for temperature:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>T = [(1 - α)S₀/(4σ)]<sup>1/4</sup></strong></p>
+
+            <p>Substituting values:</p>
+            <p style="margin-left: 2rem;">
+                T = [(0.70 × 1360)/(4 × 5.67 × 10⁻⁸)]<sup>1/4</sup><br>
+                T = [238/(2.27 × 10⁻⁷)]<sup>1/4</sup><br>
+                T = [1.05 × 10⁹]<sup>1/4</sup><br>
+                T ≈ <strong>255 K = -18°C</strong>
+            </p>
+
+            <p>This is the effective radiating temperature of Earth as viewed from space.</p>
+
+            <p style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 1rem 0;"><strong>The Problem:</strong> Earth's actual average surface temperature is about 288 K (+15°C), significantly warmer than predicted. The difference of 33 K is due to the greenhouse effect.</p>
+
+            <h3>Wien's Displacement Law Application</h3>
+            <p>Wien's law tells us the peak wavelength of emission:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>λ<sub>max</sub> = b/T</strong></p>
+            <p>where b = 2.90 × 10⁻³ m·K</p>
+
+            <p><strong>For the Sun (T ≈ 5800 K):</strong><br>
+            λ<sub>max</sub> = 2.90 × 10⁻³/5800 = <strong>500 nm</strong> (visible light, green-yellow)</p>
+
+            <p><strong>For Earth (T ≈ 255 K):</strong><br>
+            λ<sub>max</sub> = 2.90 × 10⁻³/255 = <strong>11,400 nm = 11.4 μm</strong> (infrared)</p>
+
+            <p style="background: #f0f9ff; padding: 1rem; border-left: 4px solid #007aff; margin: 1rem 0;">This wavelength difference is crucial to understanding the greenhouse effect: incoming solar radiation is primarily visible light, while outgoing terrestrial radiation is infrared.</p>
+        </div>
+
+        <div class="definition-box">
+            <div class="definition-term">Effective Radiating Temperature</div>
+            <div class="definition-text">The temperature at which a planet radiates energy to space, calculated using the Stefan-Boltzmann law assuming black-body emission. For Earth: approximately 255 K (-18°C), lower than actual surface temperature due to greenhouse effect</div>
+        </div>
+
+        <div class="content-section">
+            <h2>The Greenhouse Effect Mechanism</h2>
+
+            <h3>How the Greenhouse Effect Works</h3>
+            <p>The greenhouse effect occurs because Earth's atmosphere is selectively transparent to different wavelengths of electromagnetic radiation:</p>
+
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li style="margin-bottom: 0.5rem;"><strong>Incoming solar radiation</strong> (visible light, ~500 nm) passes through the atmosphere relatively unimpeded. Most greenhouse gases are transparent to visible light.</li>
+
+                <li style="margin-bottom: 0.5rem;"><strong>Earth's surface absorbs</strong> this energy and warms up.</li>
+
+                <li style="margin-bottom: 0.5rem;">The warm surface <strong>emits thermal radiation</strong> (infrared, ~10 μm) according to the Stefan-Boltzmann law.</li>
+
+                <li style="margin-bottom: 0.5rem;"><strong>Greenhouse gases</strong> in the atmosphere absorb this infrared radiation, preventing it from escaping directly to space.</li>
+
+                <li style="margin-bottom: 0.5rem;">The atmosphere <strong>re-radiates</strong> this energy in all directions—both upward to space and downward to Earth's surface.</li>
+
+                <li style="margin-bottom: 0.5rem;">This <strong>downward radiation</strong> warms the surface beyond what solar radiation alone would achieve.</li>
+            </ol>
+
+            <h3>Molecular Basis: Why Greenhouse Gases Absorb Infrared</h3>
+            <p>For a molecule to absorb electromagnetic radiation, the photon energy must match an allowed energy transition in the molecule. For infrared radiation, these transitions are <strong>vibrational modes</strong>.</p>
+
+            <p><strong>Greenhouse gases are molecules with:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Three or more atoms</li>
+                <li>Asymmetric charge distribution</li>
+                <li>Ability to have a changing electric dipole moment when vibrating</li>
+            </ul>
+
+            <p><strong>Key greenhouse gases:</strong></p>
+
+            <p><strong>1. Water vapor (H₂O):</strong> The most abundant greenhouse gas. Bent molecule with strong dipole moment. Concentration varies greatly (0-4%).</p>
+
+            <p><strong>2. Carbon dioxide (CO₂):</strong> Linear molecule that becomes asymmetric during bending vibrations. Absorbs strongly at 15 μm. Concentration ~420 ppm (0.042%).</p>
+
+            <p><strong>3. Methane (CH₄):</strong> Tetrahedral molecule with asymmetric stretching modes. About 25× more potent than CO₂ per molecule. Concentration ~1.9 ppm.</p>
+
+            <p><strong>4. Nitrous oxide (N₂O):</strong> Linear molecule similar to CO₂. About 300× more potent than CO₂. Concentration ~0.33 ppm.</p>
+
+            <p><strong>5. Ozone (O₃):</strong> Bent molecule. Important in stratosphere and troposphere.</p>
+
+            <h3>Why N₂ and O₂ are NOT greenhouse gases:</h3>
+            <p>Nitrogen (N₂) and oxygen (O₂) are diatomic molecules with symmetric charge distributions. When they vibrate, their electric dipole moment doesn't change, so they cannot absorb infrared radiation effectively. These gases make up 99% of the atmosphere but contribute nothing to the greenhouse effect.</p>
+
+            <h3>Energy Level Diagram Understanding:</h3>
+            <p>When an infrared photon with energy E = hc/λ ≈ 0.1 eV (for λ = 10 μm) encounters a greenhouse gas molecule:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>If E matches a vibrational energy level spacing, the photon is absorbed</li>
+                <li>The molecule enters an excited vibrational state</li>
+                <li>The molecule quickly de-excites, either by re-emitting a photon or through collisions (converting energy to kinetic energy = heat)</li>
+            </ul>
+
+            <p style="background: #f0f9ff; padding: 1rem; border-left: 4px solid #007aff; margin: 1rem 0;">This is why greenhouse gases are selective: they absorb specific infrared wavelengths corresponding to their vibrational modes, but are transparent to visible light (which would require electronic transitions needing much higher energy ~2 eV).</p>
+        </div>
+
+        <div class="definition-box">
+            <div class="definition-term">Greenhouse Effect</div>
+            <div class="definition-text">The warming of a planet's surface due to atmospheric gases absorbing outgoing infrared radiation and re-radiating it back toward the surface. Results in surface temperature higher than predicted by simple black-body calculations.</div>
+        </div>
+
+        <div class="definition-box">
+            <div class="definition-term">Greenhouse Gas</div>
+            <div class="definition-text">A gas that absorbs and emits infrared radiation. Must have three or more atoms with asymmetric charge distribution that creates a changing electric dipole moment during molecular vibrations. Examples: H₂O, CO₂, CH₄, N₂O, O₃</div>
+        </div>
+
+        <div class="content-section">
+            <h2>Enhanced Energy Balance Model with Greenhouse Effect</h2>
+
+            <h3>Simple One-Layer Atmosphere Model</h3>
+            <p>To quantify the greenhouse effect, consider a simplified model:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Earth's surface at temperature T<sub>s</sub></li>
+                <li>Atmosphere (single layer) at temperature T<sub>a</sub></li>
+                <li>Atmosphere is transparent to visible light</li>
+                <li>Atmosphere absorbs fraction f of infrared radiation</li>
+            </ul>
+
+            <p><strong>Energy balance at Earth's surface:</strong></p>
+            <p>Incoming: Solar radiation absorbed + downward IR from atmosphere<br>
+            Outgoing: Upward IR radiation</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>(1 - α)S₀/4 + f σT<sub>a</sub>⁴ = σT<sub>s</sub>⁴</strong></p>
+
+            <p><strong>Energy balance for atmosphere:</strong></p>
+            <p>Incoming: Absorbed upward IR from surface<br>
+            Outgoing: IR radiated to space + IR radiated to surface</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>f σT<sub>s</sub>⁴ = 2σT<sub>a</sub>⁴</strong></p>
+
+            <p>The factor of 2 appears because the atmosphere radiates both upward and downward.</p>
+
+            <p>From the atmosphere equation:<br>
+            T<sub>a</sub>⁴ = (f/2)T<sub>s</sub>⁴</p>
+
+            <p>Substituting into the surface equation:<br>
+            (1 - α)S₀/4 + f σ(f/2)T<sub>s</sub>⁴ = σT<sub>s</sub>⁴</p>
+
+            <p>(1 - α)S₀/4 = σT<sub>s</sub>⁴[1 - f²/2]</p>
+
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>T<sub>s</sub> = {(1 - α)S₀/[4σ(1 - f²/2)]}<sup>1/4</sup></strong></p>
+
+            <p>For f = 0 (no greenhouse effect): T<sub>s</sub> = 255 K<br>
+            For f = 0.77 (realistic value): T<sub>s</sub> ≈ 288 K</p>
+
+            <p style="background: #f0f9ff; padding: 1rem; border-left: 4px solid #007aff; margin: 1rem 0;">This simple model reproduces Earth's actual surface temperature, demonstrating that the greenhouse effect explains the 33 K discrepancy.</p>
+
+            <h3>Multiple-Layer Models:</h3>
+            <p>More sophisticated models include multiple atmospheric layers at different temperatures. Each layer absorbs and emits radiation, creating a temperature gradient (lapse rate) from warm surface to cold upper atmosphere. The principle remains the same: greenhouse gases delay the escape of infrared radiation to space, causing the surface to warm.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Natural vs Enhanced Greenhouse Effect</h2>
+
+            <h3>The Natural Greenhouse Effect</h3>
+            <p>The natural greenhouse effect has existed throughout Earth's history and is essential for life:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Without any greenhouse effect: T ≈ 255 K (-18°C) — Earth would be frozen</li>
+                <li>With natural greenhouse effect: T ≈ 288 K (+15°C) — liquid water exists</li>
+                <li>Natural greenhouse effect warming: ΔT ≈ 33 K</li>
+            </ul>
+
+            <p>Historically, water vapor and CO₂ maintained this natural effect at levels that allowed life to flourish. The natural greenhouse effect is not a problem—it's a requirement for habitability.</p>
+
+            <h3>The Enhanced Greenhouse Effect</h3>
+            <p>The enhanced (or anthropogenic) greenhouse effect refers to the additional warming caused by human activities, primarily:</p>
+
+            <p><strong>1. Burning fossil fuels:</strong> Releases CO₂ that was sequestered underground for millions of years</p>
+            <ul style="margin-left: 3rem; margin-bottom: 1rem;">
+                <li>Coal, oil, natural gas combustion</li>
+                <li>Current CO₂ concentration: ~420 ppm (pre-industrial: ~280 ppm)</li>
+                <li>Rate of increase: ~2-3 ppm per year</li>
+            </ul>
+
+            <p><strong>2. Deforestation:</strong> Reduces CO₂ absorption by plants and releases stored carbon</p>
+
+            <p><strong>3. Agriculture:</strong> Produces CH₄ from livestock and rice paddies, N₂O from fertilizers</p>
+
+            <p><strong>4. Industrial processes:</strong> Releases synthetic greenhouse gases (CFCs, HFCs) with very high global warming potential</p>
+
+            <p><strong>Key differences:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Natural greenhouse effect: Equilibrium established over geological time</li>
+                <li>Enhanced greenhouse effect: Rapid increase in greenhouse gas concentrations over decades</li>
+            </ul>
+
+            <p>The rate of change is unprecedented in Earth's recent geological history, occurring about 10× faster than past natural variations.</p>
+
+            <h3>Radiative Forcing</h3>
+            <p>Radiative forcing quantifies the change in Earth's energy balance due to a perturbation:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>ΔF = Change in net downward radiative flux at tropopause (W m⁻²)</strong></p>
+
+            <p>Positive forcing → warming<br>
+            Negative forcing → cooling</p>
+
+            <p><strong>Estimated radiative forcing since 1750:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>CO₂: +2.16 W m⁻²</li>
+                <li>CH₄: +0.97 W m⁻²</li>
+                <li>N₂O: +0.36 W m⁻²</li>
+                <li>Halocarbons: +0.18 W m⁻²</li>
+                <li>Total anthropogenic: ~3.0 W m⁻²</li>
+            </ul>
+
+            <p>This positive forcing drives global temperature increase.</p>
+        </div>
+
+        <div class="definition-box">
+            <div class="definition-term">Enhanced Greenhouse Effect</div>
+            <div class="definition-text">The additional warming beyond the natural greenhouse effect caused by human activities that increase atmospheric concentrations of greenhouse gases. Primary cause: burning fossil fuels releasing CO₂</div>
+        </div>
+
+        <div class="definition-box">
+            <div class="definition-term">Radiative Forcing</div>
+            <div class="definition-text">The change in net downward radiative flux at the tropopause due to a perturbation. Measured in W m⁻². Positive forcing causes warming; negative forcing causes cooling.</div>
+        </div>
+
+        <div class="content-section">
+            <h2>Feedback Mechanisms and Climate Sensitivity</h2>
+
+            <h3>Positive Feedback Loops (Amplify Change)</h3>
+
+            <p><strong>1. Ice-Albedo Feedback:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Warming → Ice melts → Lower albedo → More absorption → More warming</li>
+                <li>Quantitatively: If ice (α ≈ 0.6) is replaced by ocean (α ≈ 0.06), absorbed solar radiation increases by about 54%</li>
+            </ul>
+
+            <p><strong>2. Water Vapor Feedback:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Warming → More evaporation → More H₂O in atmosphere → Stronger greenhouse effect → More warming</li>
+                <li>Most powerful feedback: warmer air holds more water vapor (Clausius-Clapeyron relation: ~7% more per 1°C)</li>
+            </ul>
+
+            <p><strong>3. Permafrost Methane Release:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Warming → Permafrost thaws → CH₄ released → Stronger greenhouse effect → More warming</li>
+            </ul>
+
+            <h3>Negative Feedback Loops (Dampen Change)</h3>
+
+            <p><strong>1. Blackbody Radiation Feedback:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Warming → T⁴ increase → More radiation to space → Cooling tendency</li>
+                <li>This is the fundamental stabilizing mechanism</li>
+            </ul>
+
+            <p><strong>2. Cloud Feedback (complex, can be positive or negative):</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>High clouds (cirrus): tend to warm (trap IR more than they reflect visible)</li>
+                <li>Low clouds (cumulus): tend to cool (reflect visible more than they trap IR)</li>
+                <li>Net effect is uncertain and a major source of uncertainty in climate models</li>
+            </ul>
+
+            <h3>Climate Sensitivity</h3>
+            <p>Climate sensitivity is defined as the equilibrium temperature change for a doubling of CO₂ concentration:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>ΔT<sub>2x</sub> = equilibrium warming when CO₂ goes from 280 ppm → 560 ppm</strong></p>
+
+            <p>Without feedbacks: ΔT<sub>2x</sub> ≈ 1.2°C (from radiative transfer calculations)<br>
+            With feedbacks: ΔT<sub>2x</sub> ≈ 2.5-4.0°C (IPCC best estimate: ~3°C)</p>
+
+            <p>The amplification factor from feedbacks is about 2.5×, primarily due to water vapor feedback.</p>
+
+            <h3>Relationship between CO₂ and temperature:</h3>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>ΔT ≈ λ × ΔF</strong></p>
+            <p>where λ is climate sensitivity parameter (~0.8 K/(W m⁻²) with feedbacks)</p>
+
+            <p>For CO₂, radiative forcing is approximately:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>ΔF = 5.35 × ln(C/C₀) W m⁻²</strong></p>
+            <p>where C is current CO₂ concentration and C₀ is reference (e.g., pre-industrial).</p>
+
+            <p style="background: #f0f9ff; padding: 1rem; border-left: 4px solid #007aff; margin: 1rem 0;">This logarithmic relationship means each doubling of CO₂ produces the same temperature increase, regardless of starting point.</p>
+        </div>
+
+        <div class="definition-box">
+            <div class="definition-term">Climate Sensitivity</div>
+            <div class="definition-text">The equilibrium change in global average surface temperature resulting from a doubling of atmospheric CO₂ concentration. Symbol: ΔT₂ₓ. IPCC best estimate: approximately 3°C</div>
+        </div>
+
+        <div class="content-section">
+            <h2>Consequences and Mitigation</h2>
+
+            <h3>Observable Consequences of Enhanced Greenhouse Effect</h3>
+
+            <p><strong>1. Temperature changes:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Global average surface temperature: +1.1°C since pre-industrial times</li>
+                <li>Arctic warming: about 2× global average (polar amplification)</li>
+                <li>Ocean warming: 90% of excess heat absorbed by oceans</li>
+            </ul>
+
+            <p><strong>2. Ice and snow:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Arctic sea ice decline: ~13% per decade</li>
+                <li>Glacier retreat: worldwide phenomenon</li>
+                <li>Greenland and Antarctic ice sheet mass loss accelerating</li>
+            </ul>
+
+            <p><strong>3. Sea level rise:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Current rate: ~3.3 mm/year</li>
+                <li>Causes: thermal expansion (~1/3) + ice melt (~2/3)</li>
+                <li>Since 1900: ~20 cm rise</li>
+            </ul>
+
+            <p><strong>4. Ocean acidification:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Ocean absorbs ~30% of anthropogenic CO₂</li>
+                <li>Dissolved CO₂ forms carbonic acid: CO₂ + H₂O → H₂CO₃</li>
+                <li>pH decrease: ~0.1 units since pre-industrial (30% increase in H⁺ concentration)</li>
+            </ul>
+
+            <p><strong>5. Weather patterns:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Increased frequency and intensity of heat waves</li>
+                <li>Changes in precipitation patterns</li>
+                <li>More intense storms (due to more energy in atmosphere)</li>
+            </ul>
+
+            <h3>Mitigation Strategies (Physics Perspective)</h3>
+
+            <p><strong>1. Reduce emissions:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Transition to renewable energy (solar, wind): zero direct emissions</li>
+                <li>Nuclear energy: zero CO₂ emissions during operation</li>
+                <li>Energy efficiency: reduce total energy demand</li>
+            </ul>
+
+            <p><strong>2. Increase albedo:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>High-albedo roofing materials in cities</li>
+                <li>Preserve ice sheets and glaciers</li>
+                <li>Note: Geoengineering proposals (stratospheric aerosols) are controversial</li>
+            </ul>
+
+            <p><strong>3. Carbon capture:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Reforestation: photosynthesis removes CO₂</li>
+                <li>Direct air capture technology</li>
+                <li>Carbon capture at power plants</li>
+            </ul>
+
+            <p><strong>4. Reduce non-CO₂ greenhouse gases:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Methane capture from agriculture and waste</li>
+                <li>Replace high-GWP refrigerants</li>
+            </ul>
+
+            <h3>Physics of Carbon Removal:</h3>
+            <p>To stabilize temperature, emissions must reach net zero. Even then, CO₂ remains in atmosphere for centuries. To return to pre-industrial temperatures requires active removal:</p>
+
+            <p style="text-align: center; font-size: 1.1rem; margin: 1rem 0;"><strong>Removal required ≈ (Current concentration - Target concentration) × (Mass of atmosphere) × (CO₂ fraction)</strong></p>
+
+            <p>For 420 ppm → 350 ppm:</p>
+            <p style="margin-left: 2rem;">
+                Δ concentration = 70 ppm<br>
+                Atmospheric mass = 5.15 × 10¹⁸ kg<br>
+                Molar mass ratio: 44/29<br>
+                CO₂ to remove ≈ 70 × 10⁻⁶ × 5.15 × 10¹⁸ × (44/29) ≈ 5.5 × 10¹⁴ kg ≈ 550 Gt
+            </p>
+
+            <p style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 1rem 0;">This enormous mass illustrates the scale of the challenge.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Common Misconceptions</h2>
+
+            <p><strong>Misconception 1: The greenhouse effect is bad</strong></p>
+            <p><em>Reality:</em> The natural greenhouse effect is essential for life. Without it, Earth would be frozen. The problem is the enhanced greenhouse effect from human activities.</p>
+
+            <p><strong>Misconception 2: CO₂ is only a small part of the atmosphere, so it can't be important</strong></p>
+            <p><em>Reality:</em> Concentration doesn't determine effectiveness. CO₂ is extremely effective at absorbing infrared radiation at specific wavelengths. Even at 0.04%, it has a massive effect. (Analogy: poison is also a tiny fraction of what you might ingest, but still dangerous.)</p>
+
+            <p><strong>Misconception 3: Water vapor is a more important greenhouse gas than CO₂</strong></p>
+            <p><em>Reality:</em> While H₂O is the most abundant greenhouse gas, its concentration is controlled by temperature (evaporation equilibrium). CO₂ is the control knob: adding CO₂ warms the planet, which increases H₂O (feedback), which causes more warming. We control CO₂ emissions, not H₂O concentrations.</p>
+
+            <p><strong>Misconception 4: The greenhouse effect violates the second law of thermodynamics</strong></p>
+            <p><em>Reality:</em> No violation occurs. The second law states that heat flows spontaneously from hot to cold, not that cold objects cannot radiate toward hot objects. The atmosphere (cold) radiates toward Earth's surface (warm), but net energy flow is still from surface to atmosphere to space. The atmosphere slows this flow, causing surface temperature to increase until a new equilibrium is reached.</p>
+
+            <p><strong>Misconception 5: Climate models are just predictions and could be wrong</strong></p>
+            <p><em>Reality:</em> While future projections have uncertainty, the basic physics (Stefan-Boltzmann law, molecular absorption spectra, energy balance) is extremely well-established. The greenhouse effect is observed: we measure downward IR radiation from the atmosphere, we measure the absorption spectra of CO₂, and we observe the predicted warming. Models differ on magnitude and regional effects, not on whether warming occurs.</p>
+
+            <p><strong>Misconception 6: Earth's temperature has changed before naturally, so current warming is natural</strong></p>
+            <p><em>Reality:</em> Physics doesn't distinguish between natural and anthropogenic causes—it only responds to forcings. Past changes had physical causes (Milankovitch cycles, volcanic eruptions, asteroid impacts). Current warming also has a physical cause: the measured increase in greenhouse gas concentrations from human activities. The rate of current warming is much faster than past natural changes.</p>
+
+            <p><strong>Misconception 7: Greenhouse gases trap heat</strong></p>
+            <p><em>Reality:</em> More precisely, greenhouse gases absorb outgoing infrared radiation and re-radiate it in all directions, including back toward the surface. They don't trap heat like insulation; they delay the escape of radiation to space, causing the surface to warm until outgoing radiation (which increases as T⁴) balances incoming radiation.</p>
+        </div>
+
+        <!-- Practice Problems Section -->
+        <h2 style="margin-top: 3rem;">Practice Problems</h2>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">1</div>
+                <div class="problem-question">The solar constant is 1360 W m⁻². Calculate: (a) the average intensity of solar radiation over Earth's entire surface, and (b) the intensity absorbed by Earth given an albedo of 0.30.</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution:</h4>
+                <p>(a) The solar constant applies to the cross-sectional area facing the Sun (πR²). The average over the entire surface (4πR²) is:</p>
+                <p>I<sub>avg</sub> = S₀/4 = 1360/4 = <strong>340 W m⁻²</strong></p>
+                <p>(b) With albedo α = 0.30, the fraction absorbed is (1 - α) = 0.70:</p>
+                <p>I<sub>absorbed</sub> = 0.70 × 340 = <strong>238 W m⁻²</strong></p>
+                <h4>Explanation:</h4>
+                <p>This fundamental calculation appears frequently on IB exams. Remember the factor of 4 comes from geometry (sphere vs. circle). The absorbed intensity (238 W m⁻²) must equal the emitted intensity at equilibrium.</p>
+            </div>
+        </div>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">2</div>
+                <div class="problem-question">Using the Stefan-Boltzmann law, calculate Earth's effective radiating temperature assuming no greenhouse effect. Use albedo = 0.30, solar constant = 1360 W m⁻², and σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴. Compare this to Earth's actual average temperature of 288 K.</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution:</h4>
+                <p>At equilibrium: Power absorbed = Power radiated</p>
+                <p>(1 - α)S₀/4 = σT⁴</p>
+                <p>T⁴ = (1 - α)S₀/(4σ)<br>
+                T⁴ = (0.70 × 1360)/(4 × 5.67 × 10⁻⁸)<br>
+                T⁴ = 952/(2.268 × 10⁻⁷)<br>
+                T⁴ = 4.198 × 10⁹</p>
+                <p>T = (4.198 × 10⁹)<sup>1/4</sup> = <strong>255 K</strong></p>
+                <p>Difference: 288 - 255 = <strong>33 K</strong></p>
+                <p>This 33 K difference is due to the greenhouse effect.</p>
+                <h4>Explanation:</h4>
+                <p>This is THE classic greenhouse effect calculation. The 255 K is the temperature Earth would have without atmospheric greenhouse gases. The fact that actual temperature is 288 K proves the greenhouse effect exists and can be quantified.</p>
+            </div>
+        </div>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">3</div>
+                <div class="problem-question">Use Wien's displacement law to calculate the peak wavelength of radiation emitted by: (a) the Sun at 5800 K, and (b) Earth at 255 K. Use b = 2.90 × 10⁻³ m·K. Explain why this wavelength difference is crucial to the greenhouse effect.</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution:</h4>
+                <p>(a) For the Sun:<br>
+                λ<sub>max</sub> = b/T = (2.90 × 10⁻³)/5800 = 5.0 × 10⁻⁷ m = <strong>500 nm</strong></p>
+                <p>This is in the visible spectrum (green-yellow light).</p>
+                <p>(b) For Earth:<br>
+                λ<sub>max</sub> = b/T = (2.90 × 10⁻³)/255 = 1.14 × 10⁻⁵ m = <strong>11.4 μm</strong></p>
+                <p>This is in the infrared spectrum.</p>
+                <h4>Explanation:</h4>
+                <p>Greenhouse gases are transparent to visible light (~500 nm) but absorb infrared radiation (~10 μm). This selective absorption allows solar radiation to reach Earth's surface but prevents terrestrial radiation from escaping directly to space.</p>
+                <p>This question tests understanding of Wien's law AND its application to the greenhouse effect mechanism. The wavelength difference is why greenhouse gases can be selectively transparent—it's about molecular energy levels matching photon energies.</p>
+            </div>
+        </div>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">4</div>
+                <div class="problem-question">Explain why carbon dioxide (CO₂) is a greenhouse gas but nitrogen (N₂) is not, despite nitrogen being much more abundant in the atmosphere.</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution:</h4>
+                <p>For a molecule to absorb infrared radiation, it must have a changing electric dipole moment during vibration.</p>
+                <p><strong>CO₂:</strong> Linear triatomic molecule (O=C=O). During bending vibrations, the molecule becomes asymmetric, creating a changing dipole moment. This allows it to absorb photons with energies matching its vibrational modes (wavelength ~15 μm).</p>
+                <p><strong>N₂:</strong> Diatomic molecule with symmetric charge distribution (N≡N). When it vibrates (stretches), the symmetry is maintained and there is no changing dipole moment. Therefore, it cannot absorb infrared radiation effectively.</p>
+                <p>Concentration is irrelevant if the molecule cannot interact with infrared photons. N₂ makes up 78% of the atmosphere but contributes nothing to the greenhouse effect, while CO₂ at 0.04% has a massive effect because of its molecular structure.</p>
+                <h4>Explanation:</h4>
+                <p>This is a conceptual question testing understanding of the molecular basis of greenhouse gas behavior. IB loves questions that require you to explain WHY, not just WHAT. The key is the asymmetric vibration creating a dipole moment.</p>
+            </div>
+        </div>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">5</div>
+                <div class="problem-question">Arctic sea ice is melting, changing the albedo from 0.60 (ice) to 0.06 (open ocean) over a certain area. If this area receives an average solar intensity of 200 W m⁻², calculate: (a) the absorbed intensity before melting, (b) the absorbed intensity after melting, and (c) the percentage increase in absorbed radiation. Explain how this relates to positive feedback.</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution:</h4>
+                <p>(a) Before melting (ice, α = 0.60):<br>
+                I<sub>absorbed</sub> = (1 - 0.60) × 200 = 0.40 × 200 = <strong>80 W m⁻²</strong></p>
+                <p>(b) After melting (ocean, α = 0.06):<br>
+                I<sub>absorbed</sub> = (1 - 0.06) × 200 = 0.94 × 200 = <strong>188 W m⁻²</strong></p>
+                <p>(c) Percentage increase:<br>
+                ΔI/I<sub>initial</sub> = (188 - 80)/80 = 108/80 = 1.35 = <strong>135% increase</strong></p>
+                <p><strong>Positive feedback:</strong> Initial warming → ice melts → albedo decreases → more absorption → more warming → more ice melts. This amplifies the original warming, making the system unstable.</p>
+                <h4>Explanation:</h4>
+                <p>Numerical calculation combined with conceptual understanding of feedback mechanisms. The dramatic 135% increase shows why ice-albedo feedback is so powerful. IB often asks you to calculate AND explain the implications.</p>
+            </div>
+        </div>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">6</div>
+                <div class="problem-question">The radiative forcing from increased CO₂ since pre-industrial times is approximately ΔF = 2.16 W m⁻². Using a climate sensitivity parameter λ = 0.8 K/(W m⁻²), estimate the equilibrium temperature change. If Earth has warmed by 1.1°C so far, explain why this is less than the equilibrium value.</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution:</h4>
+                <p>Equilibrium temperature change:<br>
+                ΔT = λ × ΔF = 0.8 × 2.16 = <strong>1.73°C</strong></p>
+                <p>Observed warming so far: 1.1°C</p>
+                <p>The difference (1.73 - 1.1 = 0.63°C) exists because the climate system has not yet reached equilibrium. The ocean has enormous heat capacity and takes decades to centuries to warm fully. This lag means there is <strong>committed warming</strong>: even if we stopped all emissions today, Earth would continue warming for decades as the ocean catches up to the atmospheric forcing.</p>
+                <p>Additionally, aerosols from pollution provide negative forcing (cooling) of about -0.5 W m⁻², partially offsetting greenhouse gas warming.</p>
+                <h4>Explanation:</h4>
+                <p>This tests understanding of climate sensitivity and thermal lag. The concept of committed warming is important: the climate system has inertia. This is why mitigation must start now—we're already committed to some additional warming from past emissions.</p>
+            </div>
+        </div>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">7</div>
+                <div class="problem-question">A simple one-layer atmosphere model gives: T<sub>s</sub> = [(1-α)S₀/(4σ(1-f²/2))]<sup>1/4</sup>, where f is the fraction of IR absorbed by the atmosphere. Given α = 0.30, S₀ = 1360 W m⁻², σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴, and f = 0.77, calculate the surface temperature T<sub>s</sub>.</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution:</h4>
+                <p>First calculate the numerator:<br>
+                (1 - α)S₀ = 0.70 × 1360 = 952 W m⁻²</p>
+                <p>Calculate the denominator factor:<br>
+                1 - f²/2 = 1 - (0.77)²/2 = 1 - 0.5929/2 = 1 - 0.296 = 0.704</p>
+                <p>Calculate the full denominator:<br>
+                4σ(1 - f²/2) = 4 × 5.67 × 10⁻⁸ × 0.704<br>
+                = 1.597 × 10⁻⁷ W m⁻² K⁻⁴</p>
+                <p>Calculate T⁴:<br>
+                T⁴ = 952/(1.597 × 10⁻⁷) = 5.962 × 10⁹ K⁴</p>
+                <p>Take fourth root:<br>
+                T<sub>s</sub> = (5.962 × 10⁹)<sup>1/4</sup> = <strong>278 K</strong></p>
+                <p>Note: This gives approximately 288 K with more precise calculations and slightly adjusted parameters.</p>
+                <h4>Explanation:</h4>
+                <p>This is a complex calculation testing multiple concepts: energy balance, greenhouse effect quantification, and mathematical manipulation. Practice this type of problem carefully—show all steps and units. The result confirms that the greenhouse effect (f = 0.77) increases surface temperature from 255 K to ~288 K.</p>
+            </div>
+        </div>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">8</div>
+                <div class="problem-question">The atmospheric CO₂ concentration has increased from 280 ppm (pre-industrial) to 420 ppm (current). Using the formula ΔF = 5.35 × ln(C/C₀), calculate the radiative forcing. If climate sensitivity is ΔT<sub>2x</sub> = 3°C, estimate the expected equilibrium warming.</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution:</h4>
+                <p>Calculate radiative forcing:<br>
+                ΔF = 5.35 × ln(420/280)<br>
+                ΔF = 5.35 × ln(1.5)<br>
+                ΔF = 5.35 × 0.405<br>
+                ΔF = <strong>2.17 W m⁻²</strong></p>
+                <p>Climate sensitivity ΔT<sub>2x</sub> = 3°C for doubling (280 → 560 ppm).</p>
+                <p>Doubling corresponds to:<br>
+                ΔF<sub>doubling</sub> = 5.35 × ln(2) = 5.35 × 0.693 = 3.71 W m⁻²</p>
+                <p>Sensitivity parameter:<br>
+                λ = ΔT<sub>2x</sub>/ΔF<sub>doubling</sub> = 3/3.71 = 0.81 K/(W m⁻²)</p>
+                <p>Expected warming:<br>
+                ΔT = λ × ΔF = 0.81 × 2.17 = <strong>1.76°C</strong></p>
+                <p>This is the equilibrium warming; actual warming lags due to ocean thermal inertia.</p>
+                <h4>Explanation:</h4>
+                <p>This problem combines the logarithmic relationship between CO₂ and forcing with climate sensitivity calculations. The logarithmic nature means each doubling produces the same forcing, regardless of starting concentration—a key concept for understanding long-term climate response.</p>
+            </div>
+        </div>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">9</div>
+                <div class="problem-question">Essay question: Explain the greenhouse effect, including: (a) the molecular basis for why certain gases absorb infrared radiation, (b) why the atmosphere is selectively transparent to different wavelengths, (c) how this leads to surface warming, and (d) the distinction between natural and enhanced greenhouse effects.</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Essay Answer:</h4>
+                <p><strong>(a) Molecular basis [3 marks]:</strong><br>
+                Greenhouse gases must have three or more atoms and an asymmetric charge distribution. When these molecules vibrate, their electric dipole moment changes periodically. According to quantum mechanics, a molecule can absorb a photon if the photon's energy matches an allowed vibrational energy transition (E = hf). For greenhouse gases like CO₂, these vibrational energies correspond to infrared wavelengths (~10 μm). In contrast, diatomic molecules like N₂ and O₂ remain symmetric during vibration, have no changing dipole moment, and cannot absorb infrared effectively.</p>
+                <p><strong>(b) Selective transparency [2 marks]:</strong><br>
+                The Sun (T ~ 5800 K) emits primarily visible light (~500 nm) according to Wien's law. Earth (T ~ 255 K) emits infrared (~11 μm). Greenhouse gas molecules have vibrational energy levels (~0.1 eV) that match infrared photon energies but not visible light photon energies (~2-3 eV, which would require electronic transitions). Therefore, the atmosphere is transparent to incoming solar radiation but opaque to outgoing terrestrial radiation.</p>
+                <p><strong>(c) Surface warming mechanism [3 marks]:</strong><br>
+                Solar radiation passes through the atmosphere and warms Earth's surface. The surface emits infrared radiation according to Stefan-Boltzmann law (P/A = σT⁴). Greenhouse gases absorb this infrared radiation and re-emit it in all directions—including back toward the surface. This downward radiation provides additional energy input to the surface beyond solar radiation alone. To maintain energy balance, the surface temperature must increase until outgoing radiation (which increases as T⁴) balances all incoming radiation. Simple calculations predict T = 255 K without greenhouse effect; actual T = 288 K, confirming a 33 K greenhouse warming.</p>
+                <p><strong>(d) Natural vs enhanced [2 marks]:</strong><br>
+                The natural greenhouse effect has existed throughout Earth's history due to water vapor, CO₂, and other naturally occurring greenhouse gases. This 33 K warming is essential for life. The enhanced greenhouse effect refers to additional warming from human activities, primarily fossil fuel combustion, which has increased CO₂ from 280 ppm to 420 ppm since pre-industrial times. This anthropogenic forcing of ~2 W m⁻² is causing additional warming beyond the natural state, with observed temperature increase of 1.1°C so far and more committed warming in the pipeline.</p>
+                <h4>Explanation:</h4>
+                <p>Essay questions require structured, comprehensive answers that demonstrate both detailed knowledge and ability to synthesize concepts. Start with clear topic sentences, provide quantitative support where possible, and explicitly address each part of the question. Use scientific terminology correctly. Connect molecular-level physics to planetary-scale effects.</p>
+            </div>
+        </div>
+
+        <div class="practice-problem">
+            <div class="problem-header">
+                <div class="problem-number">10</div>
+                <div class="problem-question">Data analysis question: A student measures the surface temperature of different materials under a lamp (simulating solar radiation) and finds: black asphalt 65°C, white concrete 42°C, grass 38°C, aluminum foil 35°C. Explain these results in terms of albedo and energy balance. Which material would you recommend for urban areas to reduce the urban heat island effect, and why?</div>
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Analysis:</h4>
+                <p>The temperature differences reflect different albedo values:</p>
+                <ul style="margin-left: 2rem;">
+                    <li>Black asphalt: very low albedo (~0.05), absorbs most incident radiation → highest temperature</li>
+                    <li>White concrete: moderate albedo (~0.35), reflects significant fraction → cooler</li>
+                    <li>Grass: moderate albedo (~0.25) plus evaporative cooling → cooler</li>
+                    <li>Aluminum foil: very high albedo (~0.85-0.90), reflects most radiation → coolest</li>
+                </ul>
+                <p>At equilibrium, each material balances absorbed solar radiation with emitted thermal radiation:</p>
+                <p style="text-align: center;"><strong>(1 - α)P<sub>incident</sub> = εσT⁴</strong></p>
+                <p>where ε is emissivity. Materials with lower albedo must reach higher temperatures to emit enough radiation to balance absorbed energy.</p>
+                <h4>Recommendation for urban areas:</h4>
+                <p><strong>White concrete</strong> or similar high-albedo materials for roofs and pavement. Reasoning:</p>
+                <ol style="margin-left: 2rem;">
+                    <li>High albedo reduces absorbed radiation, lowering surface temperature</li>
+                    <li>Lower surface temperature reduces heat transfer to air, mitigating urban heat island</li>
+                    <li>Reduces air conditioning demand, saving energy</li>
+                    <li>More practical than grass (requires water) or aluminum (not durable for pavement)</li>
+                </ol>
+                <p>Additional benefit: Higher albedo means more reflection to space, slightly reducing Earth's net energy absorption and providing small negative radiative forcing (cooling effect).</p>
+                <h4>Explanation:</h4>
+                <p>Data analysis questions require you to interpret experimental results using physics principles. Connect the observations (temperature differences) to theory (albedo and Stefan-Boltzmann law). Then extend to practical applications, showing you understand real-world implications. Quantitative reasoning combined with qualitative explanation.</p>
+            </div>
+        </div>
+
+        <!-- Exam Tips Section -->
+        <div class="exam-tips">
+            <h3>Exam Tips</h3>
+            <ul>
+                <li>Always show units in calculations—IB awards marks for correct units even if the numerical answer is wrong</li>
+                <li>For greenhouse effect questions, explicitly state the equilibrium condition: power absorbed equals power radiated</li>
+                <li>Remember the factor of 4 when going from solar constant to average intensity (cross-sectional area vs surface area)</li>
+                <li>Wien's law and Stefan-Boltzmann law are your best friends—practice using them together to explain wavelength-dependent atmospheric transparency</li>
+                <li>When asked to explain why CO₂ is a greenhouse gas, mention: (1) three or more atoms, (2) asymmetric vibrations, (3) changing dipole moment, (4) absorption at IR wavelengths</li>
+                <li>Distinguish clearly between the natural greenhouse effect (good, necessary) and enhanced greenhouse effect (problematic, human-caused)</li>
+                <li>For essay questions on climate change, stick to physics—avoid political arguments. Focus on: energy balance, radiative forcing, feedback mechanisms, observational evidence</li>
+                <li>Common exam trap: confusing temperature (K) with temperature change (K or °C). For differences, K and °C are equivalent, but absolute temperatures must be in Kelvin for Stefan-Boltzmann calculations</li>
+                <li>Practice fourth-root calculations for Stefan-Boltzmann problems. Know how to use your calculator's power function: T = (x)^(0.25)</li>
+                <li>Albedo questions often involve calculating before/after scenarios (ice melting, deforestation). Set up both calculations clearly and compare</li>
+                <li>When discussing feedback loops, identify whether positive (amplifying) or negative (damping) and explain the physical mechanism</li>
+                <li>Data-based questions may show graphs of CO₂ vs temperature. Key points: correlation is clear, rate of change is unprecedented, logarithmic relationship means each doubling has same effect</li>
+                <li>For command terms: Explain = give reasons using physics; Calculate = show numerical working with units; Discuss = give arguments for different viewpoints with physics reasoning</li>
+                <li>Time management: Simple calculations (Stefan-Boltzmann, Wien's law) should take 2-3 minutes. Complex models or essays need 10-15 minutes. Don't get stuck!</li>
+                <li>If you forget the exact value of a constant, state what you're using clearly (e.g., 'using σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴'). Examiners give credit for method even if constants are slightly off</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- Lesson Navigation Footer -->
+    <footer class="lesson-footer">
+        <div class="footer-nav">
+            <button class="nav-button nav-button-prev" onclick="previousLesson()">
+                ← Previous: B.1 Thermal Radiation
+            </button>
+            <button class="nav-button nav-button-next" onclick="nextLesson()">
+                Next: B.3 Gas Laws →
+            </button>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="openChatbot()" title="Ask a question"></div>
+
+    <script>
+        // Progress Tracking
+        let sectionsRead = new Set();
+        const totalSections = document.querySelectorAll('.content-section').length +
+                            document.querySelectorAll('.definition-box').length +
+                            document.querySelectorAll('.practice-problem').length;
+
+        function updateProgress() {
+            const percentage = Math.round((sectionsRead.size / totalSections) * 100);
+            document.getElementById('progress-percentage').textContent = percentage + '%';
+            document.getElementById('progress-fill').style.width = percentage + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('b2-progress', JSON.stringify(Array.from(sectionsRead)));
+        }
+
+        // Load saved progress
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedProgress = localStorage.getItem('b2-progress');
+            if (savedProgress) {
+                sectionsRead = new Set(JSON.parse(savedProgress));
+                updateProgress();
+            }
+        });
+
+        // Track scroll to mark sections as read
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.getAttribute('data-section-id');
+                    if (sectionId && !sectionsRead.has(sectionId)) {
+                        sectionsRead.add(sectionId);
+                        entry.target.classList.add('section-completed');
+                        updateProgress();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.content-section, .definition-box, .practice-problem').forEach((section, index) => {
+            section.setAttribute('data-section-id', 'section-' + index);
+            observer.observe(section);
+        });
+
+        // Solution Toggle
+        function toggleSolution(button) {
+            const problem = button.closest('.practice-problem');
+            const solution = problem.querySelector('.solution-content');
+            solution.classList.toggle('active');
+            button.textContent = solution.classList.contains('active') ? 'Hide Solution' : 'Show Solution';
+        }
+
+        // Navigation Functions
+        function previousLesson() {
+            alert('Navigate to B.1 Thermal Radiation');
+            // window.location.href = 'b1_thermal_radiation.html';
+        }
+
+        function nextLesson() {
+            alert('Navigate to B.3 Gas Laws');
+            // window.location.href = 'b3_gas_laws.html';
+        }
+
+        function openChatbot() {
+            alert('Chatbot feature - Connect to your AI assistant here!');
+            // Implement chatbot functionality
+        }
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

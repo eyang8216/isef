@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 5: Energetics/Thermochemistry | Fluapi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f5f5f5;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 40px;
+        }
+
+        .lesson-header {
+            margin-bottom: 30px;
+        }
+
+        .lesson-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .meta-badge {
+            background: #f0f0f0;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        /* Learning Objectives */
+        .objectives-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .objectives-box h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .objectives-box ul {
+            list-style-position: inside;
+            line-height: 1.8;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .content-section h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .content-section h3 {
+            font-size: 22px;
+            color: #667eea;
+            margin: 25px 0 15px 0;
+        }
+
+        .content-section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .content-section ul, .content-section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: #fff9e6;
+            border-left: 4px solid #ffd700;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            color: #cc8800;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .definition-text {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            margin: 25px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .problem-question {
+            background: #f9f9f9;
+            padding: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .problem-question:hover {
+            background: #f0f0f0;
+        }
+
+        .problem-number {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .problem-solution {
+            padding: 20px;
+            background: white;
+            display: none;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .problem-solution.active {
+            display: block;
+        }
+
+        .solution-label {
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .explanation-label {
+            font-weight: 700;
+            color: #764ba2;
+            margin: 15px 0 10px 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* Exam Tips */
+        .exam-tips {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .exam-tips h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .tip-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #c8e6c9;
+            line-height: 1.7;
+        }
+
+        .tip-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+        }
+
+        /* Lesson Navigation Footer */
+        .lesson-footer {
+            background: #f5f5f5;
+            padding: 30px 40px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button.prev {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .nav-button.prev:hover {
+            background: #d0d0d0;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button.next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .complete-button {
+            padding: 12px 30px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .complete-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .lesson-title {
+                font-size: 28px;
+            }
+
+            .lesson-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="navbar-brand">Fluapi</div>
+            <div class="navbar-links">
+                <a href="index.html">Home</a>
+                <a href="lessons.html">Lessons</a>
+                <a href="progress.html">Progress</a>
+                <a href="profile.html">Profile</a>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Progress: 0%</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Lesson Header -->
+            <div class="lesson-header">
+                <h1 class="lesson-title">Topic 5: Energetics/Thermochemistry</h1>
+                <div class="lesson-meta">
+                    <span class="meta-badge">IB Chemistry HL Topic 5 (2024-2025)</span>
+                    <span class="meta-badge">HL (includes SL foundations)</span>
+                </div>
+            </div>
+
+            <!-- Learning Objectives -->
+            <div class="objectives-box">
+                <h3>Learning Objectives</h3>
+                <ul>
+                    <li>5.1.1 Calculate the heat energy change when the temperature of a pure substance is changed using q = mcΔT</li>
+                    <li>5.1.2 Design calorimetry experiments to determine enthalpy changes</li>
+                    <li>5.1.3 Calculate the enthalpy change for a reaction using experimental data from calorimetry</li>
+                    <li>5.1.4 Evaluate the results of calorimetry experiments and identify sources of error</li>
+                    <li>5.2.1 Apply Hess's Law to calculate enthalpy changes using standard enthalpy of formation and combustion data</li>
+                    <li>5.2.2 Construct Born-Haber cycles and perform calculations involving lattice enthalpy</li>
+                    <li>5.3.1 Calculate enthalpy changes from average bond enthalpies and explain why values differ from actual enthalpy changes</li>
+                    <li>5.3.2 HL: Explain the relationship between bond strength, bond length, and bond enthalpy</li>
+                    <li>5.4.1 HL: Predict whether a change will result in an increase or decrease in entropy by considering the states of reactants and products</li>
+                    <li>5.4.2 HL: Calculate entropy changes from standard entropy values</li>
+                    <li>5.4.3 HL: Predict whether a reaction or process will be spontaneous by calculating the change in Gibbs free energy</li>
+                    <li>5.4.4 HL: Describe the relationship between ΔG° and the equilibrium constant K</li>
+                </ul>
+            </div>
+
+            <!-- Introduction Section -->
+            <div class="content-section">
+                <h2>Introduction: Why Energy Matters in Chemistry</h2>
+                <p>Every chemical reaction involves energy. Bonds break (requiring energy) and bonds form (releasing energy). The net energy change determines whether a reaction releases heat to surroundings (exothermic) or absorbs heat from surroundings (endothermic). Understanding these energy changes allows chemists to predict reaction feasibility, design industrial processes, and explain phenomena from hand warmers to photosynthesis.</p>
+                <p>This topic builds on your understanding of bonding (Topic 4) and prepares you for equilibrium (Topic 7) and kinetics (Topic 6). The mathematical rigor increases at HL level with the introduction of entropy and Gibbs free energy—thermodynamic concepts that explain WHY reactions occur spontaneously.</p>
+                <p><strong>Prerequisites:</strong> You should be comfortable with: stoichiometry, molar mass calculations, states of matter, bonding concepts, and basic algebra including logarithms (for HL Gibbs-equilibrium connections).</p>
+            </div>
+
+            <!-- Section 5.1 -->
+            <div class="content-section">
+                <h2>5.1 Measuring Energy Changes: Calorimetry and Enthalpy</h2>
+
+                <h3>5.1.1 Heat Capacity and Temperature Changes</h3>
+                <p>When a substance absorbs energy, its temperature increases. The relationship is linear for pure substances:</p>
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$q = mc\Delta T$$</p>
+                <p>Where:</p>
+                <ul>
+                    <li>\(q\) = heat energy absorbed or released (J)</li>
+                    <li>\(m\) = mass of substance (g)</li>
+                    <li>\(c\) = specific heat capacity (J g⁻¹ K⁻¹ or J g⁻¹ °C⁻¹)</li>
+                    <li>\(\Delta T\) = temperature change (K or °C)</li>
+                </ul>
+
+                <p><strong>Why this works:</strong> Each substance has a characteristic heat capacity—the energy needed to raise 1 g by 1 K. Water has an unusually high specific heat capacity (4.18 J g⁻¹ K⁻¹) due to hydrogen bonding, making it excellent for calorimetry and thermal regulation in living organisms.</p>
+
+                <p><strong>Important convention:</strong> When heat is released by a reaction, \(q\) is negative (exothermic). When heat is absorbed, \(q\) is positive (endothermic). However, the temperature change \(\Delta T\) is always calculated as (final - initial).</p>
+
+                <div class="definition-box">
+                    <div class="definition-term">Worked Example 1</div>
+                    <div class="definition-text">Calculate the energy required to heat 500 g of water from 20.0°C to 85.0°C. (\(c_{water}\) = 4.18 J g⁻¹ K⁻¹)<br><br>
+                    <strong>Solution:</strong><br>
+                    • \(m\) = 500 g<br>
+                    • \(c\) = 4.18 J g⁻¹ K⁻¹<br>
+                    • \(\Delta T\) = 85.0 - 20.0 = 65.0 K<br>
+                    • \(q = mc\Delta T = (500)(4.18)(65.0) = 135,850\) J = <strong>136 kJ</strong> (3 s.f.)<br><br>
+                    The energy required is 136 kJ.</div>
+                </div>
+
+                <h3>5.1.2 & 5.1.3 Calorimetry: Measuring Enthalpy Changes</h3>
+                <p>Calorimetry measures the heat exchanged during a reaction by monitoring temperature changes in a known mass of water (or solution). The key assumption: heat released by the reaction is absorbed by the water/solution.</p>
+
+                <p><strong>For solution reactions</strong> (e.g., neutralization, dissolution):</p>
+                <ol>
+                    <li>Measure initial temperature of solution</li>
+                    <li>Mix reactants and record maximum/minimum temperature</li>
+                    <li>Calculate heat absorbed by solution: \(q_{solution} = mc\Delta T\)</li>
+                    <li>Heat released by reaction: \(q_{reaction} = -q_{solution}\)</li>
+                    <li>Calculate molar enthalpy change: \(\Delta H = \frac{q_{reaction}}{n}\) where \(n\) = moles of limiting reactant</li>
+                </ol>
+
+                <div class="definition-box">
+                    <div class="definition-term">Worked Example 2</div>
+                    <div class="definition-text">50.0 cm³ of 2.00 mol dm⁻³ HCl is mixed with 50.0 cm³ of 2.00 mol dm⁻³ NaOH in a polystyrene cup. Temperature rises from 19.5°C to 32.8°C. Calculate the enthalpy of neutralization. (Assume solution density = 1.00 g cm⁻³ and \(c\) = 4.18 J g⁻¹ K⁻¹)<br><br>
+                    <strong>Solution:</strong><br>
+                    • Total volume = 100.0 cm³, so mass = 100.0 g<br>
+                    • \(\Delta T\) = 32.8 - 19.5 = 13.3 K<br>
+                    • \(q_{solution} = (100.0)(4.18)(13.3) = 5559\) J<br>
+                    • \(q_{reaction}\) = -5559 J = -5.559 kJ (negative because exothermic)<br>
+                    • Moles HCl = \((2.00)(0.0500)\) = 0.100 mol<br>
+                    • Moles NaOH = \((2.00)(0.0500)\) = 0.100 mol (neither is limiting; they're in 1:1 ratio)<br>
+                    • \(\Delta H = \frac{-5.559}{0.100}\) = <strong>-55.6 kJ mol⁻¹</strong><br><br>
+                    The enthalpy of neutralization is -55.6 kJ mol⁻¹.</div>
+                </div>
+
+                <p><strong>For combustion reactions</strong> (using bomb calorimetry or simple calorimetry):</p>
+                <ul>
+                    <li>Burn a known mass of fuel</li>
+                    <li>Measure temperature rise of water</li>
+                    <li>Calculate as above, dividing by moles of fuel burned</li>
+                </ul>
+
+                <h3>5.1.4 Evaluating Calorimetry Experiments</h3>
+                <p><strong>Systematic errors</strong> (affect accuracy):</p>
+                <ul>
+                    <li>Heat loss to surroundings (makes measured \(\Delta H\) less exothermic/more endothermic than actual)</li>
+                    <li>Incomplete combustion (produces less heat than complete combustion)</li>
+                    <li>Heat absorbed by calorimeter apparatus (not accounted for in simple experiments)</li>
+                    <li>Evaporation of water (removes energy)</li>
+                </ul>
+
+                <p><strong>Random errors</strong> (affect precision):</p>
+                <ul>
+                    <li>Thermometer reading uncertainty (±0.1°C or ±0.5°C depending on instrument)</li>
+                    <li>Volume measurement uncertainty</li>
+                    <li>Mass measurement uncertainty</li>
+                </ul>
+
+                <p><strong>Improvements:</strong></p>
+                <ul>
+                    <li>Insulate calorimeter (reduce heat loss)</li>
+                    <li>Use a lid (prevent evaporation)</li>
+                    <li>Stir solution (ensure uniform temperature)</li>
+                    <li>Use a bomb calorimeter (for combustion)</li>
+                    <li>Measure and account for calorimeter heat capacity</li>
+                    <li>Take multiple readings and average</li>
+                </ul>
+
+                <p><strong>Common misconception:</strong> Students often forget that heat capacity of the calorimeter itself absorbs energy. In precise work, this must be calibrated and included.</p>
+            </div>
+
+            <!-- Section 5.2 -->
+            <div class="content-section">
+                <h2>5.2 Hess's Law: Indirect Routes to Enthalpy Changes</h2>
+
+                <h3>The Principle of Hess's Law</h3>
+                <p>Hess's Law states: The enthalpy change for a reaction is independent of the pathway taken, depending only on the initial and final states.</p>
+
+                <p><strong>Why it works:</strong> Enthalpy is a state function—it depends only on the current state of the system, not how it got there. This is a consequence of the First Law of Thermodynamics (energy conservation).</p>
+
+                <p><strong>Practical significance:</strong> We can calculate enthalpy changes for reactions that are difficult or impossible to measure directly (e.g., formation of glucose from elements) by using alternative pathways with known enthalpy changes.</p>
+
+                <h3>5.2.1 Applications of Hess's Law</h3>
+                <p><strong>Method 1: Using standard enthalpy of formation</strong> (\(\Delta H_f^\circ\))</p>
+                <p>Standard enthalpy of formation: the enthalpy change when 1 mole of a compound is formed from its elements in their standard states (298 K, 100 kPa).</p>
+
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\Delta H_{reaction}^\circ = \sum \Delta H_f^\circ(\text{products}) - \sum \Delta H_f^\circ(\text{reactants})$$</p>
+
+                <p><strong>Note:</strong> By definition, \(\Delta H_f^\circ\) for any element in its standard state = 0 kJ mol⁻¹.</p>
+
+                <div class="definition-box">
+                    <div class="definition-term">Worked Example 3</div>
+                    <div class="definition-text">Calculate \(\Delta H^\circ\) for the combustion of methane:<br>
+                    $$\text{CH}_4(g) + 2\text{O}_2(g) \rightarrow \text{CO}_2(g) + 2\text{H}_2\text{O}(l)$$<br>
+                    Given: \(\Delta H_f^\circ\) [CH₄(g)] = -74.8 kJ mol⁻¹, \(\Delta H_f^\circ\) [CO₂(g)] = -393.5 kJ mol⁻¹, \(\Delta H_f^\circ\) [H₂O(l)] = -285.8 kJ mol⁻¹<br><br>
+                    <strong>Solution:</strong><br>
+                    • Products: 1 mol CO₂ + 2 mol H₂O = \((-393.5) + 2(-285.8)\) = -965.1 kJ<br>
+                    • Reactants: 1 mol CH₄ + 2 mol O₂ = \((-74.8) + 2(0)\) = -74.8 kJ<br>
+                    • \(\Delta H^\circ = -965.1 - (-74.8) = \) <strong>-890.3 kJ mol⁻¹</strong></div>
+                </div>
+
+                <p><strong>Method 2: Using standard enthalpy of combustion</strong> (\(\Delta H_c^\circ\))</p>
+                <p>For reactions involving organic compounds, combustion data is often used:</p>
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\Delta H_{reaction}^\circ = \sum \Delta H_c^\circ(\text{reactants}) - \sum \Delta H_c^\circ(\text{products})$$</p>
+                <p><strong>Notice the reversal:</strong> We subtract in the opposite direction because combustion "uses up" the substances.</p>
+
+                <h3>5.2.2 HL: Born-Haber Cycles and Lattice Enthalpy</h3>
+                <p>Born-Haber cycles apply Hess's Law to ionic compound formation, allowing calculation of lattice enthalpy—the energy change when 1 mole of an ionic solid forms from gaseous ions:</p>
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\text{M}^{n+}(g) + \text{X}^{n-}(g) \rightarrow \text{MX}(s) \quad \Delta H_{lattice}$$</p>
+
+                <p><strong>Standard cycle for NaCl formation:</strong></p>
+                <p>Direct route: \(\text{Na}(s) + \frac{1}{2}\text{Cl}_2(g) \rightarrow \text{NaCl}(s)\) with \(\Delta H_f^\circ\)</p>
+                <p>Indirect route:</p>
+                <ol>
+                    <li>Atomization of Na: \(\text{Na}(s) \rightarrow \text{Na}(g)\) with \(\Delta H_{at}\)</li>
+                    <li>First ionization of Na: \(\text{Na}(g) \rightarrow \text{Na}^+(g) + e^-\) with \(IE_1\)</li>
+                    <li>Atomization of Cl: \(\frac{1}{2}\text{Cl}_2(g) \rightarrow \text{Cl}(g)\) with \(\frac{1}{2}\Delta H_{at}\)</li>
+                    <li>Electron affinity of Cl: \(\text{Cl}(g) + e^- \rightarrow \text{Cl}^-(g)\) with \(EA\)</li>
+                    <li>Lattice formation: \(\text{Na}^+(g) + \text{Cl}^-(g) \rightarrow \text{NaCl}(s)\) with \(\Delta H_{lattice}\)</li>
+                </ol>
+
+                <p>By Hess's Law:</p>
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\Delta H_f^\circ = \Delta H_{at}(\text{Na}) + IE_1 + \frac{1}{2}\Delta H_{at}(\text{Cl}_2) + EA + \Delta H_{lattice}$$</p>
+
+                <div class="definition-box">
+                    <div class="definition-term">Worked Example 4</div>
+                    <div class="definition-text">Calculate the lattice enthalpy of MgO using:<br>
+                    • \(\Delta H_f^\circ\) [MgO(s)] = -602 kJ mol⁻¹<br>
+                    • \(\Delta H_{at}\) [Mg(s)] = +148 kJ mol⁻¹<br>
+                    • \(IE_1\) [Mg] = +738 kJ mol⁻¹<br>
+                    • \(IE_2\) [Mg] = +1451 kJ mol⁻¹<br>
+                    • \(\Delta H_{at}\) [O₂(g)] = +248 kJ mol⁻¹ (for ½ mol O₂)<br>
+                    • \(EA_1\) [O] = -141 kJ mol⁻¹<br>
+                    • \(EA_2\) [O] = +798 kJ mol⁻¹<br><br>
+                    <strong>Solution:</strong><br>
+                    $$-602 = 148 + 738 + 1451 + 248 + (-141) + 798 + \Delta H_{lattice}$$<br>
+                    $$-602 = 3242 + \Delta H_{lattice}$$<br>
+                    $$\Delta H_{lattice} = -602 - 3242 = $$ <strong>-3844 kJ mol⁻¹</strong><br><br>
+                    The highly negative lattice enthalpy reflects the strong electrostatic attraction between Mg²⁺ and O²⁻ ions (both doubly charged and small).</div>
+                </div>
+            </div>
+
+            <!-- Section 5.3 -->
+            <div class="content-section">
+                <h2>5.3 Bond Enthalpies: Energy in Chemical Bonds</h2>
+
+                <h3>5.3.1 Calculating Enthalpy Changes from Bond Enthalpies</h3>
+                <p>Bond enthalpy (bond dissociation energy): the energy required to break 1 mole of a particular covalent bond in gaseous molecules, averaged across many compounds.</p>
+
+                <p><strong>Key principle:</strong></p>
+                <ul>
+                    <li>Breaking bonds requires energy (endothermic, positive)</li>
+                    <li>Forming bonds releases energy (exothermic, negative)</li>
+                </ul>
+
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\Delta H_{reaction} = \sum(\text{bonds broken}) - \sum(\text{bonds formed})$$</p>
+                <p>Or alternatively:</p>
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\Delta H_{reaction} = \text{energy in} - \text{energy out}$$</p>
+
+                <div class="definition-box">
+                    <div class="definition-term">Worked Example 5</div>
+                    <div class="definition-text">Calculate \(\Delta H\) for:<br>
+                    $$\text{CH}_4(g) + \text{Cl}_2(g) \rightarrow \text{CH}_3\text{Cl}(g) + \text{HCl}(g)$$<br>
+                    Bond enthalpies: C-H = 412 kJ mol⁻¹, Cl-Cl = 242 kJ mol⁻¹, C-Cl = 338 kJ mol⁻¹, H-Cl = 431 kJ mol⁻¹<br><br>
+                    <strong>Solution:</strong><br>
+                    Bonds broken:<br>
+                    • 1 × C-H = 412 kJ<br>
+                    • 1 × Cl-Cl = 242 kJ<br>
+                    • Total = 654 kJ<br><br>
+                    Bonds formed:<br>
+                    • 1 × C-Cl = 338 kJ<br>
+                    • 1 × H-Cl = 431 kJ<br>
+                    • Total = 769 kJ<br><br>
+                    \(\Delta H = 654 - 769 = \) <strong>-115 kJ mol⁻¹</strong><br><br>
+                    The reaction is exothermic because more energy is released in forming new bonds than is required to break the original bonds.</div>
+                </div>
+
+                <p><strong>Why bond enthalpy calculations are approximate:</strong></p>
+                <ol>
+                    <li><strong>Averaging effect:</strong> Bond enthalpies are averages. The C-H bond strength in CH₄ differs slightly from that in C₂H₆ or CH₃OH due to different molecular environments.</li>
+                    <li><strong>Phase considerations:</strong> Bond enthalpies apply to gaseous molecules. If reactants/products are liquid or solid, additional enthalpy changes (vaporization/sublimation) occur.</li>
+                    <li><strong>Precision:</strong> Values from Hess's Law using formation data are more accurate because they're measured for specific compounds.</li>
+                </ol>
+
+                <h3>5.3.2 HL: Bond Strength, Length, and Enthalpy Relationships</h3>
+                <p><strong>Inverse relationship between bond length and bond strength:</strong></p>
+                <ul>
+                    <li>Shorter bonds = stronger bonds = higher bond enthalpy</li>
+                    <li>This occurs because nuclei are closer together, increasing electrostatic attraction</li>
+                </ul>
+
+                <p><strong>Examples:</strong></p>
+                <ul>
+                    <li>C-C (single): 348 kJ mol⁻¹, length = 154 pm</li>
+                    <li>C=C (double): 612 kJ mol⁻¹, length = 134 pm</li>
+                    <li>C≡C (triple): 837 kJ mol⁻¹, length = 120 pm</li>
+                </ul>
+
+                <p><strong>Note:</strong> The double bond is NOT twice as strong as the single bond because the second bond (π bond) is weaker than the first (σ bond) due to less effective orbital overlap.</p>
+
+                <p><strong>Factors affecting bond strength:</strong></p>
+                <ol>
+                    <li><strong>Bond order:</strong> More shared electron pairs = stronger bond</li>
+                    <li><strong>Atomic size:</strong> Larger atoms form longer, weaker bonds (e.g., C-C > C-Si > C-Ge)</li>
+                    <li><strong>Electronegativity difference:</strong> Polar bonds often have additional ionic character, increasing strength</li>
+                    <li><strong>Resonance:</strong> Delocalization can strengthen bonds (e.g., benzene C-C bonds are stronger than typical single bonds)</li>
+                </ol>
+            </div>
+
+            <!-- Section 5.4 -->
+            <div class="content-section">
+                <h2>5.4 HL: Entropy and Spontaneity</h2>
+
+                <h3>Why some reactions occur spontaneously and others don't</h3>
+                <p>Enthalpy alone cannot predict spontaneity. Many endothermic processes occur spontaneously (ice melting at 25°C, NH₄NO₃ dissolving in water). The missing factor is <strong>entropy</strong>.</p>
+
+                <h3>5.4.1 Introduction to Entropy (S)</h3>
+                <p>Entropy is a measure of disorder or the number of ways energy can be distributed in a system. More specifically, it quantifies the dispersal of energy and matter.</p>
+
+                <p><strong>Second Law of Thermodynamics:</strong> The total entropy of the universe increases in any spontaneous process.</p>
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\Delta S_{universe} = \Delta S_{system} + \Delta S_{surroundings} > 0$$</p>
+
+                <p><strong>Predicting entropy changes:</strong></p>
+
+                <p><strong>Entropy increases</strong> (\(\Delta S > 0\)) when:</p>
+                <ul>
+                    <li>Solids → liquids → gases (matter becomes more dispersed)</li>
+                    <li>Fewer moles → more moles (more particles to arrange)</li>
+                    <li>Temperature increases (more kinetic energy states available)</li>
+                    <li>Dissolution occurs (particles spread throughout solvent)</li>
+                    <li>Mixing occurs</li>
+                </ul>
+
+                <p><strong>Entropy decreases</strong> (\(\Delta S < 0\)) when these processes reverse.</p>
+
+                <p><strong>Examples:</strong></p>
+                <ol>
+                    <li>\(\text{H}_2\text{O}(s) \rightarrow \text{H}_2\text{O}(l)\): \(\Delta S > 0\) (solid to liquid)</li>
+                    <li>\(2\text{H}_2(g) + \text{O}_2(g) \rightarrow 2\text{H}_2\text{O}(l)\): \(\Delta S < 0\) (3 mol gas → 2 mol liquid)</li>
+                    <li>\(\text{NH}_4\text{NO}_3(s) \rightarrow \text{NH}_4^+(aq) + \text{NO}_3^-(aq)\): \(\Delta S > 0\) (solid to aqueous ions)</li>
+                </ol>
+
+                <h3>5.4.2 Calculating Entropy Changes</h3>
+                <p>Standard entropy (\(S^\circ\)): the entropy of 1 mole of substance under standard conditions (298 K, 100 kPa).</p>
+
+                <p><strong>Important difference from enthalpy:</strong> Elements in their standard states have \(S^\circ > 0\) (not zero) because there's always some disorder.</p>
+
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\Delta S^\circ_{reaction} = \sum S^\circ(\text{products}) - \sum S^\circ(\text{reactants})$$</p>
+
+                <p><strong>Units:</strong> J K⁻¹ mol⁻¹ (note: joules, not kilojoules)</p>
+
+                <div class="definition-box">
+                    <div class="definition-term">Worked Example 6</div>
+                    <div class="definition-text">Calculate \(\Delta S^\circ\) for:<br>
+                    $$\text{N}_2(g) + 3\text{H}_2(g) \rightarrow 2\text{NH}_3(g)$$<br>
+                    Given: \(S^\circ\) [N₂(g)] = 192 J K⁻¹ mol⁻¹, \(S^\circ\) [H₂(g)] = 131 J K⁻¹ mol⁻¹, \(S^\circ\) [NH₃(g)] = 193 J K⁻¹ mol⁻¹<br><br>
+                    <strong>Solution:</strong><br>
+                    • Products: \(2 \times 193 = 386\) J K⁻¹ mol⁻¹<br>
+                    • Reactants: \(192 + 3(131) = 192 + 393 = 585\) J K⁻¹ mol⁻¹<br>
+                    • \(\Delta S^\circ = 386 - 585 = \) <strong>-199 J K⁻¹ mol⁻¹</strong><br><br>
+                    The negative entropy change makes sense: 4 moles of gas → 2 moles of gas (fewer particles, less disorder).</div>
+                </div>
+
+                <h3>5.4.3 Gibbs Free Energy: Combining Enthalpy and Entropy</h3>
+                <p>Gibbs free energy (G) combines enthalpy and entropy to predict spontaneity:</p>
+
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\Delta G = \Delta H - T\Delta S$$</p>
+
+                <p>Where:</p>
+                <ul>
+                    <li>\(\Delta G\) = Gibbs free energy change (kJ mol⁻¹)</li>
+                    <li>\(\Delta H\) = enthalpy change (kJ mol⁻¹)</li>
+                    <li>\(T\) = temperature (K)</li>
+                    <li>\(\Delta S\) = entropy change (kJ K⁻¹ mol⁻¹)</li>
+                </ul>
+
+                <p><strong>Spontaneity conditions:</strong></p>
+                <ul>
+                    <li>\(\Delta G < 0\): Reaction is spontaneous (thermodynamically favorable)</li>
+                    <li>\(\Delta G = 0\): System is at equilibrium</li>
+                    <li>\(\Delta G > 0\): Reaction is non-spontaneous (reverse reaction is spontaneous)</li>
+                </ul>
+
+                <p><strong>Four scenarios:</strong></p>
+
+                <table>
+                    <tr>
+                        <th>\(\Delta H\)</th>
+                        <th>\(\Delta S\)</th>
+                        <th>\(\Delta G\)</th>
+                        <th>Spontaneity</th>
+                    </tr>
+                    <tr>
+                        <td>- (exo)</td>
+                        <td>+</td>
+                        <td>Always -</td>
+                        <td>Spontaneous at all T</td>
+                    </tr>
+                    <tr>
+                        <td>+ (endo)</td>
+                        <td>-</td>
+                        <td>Always +</td>
+                        <td>Never spontaneous</td>
+                    </tr>
+                    <tr>
+                        <td>- (exo)</td>
+                        <td>-</td>
+                        <td>- at low T, + at high T</td>
+                        <td>Spontaneous at low T only</td>
+                    </tr>
+                    <tr>
+                        <td>+ (endo)</td>
+                        <td>+</td>
+                        <td>+ at low T, - at high T</td>
+                        <td>Spontaneous at high T only</td>
+                    </tr>
+                </table>
+
+                <div class="definition-box">
+                    <div class="definition-term">Worked Example 7</div>
+                    <div class="definition-text">Calculate \(\Delta G^\circ\) at 298 K for the Haber process:<br>
+                    $$\text{N}_2(g) + 3\text{H}_2(g) \rightarrow 2\text{NH}_3(g)$$<br>
+                    Given: \(\Delta H^\circ = -92.4\) kJ mol⁻¹, \(\Delta S^\circ = -199\) J K⁻¹ mol⁻¹<br><br>
+                    <strong>Solution:</strong><br>
+                    First, convert \(\Delta S^\circ\) to kJ K⁻¹ mol⁻¹: \(-199\) J K⁻¹ mol⁻¹ = \(-0.199\) kJ K⁻¹ mol⁻¹<br><br>
+                    $$\Delta G^\circ = \Delta H^\circ - T\Delta S^\circ$$<br>
+                    $$\Delta G^\circ = -92.4 - (298)(-0.199)$$<br>
+                    $$\Delta G^\circ = -92.4 + 59.3 = $$ <strong>-33.1 kJ mol⁻¹</strong><br><br>
+                    Since \(\Delta G^\circ < 0\), the reaction is spontaneous at 298 K. However, the negative entropy change becomes increasingly problematic at higher temperatures.</div>
+                </div>
+
+                <p><strong>Temperature dependence:</strong> At what temperature does the Haber process become non-spontaneous?</p>
+                <p>At equilibrium, \(\Delta G = 0\):</p>
+                <p style="text-align: center; font-size: 16px; margin: 20px 0;">
+                $$0 = \Delta H - T\Delta S$$<br>
+                $$T = \frac{\Delta H}{\Delta S} = \frac{-92.4 \text{ kJ mol}^{-1}}{-0.199 \text{ kJ K}^{-1} \text{ mol}^{-1}} = 464 \text{ K}$$
+                </p>
+                <p>Above 464 K (191°C), \(\Delta G\) becomes positive and the reaction becomes non-spontaneous under standard conditions.</p>
+
+                <h3>5.4.4 HL: Relationship Between \(\Delta G^\circ\) and Equilibrium Constant</h3>
+                <p>The standard Gibbs free energy change is related to the equilibrium constant:</p>
+
+                <p style="text-align: center; font-size: 18px; margin: 20px 0;">$$\Delta G^\circ = -RT \ln K$$</p>
+
+                <p>Where:</p>
+                <ul>
+                    <li>\(R\) = gas constant = 8.314 J K⁻¹ mol⁻¹</li>
+                    <li>\(T\) = temperature (K)</li>
+                    <li>\(K\) = equilibrium constant</li>
+                </ul>
+
+                <p><strong>Implications:</strong></p>
+                <ul>
+                    <li>\(\Delta G^\circ < 0\) → \(K > 1\) → products favored at equilibrium</li>
+                    <li>\(\Delta G^\circ = 0\) → \(K = 1\) → equal amounts of reactants and products</li>
+                    <li>\(\Delta G^\circ > 0\) → \(K < 1\) → reactants favored at equilibrium</li>
+                </ul>
+
+                <div class="definition-box">
+                    <div class="definition-term">Worked Example 8</div>
+                    <div class="definition-text">Calculate \(K\) at 298 K for a reaction with \(\Delta G^\circ = -33.1\) kJ mol⁻¹.<br><br>
+                    <strong>Solution:</strong><br>
+                    Convert \(\Delta G^\circ\) to J mol⁻¹: \(-33,100\) J mol⁻¹<br><br>
+                    $$-33,100 = -(8.314)(298) \ln K$$<br>
+                    $$-33,100 = -2478 \ln K$$<br>
+                    $$\ln K = \frac{33,100}{2478} = 13.36$$<br>
+                    $$K = e^{13.36} = $$ <strong>6.3 × 10⁵</strong><br><br>
+                    The large equilibrium constant confirms that products are heavily favored at 298 K.</div>
+                </div>
+
+                <p><strong>Important distinction:</strong> \(\Delta G^\circ\) predicts the position of equilibrium (where the system ends up), while \(\Delta G\) (non-standard) tells you if a reaction is spontaneous under current conditions. Both are needed for complete understanding.</p>
+            </div>
+
+            <!-- Common Misconceptions -->
+            <div class="content-section">
+                <h2>Common Misconceptions and How to Avoid Them</h2>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                    <strong>1. Confusing exothermic/endothermic with spontaneous/non-spontaneous</strong><br>
+                    • Misconception: "Exothermic reactions are always spontaneous"<br>
+                    • Reality: Spontaneity depends on both enthalpy AND entropy. NH₄NO₃ dissolving is endothermic but spontaneous due to large positive entropy change.
+                </div>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                    <strong>2. Sign errors in calorimetry</strong><br>
+                    • Misconception: Using \(\Delta T\) = initial - final<br>
+                    • Reality: Always use \(\Delta T\) = final - initial. The sign of \(q\) comes from the energy direction (absorbed vs. released), not the temperature calculation.
+                </div>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                    <strong>3. Forgetting to account for stoichiometry</strong><br>
+                    • Misconception: Using total moles of any reactant without checking limiting reactant<br>
+                    • Reality: Always identify the limiting reactant and use those moles for \(\Delta H\) calculations.
+                </div>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                    <strong>4. Misapplying Hess's Law direction</strong><br>
+                    • Misconception: Not reversing the sign when reversing a reaction<br>
+                    • Reality: If you reverse a reaction in your cycle, multiply its \(\Delta H\) by -1.
+                </div>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                    <strong>5. Bond enthalpy calculation errors</strong><br>
+                    • Misconception: Counting bonds in the molecule rather than bonds broken/formed<br>
+                    • Reality: Draw structural formulas. Count every bond that breaks and every bond that forms. In CH₄, there are 4 C-H bonds.
+                </div>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                    <strong>6. Unit inconsistencies in Gibbs equation</strong><br>
+                    • Misconception: Using \(\Delta H\) in kJ and \(\Delta S\) in J without converting<br>
+                    • Reality: Convert \(\Delta S\) from J K⁻¹ mol⁻¹ to kJ K⁻¹ mol⁻¹ (divide by 1000) before using \(\Delta G = \Delta H - T\Delta S\).
+                </div>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                    <strong>7. Confusing lattice enthalpy definitions</strong><br>
+                    • Misconception: Some data books define lattice enthalpy as formation (negative), others as dissociation (positive)<br>
+                    • Reality: IB defines lattice enthalpy as formation of the solid from gaseous ions (exothermic, negative). Always check the definition in exam questions.
+                </div>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                    <strong>8. Thinking \(\Delta G^\circ\) tells you reaction rate</strong><br>
+                    • Misconception: "\(\Delta G^\circ < 0\) means the reaction is fast"<br>
+                    • Reality: Thermodynamics (Topic 5) tells you IF a reaction occurs, not HOW FAST. Kinetics (Topic 6) determines rate. Diamond → graphite has \(\Delta G^\circ < 0\) but is immeasurably slow at room temperature.
+                </div>
+            </div>
+
+            <!-- Real-World Applications -->
+            <div class="content-section">
+                <h2>Real-World Applications</h2>
+
+                <p><strong>1. Hand warmers and cold packs:</strong> Crystallization of sodium acetate (exothermic) releases heat in hand warmers. Dissolution of ammonium nitrate (endothermic, but entropy-driven) creates cold packs for injuries.</p>
+
+                <p><strong>2. Haber process for ammonia production:</strong> Industrial synthesis of NH₃ must balance thermodynamics (lower T favors products due to negative \(\Delta S\)) with kinetics (higher T increases rate). Typical compromise: 450°C with iron catalyst.</p>
+
+                <p><strong>3. Bomb calorimetry in nutrition:</strong> Food energy content is measured by complete combustion in a bomb calorimeter. Values on nutrition labels (Calories) are based on these measurements.</p>
+
+                <p><strong>4. Thermal stability of carbonates:</strong> Group 2 carbonates become easier to decompose (more thermodynamically favorable) down the group because lattice enthalpy of the smaller oxide becomes increasingly dominant.</p>
+
+                <p><strong>5. Bioenergetics:</strong> ATP hydrolysis (\(\Delta G^\circ = -30.5\) kJ mol⁻¹) couples spontaneous reactions to non-spontaneous biosynthesis reactions, allowing cells to build complex molecules.</p>
+
+                <p><strong>6. Climate science:</strong> Understanding enthalpy changes in combustion quantifies fossil fuel CO₂ emissions. Water's high specific heat capacity moderates Earth's temperature.</p>
+
+                <p><strong>7. Battery technology:</strong> Gibbs free energy changes in redox reactions determine the maximum electrical work available from batteries. The relationship \(\Delta G = -nFE\) links thermodynamics to electrochemistry.</p>
+            </div>
+
+            <!-- Key Definitions -->
+            <div class="content-section">
+                <h2>Key Definitions</h2>
+
+                <div class="definition-box">
+                    <div class="definition-term">Enthalpy (H)</div>
+                    <div class="definition-text">The heat content of a system at constant pressure. Enthalpy change (\(\Delta H\)) is the heat absorbed or released during a reaction at constant pressure.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Exothermic reaction</div>
+                    <div class="definition-text">A reaction that releases heat to the surroundings. \(\Delta H < 0\). Temperature of surroundings increases.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Endothermic reaction</div>
+                    <div class="definition-text">A reaction that absorbs heat from the surroundings. \(\Delta H > 0\). Temperature of surroundings decreases.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Specific heat capacity (c)</div>
+                    <div class="definition-text">The energy required to raise the temperature of 1 g of a substance by 1 K (or 1°C). Units: J g⁻¹ K⁻¹.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Standard enthalpy of formation (\(\Delta H_f^\circ\))</div>
+                    <div class="definition-text">The enthalpy change when 1 mole of a compound is formed from its elements in their standard states under standard conditions (298 K, 100 kPa).</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Standard enthalpy of combustion (\(\Delta H_c^\circ\))</div>
+                    <div class="definition-text">The enthalpy change when 1 mole of a substance undergoes complete combustion in excess oxygen under standard conditions.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Hess's Law</div>
+                    <div class="definition-text">The enthalpy change for a reaction is independent of the pathway taken, depending only on the initial and final states. This allows calculation of enthalpy changes via indirect routes.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Lattice enthalpy (\(\Delta H_{lattice}\))</div>
+                    <div class="definition-text">The enthalpy change when 1 mole of an ionic solid is formed from its gaseous ions. Always exothermic (negative) for formation. Can be calculated using Born-Haber cycles.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Bond enthalpy (bond dissociation energy)</div>
+                    <div class="definition-text">The energy required to break 1 mole of a particular covalent bond in gaseous molecules, averaged across many different compounds.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Entropy (S)</div>
+                    <div class="definition-text">A measure of disorder or the dispersal of energy in a system. Higher entropy means more disorder. Units: J K⁻¹ mol⁻¹.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Gibbs free energy (G)</div>
+                    <div class="definition-text">A thermodynamic quantity that combines enthalpy and entropy: \(\Delta G = \Delta H - T\Delta S\). When \(\Delta G < 0\), a reaction is spontaneous.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Spontaneous process</div>
+                    <div class="definition-text">A process that occurs without continuous external input of energy. Characterized by \(\Delta G < 0\). Note: spontaneous does not mean fast—diamond to graphite is spontaneous but imperceptibly slow.</div>
+                </div>
+            </div>
+
+            <!-- Practice Problems -->
+            <div class="content-section">
+                <h2>Practice Problems</h2>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 1 (SL)</div>
+                        <p>100.0 cm³ of 0.500 mol dm⁻³ copper(II) sulfate solution is placed in a polystyrene cup. A student adds 1.50 g of zinc powder and the temperature rises from 22.0°C to 35.5°C. (a) Calculate the heat released by the reaction. (b) Calculate the enthalpy change per mole of zinc reacted. Assume solution density = 1.00 g cm⁻³ and \(c\) = 4.18 J g⁻¹ K⁻¹.</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) Mass of solution = 100.0 g; \(\Delta T\) = 35.5 - 22.0 = 13.5 K; \(q = mc\Delta T = (100.0)(4.18)(13.5) = 5643\) J = 5.64 kJ</p>
+                        <p>(b) Moles of Zn = 1.50/65.4 = 0.0229 mol; Moles of CuSO₄ = 0.100 × 0.500 = 0.0500 mol; Zn is limiting reactant; \(\Delta H = -5.64/0.0229 = \) <strong>-246 kJ mol⁻¹</strong></p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>The reaction is Zn(s) + Cu²⁺(aq) → Zn²⁺(aq) + Cu(s). The negative sign indicates the reaction is exothermic. Always identify the limiting reactant by calculating moles of each reactant and comparing to stoichiometry (1:1 here). Heat is released BY the reaction, so \(q_{reaction}\) = -\(q_{solution}\).</p>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 2 (SL/HL)</div>
+                        <p>Use the following data to calculate the standard enthalpy of formation of propane, C₃H₈(g): \(\Delta H_c^\circ\) [C₃H₈(g)] = -2220 kJ mol⁻¹; \(\Delta H_f^\circ\) [CO₂(g)] = -394 kJ mol⁻¹; \(\Delta H_f^\circ\) [H₂O(l)] = -286 kJ mol⁻¹</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>Write the combustion equation: C₃H₈(g) + 5O₂(g) → 3CO₂(g) + 4H₂O(l)</p>
+                        <p>Using \(\Delta H_{rxn}^\circ = \sum \Delta H_f^\circ(\text{products}) - \sum \Delta H_f^\circ(\text{reactants})\):</p>
+                        <p>-2220 = [3(-394) + 4(-286)] - [\(\Delta H_f^\circ\)(C₃H₈) + 5(0)]</p>
+                        <p>-2220 = [-1182 - 1144] - \(\Delta H_f^\circ\)(C₃H₈)</p>
+                        <p>-2220 = -2326 - \(\Delta H_f^\circ\)(C₃H₈)</p>
+                        <p>\(\Delta H_f^\circ\)(C₃H₈) = -2326 + 2220 = <strong>-106 kJ mol⁻¹</strong></p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>Formation data works in the normal direction (products minus reactants), but combustion data would work in reverse if used directly. This problem uses combustion data within a formation framework. The enthalpy of formation is slightly exothermic, indicating propane is more stable than its elements but not dramatically so.</p>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 3 (HL)</div>
+                        <p>Construct a Born-Haber cycle and calculate the lattice enthalpy of KBr given: \(\Delta H_f^\circ\) [KBr(s)] = -394 kJ mol⁻¹; \(\Delta H_{at}\) [K(s)] = +89 kJ mol⁻¹; \(IE_1\) [K] = +419 kJ mol⁻¹; \(\Delta H_{at}\) [Br₂(l)] = +112 kJ mol⁻¹ (for 1 mol Br₂); \(EA\) [Br] = -325 kJ mol⁻¹</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>For ½ mol Br₂: \(\Delta H_{at}\) = +56 kJ mol⁻¹</p>
+                        <p>Using Hess's Law: \(\Delta H_f^\circ\) = \(\Delta H_{at}\)(K) + \(IE_1\) + ½\(\Delta H_{at}\)(Br₂) + \(EA\) + \(\Delta H_{lattice}\)</p>
+                        <p>-394 = 89 + 419 + 56 + (-325) + \(\Delta H_{lattice}\)</p>
+                        <p>-394 = 239 + \(\Delta H_{lattice}\)</p>
+                        <p>\(\Delta H_{lattice}\) = <strong>-633 kJ mol⁻¹</strong></p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>Born-Haber cycles must account for all steps from elements to compound. Note that bromine is liquid at standard conditions, so we use \(\Delta H_{at}\) for Br₂(l) → 2Br(g), then divide by 2 since we need only 1 mol of Br atoms. The moderately negative lattice enthalpy reflects singly-charged ions that are larger than in NaCl.</p>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 4 (SL/HL)</div>
+                        <p>Calculate \(\Delta H\) for the reaction: N₂(g) + O₂(g) → 2NO(g) using bond enthalpies: N≡N = 944 kJ mol⁻¹; O=O = 496 kJ mol⁻¹; N=O = 590 kJ mol⁻¹</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>Bonds broken: 1 × N≡N + 1 × O=O = 944 + 496 = 1440 kJ</p>
+                        <p>Bonds formed: Each NO has one N=O bond, so 2 NO = 2 × 590 = 1180 kJ bonds formed</p>
+                        <p>\(\Delta H\) = 1440 - 1180 = <strong>+260 kJ mol⁻¹</strong></p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This is a common error: each NO molecule contains ONE N=O bond (N has 5 valence electrons, O has 6; they share 3 electrons to form a bond with one unpaired electron remaining—NO is a radical). The reaction is endothermic because the very strong N≡N triple bond must be broken. This explains why NO formation in car engines requires high temperatures.</p>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 5 (HL)</div>
+                        <p>Predict the sign of \(\Delta S\) for each process and explain: (a) 2SO₂(g) + O₂(g) → 2SO₃(g); (b) NH₄Cl(s) → NH₃(g) + HCl(g); (c) Ag⁺(aq) + Cl⁻(aq) → AgCl(s)</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) \(\Delta S < 0\) (negative): 3 mol gas → 2 mol gas, fewer particles means less disorder</p>
+                        <p>(b) \(\Delta S > 0\) (positive): solid → 2 mol gas, large increase in disorder</p>
+                        <p>(c) \(\Delta S < 0\) (negative): 2 aqueous ions → 1 solid, aqueous ions are more disordered than a crystalline solid</p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>For entropy predictions, the dominant factor is usually the change in number of moles of gas (gases have much higher entropy than liquids or solids). When moles of gas don't change, consider phase changes (solid < liquid < gas) and dissolution (ordered crystals → dispersed aqueous ions typically increases entropy).</p>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 6 (HL)</div>
+                        <p>Calculate \(\Delta S^\circ\) for: 2H₂(g) + O₂(g) → 2H₂O(l). Given: \(S^\circ\) [H₂(g)] = 131 J K⁻¹ mol⁻¹; \(S^\circ\) [O₂(g)] = 205 J K⁻¹ mol⁻¹; \(S^\circ\) [H₂O(l)] = 70 J K⁻¹ mol⁻¹</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>\(\Delta S^\circ\) = \(\sum S^\circ\)(products) - \(\sum S^\circ\)(reactants)</p>
+                        <p>Products: 2 × 70 = 140 J K⁻¹ mol⁻¹</p>
+                        <p>Reactants: 2(131) + 205 = 262 + 205 = 467 J K⁻¹ mol⁻¹</p>
+                        <p>\(\Delta S^\circ\) = 140 - 467 = <strong>-327 J K⁻¹ mol⁻¹</strong></p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>The large negative entropy change (3 mol gas → 2 mol liquid) is expected. Despite this unfavorable entropy, the reaction is highly spontaneous at room temperature because the enthalpy change is very negative (\(\Delta H^\circ\) = -572 kJ mol⁻¹), and the \(-T\Delta S\) term at 298 K is only about +97 kJ mol⁻¹, making \(\Delta G^\circ\) very negative.</p>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 7 (HL)</div>
+                        <p>For the reaction CaCO₃(s) → CaO(s) + CO₂(g), \(\Delta H^\circ\) = +178 kJ mol⁻¹ and \(\Delta S^\circ\) = +161 J K⁻¹ mol⁻¹. (a) Calculate \(\Delta G^\circ\) at 298 K. (b) Calculate the temperature at which the reaction becomes spontaneous.</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) Convert \(\Delta S^\circ\): 161 J K⁻¹ mol⁻¹ = 0.161 kJ K⁻¹ mol⁻¹</p>
+                        <p>\(\Delta G^\circ = \Delta H^\circ - T\Delta S^\circ = 178 - (298)(0.161) = 178 - 48.0 = \) <strong>+130 kJ mol⁻¹</strong></p>
+                        <p>(b) At equilibrium, \(\Delta G = 0\):</p>
+                        <p>\(T = \frac{\Delta H^\circ}{\Delta S^\circ} = \frac{178}{0.161} = \) <strong>1105 K or 832°C</strong></p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This explains why limestone (CaCO₃) doesn't spontaneously decompose at room temperature but does so when heated strongly (e.g., in lime kilns for cement production). The positive entropy change (1 mol solid → 1 mol solid + 1 mol gas) eventually overcomes the endothermic enthalpy at high temperature. This is a classic example of an entropy-driven high-temperature process.</p>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 8 (HL)</div>
+                        <p>A reaction has \(\Delta H^\circ\) = -85 kJ mol⁻¹ and \(\Delta S^\circ\) = -200 J K⁻¹ mol⁻¹. (a) Is the reaction spontaneous at 298 K? (b) Is the reaction spontaneous at 600 K? (c) Explain why the spontaneity changes.</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) At 298 K: \(\Delta S^\circ\) = -0.200 kJ K⁻¹ mol⁻¹; \(\Delta G^\circ\) = -85 - (298)(-0.200) = -85 + 59.6 = -25.4 kJ mol⁻¹; Spontaneous (\(\Delta G^\circ < 0\))</p>
+                        <p>(b) At 600 K: \(\Delta G^\circ\) = -85 - (600)(-0.200) = -85 + 120 = +35 kJ mol⁻¹; Non-spontaneous (\(\Delta G^\circ > 0\))</p>
+                        <p>(c) This is an exothermic reaction with decreasing entropy. At low temperatures, the favorable enthalpy dominates, making \(\Delta G\) negative. At high temperatures, the \(T\Delta S\) term becomes large and positive, making \(\Delta G\) positive and the reaction non-spontaneous.</p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This demonstrates temperature-dependent spontaneity. The crossover temperature is \(T\) = \(\Delta H^\circ\)/\(\Delta S^\circ\) = 85/0.200 = 425 K. Below 425 K, the reaction is spontaneous; above it, the reaction is non-spontaneous. This is why the Haber process (similar profile) is run at moderate temperatures despite higher temperatures increasing the rate.</p>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 9 (HL)</div>
+                        <p>The equilibrium constant for N₂O₄(g) ⇌ 2NO₂(g) is \(K_p\) = 0.115 at 298 K. Calculate \(\Delta G^\circ\) for this reaction.</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>\(\Delta G^\circ\) = \(-RT \ln K\)</p>
+                        <p>\(R\) = 8.314 J K⁻¹ mol⁻¹; \(T\) = 298 K</p>
+                        <p>\(\Delta G^\circ\) = -(8.314)(298) ln(0.115)</p>
+                        <p>\(\Delta G^\circ\) = -(2478)(-2.163)</p>
+                        <p>\(\Delta G^\circ\) = +5360 J mol⁻¹ = <strong>+5.36 kJ mol⁻¹</strong></p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>The positive \(\Delta G^\circ\) indicates that at standard conditions (both gases at 100 kPa), the reactants (N₂O₄) are favored. This is consistent with \(K < 1\). However, the small positive value means the system isn't strongly biased—both N₂O₄ and NO₂ exist in significant amounts at equilibrium. This reaction is also temperature-dependent: NO₂ (brown) is favored at higher temperatures, which is why the mixture gets darker when heated.</p>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-question">
+                        <div class="problem-number">Problem 10 (HL)</div>
+                        <p>A student measures \(\Delta H\) for dissolving NaOH in water and obtains -42 kJ mol⁻¹. Another student measures it as -44 kJ mol⁻¹. The literature value is -44.5 kJ mol⁻¹. (a) Calculate the percentage error for each student. (b) Identify two sources of error that could make the measured value less exothermic than the actual value. (c) Suggest one improvement to the experimental method.</p>
+                        <p style="font-style: italic; color: #667eea; margin-top: 10px;">Click to reveal solution</p>
+                    </div>
+                    <div class="problem-solution">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) Student 1: % error = |(-42 - (-44.5))|/|-44.5| × 100% = 5.6%</p>
+                        <p>Student 2: % error = |(-44 - (-44.5))|/|-44.5| × 100% = 1.1%</p>
+                        <p>(b) Heat loss to surroundings (calorimeter not insulated); heat absorbed by the calorimeter itself (not accounted for)</p>
+                        <p>(c) Use a vacuum-flask calorimeter (better insulation); calibrate the calorimeter heat capacity and include it in calculations; use a lid to prevent evaporation; measure temperature at shorter intervals to capture maximum temperature more accurately</p>
+                        <div class="explanation-label">Explanation:</div>
+                        <p>Systematic errors that make exothermic reactions appear LESS exothermic are the most common in calorimetry. Heat loss means less temperature rise, leading to calculated |\(\Delta H\)| being smaller than actual. For endothermic reactions, heat loss would have the opposite effect. The second student's result is more accurate (closer to literature value) but we'd need multiple trials to assess precision.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exam Tips -->
+            <div class="exam-tips">
+                <h3>Exam Tips</h3>
+
+                <div class="tip-item">
+                    <strong>Tip 1:</strong> In calorimetry calculations, always clearly state your assumptions (e.g., 'assuming no heat loss', 'assuming solution has the same density and specific heat capacity as water'). IB markers award method marks even if the final answer is wrong, and stating assumptions shows understanding.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 2:</strong> When using Hess's Law, write out the target equation clearly at the start. Then manipulate given equations (reverse, multiply) to match your target. Show each manipulation with its corresponding enthalpy change adjustment.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 3:</strong> For bond enthalpy questions, ALWAYS draw the structural formulas. Counting bonds from molecular formulas alone leads to errors. Remember that each line in a structural formula represents one bond.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 4:</strong> In entropy predictions, focus first on the change in moles of GAS (not total moles). If gas moles don't change, then consider phase changes. If neither changes significantly, consider factors like molecular complexity or dissolution.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 5:</strong> The Gibbs equation requires consistent units. The most common error is using \(\Delta H\) in kJ and \(\Delta S\) in J without converting. Convert \(\Delta S\) to kJ K⁻¹ mol⁻¹ by dividing by 1000.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 6:</strong> For Born-Haber cycles, organize your work clearly: draw the cycle diagram, write out the equation for each step, then sum all the steps. Don't forget to halve atomization energy if you need only 1 mole of atoms from a diatomic element.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 7:</strong> When asked if a reaction is 'spontaneous', you must calculate \(\Delta G\), not just look at \(\Delta H\). Many students lose marks by concluding that exothermic reactions are always spontaneous—this is only true if entropy doesn't decrease significantly.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 8:</strong> In calculations involving \(\Delta G^\circ = -RT \ln K\), be careful with natural logarithm vs. log base 10. IB uses ln (natural log). Also, ensure \(K\) is dimensionless—for \(K_p\) calculations, all pressures must be in the same units (typically kPa or atm).
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 9:</strong> Paper 2 questions often ask you to 'suggest why your calculated value differs from the data book value'. For calorimetry: mention heat loss. For bond enthalpies: mention that they are average values. For Hess's Law: errors are less common, but mention rounding or impure data.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 10:</strong> For 'evaluate' or 'discuss' questions on spontaneity, don't just calculate \(\Delta G\). Explain what each term (\(\Delta H\) and \(T\Delta S\)) contributes and how temperature affects the balance. Discuss both thermodynamic feasibility (what \(\Delta G\) tells you) and kinetic feasibility (activation energy, catalysts)—noting that thermodynamics alone doesn't predict rate.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 11:</strong> In data-based questions (Paper 2), pay attention to significant figures in given data and match them in your final answer. Show all working steps. If you make an early error but apply correct method throughout, you'll still earn method marks.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 12:</strong> Lattice enthalpy questions may give you either the formation or dissociation definition. Read carefully. IB defines lattice enthalpy as formation (negative for ionic compounds), but if a question gives you dissociation values, you must reverse the sign.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 13:</strong> For temperature-dependent spontaneity, remember the four cases. Sketch a qualitative \(\Delta G\) vs. \(T\) graph if it helps you visualize. The y-intercept is \(\Delta H^\circ\) and the slope is \(-\Delta S^\circ\).
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 14:</strong> When interpreting equilibrium constant values from \(\Delta G^\circ\): \(K >> 1\) (e.g., 10⁶) means products strongly favored; \(K << 1\) (e.g., 10⁻⁶) means reactants strongly favored; \(K \approx 1\) means comparable amounts. Practice converting between \(\Delta G^\circ\) and \(K\) in both directions.
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 15:</strong> Common Paper 3 (HL) question: given \(\Delta H^\circ\) and \(K\) values at two different temperatures, calculate \(\Delta S^\circ\). Method: use \(\Delta G^\circ = -RT \ln K\) at each temperature to find two \(\Delta G^\circ\) values, then use \(\Delta G^\circ = \Delta H^\circ - T\Delta S^\circ\) to solve for \(\Delta S^\circ\) (assuming \(\Delta H^\circ\) and \(\Delta S^\circ\) don't vary significantly with temperature).
+                </div>
+
+                <div class="tip-item">
+                    <strong>Tip 16:</strong> For longer essay-style questions, structure your answer with clear sub-headings or bullet points. Define key terms before using them. Use equations to support explanations. Connect back to the question explicitly—don't just write everything you know about the topic.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Lesson Navigation Footer -->
+        <div class="lesson-footer">
+            <a href="topic4.html" class="nav-button prev">← Previous: Topic 4</a>
+            <button class="complete-button" onclick="completeLesson()">Mark as Complete</button>
+            <a href="topic6.html" class="nav-button next">Next: Topic 6 →</a>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="openChatbot()">
+        💬
+    </div>
+
+    <script>
+        // Progress tracking
+        let scrollProgress = 0;
+
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
+
+            document.getElementById('progressFill').style.width = scrollPercent + '%';
+            document.getElementById('progressText').textContent = 'Progress: ' + Math.round(scrollPercent) + '%';
+
+            scrollProgress = scrollPercent;
+        });
+
+        // Toggle problem solutions
+        document.addEventListener('DOMContentLoaded', function() {
+            const problemQuestions = document.querySelectorAll('.problem-question');
+
+            problemQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const solution = this.nextElementSibling;
+                    solution.classList.toggle('active');
+                });
+            });
+        });
+
+        // Complete lesson
+        function completeLesson() {
+            alert('Congratulations! You have completed this lesson.');
+            // Here you would typically save progress to a backend
+            localStorage.setItem('topic5_completed', 'true');
+        }
+
+        // Chatbot
+        function openChatbot() {
+            alert('Chatbot feature coming soon! Ask questions about thermochemistry.');
+            // Here you would open your chatbot interface
+        }
+
+        // MathJax configuration
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+</body>
+</html>

@@ -8,21 +8,31 @@
 
 ```
 isef/
-├── backend/              # Solver implementation (Python package)
-│   ├── solver/          # Core modules (grid, operators, electrostatics, immersed boundary, optimization)
-│   ├── tests/           # 71 automated tests
-│   ├── examples/        # 10 demonstration scripts (00-09)
-│   └── app/             # Streamlit interactive application
-├── paper_submission/     # ISEF paper (LaTeX)
-│   ├── sections/        # Paper sections
-│   ├── main.tex         # Main LaTeX document
-│   └── main.pdf         # Compiled paper
-├── archive/             # Historical docs and notes
-├── README.md            # This file
-├── CONTEXT.md           # Domain glossary
-├── CLAUDE.md            # Agent instructions
-├── pyproject.toml       # Python package configuration
-└── requirements.txt     # Dependencies
+├── solver/              # Core Python package
+│   ├── solver/         # Package modules (grid, operators, electrostatics, immersed boundary, optimization)
+│   ├── tests/          # 71 automated tests
+│   ├── examples/       # 10 demonstration scripts (00-09)
+│   └── experimental/   # Experimental features
+├── app/                 # Streamlit interactive application
+├── paper/               # ISEF paper (LaTeX)
+│   └── paper_submission/
+│       ├── sections/   # Paper sections
+│       ├── main.tex    # Main LaTeX document
+│       └── references.bib  # Bibliography
+├── experiments/         # Experimental design and methodology
+│   ├── design/         # Experimental design documents
+│   └── methodology/    # Methodology files
+├── results/            # All computational results
+├── figures/            # Figures for paper
+├── data/               # Data files
+├── archive/            # Historical docs and notes
+├── .scratch/           # Issue tracker (local markdown)
+├── .claude/            # Agent configuration
+├── README.md           # This file
+├── CONTEXT.md          # Domain glossary
+├── CLAUDE.md           # Agent instructions
+├── pyproject.toml      # Python package configuration
+└── requirements.txt    # Dependencies
 ```
 
 ---
@@ -36,20 +46,20 @@ pip install -e .
 
 ### Run Tests
 ```bash
-python -m pytest backend/tests/
+python -m pytest solver/tests/
 ```
 
 ### Run Example
 ```bash
-python backend/examples/07_immersed_free_boundary.py
+python solver/examples/07_immersed_free_boundary.py
 ```
 
-### Run Streamlit App (New Professional Interface)
+### Run Streamlit App (Professional Interface)
 ```bash
-streamlit run backend/app/streamlit_app.py
+streamlit run app/streamlit_app.py
 ```
 
-**New in v2.0:**
+**Features:**
 - Multi-page architecture with Overview, Solver, Verification, Documentation
 - Academic styling with professional plots (generous spacing)
 - Parameter presets (Ethanol, Water, Formamide)
@@ -58,14 +68,14 @@ streamlit run backend/app/streamlit_app.py
 
 **Legacy app** (original single-file version) preserved as:
 ```bash
-streamlit run backend/app/streamlit_app_legacy.py
+streamlit run app/streamlit_app_legacy.py
 ```
 
-See `backend/app/README.md` for detailed app documentation.
+See `app/README.md` for detailed app documentation.
 
 ### Compile Paper
 ```bash
-cd paper_submission
+cd paper/paper_submission
 tectonic main.tex
 ```
 
@@ -103,9 +113,10 @@ tectonic main.tex
 ## Documentation
 
 - `CONTEXT.md` - Domain terminology and glossary
-- `paper_submission/` - Full ISEF paper with theory, validation, and planned experiments
+- `paper/paper_submission/` - Full ISEF paper with theory, validation, and planned experiments
 - `archive/AI_HANDOVER.md` - Complete project history and handover notes
 - `archive/IMPLEMENTATION_STATUS.md` - Detailed module status
+- `archive/old_docs/` - Archived historical documents
 
 ---
 

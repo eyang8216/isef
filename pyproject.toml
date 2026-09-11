@@ -5,23 +5,25 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "isef-taylor-cone-solver"
 version = "0.1.0"
-description = "Reduced-order axisymmetric electrostatic-capillary Taylor-cone solver for an ISEF physics project"
-requires-python = ">=3.11"
+description = "Reduced-order axisymmetric electrostatic-capillary Taylor-cone solver for ISEF physics research"
+requires-python = ">=3.10"
 dependencies = [
   "numpy",
   "scipy",
   "matplotlib",
+  "plotly==6.9.0",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest"]
-app = ["plotly==6.9.0", "streamlit==1.60.0"]
+imaging = ["Pillow", "opencv-python"]
+app = ["streamlit==1.60.0"]
 
 [tool.setuptools]
-package-dir = {"" = "backend"}
+package-dir = {"" = "solver"}
 packages = ["solver"]
 
 [tool.pytest.ini_options]
-testpaths = ["backend/tests"]
-pythonpath = ["backend"]
+testpaths = ["solver/tests"]
+pythonpath = ["solver"]
 addopts = "-q"

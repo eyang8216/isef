@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D1: Gravitational Fields - IB Physics HL | Fluapi</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .lesson-meta span {
+            background: #f0f0f0;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        /* Learning Objectives */
+        .learning-objectives {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .learning-objectives h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .learning-objectives ul {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+
+        .learning-objectives li {
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Practice Problems */
+        .practice-problem {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-header {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .problem-question {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .solution-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .solution-toggle:hover {
+            transform: translateY(-2px);
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .solution-content.active {
+            display: block;
+        }
+
+        /* Exam Tips */
+        .exam-tips {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .exam-tips h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+
+        .exam-tips ul {
+            list-style-position: inside;
+        }
+
+        .exam-tips li {
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Navigation Footer */
+        .lesson-footer {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            bottom: 0;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .footer-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .footer-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .lesson-title {
+                font-size: 1.8rem;
+            }
+
+            .lesson-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">Fluapi</div>
+            <div class="navbar-links">
+                <a href="/">Home</a>
+                <a href="/lessons">Lessons</a>
+                <a href="/practice">Practice</a>
+                <a href="/profile">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-label">Lesson Progress: <span id="progress-percent">0%</span></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1 class="lesson-title">D1: Gravitational Fields - IB Physics HL</h1>
+            <div class="lesson-meta">
+                <span>📚 Syllabus Code: D1</span>
+                <span>🎓 Level: HL</span>
+                <span>⏱️ Est. Time: 2-3 hours</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="learning-objectives">
+            <h2>Learning Objectives</h2>
+            <ul id="objectives-list">
+                <!-- Will be populated by JavaScript -->
+            </ul>
+        </div>
+
+        <!-- Content Sections -->
+        <div id="content-sections">
+            <!-- Will be populated by JavaScript -->
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-section">
+            <h2>Key Definitions</h2>
+            <div id="definitions-container">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="content-section">
+            <h2>Practice Problems</h2>
+            <div id="problems-container">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="content-section">
+            <h2>Exam Tips</h2>
+            <div class="exam-tips">
+                <h3>💡 Essential Exam Strategies</h3>
+                <ul id="exam-tips-list">
+                    <!-- Will be populated by JavaScript -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChatbot()">💬</button>
+    </div>
+
+    <!-- Navigation Footer -->
+    <div class="lesson-footer">
+        <div class="footer-content">
+            <button class="footer-button" onclick="previousLesson()">← Previous Lesson</button>
+            <button class="footer-button" onclick="markComplete()">Mark as Complete</button>
+            <button class="footer-button" onclick="nextLesson()">Next Lesson →</button>
+        </div>
+    </div>
+
+    <script>
+        // Lesson Data
+        const lessonData = LESSON_DATA_PLACEHOLDER;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            populateLearningObjectives();
+            populateContentSections();
+            populateDefinitions();
+            populateProblems();
+            populateExamTips();
+            initProgressTracking();
+            loadProgress();
+        });
+
+        function populateLearningObjectives() {
+            const list = document.getElementById('objectives-list');
+            lessonData.learning_objectives.forEach(obj => {
+                const li = document.createElement('li');
+                li.textContent = obj;
+                list.appendChild(li);
+            });
+        }
+
+        function populateContentSections() {
+            const container = document.getElementById('content-sections');
+            lessonData.content_sections.forEach(section => {
+                const div = document.createElement('div');
+                div.className = 'content-section';
+
+                const heading = document.createElement('h2');
+                heading.textContent = section.heading;
+                div.appendChild(heading);
+
+                const content = document.createElement('div');
+                content.innerHTML = formatContent(section.content);
+                div.appendChild(content);
+
+                container.appendChild(div);
+            });
+        }
+
+        function formatContent(content) {
+            // Convert markdown-style formatting to HTML
+            content = content.replace(/## (.*?)\\n/g, '<h3>$1</h3>');
+            content = content.replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>');
+            content = content.replace(/\\n\\n/g, '</p><p>');
+            content = content.replace(/^(.+)$/gm, '<p>$1</p>');
+            return content;
+        }
+
+        function populateDefinitions() {
+            const container = document.getElementById('definitions-container');
+            lessonData.key_definitions.forEach(def => {
+                const box = document.createElement('div');
+                box.className = 'definition-box';
+
+                const term = document.createElement('div');
+                term.className = 'definition-term';
+                term.textContent = def.term;
+                box.appendChild(term);
+
+                const text = document.createElement('div');
+                text.className = 'definition-text';
+                text.innerHTML = def.definition;
+                box.appendChild(text);
+
+                container.appendChild(box);
+            });
+        }
+
+        function populateProblems() {
+            const container = document.getElementById('problems-container');
+            lessonData.practice_problems.forEach((problem, index) => {
+                const div = document.createElement('div');
+                div.className = 'practice-problem';
+
+                const header = document.createElement('div');
+                header.className = 'problem-header';
+                header.textContent = `Problem ${index + 1}`;
+                div.appendChild(header);
+
+                const question = document.createElement('div');
+                question.className = 'problem-question';
+                question.innerHTML = problem.question;
+                div.appendChild(question);
+
+                const button = document.createElement('button');
+                button.className = 'solution-toggle';
+                button.textContent = 'Show Solution';
+                button.onclick = function() {
+                    toggleSolution(this);
+                };
+                div.appendChild(button);
+
+                const solution = document.createElement('div');
+                solution.className = 'solution-content';
+                solution.innerHTML = '<strong>Solution:</strong><br>' + problem.solution;
+                if (problem.explanation) {
+                    solution.innerHTML += '<br><br><strong>Explanation:</strong><br>' + problem.explanation;
+                }
+                div.appendChild(solution);
+
+                container.appendChild(div);
+            });
+        }
+
+        function populateExamTips() {
+            const list = document.getElementById('exam-tips-list');
+            lessonData.exam_tips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                list.appendChild(li);
+            });
+        }
+
+        function toggleSolution(button) {
+            const solution = button.nextElementSibling;
+            solution.classList.toggle('active');
+            button.textContent = solution.classList.contains('active') ? 'Hide Solution' : 'Show Solution';
+        }
+
+        function initProgressTracking() {
+            window.addEventListener('scroll', updateProgress);
+        }
+
+        function updateProgress() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-percent').textContent = Math.round(progress) + '%';
+
+            saveProgress(progress);
+        }
+
+        function saveProgress(progress) {
+            localStorage.setItem('D1_progress', progress);
+        }
+
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('D1_progress');
+            if (savedProgress) {
+                document.getElementById('progress-fill').style.width = savedProgress + '%';
+                document.getElementById('progress-percent').textContent = Math.round(savedProgress) + '%';
+            }
+        }
+
+        function markComplete() {
+            localStorage.setItem('D1_complete', 'true');
+            alert('Lesson marked as complete! Great work!');
+            document.getElementById('progress-fill').style.width = '100%';
+            document.getElementById('progress-percent').textContent = '100%';
+        }
+
+        function openChatbot() {
+            alert('Chatbot feature coming soon! This will connect to an AI assistant to help answer your questions.');
+        }
+
+        function previousLesson() {
+            window.location.href = '/lessons/previous';
+        }
+
+        function nextLesson() {
+            window.location.href = '/lessons/next';
+        }
+    </script>
+
+    <script>
+        // Inject lesson data directly
+        const lessonData = {
+            "title": "D1: Gravitational Fields - IB Physics HL",
+            "syllabus_code": "D1",
+            "level": "HL",
+            "learning_objectives": [
+                "Understand and apply Newton's law of universal gravitation to calculate gravitational forces between masses",
+                "Define and calculate gravitational field strength as force per unit mass",
+                "Represent gravitational fields using field lines and equipotential surfaces",
+                "Derive and apply the expression for gravitational potential energy in a radial field",
+                "Define gravitational potential and understand its relationship to field strength",
+                "Analyze orbital motion using Newton's laws and circular motion principles",
+                "Calculate orbital speed, period, and energy for satellites and planets",
+                "Derive and apply the equation for escape velocity",
+                "Understand Kepler's three laws and their relationship to Newton's law of gravitation",
+                "Solve problems involving energy changes in gravitational fields",
+                "Analyze geostationary and polar orbits and their applications"
+            ],
+            "content_sections": [
+                {
+                    "heading": "Introduction: Why Gravitational Fields Matter",
+                    "content": "Gravitational fields are fundamental to understanding the universe at all scales—from the fall of an apple to the motion of galaxies. Unlike contact forces, gravity acts at a distance, making it a field force. This topic builds on your knowledge of forces and circular motion from earlier units and extends it to explain satellite orbits, planetary motion, and even the structure of the cosmos.\n\nKey prerequisite knowledge:\n- Newton's laws of motion (Topic 2)\n- Circular motion and centripetal force (Topic 6)\n- Work and energy (Topic 2)\n- Vector addition and resolution\n\nThe IB examination expects you to move beyond plug-and-chug calculations to demonstrate deep conceptual understanding, particularly distinguishing between field strength and potential, and analyzing energy transformations."
+                },
+                {
+                    "heading": "Newton's Law of Universal Gravitation",
+                    "content": "## The Fundamental Principle\n\nNewton proposed that every mass in the universe attracts every other mass with a force that is:\n1. Directly proportional to the product of their masses\n2. Inversely proportional to the square of their separation\n\nMathematically:\n\n$$F = \\frac{Gm_1m_2}{r^2}$$\n\nwhere:\n- $F$ = gravitational force (N)\n- $G$ = universal gravitational constant = $6.67 \\times 10^{-11}$ N m² kg⁻²\n- $m_1, m_2$ = masses of the two objects (kg)\n- $r$ = distance between centers of mass (m)\n\n## Important Points to Understand\n\n**The inverse-square relationship:** Doubling the distance reduces the force to one-quarter. This arises from geometric spreading—the same gravitational influence spreads over an area that increases as $r^2$.\n\n**Point masses and spherical symmetry:** For spherically symmetric objects, we can treat the entire mass as if concentrated at the center. This is why we use $r$ as the distance between centers, not surfaces.\n\n**Action-reaction pairs:** By Newton's third law, both objects experience equal magnitude forces in opposite directions. The Earth pulls on you with the same force you pull on the Earth—you don't notice the Earth's acceleration because of its enormous mass."
+                }
+            ],
+            "key_definitions": [
+                {
+                    "term": "Gravitational Field",
+                    "definition": "A region of space where a mass experiences a force due to gravitational attraction. Field strength is defined as force per unit mass."
+                },
+                {
+                    "term": "Gravitational Field Strength (g)",
+                    "definition": "The gravitational force per unit mass at a point in the field. Measured in N kg⁻¹ or m s⁻². For a point mass: $g = \\frac{GM}{r^2}$"
+                },
+                {
+                    "term": "Gravitational Potential (V)",
+                    "definition": "The work done per unit mass in bringing a small test mass from infinity to that point. Always negative or zero. $V = -\\frac{GM}{r}$ (J kg⁻¹)"
+                },
+                {
+                    "term": "Gravitational Potential Energy",
+                    "definition": "The work done in bringing a mass from infinity to a point in the field. For a radial field: $E_p = -\\frac{GMm}{r}$ (always negative or zero)"
+                },
+                {
+                    "term": "Escape Velocity",
+                    "definition": "The minimum speed required for an object to escape a gravitational field and reach infinity with zero final velocity. $v_{esc} = \\sqrt{\\frac{2GM}{r}}$"
+                },
+                {
+                    "term": "Orbital Speed",
+                    "definition": "The speed required to maintain a circular orbit at a given radius. $v = \\sqrt{\\frac{GM}{r}}$. Note: this is $\\frac{1}{\\sqrt{2}}$ times escape velocity."
+                },
+                {
+                    "term": "Equipotential Surface",
+                    "definition": "A surface where all points have the same gravitational potential. No work is required to move along an equipotential surface. Field lines are perpendicular to equipotentials."
+                },
+                {
+                    "term": "Geostationary Orbit",
+                    "definition": "An orbit with period of 24 hours above Earth's equator, making the satellite appear stationary relative to Earth's surface. Altitude is uniquely determined at ~35,800 km."
+                },
+                {
+                    "term": "Kepler's Third Law",
+                    "definition": "For objects orbiting the same central mass, the square of the period is proportional to the cube of the orbital radius: $T^2 = \\frac{4\\pi^2}{GM}r^3$"
+                }
+            ],
+            "practice_problems": [
+                {
+                    "question": "The planet Mercury has mass $3.30 \\times 10^{23}$ kg and radius $2.44 \\times 10^6$ m. (a) Calculate the gravitational field strength at Mercury's surface. (b) Determine the escape velocity from Mercury's surface. (c) Explain why Mercury has essentially no atmosphere, while Venus (similar size but higher escape velocity) retains a thick atmosphere.",
+                    "solution": "(a) $g = \\frac{GM}{r^2} = \\frac{(6.67 \\times 10^{-11})(3.30 \\times 10^{23})}{(2.44 \\times 10^6)^2} = 3.70$ N kg⁻¹<br><br>(b) $v_{esc} = \\sqrt{\\frac{2GM}{r}} = \\sqrt{\\frac{2(6.67 \\times 10^{-11})(3.30 \\times 10^{23})}{2.44 \\times 10^6}} = 4240$ m s⁻¹ $= 4.24$ km s⁻¹",
+                    "explanation": "(c) Mercury's escape velocity is relatively low, and its proximity to the Sun means surface temperatures are very high. Gas molecules (especially light ones like H₂ and He) have root-mean-square speeds comparable to or exceeding escape velocity at these temperatures. Over billions of years, atmospheric molecules escape to space. Venus is cooler (despite being closer—due to its reflective clouds) and has higher escape velocity, allowing it to retain its atmosphere. This demonstrates the interplay between thermal energy (temperature), molecular mass, and gravitational binding energy."
+                },
+                {
+                    "question": "A satellite of mass $850$ kg orbits Earth at an altitude of $1200$ km. Calculate: (a) the orbital speed, (b) the orbital period, (c) the kinetic energy, (d) the gravitational potential energy, (e) the total mechanical energy, and (f) the energy required to move the satellite to an altitude of $2400$ km (assuming it is placed into the new orbit with the correct speed).",
+                    "solution": "$r_1 = R_E + h = 6.37 \\times 10^6 + 1.20 \\times 10^6 = 7.57 \\times 10^6$ m<br><br>(a) $v = \\sqrt{\\frac{GM}{r}} = \\sqrt{\\frac{(6.67 \\times 10^{-11})(5.97 \\times 10^{24})}{7.57 \\times 10^6}} = 7260$ m s⁻¹<br><br>(b) $T = \\frac{2\\pi r}{v} = \\frac{2\\pi(7.57 \\times 10^6)}{7260} = 6550$ s $= 109$ min $= 1.82$ hours<br><br>(c) $E_k = \\frac{1}{2}mv^2 = \\frac{1}{2}(850)(7260)^2 = 2.24 \\times 10^{10}$ J<br><br>(d) $E_p = -\\frac{GMm}{r} = -\\frac{(6.67 \\times 10^{-11})(5.97 \\times 10^{24})(850)}{7.57 \\times 10^6} = -4.48 \\times 10^{10}$ J<br><br>(e) $E_{total} = E_k + E_p = 2.24 \\times 10^{10} - 4.48 \\times 10^{10} = -2.24 \\times 10^{10}$ J<br><br>(f) For new orbit: $r_2 = 6.37 \\times 10^6 + 2.40 \\times 10^6 = 8.77 \\times 10^6$ m<br><br>$E_{total,2} = -\\frac{GMm}{2r_2} = -\\frac{(6.67 \\times 10^{-11})(5.97 \\times 10^{24})(850)}{2(8.77 \\times 10^6)} = -1.93 \\times 10^{10}$ J<br><br>Energy required: $\\Delta E = E_{total,2} - E_{total,1} = -1.93 \\times 10^{10} - (-2.24 \\times 10^{10}) = 3.1 \\times 10^9$ J",
+                    "explanation": "Note that total energy equals $-E_k$ (or $E_p/2$), confirming our orbital energy relationships. To reach a higher orbit requires energy input. The satellite in the higher orbit actually moves slower (lower kinetic energy) but has higher total energy because potential energy increased more than kinetic energy decreased."
+                },
+                {
+                    "question": "A space probe is launched from Earth's surface with speed $1.20 \\times 10^4$ m s⁻¹. (a) Calculate whether this exceeds escape velocity. (b) If it escapes, calculate its speed when very far from Earth. (c) Discuss why actual rockets must achieve higher speeds than escape velocity to actually escape Earth's gravitational influence.",
+                    "solution": "(a) Escape velocity from Earth's surface:<br><br>$v_{esc} = \\sqrt{\\frac{2GM_E}{R_E}} = \\sqrt{\\frac{2(6.67 \\times 10^{-11})(5.97 \\times 10^{24})}{6.37 \\times 10^6}} = 1.12 \\times 10^4$ m s⁻¹<br><br>Since $1.20 \\times 10^4 > 1.12 \\times 10^4$ m s⁻¹, the probe exceeds escape velocity and will escape.<br><br>(b) Using energy conservation:<br><br>$\\frac{1}{2}v_i^2 - \\frac{GM_E}{R_E} = \\frac{1}{2}v_f^2$<br><br>$v_f = \\sqrt{v_i^2 - \\frac{2GM_E}{R_E}} = \\sqrt{(1.20 \\times 10^4)^2 - (1.12 \\times 10^4)^2} = 4360$ m s⁻¹",
+                    "explanation": "(c) The escape velocity calculation assumes no air resistance and no further propulsion. Real rockets must overcome significant atmospheric drag, especially in the dense lower atmosphere. Additionally, they typically need to achieve orbital velocity rather than just escape velocity—orbiting requires specific tangential velocity, not just radial escape. Rockets also carry heavy fuel that they must accelerate along with the payload, further increasing energy requirements. Finally, the calculation assumes launch directly upward; actual trajectories curve to achieve orbital insertion or interplanetary transfer, requiring additional velocity changes. Practical launch speeds from Earth's surface often need to be 20-30% higher than theoretical escape velocity."
+                }
+            ],
+            "exam_tips": [
+                "Always use center-to-center distance r in gravitational formulas. For satellites, remember r = R_planet + altitude, not just altitude.",
+                "Watch the sign conventions: gravitational potential and potential energy are negative (or zero at infinity). Energy increases as you move away from a gravitational source.",
+                "When comparing field strength and potential: g is a vector (has direction), V is a scalar (no direction). Field strength is the negative gradient of potential: g = -dV/dr.",
+                "For orbital problems, remember that gravitational force provides centripetal force: GMm/r² = mv²/r. This gives v = √(GM/r), which is independent of satellite mass.",
+                "Total orbital energy is always E_total = -GMm/2r (negative, indicating bound orbit). This equals half the potential energy, and the negative of kinetic energy.",
+                "Escape velocity is √2 times orbital velocity at the same radius. Don't confuse them on the exam.",
+                "IB examiners love questions that require you to distinguish between weight and mass, especially in orbital contexts. Remember: astronauts in orbit have weight (gravitational force) but appear weightless due to free fall.",
+                "Common exam error: using g = 9.81 m/s² for problems involving satellites or other planets. You must calculate g using g = GM/r² for the specific situation.",
+                "When energy questions ask for 'minimum energy required,' use potential energy change only. When they ask for energy needed to place a satellite in orbit, include both potential and kinetic energy changes.",
+                "For Kepler's third law problems, ensure both periods are in the same units and both radii in the same units before using T²/r³ = constant.",
+                "Draw diagrams for orbital problems showing forces, velocity direction, and radius from center. This helps avoid conceptual errors.",
+                "In data-based questions involving graphs of g vs r or V vs r, remember: g follows 1/r² (steeper drop), V follows 1/r (gentler slope). Both approach zero as r approaches infinity.",
+                "Pay attention to what the question asks for: force, field strength, potential, or potential energy. These are different quantities with different units—don't mix them up.",
+                "For extended response questions, structure your answer: state principles/laws, show mathematical derivation, substitute values with units, give final answer with appropriate significant figures and units.",
+                "When discussing applications (GPS, geostationary satellites), demonstrate physics understanding—explain why the orbit altitude is what it is, what forces are balanced, and energy considerations."
+            ]
+        };
+    </script>
+</body>
+</html>

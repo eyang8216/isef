@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2: Forces and Momentum - IB Physics</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar-bg {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .content-section ul, .content-section ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #f5f7ff 0%, #f0e6ff 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .problem-container:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .problem-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-number {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .problem-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .problem-question {
+            padding: 1.5rem;
+            background: #f9f9f9;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .problem-solution {
+            padding: 1.5rem;
+            display: none;
+            background: #fff;
+        }
+
+        .problem-solution.show {
+            display: block;
+        }
+
+        .problem-explanation {
+            background: #f0f8ff;
+            padding: 1rem;
+            border-left: 4px solid #667eea;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+
+        /* Exam Tips */
+        .tip-item {
+            background: #fff9e6;
+            border-left: 4px solid #ffa500;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+        }
+
+        /* Interactive Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+
+        /* Lesson Navigation Footer */
+        .lesson-nav-footer {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            bottom: 0;
+            margin-top: 3rem;
+        }
+
+        .lesson-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn-prev {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .nav-btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            background: #f0f8ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .objectives-list h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .objectives-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .lesson-title {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .lesson-nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar-content {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+        }
+
+        /* PLACEHOLDER FOR MORE STYLES */
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>IB Physics Study Platform</h1>
+            <span class="nav-badge">SL+HL Content</span>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-label">Lesson Progress: <span id="progress-percent">0%</span></div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1 class="lesson-title">A2: Forces and Momentum</h1>
+            <p class="lesson-meta">Level: SL+HL | Syllabus Code: A2</p>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="content-section">
+            <h2>Learning Objectives</h2>
+            <div class="objectives-list">
+                <ul>
+                    <li>Represent objects as point particles and construct free-body diagrams showing all forces acting on the object</li>
+                    <li>Apply conditions for translational equilibrium to solve problems involving multiple forces</li>
+                    <li>Apply Newton's laws of motion to analyze the motion of objects under various force conditions</li>
+                    <li>Distinguish between static and dynamic friction and solve problems involving frictional forces</li>
+                    <li>Define and calculate momentum, impulse, and apply the impulse-momentum theorem</li>
+                    <li>Apply the principle of conservation of linear momentum to solve collision and explosion problems</li>
+                    <li>Distinguish between elastic and inelastic collisions and apply appropriate conservation laws</li>
+                    <li>Calculate work done by constant and variable forces, including graphical methods</li>
+                    <li>Define and calculate kinetic energy, gravitational potential energy, and elastic potential energy</li>
+                    <li>Apply the principle of conservation of energy to solve problems in mechanical systems</li>
+                    <li>Calculate power as rate of energy transfer and relate to force and velocity</li>
+                    <li>Calculate and interpret efficiency in energy transfer processes</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-section">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Force</div>
+                <div class="definition-text">A vector quantity that causes an object to accelerate. Measured in newtons (N). One newton is the force required to accelerate 1 kg at 1 m/s².</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Momentum</div>
+                <div class="definition-text">The product of an object's mass and velocity: \(\vec{p} = m\vec{v}\). A vector quantity measured in kg m/s. Momentum describes the 'quantity of motion' of an object.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Impulse</div>
+                <div class="definition-text">The product of force and the time interval over which it acts: \(\vec{J} = \vec{F}\Delta t\). Measured in N·s (equivalent to kg m/s). Impulse equals the change in momentum.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Work</div>
+                <div class="definition-text">The energy transferred when a force acts through a distance: \(W = \vec{F} \cdot \vec{s} = Fs\cos\theta\). A scalar quantity measured in joules (J).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Kinetic Energy</div>
+                <div class="definition-text">The energy an object possesses due to its motion: \(E_k = \frac{1}{2}mv^2\). A scalar quantity measured in joules (J).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Power</div>
+                <div class="definition-text">The rate at which work is done or energy is transferred: \(P = \frac{W}{t}\) or \(P = Fv\). Measured in watts (W), where 1 W = 1 J/s.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Elastic Collision</div>
+                <div class="definition-text">A collision in which both momentum and kinetic energy are conserved. Objects bounce apart with no energy converted to other forms.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Inelastic Collision</div>
+                <div class="definition-text">A collision in which momentum is conserved but kinetic energy is not. Some kinetic energy is converted to other forms (heat, sound, deformation).</div>
+            </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="content-section">
+            <h2>Introduction to Forces and Momentum</h2>
+            <p>Topic A2 builds on the motion concepts from A1 by introducing the causes of motion: forces. This topic is foundational to all of physics and engineering, connecting Newton's revolutionary insights about motion to practical applications from car safety to rocket propulsion.</p>
+            <p>The central question we address is: <strong>What causes objects to change their motion?</strong> Newton answered this with three laws that remain valid for everyday speeds (non-relativistic mechanics). We'll develop these systematically, learning to identify forces, predict motion, and understand energy transformations.</p>
+            <p><strong>Prerequisites:</strong> You should be comfortable with vectors (A1), kinematics equations, and basic calculus concepts (derivatives represent rates of change). We'll build from these foundations to more sophisticated momentum and energy principles.</p>
+        </div>
+
+        <!-- A2.1 Forces and Free-Body Diagrams -->
+        <div class="content-section">
+            <h2>A2.1 Forces and Free-Body Diagrams</h2>
+
+            <h3>Point Particles and Modeling</h3>
+            <p>In mechanics, we often model extended objects as <strong>point particles</strong>—objects whose entire mass is concentrated at a single point (the center of mass). This simplification is valid when:</p>
+            <ul>
+                <li>The object's size is negligible compared to distances involved</li>
+                <li>We're only interested in translational motion (not rotation)</li>
+                <li>Forces act through the center of mass</li>
+            </ul>
+            <p>For example, when analyzing planetary orbits, we treat planets as point particles because their diameters (~10⁴ km) are tiny compared to orbital distances (~10⁸ km).</p>
+
+            <h3>Free-Body Diagrams (FBDs)</h3>
+            <p>A free-body diagram is the most important problem-solving tool in mechanics. It's a simplified drawing showing:</p>
+            <ol>
+                <li>The object as a point or simple shape</li>
+                <li>All forces acting ON that object as arrows</li>
+                <li>A coordinate system</li>
+                <li>Labels for each force</li>
+            </ol>
+            <p><strong>Critical rule:</strong> Only include forces acting ON the object, not forces the object exerts on other things.</p>
+            <p><strong>Common forces to identify:</strong></p>
+            <ul>
+                <li><strong>Weight</strong> (\(\vec{W}\) or \(\vec{F}_g\)): Gravitational force = \(mg\) downward</li>
+                <li><strong>Normal force</strong> (\(\vec{N}\)): Contact force perpendicular to surface</li>
+                <li><strong>Tension</strong> (\(\vec{T}\)): Force transmitted through rope/string/cable</li>
+                <li><strong>Friction</strong> (\(\vec{f}\)): Contact force parallel to surface, opposing motion</li>
+                <li><strong>Applied force</strong> (\(\vec{F}_a\)): External push or pull</li>
+                <li><strong>Air resistance</strong> (\(\vec{F}_d\)): Drag force opposing motion through fluid</li>
+            </ul>
+            <p><strong>Example:</strong> A book resting on an inclined plane has two forces: weight (mg) acting vertically downward and normal force (N) acting perpendicular to the plane surface. Many students incorrectly add a force 'down the plane'—but that's a component of weight, not a separate force.</p>
+        </div>
+
+        <!-- A2.2 Translational Equilibrium -->
+        <div class="content-section">
+            <h2>A2.2 Translational Equilibrium</h2>
+            <p>An object is in <strong>translational equilibrium</strong> when the net force is zero:</p>
+            <p>$$\sum \vec{F} = 0$$</p>
+            <p>This means:</p>
+            <p>$$\sum F_x = 0 \quad \text{and} \quad \sum F_y = 0$$</p>
+            <p>By Newton's First Law, an object in equilibrium is either at rest or moving with constant velocity. Note that 'equilibrium' does NOT mean 'stationary'—a car cruising at constant 100 km/h is in equilibrium.</p>
+
+            <h3>Problem-solving strategy:</h3>
+            <ol>
+                <li>Draw a complete FBD</li>
+                <li>Choose a convenient coordinate system (often align one axis with motion or slope)</li>
+                <li>Resolve all forces into components</li>
+                <li>Apply \(\sum F_x = 0\) and \(\sum F_y = 0\)</li>
+                <li>Solve the system of equations</li>
+            </ol>
+
+            <h3>Worked Example:</h3>
+            <p>A 5.0 kg traffic light hangs from two cables making angles of 37° and 53° with the horizontal. Find the tension in each cable.</p>
+            <p><em>Solution:</em> Draw FBD with weight (W = 49 N) downward and two tension vectors \(T_1\) and \(T_2\) at angles.</p>
+            <p>Vertical equilibrium: \(T_1\sin(37°) + T_2\sin(53°) = 49\)</p>
+            <p>Horizontal equilibrium: \(T_1\cos(37°) = T_2\cos(53°)\)</p>
+            <p>From the horizontal equation: \(T_1 = T_2\cos(53°)/\cos(37°) = 0.753T_2\)</p>
+            <p>Substitute into vertical: \(0.753T_2\sin(37°) + T_2\sin(53°) = 49\)</p>
+            <p>\(0.453T_2 + 0.799T_2 = 49\)</p>
+            <p>\(T_2 = 39.1\) N, therefore \(T_1 = 29.4\) N</p>
+        </div>
+
+        <!-- A2.3 Newton's Laws -->
+        <div class="content-section">
+            <h2>A2.3 Newton's Laws of Motion</h2>
+
+            <h3>Newton's First Law (Law of Inertia)</h3>
+            <p><em>An object at rest stays at rest, and an object in motion continues with constant velocity, unless acted upon by a net external force.</em></p>
+            <p>This law defines <strong>inertial reference frames</strong>—coordinate systems where the law holds. Earth's surface is approximately inertial for most purposes (though it's actually accelerating due to rotation).</p>
+            <p>The First Law reveals that force causes acceleration, not motion itself. This was revolutionary in Newton's time, contradicting Aristotelian physics.</p>
+
+            <h3>Newton's Second Law</h3>
+            <p>The fundamental equation of classical mechanics:</p>
+            <p>$$\sum \vec{F} = m\vec{a}$$</p>
+            <p>or in component form:</p>
+            <p>$$\sum F_x = ma_x, \quad \sum F_y = ma_y, \quad \sum F_z = ma_z$$</p>
+            <p><strong>Key insights:</strong></p>
+            <ul>
+                <li>Force and acceleration are vectors in the same direction</li>
+                <li>Mass is the constant of proportionality—the measure of inertia</li>
+                <li>The net (total) force determines acceleration, not individual forces</li>
+                <li>If \(\sum \vec{F} = 0\), then \(\vec{a} = 0\) (First Law as special case)</li>
+            </ul>
+            <p><strong>More general form:</strong> \(\sum \vec{F} = \frac{d\vec{p}}{dt}\) (force equals rate of change of momentum). When mass is constant, this reduces to \(ma\).</p>
+
+            <h3>Newton's Third Law</h3>
+            <p><em>For every action force, there is an equal and opposite reaction force. If object A exerts a force on object B, then object B exerts an equal magnitude force on object A in the opposite direction.</em></p>
+            <p>$$\vec{F}_{AB} = -\vec{F}_{BA}$$</p>
+            <p><strong>Critical points:</strong></p>
+            <ul>
+                <li>Action-reaction pairs act on DIFFERENT objects</li>
+                <li>They are equal in magnitude, opposite in direction, same type of force</li>
+                <li>They exist simultaneously—there's no time delay</li>
+            </ul>
+            <p><strong>Common misconception:</strong> Students think action-reaction pairs cancel out. They don't! They act on different objects, so they can't cancel. When drawing an FBD for one object, you only include forces ON that object, not the reaction forces it exerts on other things.</p>
+            <p><strong>Example:</strong> When you push a wall, you feel a force because the wall pushes back on you (Third Law). But these forces act on different objects (you and the wall), so they don't cancel to produce equilibrium.</p>
+        </div>
+
+        <!-- A2.4 Solid Friction -->
+        <div class="content-section">
+            <h2>A2.4 Solid Friction</h2>
+            <p>Friction is a contact force that opposes relative motion between surfaces. It arises from microscopic interactions between surface irregularities and intermolecular forces.</p>
+
+            <h3>Static Friction</h3>
+            <p><strong>Static friction</strong> (\(f_s\)) prevents objects from starting to slide. It's a reactive force that adjusts to match the applied force, up to a maximum:</p>
+            <p>$$f_s \leq \mu_s N$$</p>
+            <p>where \(\mu_s\) is the <strong>coefficient of static friction</strong> and \(N\) is the normal force.</p>
+            <p>The inequality is crucial: static friction can be any value from zero up to \(\mu_s N\). The object starts sliding when the applied force exceeds this maximum.</p>
+
+            <h3>Kinetic (Dynamic) Friction</h3>
+            <p>Once sliding begins, <strong>kinetic friction</strong> (\(f_k\)) acts with approximately constant magnitude:</p>
+            <p>$$f_k = \mu_k N$$</p>
+            <p>where \(\mu_k\) is the <strong>coefficient of kinetic friction</strong>.</p>
+
+            <p><strong>Important observations:</strong></p>
+            <ul>
+                <li>\(\mu_k < \mu_s\) (it's harder to start sliding than to keep sliding)</li>
+                <li>Friction coefficients are dimensionless and depend on material properties</li>
+                <li>Friction is approximately independent of contact area and sliding speed (at everyday speeds)</li>
+                <li>Friction force is always parallel to the surface and opposes relative motion</li>
+            </ul>
+
+            <h3>Worked Example:</h3>
+            <p>A 2.0 kg block rests on a horizontal surface (\(\mu_s = 0.40\), \(\mu_k = 0.30\)). A horizontal force gradually increases from zero. (a) What force is needed to start motion? (b) What acceleration results from a 10 N force?</p>
+            <p><em>Solution:</em></p>
+            <p>(a) Normal force equals weight: \(N = mg = 19.6\) N</p>
+            <p>Maximum static friction: \(f_{s,max} = \mu_s N = 0.40 \times 19.6 = 7.84\) N</p>
+            <p>The block starts moving when applied force exceeds 7.84 N.</p>
+            <p>(b) With 10 N applied, the block is sliding, so kinetic friction acts:</p>
+            <p>\(f_k = \mu_k N = 0.30 \times 19.6 = 5.88\) N</p>
+            <p>Net force: \(F_{net} = 10 - 5.88 = 4.12\) N</p>
+            <p>Acceleration: \(a = F_{net}/m = 4.12/2.0 = 2.1\) m/s²</p>
+        </div>
+
+        <!-- A2.5 Momentum and Impulse -->
+        <div class="content-section">
+            <h2>A2.5 Momentum and Impulse</h2>
+
+            <h3>Linear Momentum</h3>
+            <p><strong>Momentum</strong> is defined as:</p>
+            <p>$$\vec{p} = m\vec{v}$$</p>
+            <p>Momentum is a vector in the direction of velocity. It measures the 'quantity of motion' and is harder to stop for objects with large mass or velocity.</p>
+            <p>From Newton's Second Law: \(\sum \vec{F} = \frac{d\vec{p}}{dt}\)</p>
+            <p>This is actually Newton's original formulation: force equals the rate of change of momentum.</p>
+
+            <h3>Impulse-Momentum Theorem</h3>
+            <p><strong>Impulse</strong> is defined as:</p>
+            <p>$$\vec{J} = \int \vec{F} \, dt$$</p>
+            <p>For constant force: \(\vec{J} = \vec{F}\Delta t\)</p>
+            <p>From \(\sum \vec{F} = d\vec{p}/dt\), integrating both sides:</p>
+            <p>$$\vec{J} = \Delta \vec{p} = \vec{p}_f - \vec{p}_i$$</p>
+            <p>This is the <strong>impulse-momentum theorem</strong>: impulse equals change in momentum.</p>
+
+            <p><strong>Practical implications:</strong></p>
+            <ol>
+                <li>To change momentum, you can apply:
+                    <ul>
+                        <li>Large force for short time (hammer strike)</li>
+                        <li>Small force for long time (rocket thrust)</li>
+                    </ul>
+                </li>
+                <li>To minimize impact force, increase collision time:
+                    <ul>
+                        <li>Airbags extend collision time, reducing force on occupants</li>
+                        <li>Gymnasts bend knees on landing</li>
+                        <li>Catching an egg: move hands backward to extend contact time</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <p><strong>Graphical method:</strong> Impulse equals the area under a force-time graph.</p>
+
+            <h3>Worked Example:</h3>
+            <p>A 0.145 kg baseball traveling at 40 m/s is struck by a bat. The ball leaves at 50 m/s in the opposite direction. Contact lasts 1.2 ms. Find (a) the change in momentum and (b) average force.</p>
+            <p><em>Solution:</em></p>
+            <p>Choose positive direction as initial motion.</p>
+            <p>(a) \(\Delta p = m v_f - m v_i = 0.145(-50) - 0.145(40) = -13.05\) kg m/s</p>
+            <p>Magnitude: 13.05 kg m/s (or 13 kg m/s to 2 sig figs)</p>
+            <p>(b) \(F = \Delta p / \Delta t = -13.05 / (1.2 \times 10^{-3}) = -10,900\) N</p>
+            <p>The negative sign indicates force opposite to initial motion. Magnitude: 11 kN (about 1.1 tons force!).</p>
+        </div>
+
+        <!-- A2.6 Conservation of Momentum -->
+        <div class="content-section">
+            <h2>A2.6 Conservation of Linear Momentum</h2>
+
+            <h3>The Conservation Principle</h3>
+            <p>For a <strong>closed system</strong> (no external forces or negligible external forces compared to internal forces):</p>
+            <p>$$\sum \vec{p}_{initial} = \sum \vec{p}_{final}$$</p>
+            <p>or for two objects:</p>
+            <p>$$m_1\vec{v}_{1i} + m_2\vec{v}_{2i} = m_1\vec{v}_{1f} + m_2\vec{v}_{2f}$$</p>
+
+            <h3>Why momentum is conserved:</h3>
+            <p>From Newton's Third Law, internal forces occur in equal-opposite pairs:</p>
+            <p>\(\vec{F}_{12} = -\vec{F}_{21}\)</p>
+            <p>Therefore: \(\frac{d\vec{p}_1}{dt} + \frac{d\vec{p}_2}{dt} = \vec{F}_{12} + \vec{F}_{21} = 0\)</p>
+            <p>Total momentum doesn't change: \(\frac{d(\vec{p}_1 + \vec{p}_2)}{dt} = 0\)</p>
+
+            <p><strong>Crucial points:</strong></p>
+            <ul>
+                <li>Momentum is ALWAYS conserved in closed systems (no exceptions in classical mechanics)</li>
+                <li>Momentum is a vector—conserve components separately</li>
+                <li>Works even when forces are unknown or complex</li>
+                <li>External forces (gravity, friction) can violate conservation; check if they're negligible</li>
+            </ul>
+
+            <p><strong>When to apply:</strong> Collisions, explosions, recoil problems—any situation where objects interact for a brief time and external forces are negligible during interaction.</p>
+        </div>
+
+        <!-- A2.7 Collisions and Explosions -->
+        <div class="content-section">
+            <h2>A2.7 Collisions and Explosions</h2>
+
+            <h3>Elastic Collisions</h3>
+            <p>In an <strong>elastic collision</strong>, both momentum and kinetic energy are conserved:</p>
+            <p>$$m_1 v_{1i} + m_2 v_{2i} = m_1 v_{1f} + m_2 v_{2f}$$ (momentum)</p>
+            <p>$$\frac{1}{2}m_1 v_{1i}^2 + \frac{1}{2}m_2 v_{2i}^2 = \frac{1}{2}m_1 v_{1f}^2 + \frac{1}{2}m_2 v_{2f}^2$$ (kinetic energy)</p>
+            <p>Elastic collisions are ideal—they occur approximately with hard objects (billiard balls, atomic particles) where deformation is minimal.</p>
+            <p><strong>Special case: equal masses</strong> When \(m_1 = m_2\) and object 2 is initially at rest, the objects exchange velocities: \(v_{1f} = 0\) and \(v_{2f} = v_{1i}\).</p>
+
+            <h3>Inelastic Collisions</h3>
+            <p>In <strong>inelastic collisions</strong>, momentum is conserved but kinetic energy is not. Some kinetic energy converts to:</p>
+            <ul>
+                <li>Thermal energy (heat)</li>
+                <li>Sound energy</li>
+                <li>Deformation energy (permanent damage)</li>
+            </ul>
+
+            <p><strong>Perfectly inelastic collision:</strong> Objects stick together after collision.</p>
+            <p>$$m_1 v_{1i} + m_2 v_{2i} = (m_1 + m_2)v_f$$</p>
+            <p>This has maximum kinetic energy loss for a given initial momentum.</p>
+
+            <p><strong>Energy loss calculation:</strong></p>
+            <p>$$\Delta E_k = E_{k,final} - E_{k,initial} < 0$$</p>
+            <p>The magnitude tells you how much energy was converted to other forms.</p>
+
+            <h3>Explosions</h3>
+            <p>An <strong>explosion</strong> is a collision in reverse—one object breaks into pieces. If the system starts at rest:</p>
+            <p>$$0 = m_1\vec{v}_1 + m_2\vec{v}_2 + ...$$</p>
+            <p>The fragments fly apart with momenta that sum to zero (vector sum). Kinetic energy increases because chemical or stored energy converts to kinetic energy.</p>
+
+            <h3>Worked Example:</h3>
+            <p>A 1200 kg car traveling at 15 m/s collides head-on with a 1800 kg truck traveling at 10 m/s. They stick together. Find (a) final velocity and (b) energy loss.</p>
+            <p><em>Solution:</em> Choose car's direction as positive.</p>
+            <p>(a) Conservation of momentum:</p>
+            <p>\(1200(15) + 1800(-10) = (1200 + 1800)v_f\)</p>
+            <p>\(18000 - 18000 = 3000 v_f\)</p>
+            <p>\(v_f = 0\) m/s (they stop!)</p>
+            <p>(b) Initial KE: \(E_{k,i} = \frac{1}{2}(1200)(15)^2 + \frac{1}{2}(1800)(10)^2 = 135000 + 90000 = 225000\) J</p>
+            <p>Final KE: \(E_{k,f} = 0\) J</p>
+            <p>Energy loss: \(\Delta E_k = -225\) kJ (all converted to deformation, heat, sound)</p>
+        </div>
+
+        <!-- A2.8 Work -->
+        <div class="content-section">
+            <h2>A2.8 Work Done by a Force</h2>
+
+            <h3>Definition of Work</h3>
+            <p>When a force acts through a displacement, it transfers energy. <strong>Work</strong> is defined as:</p>
+            <p>$$W = \vec{F} \cdot \vec{s} = Fs\cos\theta$$</p>
+            <p>where \(\theta\) is the angle between force and displacement vectors.</p>
+
+            <p><strong>Key features:</strong></p>
+            <ul>
+                <li>Work is a scalar (can be positive, negative, or zero)</li>
+                <li>Unit: joule (J) = N·m</li>
+                <li>Only the component of force parallel to displacement does work</li>
+                <li>\(\theta = 0°\): maximum positive work (force aids motion)</li>
+                <li>\(\theta = 90°\): zero work (force perpendicular to motion)</li>
+                <li>\(\theta = 180°\): maximum negative work (force opposes motion)</li>
+            </ul>
+
+            <p><strong>Multiple forces:</strong> Total work is sum of work by each force, or work by net force:</p>
+            <p>$$W_{total} = W_1 + W_2 + ... = (\vec{F}_{net}) \cdot \vec{s}$$</p>
+
+            <h3>Variable Forces</h3>
+            <p>For varying force:</p>
+            <p>$$W = \int \vec{F} \cdot d\vec{s}$$</p>
+            <p><strong>Graphically:</strong> Work equals area under an \(F_x\) vs. \(x\) graph (area below axis is negative).</p>
+
+            <h3>Example: Spring force</h3>
+            <p>For a spring obeying Hooke's Law (\(F = -kx\)), the work to stretch/compress from \(x_1\) to \(x_2\):</p>
+            <p>$$W = \int_{x_1}^{x_2} kx \, dx = \frac{1}{2}k(x_2^2 - x_1^2)$$</p>
+
+            <p><strong>Common misconception:</strong> Students often forget that work can be negative. When friction opposes motion, it does negative work (removes energy from the system).</p>
+
+            <h3>Worked Example:</h3>
+            <p>A 20 kg crate is pushed 5.0 m across a floor by a 100 N force at 30° below horizontal. The coefficient of kinetic friction is 0.25. Find work done by (a) applied force, (b) friction, (c) gravity, (d) normal force.</p>
+            <p><em>Solution:</em></p>
+            <p>(a) \(W_F = Fs\cos\theta = 100 \times 5.0 \times \cos(30°) = 433\) J</p>
+            <p>(b) Normal force: \(N = mg + F\sin(30°) = 20(9.8) + 100(0.5) = 246\) N</p>
+            <p>Friction: \(f_k = 0.25 \times 246 = 61.5\) N</p>
+            <p>\(W_f = f_k s \cos(180°) = 61.5 \times 5.0 \times (-1) = -308\) J</p>
+            <p>(c) Gravity is perpendicular to horizontal displacement: \(W_g = 0\) J</p>
+            <p>(d) Normal force is perpendicular to displacement: \(W_N = 0\) J</p>
+        </div>
+
+        <!-- A2.9 Kinetic Energy -->
+        <div class="content-section">
+            <h2>A2.9 Kinetic Energy and the Work-Energy Theorem</h2>
+
+            <h3>Kinetic Energy</h3>
+            <p><strong>Kinetic energy</strong> is the energy of motion:</p>
+            <p>$$E_k = \frac{1}{2}mv^2$$</p>
+            <p>This is a scalar quantity (always positive) measured in joules.</p>
+
+            <p><strong>Derivation:</strong> Apply Newton's Second Law and integrate:</p>
+            <p>$$W = \int F \, ds = \int ma \, ds = \int m\frac{dv}{dt} \, ds = \int m v \, dv = \frac{1}{2}mv^2 \Big|_{v_i}^{v_f}$$</p>
+
+            <h3>Work-Energy Theorem</h3>
+            <p>The <strong>work-energy theorem</strong> states that net work equals change in kinetic energy:</p>
+            <p>$$W_{net} = \Delta E_k = E_{k,f} - E_{k,i}$$</p>
+            <p>This powerful result connects forces (through work) to motion (through kinetic energy). It's particularly useful when:</p>
+            <ul>
+                <li>Forces are known but acceleration varies</li>
+                <li>You need final speed without finding acceleration/time</li>
+                <li>Path involves variable forces</li>
+            </ul>
+
+            <h3>Worked Example:</h3>
+            <p>A 0.50 kg puck sliding at 8.0 m/s on ice experiences a friction force of 0.30 N. How far does it slide before stopping?</p>
+            <p><em>Solution:</em></p>
+            <p>Initial KE: \(E_{k,i} = \frac{1}{2}(0.50)(8.0)^2 = 16\) J</p>
+            <p>Final KE: \(E_{k,f} = 0\) J</p>
+            <p>Work by friction: \(W_f = -f_k \cdot s = -0.30s\) (negative because opposes motion)</p>
+            <p>Work-energy theorem: \(-0.30s = 0 - 16\)</p>
+            <p>\(s = 53.3\) m</p>
+        </div>
+
+        <!-- A2.10 Potential Energy -->
+        <div class="content-section">
+            <h2>A2.10 Potential Energy</h2>
+
+            <h3>Gravitational Potential Energy</h3>
+            <p><strong>Gravitational PE</strong> near Earth's surface:</p>
+            <p>$$E_p = mgh$$</p>
+            <p>where \(h\) is height above a chosen reference level (zero PE point).</p>
+
+            <p><strong>Why this form?</strong> Work done against gravity lifting mass \(m\) through height \(h\):</p>
+            <p>$$W = F \cdot d = mgh$$</p>
+            <p>This work is stored as potential energy.</p>
+
+            <p><strong>Important notes:</strong></p>
+            <ul>
+                <li>PE is relative—you choose the zero point (often ground level)</li>
+                <li>Only changes in PE are physically meaningful</li>
+                <li>Negative PE is allowed (if object is below the zero reference)</li>
+            </ul>
+
+            <h3>Elastic Potential Energy</h3>
+            <p><strong>Elastic PE</strong> stored in a spring:</p>
+            <p>$$E_{elastic} = \frac{1}{2}kx^2$$</p>
+            <p>where \(k\) is the spring constant (N/m) and \(x\) is displacement from equilibrium.</p>
+
+            <p><strong>Derivation:</strong> Work done stretching spring from 0 to \(x\):</p>
+            <p>$$W = \int_0^x F \, dx' = \int_0^x kx' \, dx' = \frac{1}{2}kx^2$$</p>
+            <p>This applies to any elastic deformation (springs, bungee cords, elastic bands) that obeys Hooke's Law.</p>
+
+            <h3>Conservative vs. Non-Conservative Forces</h3>
+            <p><strong>Conservative forces</strong> (gravity, elastic, electric):</p>
+            <ul>
+                <li>Work is path-independent</li>
+                <li>Work around closed path is zero</li>
+                <li>Can define potential energy</li>
+            </ul>
+
+            <p><strong>Non-conservative forces</strong> (friction, air resistance):</p>
+            <ul>
+                <li>Work depends on path</li>
+                <li>Cannot define potential energy</li>
+                <li>Convert mechanical energy to thermal energy</li>
+            </ul>
+        </div>
+
+        <!-- A2.11 Conservation of Energy -->
+        <div class="content-section">
+            <h2>A2.11 Conservation of Energy</h2>
+
+            <h3>Mechanical Energy</h3>
+            <p><strong>Total mechanical energy:</strong></p>
+            <p>$$E_{mech} = E_k + E_p$$</p>
+
+            <p><strong>Principle of conservation of energy:</strong></p>
+            <p>In an isolated system with only conservative forces:</p>
+            <p>$$E_{mech,i} = E_{mech,f}$$</p>
+            <p>or</p>
+            <p>$$E_{k,i} + E_{p,i} = E_{k,f} + E_{p,f}$$</p>
+            <p>Energy transforms between kinetic and potential but the total remains constant.</p>
+
+            <h3>Including Non-Conservative Forces</h3>
+            <p>When non-conservative forces (friction, air resistance) act:</p>
+            <p>$$E_{k,i} + E_{p,i} + W_{nc} = E_{k,f} + E_{p,f}$$</p>
+            <p>where \(W_{nc}\) is work done by non-conservative forces (usually negative).</p>
+            <p>Alternatively:</p>
+            <p>$$W_{nc} = \Delta E_{mech}$$</p>
+            <p>Non-conservative work equals the change in mechanical energy (usually a decrease).</p>
+
+            <p><strong>Energy is always conserved</strong> when you account for all forms (mechanical, thermal, chemical, etc.). In this course, we focus on mechanical energy and note when it's converted to other forms.</p>
+
+            <h3>Problem-solving strategy:</h3>
+            <ol>
+                <li>Identify initial and final states</li>
+                <li>Choose PE zero reference</li>
+                <li>List all energies at initial state</li>
+                <li>List all energies at final state</li>
+                <li>Identify non-conservative forces</li>
+                <li>Apply conservation equation</li>
+                <li>Solve for unknown</li>
+            </ol>
+
+            <h3>Worked Example:</h3>
+            <p>A 0.40 kg ball is dropped from 2.0 m height. It bounces to 1.5 m. How much energy was lost to non-conservative forces?</p>
+            <p><em>Solution:</em></p>
+            <p>Initial: \(E_{mech,i} = mgh_i = 0.40 \times 9.8 \times 2.0 = 7.84\) J (all PE, zero KE)</p>
+            <p>Final: \(E_{mech,f} = mgh_f = 0.40 \times 9.8 \times 1.5 = 5.88\) J (all PE at peak of bounce)</p>
+            <p>Energy lost: \(\Delta E_{mech} = 5.88 - 7.84 = -1.96\) J</p>
+            <p>Magnitude lost: 2.0 J (converted to thermal energy and sound during collision with ground)</p>
+        </div>
+
+        <!-- A2.12 Power and Efficiency -->
+        <div class="content-section">
+            <h2>A2.12 Power and Efficiency</h2>
+
+            <h3>Power</h3>
+            <p><strong>Power</strong> is the rate of energy transfer:</p>
+            <p>$$P = \frac{W}{t} = \frac{E}{t}$$</p>
+            <p>Unit: watt (W) = J/s</p>
+
+            <p><strong>Alternative form:</strong> For constant force and velocity:</p>
+            <p>$$P = \frac{W}{t} = \frac{F \cdot s}{t} = F \cdot v = Fv\cos\theta$$</p>
+            <p>where \(\theta\) is angle between force and velocity.</p>
+            <p>For force parallel to velocity: \(P = Fv\)</p>
+
+            <p><strong>Practical units:</strong></p>
+            <ul>
+                <li>1 kilowatt (kW) = 1000 W</li>
+                <li>1 megawatt (MW) = 10⁶ W</li>
+                <li>1 horsepower (hp) ≈ 746 W</li>
+            </ul>
+
+            <p><strong>Energy from power:</strong></p>
+            <p>$$E = Pt \quad \text{(for constant power)}$$</p>
+
+            <p><strong>Common usage:</strong> The kilowatt-hour (kWh) is an energy unit used for electrical billing:</p>
+            <p>1 kWh = 1000 W × 3600 s = 3.6 MJ</p>
+
+            <h3>Efficiency</h3>
+            <p><strong>Efficiency</strong> measures how effectively energy is converted:</p>
+            <p>$$\text{efficiency} = \frac{\text{useful energy output}}{\text{total energy input}} \times 100\%$$</p>
+            <p>or</p>
+            <p>$$\eta = \frac{E_{out}}{E_{in}} \times 100\% = \frac{P_{out}}{P_{in}} \times 100\%$$</p>
+
+            <p>Efficiency is always less than 100% in real systems due to:</p>
+            <ul>
+                <li>Friction (→ thermal energy)</li>
+                <li>Air resistance</li>
+                <li>Electrical resistance (→ heat)</li>
+                <li>Sound production</li>
+                <li>Vibration</li>
+            </ul>
+
+            <h3>Worked Example:</h3>
+            <p>An electric motor lifts a 50 kg mass at constant speed of 0.80 m/s. The motor draws 500 W. Find the efficiency.</p>
+            <p><em>Solution:</em></p>
+            <p>Useful power output (lifting): \(P_{out} = Fv = mgv = 50 \times 9.8 \times 0.80 = 392\) W</p>
+            <p>Power input: \(P_{in} = 500\) W</p>
+            <p>Efficiency: \(\eta = \frac{392}{500} \times 100\% = 78.4\%\)</p>
+            <p>The remaining 21.6% (108 W) is lost as heat in the motor windings and friction.</p>
+        </div>
+
+        <!-- Real-World Applications -->
+        <div class="content-section">
+            <h2>Real-World Applications</h2>
+
+            <h3>Vehicle Safety Systems</h3>
+            <p><strong>Crumple zones:</strong> Modern cars have structural regions designed to deform in collisions, extending collision time. By the impulse-momentum theorem (\(F = \Delta p / \Delta t\)), longer collision time means lower force on occupants. The car's kinetic energy is absorbed by plastic deformation rather than transmitted to passengers.</p>
+            <p><strong>Airbags:</strong> Deploy in milliseconds, creating a cushion that extends deceleration time from ~10 ms (hitting steering wheel) to ~40 ms (airbag deployment), reducing force by factor of 4.</p>
+
+            <h3>Sports and Biomechanics</h3>
+            <p><strong>Pole vaulting:</strong> Athlete converts kinetic energy → elastic PE in bent pole → gravitational PE at peak. Elite vaulters convert ~95% of their kinetic energy, reaching heights of ~6 m from a running speed of ~10 m/s.</p>
+            <p><strong>Trampolines:</strong> Store kinetic energy as elastic PE, then return it. Conservation of energy explains why you bounce higher when you land with more speed.</p>
+
+            <h3>Engineering and Machines</h3>
+            <p><strong>Hydroelectric power:</strong> Gravitational PE of water converts to kinetic energy (flowing water) → rotational kinetic energy (turbine) → electrical energy. Large dams can generate 10+ GW (10¹⁰ W), enough for millions of homes.</p>
+            <p><strong>Regenerative braking:</strong> Electric vehicles convert kinetic energy back to electrical energy during braking, storing it in batteries. This recovers energy that would otherwise be lost as heat in traditional friction brakes, improving efficiency by 10-25%.</p>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="content-section">
+            <h2>Practice Problems</h2>
+
+            <!-- Problem 1 -->
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleProblem(1)">
+                    <span class="problem-number">Problem 1</span>
+                    <span class="problem-toggle" id="toggle-1">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>A 50 kg student stands in a lift (elevator) that accelerates upward at 2.0 m/s². Draw a free-body diagram and calculate the normal force exerted by the floor on the student.</p>
+                </div>
+                <div class="problem-solution" id="solution-1">
+                    <h4>Solution:</h4>
+                    <p><strong>Free-body diagram:</strong> Two forces act on student: Weight W = mg downward, Normal force N upward.</p>
+                    <p><strong>Choose positive direction:</strong> upward</p>
+                    <p><strong>Apply Newton's Second Law:</strong></p>
+                    <p>$$\sum F = ma$$</p>
+                    <p>$$N - mg = ma$$</p>
+                    <p>$$N = m(g + a) = 50(9.8 + 2.0) = 50 \times 11.8 = 590 \text{ N}$$</p>
+                    <p>The normal force is 590 N, which is greater than the student's weight (490 N). The student feels "heavier" during upward acceleration.</p>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> This problem tests understanding of Newton's Second Law in accelerating reference frames. A common error is to think N = mg (equilibrium), but the lift is accelerating. The net upward force must equal ma. When accelerating upward, N > mg; when accelerating downward, N < mg (feeling lighter).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem 2 -->
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleProblem(2)">
+                    <span class="problem-number">Problem 2</span>
+                    <span class="problem-toggle" id="toggle-2">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>A 3.0 kg block on a horizontal surface is connected by a light string over a massless, frictionless pulley to a hanging 2.0 kg mass. The coefficient of kinetic friction between the block and surface is 0.25. Find (a) the acceleration of the system and (b) the tension in the string.</p>
+                </div>
+                <div class="problem-solution" id="solution-2">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) System approach:</strong></p>
+                    <p>Total mass: 5.0 kg</p>
+                    <p>Driving force: Weight of hanging mass = 2.0 × 9.8 = 19.6 N</p>
+                    <p>Resisting force: Friction on block = μₖN = 0.25 × (3.0 × 9.8) = 7.35 N</p>
+                    <p>Net force: 19.6 - 7.35 = 12.25 N</p>
+                    <p>Acceleration: a = F_net / m_total = 12.25 / 5.0 = 2.45 m/s²</p>
+                    <p><strong>(b) Tension from hanging mass:</strong></p>
+                    <p>For hanging mass (taking down as positive):</p>
+                    <p>$$mg - T = ma$$</p>
+                    <p>$$T = m(g - a) = 2.0(9.8 - 2.45) = 2.0 \times 7.35 = 14.7 \text{ N}$$</p>
+                    <p><strong>Check using block equation:</strong></p>
+                    <p>$$T - f_k = ma$$</p>
+                    <p>$$T = ma + f_k = 3.0 \times 2.45 + 7.35 = 14.7 \text{ N}$$ ✓</p>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> This classic problem combines Newton's laws, friction, and connected objects. Key insights: (1) both objects have the same acceleration magnitude, (2) tension is NOT equal to the hanging weight because the system accelerates, (3) you can solve by analyzing the system as a whole or each object separately—both give the same answer.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem 3 -->
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleProblem(3)">
+                    <span class="problem-number">Problem 3</span>
+                    <span class="problem-toggle" id="toggle-3">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>A 1500 kg car traveling at 20 m/s collides with a stationary 1000 kg car. They stick together. Find (a) the velocity after collision, (b) the kinetic energy lost, and (c) where this energy went.</p>
+                </div>
+                <div class="problem-solution" id="solution-3">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Conservation of momentum:</strong></p>
+                    <p>$$m_1 v_1 + m_2 v_2 = (m_1 + m_2)v_f$$</p>
+                    <p>$$1500 \times 20 + 1000 \times 0 = (1500 + 1000)v_f$$</p>
+                    <p>$$30000 = 2500 v_f$$</p>
+                    <p>$$v_f = 12 \text{ m/s}$$</p>
+                    <p><strong>(b) Kinetic energy:</strong></p>
+                    <p>Initial: \(E_{k,i} = \frac{1}{2}(1500)(20)^2 = 300000\) J = 300 kJ</p>
+                    <p>Final: \(E_{k,f} = \frac{1}{2}(2500)(12)^2 = 180000\) J = 180 kJ</p>
+                    <p>Loss: \(\Delta E_k = 180 - 300 = -120\) kJ</p>
+                    <p><strong>(c) The 120 kJ was converted to:</strong></p>
+                    <ul>
+                        <li>Deformation energy (crumpling metal)</li>
+                        <li>Thermal energy (heating the collision zone)</li>
+                        <li>Sound energy (crash noise)</li>
+                        <li>Small amounts to vibration</li>
+                    </ul>
+                    <p>This is a perfectly inelastic collision—maximum KE loss for the given momentum.</p>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> This problem illustrates that momentum is ALWAYS conserved but kinetic energy is not. The coefficient of restitution is zero (objects stick). Note that 40% of the initial kinetic energy (120/300) was lost—typical for real car collisions. This is why crashes are so destructive.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem 4 -->
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleProblem(4)">
+                    <span class="problem-number">Problem 4</span>
+                    <span class="problem-toggle" id="toggle-4">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>A 70 kg skier starts from rest at the top of a 40 m high slope and reaches the bottom with speed 25 m/s. Calculate (a) the work done against friction, and (b) the average friction force if the slope length is 100 m.</p>
+                </div>
+                <div class="problem-solution" id="solution-4">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Energy analysis:</strong></p>
+                    <p>Initial energy: \(E_i = mgh = 70 \times 9.8 \times 40 = 27440\) J (all PE)</p>
+                    <p>Final energy: \(E_f = \frac{1}{2}mv^2 = \frac{1}{2} \times 70 \times 25^2 = 21875\) J (all KE)</p>
+                    <p>Work by friction:</p>
+                    <p>$$W_f = E_f - E_i = 21875 - 27440 = -5565 \text{ J}$$</p>
+                    <p>Work against friction: magnitude = 5565 J ≈ 5600 J</p>
+                    <p><strong>(b) Average friction force:</strong></p>
+                    <p>$$W_f = -f \times d$$</p>
+                    <p>$$-5565 = -f \times 100$$</p>
+                    <p>$$f = 55.65 \text{ N} \approx 56 \text{ N}$$</p>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> This problem uses energy conservation with non-conservative forces. Key point: friction does negative work, reducing mechanical energy. The skier loses potential energy (27.4 kJ) but gains less kinetic energy (21.9 kJ)—the difference (5.6 kJ) was converted to thermal energy through friction. Notice we didn't need to know the slope angle!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem 5 -->
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleProblem(5)">
+                    <span class="problem-number">Problem 5</span>
+                    <span class="problem-toggle" id="toggle-5">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>A spring with constant k = 200 N/m is compressed 0.15 m and used to launch a 0.50 kg ball vertically. Find the maximum height the ball reaches, assuming no energy losses.</p>
+                </div>
+                <div class="problem-solution" id="solution-5">
+                    <h4>Solution:</h4>
+                    <p><strong>Energy conservation:</strong></p>
+                    <p>Initial: Spring PE = \(\frac{1}{2}kx^2 = \frac{1}{2} \times 200 \times (0.15)^2 = 2.25\) J</p>
+                    <p>At maximum height: Gravitational PE = \(mgh\)</p>
+                    <p>By conservation:</p>
+                    <p>$$\frac{1}{2}kx^2 = mgh$$</p>
+                    <p>$$2.25 = 0.50 \times 9.8 \times h$$</p>
+                    <p>$$h = \frac{2.25}{4.9} = 0.459 \text{ m} \approx 0.46 \text{ m (or 46 cm)}$$</p>
+                    <p><strong>Alternative approach (find launch speed first):</strong></p>
+                    <p>At launch: Spring PE → Kinetic energy</p>
+                    <p>$$\frac{1}{2}kx^2 = \frac{1}{2}mv^2$$</p>
+                    <p>$$v = x\sqrt{\frac{k}{m}} = 0.15\sqrt{\frac{200}{0.50}} = 3.0 \text{ m/s}$$</p>
+                    <p>Then use kinematics or energy to find height: \(h = v^2/(2g) = 0.46\) m ✓</p>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> This problem chains two energy transformations: elastic PE → kinetic → gravitational PE. The direct energy approach is most efficient. Note that we don't need to find the launch speed (though we can). This demonstrates the power of energy methods—we skip intermediate details.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem 6 -->
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleProblem(6)">
+                    <span class="problem-number">Problem 6</span>
+                    <span class="problem-toggle" id="toggle-6">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>A 1200 kg car accelerates from rest to 25 m/s in 10 seconds. Calculate (a) the average power developed by the engine, (b) the instantaneous power at 25 m/s if the driving force is constant at 3000 N.</p>
+                </div>
+                <div class="problem-solution" id="solution-6">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Average power from energy:</strong></p>
+                    <p>Kinetic energy gained: \(\Delta E_k = \frac{1}{2}mv^2 - 0 = \frac{1}{2} \times 1200 \times 25^2 = 375000\) J</p>
+                    <p>Average power: \(P_{avg} = \frac{\Delta E_k}{t} = \frac{375000}{10} = 37500\) W = 37.5 kW</p>
+                    <p><strong>(b) Instantaneous power:</strong></p>
+                    <p>$$P = Fv = 3000 \times 25 = 75000 \text{ W} = 75 \text{ kW}$$</p>
+                    <p><strong>Note:</strong> Instantaneous power (75 kW) > average power (37.5 kW) because power increases with speed when force is constant. At start, v = 0 so P = 0; at end, P = 75 kW.</p>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> This problem shows two power calculation methods. Average power uses total energy/time. Instantaneous power uses P = Fv at a specific moment. For constant force, power increases linearly with speed, so instantaneous power at the end is twice the average. Real engines have more complex power curves.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="content-section">
+            <h2>Exam Tips and Common Misconceptions</h2>
+
+            <h3>Common Misconceptions</h3>
+            <div class="tip-item">
+                <strong>Misconception 1:</strong> "Heavy objects fall faster than light objects."<br>
+                <em>Reality:</em> In vacuum, all objects fall with the same acceleration regardless of mass. Air resistance causes apparent differences.
+            </div>
+
+            <div class="tip-item">
+                <strong>Misconception 2:</strong> "Force is needed to maintain motion."<br>
+                <em>Reality:</em> Force causes acceleration, not motion. Constant velocity requires zero net force (Newton's First Law).
+            </div>
+
+            <div class="tip-item">
+                <strong>Misconception 3:</strong> "Action-reaction pairs cancel out."<br>
+                <em>Reality:</em> They act on different objects, so they cannot cancel. Only forces on the same object can sum to zero.
+            </div>
+
+            <h3>IB Exam Tips</h3>
+            <div class="tip-item">Always start with FBDs for force problems. Examiners specifically look for these in Paper 2 long-answer questions.</div>
+            <div class="tip-item">Check directions carefully. Momentum and impulse problems require attention to sign conventions. Define positive direction at the start.</div>
+            <div class="tip-item">Show your working. IB uses error-carried-forward (ECF) marking. If your method is correct but you used a wrong earlier value, you still get method marks.</div>
+            <div class="tip-item">Unit consistency. Convert all quantities to SI units (kg, m, s) before calculating. Common errors: forgetting to convert g→kg, cm→m, km/h→m/s.</div>
+            <div class="tip-item">For energy problems, explicitly state your potential energy zero reference level—this demonstrates understanding.</div>
+            <div class="tip-item">Remember the static friction inequality: \(f_s \leq \mu_s N\) (can be anything up to maximum) versus kinetic friction equality: \(f_k = \mu_k N\) (constant value).</div>
+            <div class="tip-item">In collision problems, momentum is ALWAYS conserved in closed systems. Kinetic energy is only conserved in elastic collisions—check both.</div>
+        </div>
+
+        <!-- PLACEHOLDER END -->
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChat()" title="Need help? Ask me!">💬</button>
+    </div>
+
+    <!-- Lesson Navigation Footer -->
+    <div class="lesson-nav-footer">
+        <div class="lesson-nav-content">
+            <a href="lesson_a1.html" class="nav-btn nav-btn-prev">← Previous: A1 Motion</a>
+            <span>Topic A2</span>
+            <a href="lesson_a3.html" class="nav-btn nav-btn-next">Next: A3 Circular Motion →</a>
+        </div>
+    </div>
+
+    <script>
+        // Progress Tracking
+        let sectionsRead = new Set();
+        const totalSections = document.querySelectorAll('.content-section').length;
+
+        function updateProgress() {
+            const progress = (sectionsRead.size / totalSections) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('progress-percent').textContent = Math.round(progress) + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('lesson_a2_progress', JSON.stringify(Array.from(sectionsRead)));
+        }
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('lesson_a2_progress');
+            if (saved) {
+                sectionsRead = new Set(JSON.parse(saved));
+                updateProgress();
+            }
+        }
+
+        // Track section visibility using Intersection Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionIndex = Array.from(document.querySelectorAll('.content-section')).indexOf(entry.target);
+                    if (sectionIndex !== -1) {
+                        sectionsRead.add(sectionIndex);
+                        updateProgress();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Toggle Problem Solutions
+        function toggleProblem(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const toggle = document.getElementById('toggle-' + problemNumber);
+
+            if (solution.classList.contains('show')) {
+                solution.classList.remove('show');
+                toggle.classList.remove('open');
+            } else {
+                solution.classList.add('show');
+                toggle.classList.add('open');
+            }
+        }
+
+        // Chatbot Widget
+        function openChat() {
+            alert('Chatbot feature coming soon! This will connect you to an AI assistant to help with physics questions.');
+            // In a real implementation, this would open a chat interface
+        }
+
+        // Mark All as Complete Button
+        function markAllComplete() {
+            document.querySelectorAll('.content-section').forEach((section, index) => {
+                sectionsRead.add(index);
+            });
+            updateProgress();
+            alert('Great job! All sections marked as complete. 🎉');
+        }
+
+        // Reset Progress Button
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset your progress?')) {
+                sectionsRead.clear();
+                updateProgress();
+                localStorage.removeItem('lesson_a2_progress');
+                alert('Progress reset successfully!');
+            }
+        }
+
+        // Smooth Scrolling for Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Print Friendly Version
+        function printLesson() {
+            window.print();
+        }
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Press 'P' to print
+            if (e.key === 'p' && e.ctrlKey) {
+                e.preventDefault();
+                printLesson();
+            }
+            // Press 'C' to open chat
+            if (e.key === 'c' && e.ctrlKey && e.shiftKey) {
+                e.preventDefault();
+                openChat();
+            }
+        });
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+            console.log('IB Physics Lesson A2 loaded successfully!');
+            console.log('Total sections:', totalSections);
+        });
+
+        // Add print styles
+        window.addEventListener('beforeprint', () => {
+            // Expand all problem solutions for printing
+            document.querySelectorAll('.problem-solution').forEach(solution => {
+                solution.style.display = 'block';
+            });
+        });
+
+        window.addEventListener('afterprint', () => {
+            // Collapse solutions after printing
+            document.querySelectorAll('.problem-solution').forEach(solution => {
+                if (!solution.classList.contains('show')) {
+                    solution.style.display = 'none';
+                }
+            });
+        });
+
+        // Add MathJax configuration
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+
+        // Add animation when sections become visible
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+
+                    animateOnScroll.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe content sections for animation
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section, .definition-box').forEach(element => {
+                animateOnScroll.observe(element);
+            });
+        });
+
+        // Add "Back to Top" button functionality
+        let backToTopButton = document.createElement('button');
+        backToTopButton.innerHTML = '↑';
+        backToTopButton.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 998;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        `;
+        backToTopButton.onclick = () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        document.body.appendChild(backToTopButton);
+
+        // Show/hide back to top button
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.opacity = '1';
+            } else {
+                backToTopButton.style.opacity = '0';
+            }
+        });
+
+        // Add tooltip functionality for technical terms
+        function addTooltips() {
+            const terms = {
+                'momentum': 'The product of mass and velocity (p = mv)',
+                'impulse': 'The change in momentum caused by a force over time',
+                'kinetic energy': 'Energy of motion (Ek = ½mv²)',
+                'potential energy': 'Stored energy due to position',
+                'work': 'Energy transfer when a force acts through a distance'
+            };
+
+            document.querySelectorAll('.content-section p, .content-section li').forEach(element => {
+                Object.keys(terms).forEach(term => {
+                    const regex = new RegExp(`\\b${term}\\b`, 'gi');
+                    if (element.textContent.match(regex) && !element.querySelector('strong')) {
+                        element.innerHTML = element.innerHTML.replace(
+                            regex,
+                            `<span class="term-tooltip" title="${terms[term]}">$&</span>`
+                        );
+                    }
+                });
+            });
+        }
+
+        // Initialize tooltips after DOM loads
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(addTooltips, 1000);
+        });
+    </script>
+</body>
+</html>

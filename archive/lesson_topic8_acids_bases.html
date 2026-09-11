@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 8: Acids and Bases - IB Chemistry HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .lesson-header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .progress-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .progress-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #667eea;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #333;
+        }
+
+        .learning-objectives {
+            background: #f0f4ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .learning-objectives ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .learning-objectives li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .learning-objectives li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .practice-problem {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .problem-number {
+            font-weight: bold;
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-question {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .solution-toggle {
+            background: #ffc107;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .solution-toggle:hover {
+            background: #ffb300;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px dashed #ffc107;
+        }
+
+        .solution-content.active {
+            display: block;
+        }
+
+        .exam-tips {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .exam-tips h3 {
+            color: #d63031;
+            margin-top: 0;
+        }
+
+        .exam-tips ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .exam-tips li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .exam-tips li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        .chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        .navigation-footer {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-button.prev {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .lesson-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">Fluapi Learning</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#lessons">Lessons</a></li>
+                <li><a href="#practice">Practice</a></li>
+                <li><a href="#progress">Progress</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="lesson-header">
+            <h1 class="lesson-title">Topic 8: Acids and Bases</h1>
+            <div class="lesson-meta">
+                <span><strong>Course:</strong> IB Chemistry HL</span>
+                <span><strong>Code:</strong> IB-CHEM-HL-8</span>
+                <span><strong>Level:</strong> Higher Level</span>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-label">Lesson Progress: <span id="progress-text">0%</span></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2>Learning Objectives</h2>
+            <div class="learning-objectives">
+                <ul id="objectives-list">
+                    <li>Define acids and bases according to Bronsted-Lowry and Lewis theories</li>
+                    <li>Identify conjugate acid-base pairs and explain their relationship</li>
+                    <li>Distinguish between strong and weak acids/bases using dissociation constants</li>
+                    <li>Calculate pH, pOH, [H+], and [OH-] for strong and weak acid/base solutions</li>
+                    <li>Determine Ka, Kb, pKa, and pKb values and understand their relationships</li>
+                    <li>Apply the Lewis acid-base theory to electron pair donors and acceptors</li>
+                    <li>Sketch and interpret pH curves for strong-strong, strong-weak, weak-strong titrations</li>
+                    <li>Calculate pH at equivalence points and explain buffer action</li>
+                    <li>Design buffer solutions with specific pH values using Henderson-Hasselbalch equation</li>
+                    <li>Explain the environmental impact of acid deposition and mitigation strategies</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Bronsted-Lowry Acid</div>
+                <div class="definition-text">A proton (H+) donor that transfers a hydrogen ion to another species during a reaction.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Bronsted-Lowry Base</div>
+                <div class="definition-text">A proton (H+) acceptor that receives a hydrogen ion from another species during a reaction.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Conjugate Acid-Base Pair</div>
+                <div class="definition-text">Two species that differ by a single proton (H+). The acid donates H+ to form its conjugate base, while the base accepts H+ to form its conjugate acid.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Amphiprotic Species</div>
+                <div class="definition-text">A substance that can act as both a Bronsted-Lowry acid and base, capable of donating or accepting a proton (e.g., H2O, HCO3-, HSO4-).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Lewis Acid</div>
+                <div class="definition-text">An electron pair acceptor with an incomplete octet or the ability to expand its valence shell (e.g., BF3, Al3+, H+).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Lewis Base</div>
+                <div class="definition-text">An electron pair donor with a lone pair of electrons available for bonding (e.g., NH3, OH-, H2O).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Acid Dissociation Constant (Ka)</div>
+                <div class="definition-text">Equilibrium constant for the dissociation of a weak acid: Ka = [H+][A-]/[HA]. Larger Ka indicates stronger acid.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Buffer Solution</div>
+                <div class="definition-text">A solution that resists pH change when small amounts of acid or base are added, containing a weak acid and its conjugate base or a weak base and its conjugate acid.</div>
+            </div>
+        </div>
+
+        <div class="content-card" id="content-section">
+            <h2>Prerequisites and Introduction</h2>
+
+            <h3>Links to Prior Knowledge</h3>
+            <p>Before diving into Topic 8, you should be comfortable with:</p>
+            <ul>
+                <li><strong>Topic 1:</strong> Mole calculations, concentration (mol dm-3), and stoichiometry</li>
+                <li><strong>Topic 5:</strong> Energetics (enthalpy of neutralization)</li>
+                <li><strong>Topic 7:</strong> Equilibrium concepts, equilibrium constants, and Le Chatelier's principle</li>
+                <li><strong>Topic 18:</strong> Equilibrium law applications (HL)</li>
+            </ul>
+
+            <p>Acids and bases are fundamental to chemistry, appearing in biological systems (blood pH regulation), industrial processes (fertilizer production), environmental issues (acid rain), and everyday products (cleaning agents, food preservatives). Understanding acid-base chemistry requires integrating equilibrium principles with quantitative calculations.</p>
+
+            <h3>Why This Topic Matters</h3>
+            <p>Acid-base reactions are among the most common and important in chemistry. They govern:</p>
+            <ul>
+                <li>Biological pH regulation (blood, cellular fluids)</li>
+                <li>Industrial synthesis (Haber process, contact process)</li>
+                <li>Environmental chemistry (ocean acidification, acid rain)</li>
+                <li>Analytical chemistry (titrations, indicators)</li>
+                <li>Pharmaceutical design (drug solubility and absorption)</li>
+            </ul>
+
+            <p>The IB examination heavily tests your ability to apply multiple concepts simultaneously: equilibrium principles, logarithmic calculations, and conceptual understanding of acid-base behavior.</p>
+
+            <h2>Bronsted-Lowry Theory</h2>
+
+            <h3>Foundation: What Makes an Acid or Base?</h3>
+            <p>The Bronsted-Lowry theory (1923) defines acids and bases in terms of proton transfer, which is more general than the earlier Arrhenius definition.</p>
+
+            <p><strong>Key Principle:</strong> Acid-base reactions are proton (H+) transfer reactions.</p>
+
+            <p>Consider the reaction:</p>
+            <p style="text-align: center; font-style: italic;">HCl(aq) + H₂O(l) → H₃O⁺(aq) + Cl⁻(aq)</p>
+
+            <p>Here, HCl donates a proton to H₂O. HCl is the Bronsted-Lowry acid, and H₂O is the Bronsted-Lowry base.</p>
+
+            <h3>Conjugate Acid-Base Pairs</h3>
+            <p><strong>Critical Concept:</strong> Every acid has a conjugate base, and every base has a conjugate acid.</p>
+
+            <p>When HCl donates a proton, it forms Cl⁻. These two species (HCl and Cl⁻) form a conjugate acid-base pair. Similarly, H₂O and H₃O⁺ form the second conjugate pair.</p>
+
+            <p>General pattern:</p>
+            <p style="text-align: center; font-style: italic;">Acid₁ + Base₂ ⇌ Base₁ + Acid₂</p>
+
+            <p><strong>Example:</strong> Identify conjugate pairs in:</p>
+            <p style="text-align: center; font-style: italic;">NH₃(aq) + H₂O(l) ⇌ NH₄⁺(aq) + OH⁻(aq)</p>
+
+            <ul>
+                <li>NH₃ (base) and NH₄⁺ (conjugate acid) - differ by one H⁺</li>
+                <li>H₂O (acid) and OH⁻ (conjugate base) - differ by one H⁺</li>
+            </ul>
+
+            <h3>Amphiprotic Species</h3>
+            <p>Some species can act as either acids or bases depending on what they react with. These are called <strong>amphiprotic</strong> (or amphoteric when referring to oxides/hydroxides).</p>
+
+            <p><strong>Key Examples:</strong></p>
+            <ul>
+                <li><strong>Water (H₂O):</strong> Acts as base with HCl, acts as acid with NH₃</li>
+                <li><strong>Hydrogen carbonate (HCO₃⁻):</strong> Can donate H⁺ to form CO₃²⁻ or accept H⁺ to form H₂CO₃</li>
+                <li><strong>Hydrogen sulfate (HSO₄⁻):</strong> Can donate H⁺ to form SO₄²⁻ or accept H⁺ to form H₂SO₄</li>
+            </ul>
+
+            <h3>Auto-ionization of Water</h3>
+            <p>Water undergoes self-ionization:</p>
+            <p style="text-align: center; font-style: italic;">H₂O(l) ⇌ H⁺(aq) + OH⁻(aq)</p>
+
+            <p>The equilibrium constant for this reaction is:</p>
+            <p style="text-align: center; font-style: italic;">Kw = [H⁺][OH⁻] = 1.0 × 10⁻¹⁴ at 25°C</p>
+
+            <p>This is the <strong>ionic product of water</strong> and is fundamental to all pH calculations.</p>
+
+            <h2>Strong vs Weak Acids and Bases</h2>
+
+            <h3>The Crucial Distinction</h3>
+            <p><strong>Strong acids/bases:</strong> Completely dissociate in water (100% ionization)</p>
+            <p><strong>Weak acids/bases:</strong> Partially dissociate in water (&lt; 100% ionization, typically &lt; 5%)</p>
+
+            <p>This distinction is NOT about concentration - you can have dilute strong acid or concentrated weak acid.</p>
+
+            <h3>Strong Acids (Complete Dissociation)</h3>
+            <p>You must memorize these six:</p>
+            <ol>
+                <li>Hydrochloric acid (HCl)</li>
+                <li>Hydrobromic acid (HBr)</li>
+                <li>Hydroiodic acid (HI)</li>
+                <li>Nitric acid (HNO₃)</li>
+                <li>Sulfuric acid (H₂SO₄) - first proton only</li>
+                <li>Perchloric acid (HClO₄)</li>
+            </ol>
+
+            <p>For a strong acid: [H⁺] = [acid]initial</p>
+
+            <h3>Strong Bases (Complete Dissociation)</h3>
+            <p>Group 1 hydroxides:</p>
+            <ul>
+                <li>Lithium hydroxide (LiOH)</li>
+                <li>Sodium hydroxide (NaOH)</li>
+                <li>Potassium hydroxide (KOH)</li>
+            </ul>
+
+            <p>Group 2 hydroxides (sparingly soluble but what dissolves is fully dissociated):</p>
+            <ul>
+                <li>Calcium hydroxide (Ca(OH)₂)</li>
+                <li>Barium hydroxide (Ba(OH)₂)</li>
+            </ul>
+
+            <h3>Weak Acids and Ka</h3>
+            <p>Weak acids establish an equilibrium:</p>
+            <p style="text-align: center; font-style: italic;">HA(aq) ⇌ H⁺(aq) + A⁻(aq)</p>
+
+            <p>The acid dissociation constant:</p>
+            <p style="text-align: center; font-style: italic;">Ka = [H⁺][A⁻]/[HA]</p>
+
+            <p>Larger Ka means stronger acid (more dissociation). Typical weak acids have Ka values from 10⁻² to 10⁻¹⁴.</p>
+
+            <h3>The Ka × Kb Relationship</h3>
+            <p>For a conjugate acid-base pair:</p>
+            <p style="text-align: center; font-style: italic;">Ka × Kb = Kw = 1.0 × 10⁻¹⁴</p>
+
+            <p>This relationship is incredibly useful. If you know Ka for an acid, you can immediately find Kb for its conjugate base.</p>
+
+            <h2>The pH Scale and Calculations</h2>
+
+            <h3>Understanding pH</h3>
+            <p>The pH scale is a logarithmic scale that expresses hydrogen ion concentration:</p>
+            <p style="text-align: center; font-style: italic;">pH = -log₁₀[H⁺]</p>
+
+            <p>Similarly:</p>
+            <ul>
+                <li>pOH = -log₁₀[OH⁻]</li>
+                <li>pKa = -log₁₀Ka</li>
+                <li>pKb = -log₁₀Kb</li>
+                <li>pKw = -log₁₀Kw = 14.00 at 25°C</li>
+            </ul>
+
+            <p>From Kw = [H⁺][OH⁻], taking negative logarithms:</p>
+            <p style="text-align: center; font-style: italic;">pH + pOH = 14.00 at 25°C</p>
+
+            <h3>pH Calculations: Strong Acids</h3>
+            <p><strong>Example:</strong> Calculate pH of 0.01 M HCl</p>
+
+            <p>Since HCl is a strong acid, it completely dissociates:</p>
+            <p>[H⁺] = 0.01 M = 1.0 × 10⁻² M</p>
+            <p>pH = -log(1.0 × 10⁻²) = 2.00</p>
+
+            <h3>pH Calculations: Strong Bases</h3>
+            <p><strong>Example:</strong> Calculate pH of 0.02 M NaOH</p>
+
+            <p>NaOH completely dissociates:</p>
+            <p>[OH⁻] = 0.02 M = 2.0 × 10⁻² M</p>
+            <p>pOH = -log(2.0 × 10⁻²) = 1.70</p>
+            <p>pH = 14.00 - 1.70 = 12.30</p>
+
+            <h2>Lewis Acids and Bases (HL)</h2>
+
+            <h3>Beyond Proton Transfer</h3>
+            <p>The Lewis theory (1923) is more general than Bronsted-Lowry because it doesn't require protons.</p>
+
+            <p><strong>Lewis Definition:</strong></p>
+            <ul>
+                <li><strong>Lewis acid:</strong> Electron pair acceptor (electrophile)</li>
+                <li><strong>Lewis base:</strong> Electron pair donor (nucleophile)</li>
+            </ul>
+
+            <p>All Bronsted-Lowry acids/bases are Lewis acids/bases, but the reverse is not true.</p>
+
+            <h3>Characteristics of Lewis Acids</h3>
+            <p>Lewis acids have:</p>
+            <ol>
+                <li>Incomplete octet (e.g., BF₃, AlCl₃)</li>
+                <li>Empty orbitals that can accept electrons (e.g., transition metal cations)</li>
+                <li>Ability to expand valence shell (e.g., SiF₄)</li>
+                <li>Positive charge (e.g., H⁺, Fe³⁺, Cu²⁺)</li>
+            </ol>
+
+            <p><strong>Example 1:</strong> BF₃ + NH₃ → F₃B-NH₃</p>
+
+            <p>Boron in BF₃ has only 6 electrons in its valence shell. Nitrogen in NH₃ has a lone pair. The lone pair on N donates into the empty orbital on B, forming a coordinate covalent bond.</p>
+            <ul>
+                <li>BF₃ = Lewis acid (accepts electron pair)</li>
+                <li>NH₃ = Lewis base (donates electron pair)</li>
+            </ul>
+
+            <h2>pH Curves and Titrations (HL)</h2>
+
+            <h3>The Four Types of Titrations</h3>
+            <ol>
+                <li><strong>Strong acid + Strong base:</strong> pH at equivalence = 7.00</li>
+                <li><strong>Strong acid + Weak base:</strong> pH at equivalence &lt; 7.00</li>
+                <li><strong>Weak acid + Strong base:</strong> pH at equivalence &gt; 7.00</li>
+                <li><strong>Weak acid + Weak base:</strong> Not covered in IB (no sharp equivalence point)</li>
+            </ol>
+
+            <h3>Key Features of pH Curves</h3>
+            <ul>
+                <li><strong>Starting pH:</strong> Determined by the acid or base in the flask</li>
+                <li><strong>Equivalence point:</strong> Moles of acid = moles of base added</li>
+                <li><strong>Buffer region:</strong> Present in weak acid/strong base or strong acid/weak base titrations</li>
+                <li><strong>Vertical section:</strong> Sharp pH change near equivalence point</li>
+                <li><strong>End pH:</strong> Determined by excess titrant</li>
+            </ul>
+
+            <h3>Choosing Indicators</h3>
+            <p>Indicators change color over a pH range (typically ±1 pH unit from their pKin).</p>
+
+            <p><strong>Selection rule:</strong> Choose an indicator whose range falls within the vertical section of the curve.</p>
+
+            <p><strong>Common indicators:</strong></p>
+            <ul>
+                <li><strong>Methyl orange:</strong> Range 3.1-4.4 (red to yellow)</li>
+                <li><strong>Bromothymol blue:</strong> Range 6.0-7.6 (yellow to blue)</li>
+                <li><strong>Phenolphthalein:</strong> Range 8.3-10.0 (colorless to pink)</li>
+            </ul>
+
+            <h2>Buffer Solutions (HL)</h2>
+
+            <h3>What Is a Buffer?</h3>
+            <p>A buffer solution resists pH change when small amounts of acid or base are added. Buffers are crucial in:</p>
+            <ul>
+                <li>Biological systems (blood pH = 7.40 ± 0.05)</li>
+                <li>Industrial processes</li>
+                <li>Analytical chemistry</li>
+                <li>Pharmaceutical formulations</li>
+            </ul>
+
+            <h3>How Buffers Work</h3>
+            <p>A buffer contains:</p>
+            <ol>
+                <li>A weak acid (HA) and its conjugate base (A⁻), OR</li>
+                <li>A weak base (B) and its conjugate acid (BH⁺)</li>
+            </ol>
+
+            <p>Both components must be present in significant amounts.</p>
+
+            <p><strong>Mechanism:</strong></p>
+
+            <p><strong>When acid (H⁺) is added:</strong><br>
+            The conjugate base neutralizes it: A⁻ + H⁺ → HA</p>
+
+            <p><strong>When base (OH⁻) is added:</strong><br>
+            The weak acid neutralizes it: HA + OH⁻ → A⁻ + H₂O</p>
+
+            <h3>Henderson-Hasselbalch Equation</h3>
+            <p>For a buffer containing weak acid HA and its salt NaA:</p>
+
+            <p style="text-align: center; font-style: italic;">pH = pKa + log([A⁻]/[HA])</p>
+
+            <p>This is the <strong>Henderson-Hasselbalch equation</strong>.</p>
+
+            <h3>Buffer Capacity</h3>
+            <p><strong>Maximum buffer capacity</strong> occurs when [HA] = [A⁻], i.e., pH = pKa.</p>
+
+            <p>A buffer is effective within approximately ±1 pH unit of its pKa.</p>
+
+            <h2>Acid Deposition</h2>
+
+            <h3>Sources and Chemistry</h3>
+            <p><strong>Acid rain</strong> is precipitation with pH &lt; 5.6. Natural rainwater has pH ≈ 5.6 due to dissolved CO₂.</p>
+
+            <p><strong>Main pollutants causing acid rain:</strong></p>
+
+            <p><strong>1. Sulfur dioxide (SO₂)</strong></p>
+            <ul>
+                <li>Source: Combustion of sulfur-containing fossil fuels, volcanic eruptions</li>
+                <li>Chemistry: S(in fuel) + O₂(g) → SO₂(g)</li>
+            </ul>
+
+            <p><strong>2. Nitrogen oxides (NOx)</strong></p>
+            <ul>
+                <li>Source: High-temperature combustion (cars, power plants)</li>
+                <li>Chemistry: N₂(g) + O₂(g) → 2NO(g)</li>
+            </ul>
+
+            <h3>Environmental Effects</h3>
+            <p><strong>1. Aquatic ecosystems</strong></p>
+            <ul>
+                <li>pH &lt; 6: Fish reproduction affected</li>
+                <li>pH &lt; 5: Adult fish die, aluminum leached from soil becomes toxic</li>
+                <li>pH &lt; 4.5: Most aquatic life destroyed</li>
+            </ul>
+
+            <p><strong>2. Soil chemistry</strong></p>
+            <ul>
+                <li>Leaches essential nutrients (Ca²⁺, Mg²⁺, K⁺)</li>
+                <li>Mobilizes toxic aluminum ions (Al³⁺)</li>
+                <li>Reduces soil fertility</li>
+            </ul>
+
+            <p><strong>3. Buildings and monuments</strong></p>
+            <ul>
+                <li>Limestone/marble (CaCO₃) reacts with acids</li>
+                <li>Metal corrosion accelerated</li>
+            </ul>
+
+            <h3>Mitigation Strategies</h3>
+            <p><strong>1. Pre-combustion</strong></p>
+            <ul>
+                <li>Use low-sulfur fuels</li>
+                <li>Desulfurize fuels before burning</li>
+                <li>Switch to renewable energy</li>
+            </ul>
+
+            <p><strong>2. Post-combustion (Flue gas desulfurization)</strong></p>
+            <ul>
+                <li>Scrubbers: Pass exhaust through CaO/CaCO₃ slurry</li>
+                <li>Catalytic converters for NOx in vehicles</li>
+            </ul>
+
+            <p><strong>3. Remediation</strong></p>
+            <ul>
+                <li>Liming: Adding CaCO₃ or CaO to acidified lakes/soils</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h2>Practice Problems</h2>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 1</div>
+                <div class="problem-question">Identify the conjugate acid-base pairs in the following reaction: H₂PO₄⁻(aq) + OH⁻(aq) ⇌ HPO₄²⁻(aq) + H₂O(l)</div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution-content" id="solution-1">
+                    <p><strong>Solution:</strong></p>
+                    <p>Pair 1: H₂PO₄⁻ (acid) and HPO₄²⁻ (conjugate base) - differ by one H⁺<br>
+                    Pair 2: H₂O (conjugate acid) and OH⁻ (base) - differ by one H⁺</p>
+                    <p><em>Remember: The acid is on the left, its conjugate base on the right. The base is on the left, its conjugate acid on the right.</em></p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 2</div>
+                <div class="problem-question">Calculate the pH of a 0.025 M solution of HNO₃.</div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution-content" id="solution-2">
+                    <p><strong>Solution:</strong></p>
+                    <p>HNO₃ is a strong acid, so it completely dissociates:<br>
+                    HNO₃(aq) → H⁺(aq) + NO₃⁻(aq)</p>
+                    <p>[H⁺] = 0.025 M = 2.5 × 10⁻² M</p>
+                    <p>pH = -log[H⁺] = -log(2.5 × 10⁻²)<br>
+                    pH = 1.60</p>
+                    <p><strong>Final answer: pH = 1.60</strong></p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 3</div>
+                <div class="problem-question">A solution of Ca(OH)₂ has a concentration of 0.0040 M. Calculate its pH.</div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution-content" id="solution-3">
+                    <p><strong>Solution:</strong></p>
+                    <p>Ca(OH)₂ is a strong base that dissociates completely:<br>
+                    Ca(OH)₂(aq) → Ca²⁺(aq) + 2OH⁻(aq)</p>
+                    <p>Each formula unit produces 2 OH⁻ ions:<br>
+                    [OH⁻] = 2 × 0.0040 = 0.0080 M = 8.0 × 10⁻³ M</p>
+                    <p>pOH = -log[OH⁻] = -log(8.0 × 10⁻³) = 2.10</p>
+                    <p>pH = 14.00 - pOH = 14.00 - 2.10 = 11.90</p>
+                    <p><strong>Final answer: pH = 11.90</strong></p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 4</div>
+                <div class="problem-question">Calculate the pH of a 0.25 M solution of methanoic acid (HCOOH) with Ka = 1.8 × 10⁻⁴.</div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution-content" id="solution-4">
+                    <p><strong>Solution:</strong></p>
+                    <p>Set up ICE table for HCOOH(aq) ⇌ H⁺(aq) + HCOO⁻(aq)</p>
+                    <p>Ka = [H⁺][HCOO⁻]/[HCOOH] = x²/(0.25-x)</p>
+                    <p>Assuming x &lt;&lt; 0.25:<br>
+                    1.8 × 10⁻⁴ = x²/0.25<br>
+                    x² = 4.5 × 10⁻⁵<br>
+                    x = 6.7 × 10⁻³ M</p>
+                    <p>Check assumption: 6.7 × 10⁻³/0.25 = 0.027 = 2.7% &lt; 5% ✓</p>
+                    <p>[H⁺] = 6.7 × 10⁻³ M<br>
+                    pH = -log(6.7 × 10⁻³) = 2.17</p>
+                    <p><strong>Final answer: pH = 2.17</strong></p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 5</div>
+                <div class="problem-question">The Ka for benzoic acid (C₆H₅COOH) is 6.3 × 10⁻⁵. Calculate Kb for the benzoate ion (C₆H₅COO⁻).</div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution-content" id="solution-5">
+                    <p><strong>Solution:</strong></p>
+                    <p>For a conjugate acid-base pair:<br>
+                    Ka × Kb = Kw</p>
+                    <p>Kb = Kw/Ka = (1.0 × 10⁻¹⁴)/(6.3 × 10⁻⁵)</p>
+                    <p>Kb = 1.6 × 10⁻¹⁰</p>
+                    <p><strong>Final answer: Kb = 1.6 × 10⁻¹⁰</strong></p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 6</div>
+                <div class="problem-question">A buffer solution contains 0.30 M NH₃ and 0.20 M NH₄Cl. Given that Kb for NH₃ is 1.8 × 10⁻⁵, calculate the pH of this buffer.</div>
+                <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+                <div class="solution-content" id="solution-6">
+                    <p><strong>Solution:</strong></p>
+                    <p>Step 1: Find pKb for NH₃<br>
+                    pKb = -log(1.8 × 10⁻⁵) = 4.74</p>
+                    <p>Step 2: Find pKa for NH₄⁺ (the conjugate acid)<br>
+                    pKa + pKb = 14.00<br>
+                    pKa = 14.00 - 4.74 = 9.26</p>
+                    <p>Step 3: Use Henderson-Hasselbalch equation<br>
+                    pH = pKa + log([base]/[acid])<br>
+                    pH = pKa + log([NH₃]/[NH₄⁺])<br>
+                    pH = 9.26 + log(0.30/0.20)<br>
+                    pH = 9.26 + log(1.5)<br>
+                    pH = 9.26 + 0.18<br>
+                    pH = 9.44</p>
+                    <p><strong>Final answer: pH = 9.44</strong></p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 7</div>
+                <div class="problem-question">Explain why a mixture of HCl and NaCl does NOT act as a buffer, but a mixture of CH₃COOH and CH₃COONa does.</div>
+                <button class="solution-toggle" onclick="toggleSolution(7)">Show Solution</button>
+                <div class="solution-content" id="solution-7">
+                    <p><strong>Solution:</strong></p>
+                    <p>A buffer requires BOTH:<br>
+                    1. A weak acid (or weak base)<br>
+                    2. Its conjugate base (or conjugate acid)</p>
+                    <p><strong>HCl + NaCl:</strong><br>
+                    - HCl is a STRONG acid - it completely dissociates<br>
+                    - Cl⁻ is an extremely weak base (conjugate of strong acid)<br>
+                    - When OH⁻ is added, there's no weak acid to neutralize it<br>
+                    - When H⁺ is added, Cl⁻ cannot effectively neutralize it<br>
+                    - Result: NO buffer action</p>
+                    <p><strong>CH₃COOH + CH₃COONa:</strong><br>
+                    - CH₃COOH is a WEAK acid - partially dissociated<br>
+                    - CH₃COO⁻ is a moderately strong conjugate base<br>
+                    - When OH⁻ is added: CH₃COOH neutralizes it<br>
+                    - When H⁺ is added: CH₃COO⁻ neutralizes it<br>
+                    - Result: Buffer action</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <div class="exam-tips">
+                <h3>Exam Tips</h3>
+                <ul>
+                    <li>Always check if an acid/base is strong or weak before calculating pH - this is the most common error.</li>
+                    <li>When using the approximation for weak acids (x &lt;&lt; c), ALWAYS verify it afterward. If x/c &gt; 0.05, you must use the quadratic formula.</li>
+                    <li>For conjugate pairs, remember: strong acids have very weak conjugate bases, weak acids have moderately strong conjugate bases.</li>
+                    <li>In Henderson-Hasselbalch calculations, you can use moles OR concentrations (since volume cancels), but NEVER use mass directly.</li>
+                    <li>On pH curves, the half-equivalence point is where pH = pKa for the weak acid.</li>
+                    <li>When selecting indicators, justify your choice by stating the indicator range falls within the vertical section of the curve.</li>
+                    <li>For buffer problems, identify which component neutralizes added acid (the base form) and which neutralizes added base (the acid form).</li>
+                    <li>In Lewis acid-base questions, draw Lewis structures to show electron pair movement.</li>
+                    <li>For acid rain questions, know both the chemistry and the environmental impacts.</li>
+                    <li>Remember temperature affects Kw. At 25°C, Kw = 1.0 × 10⁻¹⁴ and pH + pOH = 14.00.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="navigation-footer">
+            <button class="nav-button prev" onclick="previousLesson()">← Previous Lesson</button>
+            <button class="nav-button next" onclick="nextLesson()">Next Lesson →</button>
+        </div>
+    </div>
+
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChatbot()" title="Ask a question">💬</button>
+    </div>
+
+    <script>
+        // Progress tracking
+        let scrollProgress = 0;
+        const contentSections = document.querySelectorAll('.content-card');
+
+        function updateProgress() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = Math.round(progress) + '%';
+
+            // Store progress in localStorage
+            localStorage.setItem('lesson_progress_topic8', progress);
+        }
+
+        window.addEventListener('scroll', updateProgress);
+
+        // Load saved progress
+        window.addEventListener('load', () => {
+            const savedProgress = localStorage.getItem('lesson_progress_topic8');
+            if (savedProgress) {
+                document.getElementById('progress-fill').style.width = savedProgress + '%';
+                document.getElementById('progress-text').textContent = Math.round(savedProgress) + '%';
+            }
+        });
+
+        // Toggle solution visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = solution.previousElementSibling;
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('active');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Navigation functions
+        function previousLesson() {
+            alert('Navigating to previous lesson...');
+            // Implement navigation logic here
+        }
+
+        function nextLesson() {
+            alert('Navigating to next lesson...');
+            // Implement navigation logic here
+        }
+
+        // Chatbot function
+        function openChatbot() {
+            alert('Chatbot feature coming soon! Ask questions about acids and bases.');
+            // Implement chatbot functionality here
+        }
+
+        // Interactive objectives checklist
+        const objectives = document.querySelectorAll('.learning-objectives li');
+        objectives.forEach((obj, index) => {
+            obj.style.cursor = 'pointer';
+            obj.addEventListener('click', function() {
+                this.style.textDecoration = this.style.textDecoration === 'line-through' ? 'none' : 'line-through';
+                this.style.opacity = this.style.opacity === '0.5' ? '1' : '0.5';
+
+                // Save to localStorage
+                const completed = this.style.textDecoration === 'line-through';
+                localStorage.setItem('objective_' + index, completed);
+            });
+
+            // Load saved state
+            const savedState = localStorage.getItem('objective_' + index);
+            if (savedState === 'true') {
+                obj.style.textDecoration = 'line-through';
+                obj.style.opacity = '0.5';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Press 'n' for next lesson
+            if (e.key === 'n' && !e.ctrlKey && !e.metaKey) {
+                nextLesson();
+            }
+            // Press 'p' for previous lesson
+            if (e.key === 'p' && !e.ctrlKey && !e.metaKey) {
+                previousLesson();
+            }
+            // Press 'c' to open chatbot
+            if (e.key === 'c' && !e.ctrlKey && !e.metaKey) {
+                openChatbot();
+            }
+        });
+    </script>
+</body>
+</html>

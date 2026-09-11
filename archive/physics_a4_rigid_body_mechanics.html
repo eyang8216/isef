@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic A4: Rigid Body Mechanics - Physics Higher Level</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .navbar-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .progress-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-header h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            background: #f0f4ff;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .objectives-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .objectives-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .objectives-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .objectives-list li {
+            padding: 0.75rem 0 0.75rem 2rem;
+            position: relative;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .objectives-list li:last-child {
+            border-bottom: none;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-box .term {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-box .definition {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content-section h3 {
+            color: #555;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .content-section strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .content-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .content-section table th,
+        .content-section table td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+
+        .content-section table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .problem-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            cursor: pointer;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .problem-header:hover {
+            background: #e9ecef;
+        }
+
+        .problem-number {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .problem-question {
+            flex: 1;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .toggle-icon {
+            color: #667eea;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .problem-solution {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .problem-solution.show {
+            max-height: 5000px;
+        }
+
+        .solution-content {
+            padding: 1.5rem;
+            background: #f0f4ff;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .solution-content h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .solution-content pre {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .exam-tips {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .exam-tips h3 {
+            color: #f57c00;
+            margin-bottom: 1rem;
+        }
+
+        .exam-tips ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .exam-tips li {
+            padding: 0.5rem 0 0.5rem 1.5rem;
+            position: relative;
+        }
+
+        .exam-tips li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        .chatbot-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            z-index: 999;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        .lesson-nav {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            margin-top: 3rem;
+        }
+
+        .lesson-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button.prev {
+            background: #f0f4ff;
+            color: #667eea;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .navbar h1 {
+                font-size: 1.2rem;
+            }
+
+            .lesson-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .problem-header {
+                flex-direction: column;
+            }
+
+            .chatbot-button {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>Topic A4: Rigid Body Mechanics</h1>
+            <span class="navbar-badge">Higher Level Physics</span>
+        </div>
+    </nav>
+
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">Progress: 0%</div>
+    </div>
+
+    <div class="container">
+        <div class="lesson-header">
+            <h2>Topic A4: Rigid Body Mechanics</h2>
+            <div class="lesson-meta">
+                <span class="meta-badge">Syllabus Code: A4</span>
+                <span class="meta-badge">Level: Higher Level</span>
+                <span class="meta-badge">Subject: Physics</span>
+            </div>
+        </div>
+
+        <div class="objectives-section">
+            <h3>Learning Objectives</h3>
+            <ul class="objectives-list">
+                <li>Define and calculate torque as the product of force and perpendicular distance from the axis of rotation</li>
+                <li>Apply the conditions for translational and rotational equilibrium to solve problems involving rigid bodies</li>
+                <li>Define angular displacement, angular velocity, and angular acceleration and relate them to their linear analogues</li>
+                <li>Apply rotational kinematics equations to solve problems involving uniform angular acceleration</li>
+                <li>Define moment of inertia and calculate it for systems of point masses and common geometric shapes</li>
+                <li>Apply Newton's second law for rotation (τ = Iα) to analyze rotational motion</li>
+                <li>Calculate rotational kinetic energy and apply conservation of energy to rotating systems</li>
+                <li>Define angular momentum and apply the principle of conservation of angular momentum</li>
+                <li>Analyze rolling motion without slipping and distinguish it from pure rotation or translation</li>
+                <li>Solve complex problems involving combined translational and rotational motion</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="term">Torque (τ)</div>
+                <div class="definition">The rotational equivalent of force, defined as τ = rF sin θ, where r is the distance from the axis of rotation, F is the applied force, and θ is the angle between r and F. Measured in N⋅m.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Moment of Inertia (I)</div>
+                <div class="definition">The rotational equivalent of mass, representing resistance to angular acceleration. For a point mass: I = mr². For extended objects, I = ∫r²dm. Measured in kg⋅m².</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Angular Velocity (ω)</div>
+                <div class="definition">The rate of change of angular displacement, ω = dθ/dt = 2πf. Related to linear velocity by v = rω. Measured in rad⋅s⁻¹.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Angular Momentum (L)</div>
+                <div class="definition">The rotational equivalent of linear momentum, defined as L = Iω for rotation about a fixed axis. Conserved in the absence of external torques. Measured in kg⋅m²⋅s⁻¹ or J⋅s.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Rotational Kinetic Energy</div>
+                <div class="definition">The kinetic energy associated with rotational motion, given by KE_rot = ½Iω². For rolling objects, total kinetic energy is the sum of translational and rotational components.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Rolling Without Slipping</div>
+                <div class="definition">Motion where a rotating object moves translationally such that the contact point has zero instantaneous velocity. The condition is v_cm = rω, where v_cm is the center of mass velocity.</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Introduction and Prerequisites</h2>
+            <p>Rigid body mechanics extends Newtonian mechanics from point particles to extended objects with size and shape. A <strong>rigid body</strong> is an idealized object where the distances between all constituent particles remain constant—it doesn't deform under applied forces.</p>
+            <p>This topic builds directly on:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Newton's laws of motion</strong> (Topics A1-A2): Force, mass, and acceleration</li>
+                <li><strong>Energy and momentum</strong> (Topic A3): Conservation principles</li>
+                <li><strong>Vectors</strong>: Adding forces and calculating components</li>
+                <li><strong>Circular motion</strong>: The foundation for understanding rotation</li>
+            </ul>
+            <p>The key conceptual shift is recognizing that extended objects can rotate about axes, not just translate through space. Every linear quantity (force, velocity, momentum, kinetic energy) has a rotational analogue, and the mathematical structures are beautifully parallel.</p>
+            <p><strong>Real-world relevance</strong>: Engineers design rotating machinery (turbines, flywheels, gears), architects ensure structural stability, and athletes optimize rotational techniques in gymnastics, diving, and figure skating. Understanding rigid body mechanics is essential for analyzing any system where rotation matters.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Torque: The Cause of Rotational Motion</h2>
+            <p>Just as force causes linear acceleration, <strong>torque</strong> (or moment) causes angular acceleration. But unlike force, torque depends not only on the magnitude of the applied force but also on <em>where</em> and <em>how</em> it's applied.</p>
+
+            <h3>Defining Torque</h3>
+            <p>Consider a force <strong>F</strong> applied to a rigid body at position <strong>r</strong> relative to some axis of rotation. The torque is:</p>
+            <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;"><strong>τ = rF sin θ</strong></p>
+            <p>where θ is the angle between <strong>r</strong> and <strong>F</strong>. Equivalently, τ = r⊥F, where r⊥ is the perpendicular distance from the axis to the line of action of the force (the <strong>lever arm</strong> or <strong>moment arm</strong>).</p>
+            <p>In vector form: <strong>τ</strong> = <strong>r</strong> × <strong>F</strong> (cross product), which gives both magnitude and direction (using the right-hand rule).</p>
+
+            <h3>Key insights:</h3>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Location matters</strong>: A force applied farther from the axis produces more torque</li>
+                <li><strong>Direction matters</strong>: Maximum torque occurs when F ⊥ r (θ = 90°); zero torque when F || r (θ = 0° or 180°)</li>
+                <li><strong>Sign convention</strong>: Counterclockwise torques are typically positive, clockwise negative</li>
+            </ol>
+
+            <p><strong>Physical interpretation</strong>: Torque measures the "turning effectiveness" of a force. This is why door handles are placed far from hinges and why longer wrenches make bolts easier to loosen.</p>
+
+            <h3>Worked Example 1: Opening a Door</h3>
+            <p>A door of width 0.80 m has a handle 0.75 m from the hinges. You push with 25 N at three different angles:</p>
+            <p>a) Perpendicular to the door<br>
+            b) At 60° to the door surface<br>
+            c) Directly toward the hinges</p>
+
+            <p><strong>Solution:</strong></p>
+            <p>a) θ = 90°, so τ = rF sin(90°) = (0.75)(25)(1) = <strong>18.75 N⋅m</strong></p>
+            <p>b) θ = 60°, so τ = rF sin(60°) = (0.75)(25)(0.866) = <strong>16.2 N⋅m</strong></p>
+            <p>c) θ = 0°, so τ = rF sin(0°) = 0 <strong>N⋅m</strong> (no rotation despite applying force!)</p>
+            <p>This demonstrates why you instinctively push perpendicular to a door—it maximizes torque.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Equilibrium of Rigid Bodies</h2>
+            <p>A rigid body is in <strong>complete equilibrium</strong> when it experiences neither linear nor angular acceleration. This requires TWO conditions:</p>
+
+            <p><strong>1. Translational Equilibrium</strong>: ΣF = 0 (vector sum)</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>The net force in any direction is zero</li>
+                <li>Ensures no linear acceleration of the center of mass</li>
+            </ul>
+
+            <p><strong>2. Rotational Equilibrium</strong>: Στ = 0 (about any axis)</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>The net torque about any axis is zero</li>
+                <li>Ensures no angular acceleration</li>
+            </ul>
+
+            <p><strong>Critical insight</strong>: Both conditions must be satisfied independently. A body can have zero net force but still rotate (if torques don't balance), or have balanced torques but still accelerate linearly (if forces don't balance).</p>
+
+            <h3>Problem-Solving Strategy for Equilibrium:</h3>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Draw a clear diagram</strong> showing all forces and their points of application</li>
+                <li><strong>Choose a coordinate system</strong> for resolving forces</li>
+                <li><strong>Choose an axis of rotation</strong> (strategically pick one through an unknown force to simplify calculations)</li>
+                <li><strong>Apply ΣF_x = 0 and ΣF_y = 0</strong> to get force equations</li>
+                <li><strong>Apply Στ = 0</strong> about your chosen axis</li>
+                <li><strong>Solve the system of equations</strong> algebraically</li>
+            </ol>
+        </div>
+
+        <div class="content-section">
+            <h2>Rotational Kinematics: Describing Rotational Motion</h2>
+            <p>Just as we describe translational motion with position, velocity, and acceleration, we describe rotational motion with their angular analogues.</p>
+
+            <h3>Angular Quantities</h3>
+            <table>
+                <tr>
+                    <th>Linear</th>
+                    <th>Angular</th>
+                    <th>Relationship</th>
+                </tr>
+                <tr>
+                    <td>Displacement: s</td>
+                    <td>Angular displacement: θ</td>
+                    <td>s = rθ</td>
+                </tr>
+                <tr>
+                    <td>Velocity: v</td>
+                    <td>Angular velocity: ω</td>
+                    <td>v = rω</td>
+                </tr>
+                <tr>
+                    <td>Acceleration: a</td>
+                    <td>Angular acceleration: α</td>
+                    <td>a = rα</td>
+                </tr>
+            </table>
+
+            <p><strong>Units</strong>: Angular displacement in radians (rad), angular velocity in rad⋅s⁻¹, angular acceleration in rad⋅s⁻².</p>
+            <p><strong>Important</strong>: These relationships (s = rθ, etc.) only hold when θ is measured in radians, not degrees.</p>
+
+            <h3>Rotational Kinematics Equations</h3>
+            <p>For <strong>constant angular acceleration</strong>, the equations parallel those for constant linear acceleration:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem; list-style: none;">
+                <li>ω = ω₀ + αt</li>
+                <li>θ = ω₀t + ½αt²</li>
+                <li>ω² = ω₀² + 2αθ</li>
+                <li>θ = ½(ω₀ + ω)t</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Moment of Inertia: Rotational Mass</h2>
+            <p>The <strong>moment of inertia</strong> (I) is the rotational analogue of mass—it quantifies an object's resistance to angular acceleration. But unlike mass (an intrinsic property), moment of inertia depends on both the mass distribution AND the axis of rotation.</p>
+
+            <h3>Definition</h3>
+            <p>For a point mass m at distance r from the axis: <strong>I = mr²</strong></p>
+            <p>For a system of point masses: <strong>I = Σmᵢrᵢ²</strong></p>
+            <p>For a continuous object: <strong>I = ∫r²dm</strong></p>
+
+            <p><strong>Key insight</strong>: Mass farther from the axis contributes more to I (due to the r² factor). This is why figure skaters spin faster when they pull their arms in—they reduce their moment of inertia.</p>
+
+            <h3>Common Moments of Inertia (about central axes):</h3>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Point mass</strong> (distance r): I = mr²</li>
+                <li><strong>Thin rod</strong> (about center, perpendicular): I = (1/12)mL²</li>
+                <li><strong>Thin rod</strong> (about end, perpendicular): I = (1/3)mL²</li>
+                <li><strong>Solid disk/cylinder</strong> (about central axis): I = (1/2)mr²</li>
+                <li><strong>Hollow cylinder/hoop</strong> (about central axis): I = mr²</li>
+                <li><strong>Solid sphere</strong> (about diameter): I = (2/5)mr²</li>
+                <li><strong>Hollow sphere</strong> (about diameter): I = (2/3)mr²</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Rotational Dynamics: Newton's Second Law for Rotation</h2>
+            <p>Newton's second law for rotation relates torque, moment of inertia, and angular acceleration:</p>
+            <p style="text-align: center; font-size: 1.3rem; margin: 1.5rem 0;"><strong>τ_net = Iα</strong></p>
+            <p>This is exactly analogous to F_net = ma, with τ ↔ F, I ↔ m, α ↔ a.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Rotational Kinetic Energy</h2>
+            <p>A rotating object possesses kinetic energy by virtue of its motion. For rotation about a fixed axis:</p>
+            <p style="text-align: center; font-size: 1.3rem; margin: 1.5rem 0;"><strong>KE_rot = ½Iω²</strong></p>
+            <p>This parallels the translational form KE = (1/2)mv², with I ↔ m and ω ↔ v.</p>
+
+            <h3>Total Kinetic Energy for Rolling Objects:</h3>
+            <p>When an object both translates AND rotates (like a rolling ball), its total kinetic energy is:</p>
+            <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;"><strong>KE_total = ½mv_cm² + ½I_cm ω²</strong></p>
+        </div>
+
+        <div class="content-section">
+            <h2>Angular Momentum and Its Conservation</h2>
+            <p><strong>Angular momentum</strong> (L) is the rotational analogue of linear momentum. For rotation about a fixed axis:</p>
+            <p style="text-align: center; font-size: 1.3rem; margin: 1.5rem 0;"><strong>L = Iω</strong></p>
+
+            <h3>Conservation of Angular Momentum:</h3>
+            <p>When the net external torque on a system is zero: <strong>L = Iω = constant</strong></p>
+            <p>This is one of the most powerful principles in physics. If I changes, ω must change to keep L constant.</p>
+
+            <h3>Applications:</h3>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Figure skaters</strong>: Pulling arms in decreases I, so ω increases (spins faster)</li>
+                <li><strong>Divers</strong>: Tucking into a ball decreases I for faster rotation; extending slows rotation for entry</li>
+                <li><strong>Planets</strong>: Conservation explains Kepler's second law (equal areas in equal times)</li>
+                <li><strong>Gyroscopes</strong>: Resist changes in orientation due to angular momentum conservation</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Rolling Motion Without Slipping</h2>
+            <p><strong>Rolling motion</strong> combines rotation and translation. When an object rolls without slipping, there's a specific relationship between its angular and linear velocities.</p>
+
+            <h3>The Rolling Condition:</h3>
+            <p>For rolling without slipping: <strong>v_cm = rω</strong></p>
+            <p>where v_cm is the velocity of the center of mass, r is the radius, and ω is the angular velocity.</p>
+
+            <p><strong>Why?</strong> At the contact point, the object must move with the same velocity as the surface (zero relative velocity = no slipping). The center moves with v_cm while rotating with ω; the contact point velocity is v_cm - rω. Setting this to zero gives the rolling condition.</p>
+
+            <h3>Objects Rolling Down Inclines:</h3>
+            <p>When an object rolls down an incline without slipping, the final velocity depends on the shape (through I), not the mass or radius!</p>
+            <p>Ranking objects by final speed (fastest to slowest):</p>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Sliding block</strong> (no rotation): I/(mr²) = 0</li>
+                <li><strong>Solid sphere</strong>: I/(mr²) = 2/5</li>
+                <li><strong>Solid disk/cylinder</strong>: I/(mr²) = 1/2</li>
+                <li><strong>Hollow sphere</strong>: I/(mr²) = 2/3</li>
+                <li><strong>Hollow cylinder/hoop</strong>: I/(mr²) = 1</li>
+            </ol>
+        </div>
+
+        <div class="content-section">
+            <h2>Common Misconceptions and Pitfalls</h2>
+
+            <h3>Misconception 1: "Torque and force are the same thing"</h3>
+            <p>✗ Wrong: While related, torque is fundamentally different—it's force multiplied by distance and depends on WHERE the force is applied.</p>
+            <p>✓ Correct: Torque causes angular acceleration; force causes linear acceleration. Same force can produce different torques depending on application point and direction.</p>
+
+            <h3>Misconception 2: "Moment of inertia is just another name for mass"</h3>
+            <p>✗ Wrong: I is not an intrinsic property—it depends on the axis of rotation.</p>
+            <p>✓ Correct: The same object has different moments of inertia about different axes. A rod has I = mL²/12 about its center but I = mL²/3 about its end.</p>
+
+            <h3>Misconception 3: "If net torque is zero, the object isn't rotating"</h3>
+            <p>✗ Wrong: Zero net torque means zero ANGULAR ACCELERATION, not zero angular velocity.</p>
+            <p>✓ Correct: An object can rotate at constant ω with Στ = 0 (rotational version of Newton's first law).</p>
+
+            <h3>Misconception 4: "When angular momentum is conserved, kinetic energy is also conserved"</h3>
+            <p>✗ Wrong: These are independent conservation laws.</p>
+            <p>✓ Correct: Angular momentum can be conserved while kinetic energy changes (e.g., the ice skater problem). Energy can be added or removed by internal forces, but angular momentum requires external torque to change.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Real-World Applications</h2>
+
+            <h3>Engineering: Flywheel Energy Storage</h3>
+            <p>Flywheels store energy as rotational kinetic energy. Modern systems use carbon-fiber rotors spinning at 50,000+ rpm in vacuum to store grid-scale energy. The high ω and optimized I (mass at large r) maximize energy storage: E = ½Iω². Flywheels have applications in regenerative braking (Formula 1), grid stabilization, and spacecraft attitude control.</p>
+
+            <h3>Sports Biomechanics: Gymnastics and Diving</h3>
+            <p>Athletes manipulate their moment of inertia mid-flight to control rotation speed. Tucking decreases I, increasing ω (via L = Iω = constant). A diver uses this to complete multiple somersaults, then extends to reduce ω for clean entry. The same principle applies in figure skating spins and platform diving.</p>
+
+            <h3>Astronomy: Planetary Motion and Pulsars</h3>
+            <p>Kepler's second law (equal areas in equal times) is a direct consequence of angular momentum conservation. When planets orbit closer to the Sun, they move faster—compensating for smaller r with larger v to keep L = mrv constant.</p>
+            <p>Pulsars (rotating neutron stars) spin incredibly fast because collapsing stars conserve angular momentum. As radius decreases dramatically, angular velocity increases proportionally.</p>
+        </div>
+
+        <div class="exam-tips">
+            <h3>Exam Tips</h3>
+            <ul>
+                <li>Always start torque problems by clearly identifying the axis of rotation—torques depend on this choice</li>
+                <li>When applying equilibrium conditions, choose an axis through an unknown force to eliminate it from the torque equation</li>
+                <li>Remember angular measurements must be in radians for the relationships v = rω, a = rα, and s = rθ to work</li>
+                <li>For rolling motion, always check whether the surface is rough (maintains v = rω) or frictionless (cannot sustain rolling)</li>
+                <li>In energy problems with rolling, include BOTH translational and rotational kinetic energy: KE_total = ½mv² + ½Iω²</li>
+                <li>Conservation of angular momentum (L = Iω = constant) only applies when net external torque is zero—check this condition first</li>
+                <li>When moment of inertia changes and angular momentum is conserved, kinetic energy usually changes—don't assume both are conserved</li>
+                <li>The parallel axis theorem (I = I_cm + md²) is essential for calculating moments of inertia about off-center axes</li>
+                <li>In IB exams, you must state the moment of inertia formula you're using for each shape—don't just use a number</li>
+                <li>For objects rolling down inclines, the final velocity depends on shape (through I/mr²) but NOT on mass or radius individually</li>
+                <li>Draw free-body diagrams showing all forces AND their points of application—location matters for torque calculations</li>
+                <li>Check units throughout: torque is N⋅m (not joules!), angular momentum is kg⋅m²⋅s⁻¹, moment of inertia is kg⋅m²</li>
+                <li>When net torque is zero, angular velocity is constant (not necessarily zero)—this is Newton's first law for rotation</li>
+                <li>For exam data-based questions, always analyze uncertainties in calculated quantities using appropriate propagation methods</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Practice Problems</h2>
+        </div>
+
+        <div class="problem-container">
+            <div class="problem-header" onclick="toggleSolution(1)">
+                <span class="problem-number">Problem 1</span>
+                <div class="problem-question">
+                    A mechanic applies a force of 80 N at the end of a 0.35 m wrench to loosen a bolt. If the wrench makes an angle of 30° with the horizontal, and the force is applied perpendicular to the wrench, calculate: (a) the torque applied to the bolt, and (b) the minimum force required if applied perpendicular at a distance of 0.25 m from the bolt.
+                </div>
+                <span class="toggle-icon" id="icon1">▼</span>
+            </div>
+            <div class="problem-solution" id="solution1">
+                <div class="solution-content">
+                    <h4>Solution:</h4>
+                    <p>(a) Since the force is perpendicular to the wrench, θ = 90°:</p>
+                    <pre>τ = rF sin θ = (0.35)(80) sin(90°) = (0.35)(80)(1) = 28 N⋅m</pre>
+                    <p>(b) For the same torque with r = 0.25 m:</p>
+                    <pre>τ = rF
+28 = (0.25)F
+F = 28/0.25 = 112 N</pre>
+                    <h4>Explanation:</h4>
+                    <p>Torque depends on both force magnitude and lever arm. When the distance decreases, more force is needed to produce the same torque. The angle of the wrench with the horizontal is irrelevant here—what matters is that the force is perpendicular to the wrench (θ = 90° between r and F).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="problem-container">
+            <div class="problem-header" onclick="toggleSolution(2)">
+                <span class="problem-number">Problem 2</span>
+                <div class="problem-question">
+                    A uniform ladder of length 5.0 m and mass 15 kg leans against a frictionless wall at an angle of 60° to the ground. A 70 kg person stands 3.5 m up the ladder from its base. Calculate the normal forces at the ground and wall.
+                </div>
+                <span class="toggle-icon" id="icon2">▼</span>
+            </div>
+            <div class="problem-solution" id="solution2">
+                <div class="solution-content">
+                    <h4>Solution:</h4>
+                    <p>Let N_g = normal force at ground (vertical), N_w = normal force at wall (horizontal), f = friction at ground (horizontal).</p>
+                    <p><strong>Translational equilibrium:</strong></p>
+                    <pre>Horizontal: f = N_w
+Vertical: N_g = (15 + 70)g = 85(9.8) = 833 N</pre>
+                    <p><strong>Rotational equilibrium (about base):</strong></p>
+                    <p>Perpendicular distances from base:</p>
+                    <ul>
+                        <li>Ladder weight: 2.5 cos(60°) = 1.25 m</li>
+                        <li>Person weight: 3.5 cos(60°) = 1.75 m</li>
+                        <li>Wall force: 5.0 sin(60°) = 4.33 m</li>
+                    </ul>
+                    <pre>Στ = 0:
+N_w(4.33) = 15(9.8)(1.25) + 70(9.8)(1.75)
+N_w(4.33) = 183.75 + 1201 = 1384.75
+N_w = 320 N</pre>
+                    <p>Therefore: f = 320 N, N_g = 833 N, N_w = 320 N</p>
+                    <h4>Explanation:</h4>
+                    <p>In ladder problems, choose an axis strategically. Taking torques about the base eliminates both N_g and f from the rotational equation, leaving only N_w. The frictionless wall can only provide normal force (perpendicular), while friction at the ground prevents sliding.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="problem-container">
+            <div class="problem-header" onclick="toggleSolution(3)">
+                <span class="problem-number">Problem 3</span>
+                <div class="problem-question">
+                    A solid cylinder and a thin-walled hollow cylinder, both with mass 2.5 kg and radius 0.10 m, are released simultaneously from rest at the top of a 5.0 m long incline tilted at 30°. Calculate: (a) the acceleration of each cylinder, (b) the time for each to reach the bottom, and (c) explain physically why one is faster.
+                </div>
+                <span class="toggle-icon" id="icon3">▼</span>
+            </div>
+            <div class="problem-solution" id="solution3">
+                <div class="solution-content">
+                    <h4>Solution:</h4>
+                    <p>(a) For rolling without slipping down an incline: a = g sin θ / (1 + I/(mr²))</p>
+                    <pre>Solid cylinder: I/(mr²) = 1/2
+a_solid = 9.8 sin(30°) / (1 + 1/2) = 4.9/1.5 = 3.27 m⋅s⁻²
+
+Hollow cylinder: I/(mr²) = 1
+a_hollow = 9.8 sin(30°) / (1 + 1) = 4.9/2 = 2.45 m⋅s⁻²</pre>
+                    <p>(b) Using s = ½at² with s = 5.0 m:</p>
+                    <pre>Solid: t = √(2s/a) = √(2(5.0)/3.27) = 1.75 s
+Hollow: t = √(2s/a) = √(2(5.0)/2.45) = 2.02 s</pre>
+                    <p>(c) The solid cylinder is faster because it has a lower I/(mr²) ratio.</p>
+                    <h4>Explanation:</h4>
+                    <p>When rolling down an incline, gravitational potential energy converts into both translational and rotational kinetic energy. Objects with higher I/(mr²) ratios put more energy into rotation, leaving less for translation, resulting in lower acceleration.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="problem-container">
+            <div class="problem-header" onclick="toggleSolution(4)">
+                <span class="problem-number">Problem 4</span>
+                <div class="problem-question">
+                    A uniform disk of mass 8.0 kg and radius 0.30 m rotates about its central axis at 120 rpm. Calculate: (a) its angular momentum, (b) the constant torque needed to stop it in 4.0 s, and (c) the number of revolutions it makes while stopping.
+                </div>
+                <span class="toggle-icon" id="icon4">▼</span>
+            </div>
+            <div class="problem-solution" id="solution4">
+                <div class="solution-content">
+                    <h4>Solution:</h4>
+                    <p>(a) First convert angular velocity:</p>
+                    <pre>ω = 120 rpm × (2π/60) = 4π rad⋅s⁻¹ = 12.57 rad⋅s⁻¹
+
+Moment of inertia for disk: I = (1/2)mr² = (1/2)(8.0)(0.30)² = 0.36 kg⋅m²
+
+Angular momentum: L = Iω = (0.36)(12.57) = 4.52 kg⋅m²⋅s⁻¹</pre>
+                    <p>(b) Using τ = ΔL/Δt:</p>
+                    <pre>τ = (0 - 4.52)/4.0 = -1.13 N⋅m
+Magnitude: 1.13 N⋅m (negative indicates opposing rotation)</pre>
+                    <p>(c) First find α:</p>
+                    <pre>α = (ω - ω₀)/t = (0 - 12.57)/4.0 = -3.14 rad⋅s⁻²
+
+Using ω² = ω₀² + 2αθ with ω = 0:
+0 = (12.57)² + 2(-3.14)θ
+θ = (12.57)²/(2 × 3.14) = 25.2 rad
+
+Revolutions = θ/(2π) = 25.2/(2π) = 4.0 revolutions</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="problem-container">
+            <div class="problem-header" onclick="toggleSolution(5)">
+                <span class="problem-number">Problem 5</span>
+                <div class="problem-question">
+                    A 0.50 kg ball with radius 0.050 m rolls without slipping at 2.0 m⋅s⁻¹ along a horizontal surface, then encounters a frictionless incline. Treating the ball as a solid sphere, calculate: (a) its total kinetic energy at the base, (b) the maximum height it reaches on the incline, and (c) explain why it reaches a different height than a sliding block with the same initial speed.
+                </div>
+                <span class="toggle-icon" id="icon5">▼</span>
+            </div>
+            <div class="problem-solution" id="solution5">
+                <div class="solution-content">
+                    <h4>Solution:</h4>
+                    <p>(a) For a solid sphere rolling: I = (2/5)mr²</p>
+                    <pre>KE_trans = (1/2)mv² = (1/2)(0.50)(2.0)² = 1.0 J
+KE_rot = (1/2)Iω² = (1/2)[(2/5)mr²](v/r)² = (1/5)mv² = (1/5)(0.50)(2.0)² = 0.40 J
+KE_total = 1.0 + 0.40 = 1.4 J</pre>
+                    <p>(b) On the frictionless ramp, rotation cannot change (no torque). Only translational KE converts to PE:</p>
+                    <pre>mgh = KE_trans = 1.0 J
+h = 1.0/(mg) = 1.0/(0.50 × 9.8) = 0.204 m = 20.4 cm</pre>
+                    <p>(c) A sliding block would reach the same height (0.204 m) because on a frictionless surface, only translational KE converts to PE. The rotational energy (0.40 J) remains throughout. If the incline had friction, the ball would reach a greater height because both KE components would convert to PE.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="chatbot-button" onclick="openChatbot()" title="Ask a question">💬</button>
+
+    <footer class="lesson-nav">
+        <div class="lesson-nav-content">
+            <button class="nav-button prev" onclick="previousLesson()">
+                ← Previous Lesson
+            </button>
+            <button class="nav-button next" onclick="nextLesson()">
+                Next Lesson →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // Progress tracking
+        let progress = 0;
+        const sections = document.querySelectorAll('.content-section, .problem-container, .objectives-section');
+        const totalSections = sections.length;
+
+        function updateProgress() {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            progress = Math.min((scrollPosition / documentHeight) * 100, 100);
+
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = 'Progress: ' + Math.round(progress) + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('lesson_a4_progress', progress);
+        }
+
+        // Load saved progress
+        window.addEventListener('load', function() {
+            const savedProgress = localStorage.getItem('lesson_a4_progress');
+            if (savedProgress) {
+                progress = parseFloat(savedProgress);
+                document.getElementById('progressFill').style.width = progress + '%';
+                document.getElementById('progressText').textContent = 'Progress: ' + Math.round(progress) + '%';
+            }
+        });
+
+        window.addEventListener('scroll', updateProgress);
+
+        // Toggle solution visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution' + problemNumber);
+            const icon = document.getElementById('icon' + problemNumber);
+
+            if (solution.classList.contains('show')) {
+                solution.classList.remove('show');
+                icon.classList.remove('open');
+            } else {
+                solution.classList.add('show');
+                icon.classList.add('open');
+            }
+        }
+
+        // Chatbot functionality
+        function openChatbot() {
+            alert('Chatbot feature: This would open an AI assistant to help answer questions about rigid body mechanics. In a full implementation, this would connect to an AI service.');
+        }
+
+        // Navigation functions
+        function previousLesson() {
+            alert('Navigate to previous lesson (Topic A3: Energy and Momentum)');
+            // In production: window.location.href = 'physics_a3.html';
+        }
+
+        function nextLesson() {
+            alert('Navigate to next lesson (Topic A5 or similar)');
+            // In production: window.location.href = 'physics_a5.html';
+        }
+
+        // Track problem attempts
+        const problemAttempts = {};
+
+        sections.forEach((section, index) => {
+            section.setAttribute('data-section-id', index);
+        });
+
+        // Mark sections as viewed when scrolled into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.getAttribute('data-section-id');
+                    if (sectionId) {
+                        localStorage.setItem('lesson_a4_section_' + sectionId, 'viewed');
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C4: Standing Waves - IB Physics HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .navbar-menu a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f0f0f0;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-title {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .progress-percentage {
+            font-size: 14px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 40px 30px;
+        }
+
+        .lesson-header {
+            margin-bottom: 40px;
+        }
+
+        .lesson-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .lesson-title {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Learning Objectives */
+        .objectives-box {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+        }
+
+        .objectives-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .objectives-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .objectives-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .content-section h2 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .content-section h3 {
+            color: #555;
+            font-size: 22px;
+            margin: 25px 0 15px 0;
+        }
+
+        .content-section p {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .content-section ul, .content-section ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content-section li {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        /* Math Formatting */
+        .math-block {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .definition-term {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .definition-text {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Practice Problems */
+        .problems-section {
+            margin-top: 50px;
+        }
+
+        .problem-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s;
+        }
+
+        .problem-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .problem-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .problem-question {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .solution-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .solution-toggle:hover {
+            background: #5568d3;
+        }
+
+        .solution-content {
+            display: none;
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .solution-content.show {
+            display: block;
+        }
+
+        .solution-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        /* Exam Tips */
+        .tips-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .tips-box h3 {
+            color: #f57c00;
+            margin-bottom: 15px;
+        }
+
+        .tips-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .tips-box li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-button:after {
+            content: "💬";
+            font-size: 30px;
+        }
+
+        /* Lesson Navigation Footer */
+        .lesson-footer {
+            background: #f8f9fa;
+            padding: 30px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-button.prev {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .mark-complete {
+            background: #4caf50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mark-complete:hover {
+            background: #45a049;
+        }
+
+        .mark-complete.completed {
+            background: #2e7d32;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+
+            .container {
+                border-radius: 0;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .navbar-menu {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .lesson-title {
+                font-size: 28px;
+            }
+
+            .lesson-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="navbar-brand">IB Physics HL</div>
+            <div class="navbar-menu">
+                <a href="index.html">Home</a>
+                <a href="lessons.html">Lessons</a>
+                <a href="practice.html">Practice</a>
+                <a href="resources.html">Resources</a>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-title">Lesson Progress</span>
+                <span class="progress-percentage">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Lesson Header -->
+            <div class="lesson-header">
+                <span class="lesson-badge">HL • Topic C: Wave Behaviour</span>
+                <h1 class="lesson-title">C4: Standing Waves</h1>
+                <div class="lesson-meta">
+                    <span>📚 Syllabus Code: C4</span>
+                    <span>⏱️ ~90 minutes</span>
+                    <span>🎯 Level: Higher Level</span>
+                </div>
+            </div>
+
+            <!-- Learning Objectives -->
+            <div class="objectives-box">
+                <h3>Learning Objectives</h3>
+                <ul>
+                    <li>Describe the formation of standing waves in terms of superposition of two identical waves traveling in opposite directions</li>
+                    <li>Identify nodes and antinodes on standing wave diagrams and explain their physical significance</li>
+                    <li>Derive and apply the boundary conditions for standing waves on strings fixed at both ends</li>
+                    <li>Calculate wavelengths, frequencies, and harmonic numbers for standing waves using L = nλ/2</li>
+                    <li>Analyze standing waves in air columns for both open and closed pipes</li>
+                    <li>Explain the relationship between harmonics, overtones, and the fundamental frequency</li>
+                    <li>Apply the principle of resonance to standing wave systems</li>
+                    <li>Solve problems involving standing waves in various physical contexts including musical instruments</li>
+                    <li>Interpret graphical representations of standing wave patterns for different harmonics</li>
+                    <li>Distinguish between progressive (traveling) waves and standing (stationary) waves</li>
+                </ul>
+            </div>
+
+            <!-- Content Section 1 -->
+            <div class="content-section">
+                <h2>Introduction and Conceptual Foundation</h2>
+                <p>Standing waves (also called stationary waves) represent one of the most important wave phenomena in physics, with applications ranging from musical instruments to quantum mechanics. Unlike progressive waves that transfer energy through space, standing waves appear to oscillate in place, creating fixed patterns of nodes and antinodes.</p>
+
+                <p><strong>The Physical Origin:</strong> Standing waves form when two identical waves traveling in opposite directions superpose. This typically occurs when a wave reflects from a boundary and interferes with the incident wave. The key insight is that while individual particles still oscillate, the overall pattern remains stationary in space.</p>
+
+                <p><strong>Why This Matters:</strong> Standing waves explain why guitars produce specific pitches, why organ pipes have particular lengths, and fundamentally, they provide the basis for understanding atomic orbitals in quantum mechanics. The IB syllabus emphasizes both the mathematical treatment and physical understanding of these phenomena.</p>
+
+                <p><strong>Prerequisite Knowledge Links:</strong></p>
+                <ul>
+                    <li>Wave properties (wavelength, frequency, amplitude) from Topic C1</li>
+                    <li>Principle of superposition from Topic C2</li>
+                    <li>Reflection and transmission of waves from Topic C3</li>
+                    <li>Trigonometric functions and their properties (Mathematics)</li>
+                </ul>
+
+                <p><strong>Key Conceptual Difference:</strong> Progressive waves have the form y = A sin(kx - ωt) where phase changes with both position and time. Standing waves have the form y = 2A sin(kx) cos(ωt), showing that spatial and temporal variations are separated—all points oscillate in phase but with different amplitudes.</p>
+            </div>
+
+            <!-- Content Section 2 -->
+            <div class="content-section">
+                <h2>Formation of Standing Waves: The Superposition Approach</h2>
+
+                <h3>Mathematical Derivation from First Principles</h3>
+                <p>Consider two identical sinusoidal waves traveling in opposite directions:</p>
+                <ul>
+                    <li>Wave traveling right: y₁ = A sin(kx - ωt)</li>
+                    <li>Wave traveling left: y₂ = A sin(kx + ωt)</li>
+                </ul>
+
+                <p>By the principle of superposition, the resultant displacement is:</p>
+                <div class="math-block">
+                    y = y₁ + y₂ = A sin(kx - ωt) + A sin(kx + ωt)
+                </div>
+
+                <p>Using the trigonometric identity sin(α) + sin(β) = 2 sin((α + β)/2) cos((α - β)/2):</p>
+                <div class="math-block">
+                    y = 2A sin(kx) cos(ωt)
+                </div>
+
+                <p>This is the <strong>standing wave equation</strong>. Notice that:</p>
+                <ol>
+                    <li>Amplitude varies with position: A_pos = 2A sin(kx)</li>
+                    <li>Time variation is purely harmonic: cos(ωt)</li>
+                    <li>All points oscillate with the same frequency but different amplitudes</li>
+                    <li>No energy is transported along the wave—energy oscillates between kinetic and potential</li>
+                </ol>
+
+                <h3>Physical Interpretation</h3>
+                <ul>
+                    <li>At certain positions (nodes), sin(kx) = 0, so y = 0 for all times</li>
+                    <li>At other positions (antinodes), sin(kx) = ±1, giving maximum amplitude 2A</li>
+                    <li>Between nodes and antinodes, particles oscillate with intermediate amplitudes</li>
+                    <li>All particles between two consecutive nodes oscillate in phase</li>
+                    <li>Particles on opposite sides of a node oscillate in antiphase (180° phase difference)</li>
+                </ul>
+
+                <p><strong>Energy Considerations:</strong> Unlike progressive waves where energy flows continuously, in standing waves energy is stored. At maximum displacement (cos(ωt) = ±1), all energy is potential. At zero displacement (cos(ωt) = 0), all energy is kinetic. The time-averaged energy flow is zero.</p>
+            </div>
+
+            <!-- Content Section 3 -->
+            <div class="content-section">
+                <h2>Nodes and Antinodes: Mathematical Locations</h2>
+
+                <p><strong>Nodes</strong> are positions of zero amplitude for all time. They occur where:</p>
+                <div class="math-block">
+                    sin(kx) = 0<br>
+                    kx = nπ  where n = 0, 1, 2, 3, ...<br>
+                    x_n = n(λ/2)
+                </div>
+
+                <p>Nodes are separated by half a wavelength: Δx_node = λ/2</p>
+
+                <p><strong>Antinodes</strong> are positions of maximum amplitude. They occur where:</p>
+                <div class="math-block">
+                    |sin(kx)| = 1<br>
+                    kx = (n + 1/2)π  where n = 0, 1, 2, 3, ...<br>
+                    x_a = (n + 1/2)(λ/2)
+                </div>
+
+                <p>Antinodes are also separated by λ/2, and are located midway between consecutive nodes.</p>
+
+                <p><strong>Maximum amplitude at antinodes</strong> is 2A, exactly twice the amplitude of either constituent wave. This is constructive interference occurring at all times (though the displacement varies as cos(ωt)).</p>
+
+                <p><strong>Graphical Representation:</strong> When drawing standing waves:</p>
+                <ul>
+                    <li>The envelope (dashed lines) shows y = ±2A sin(kx)</li>
+                    <li>At different times, the wave oscillates between these envelopes</li>
+                    <li>Nodes remain at zero displacement always</li>
+                    <li>The wavelength λ is twice the distance between consecutive nodes</li>
+                </ul>
+
+                <p><strong>Common Misconception:</strong> Students often think particles at nodes are "held fixed." In reality, the superposition naturally produces zero displacement at these points—no physical constraint is needed (except at boundaries).</p>
+            </div>
+
+            <!-- Content Section 4 -->
+            <div class="content-section">
+                <h2>Boundary Conditions and Resonance</h2>
+
+                <p>Standing waves don't form for arbitrary wavelengths—only specific wavelengths satisfy the boundary conditions. This is the phenomenon of <strong>resonance</strong>.</p>
+
+                <p><strong>Fixed Boundary Condition:</strong> At a rigid boundary (e.g., string tied to a wall), the displacement must be zero. This requires a node at the boundary.</p>
+
+                <p><strong>Free Boundary Condition:</strong> At a free boundary (e.g., open end of a pipe), the displacement can be maximum. This requires an antinode at the boundary.</p>
+
+                <h3>String Fixed at Both Ends</h3>
+                <p>For a string of length L fixed at x = 0 and x = L:</p>
+                <ul>
+                    <li>Node required at x = 0 (automatically satisfied: sin(0) = 0)</li>
+                    <li>Node required at x = L: requires sin(kL) = 0</li>
+                </ul>
+
+                <p>This gives:</p>
+                <div class="math-block">
+                    kL = nπ  where n = 1, 2, 3, ...<br>
+                    (2π/λ)L = nπ<br>
+                    λ_n = 2L/n<br><br>
+                    Therefore: L = n(λ_n/2)
+                </div>
+
+                <p>This is the <strong>fundamental resonance condition</strong>: the length must be an integer multiple of half-wavelengths.</p>
+
+                <p>Since v = fλ, the allowed frequencies are:</p>
+                <div class="math-block">
+                    f_n = v/λ_n = nv/(2L)
+                </div>
+
+                <p>where:</p>
+                <ul>
+                    <li>n = 1: <strong>fundamental frequency</strong> (first harmonic), f₁ = v/(2L)</li>
+                    <li>n = 2: <strong>second harmonic</strong> (first overtone), f₂ = 2f₁</li>
+                    <li>n = 3: <strong>third harmonic</strong> (second overtone), f₃ = 3f₁</li>
+                </ul>
+
+                <p>For strings: v = √(T/μ) where T is tension and μ is mass per unit length.</p>
+
+                <p><strong>Important IB Point:</strong> All integer harmonics are present. The frequency spectrum is f₁, 2f₁, 3f₁, 4f₁, ...</p>
+            </div>
+
+            <!-- Content Section 5 -->
+            <div class="content-section">
+                <h2>Standing Waves in Air Columns</h2>
+
+                <h3>Closed Pipe (one end closed, one end open)</h3>
+                <p>Boundary conditions:</p>
+                <ul>
+                    <li>Closed end: node (air molecules cannot move through the closed end)</li>
+                    <li>Open end: antinode (pressure node, displacement antinode)</li>
+                </ul>
+
+                <p>For a pipe of length L:</p>
+                <ul>
+                    <li>Simplest pattern: node at closed end, antinode at open end</li>
+                    <li>Distance from node to antinode = λ/4</li>
+                </ul>
+
+                <p>Therefore: L = λ₁/4, giving λ₁ = 4L</p>
+
+                <p>The next harmonic must maintain the node at the closed end and antinode at the open end:</p>
+                <ul>
+                    <li>Next pattern has one additional node and one additional antinode</li>
+                    <li>This adds λ/2 to the length</li>
+                </ul>
+
+                <div class="math-block">
+                    L = (n + 1/2)(λ_n/2) = (2n-1)(λ_n/4)<br>
+                    where n = 1, 3, 5, 7, ... (odd integers only)
+                </div>
+
+                <p>The allowed frequencies are:</p>
+                <div class="math-block">
+                    f_n = (2n-1)v/(4L)  where n = 1, 2, 3, ...
+                </div>
+
+                <p>This gives: f₁, 3f₁, 5f₁, 7f₁, ... (only odd harmonics)</p>
+
+                <h3>Open Pipe (both ends open)</h3>
+                <p>Boundary conditions: antinodes at both ends</p>
+
+                <p>Simplest pattern: antinodes at both ends with one node in the middle</p>
+                <ul>
+                    <li>Distance = λ/2</li>
+                </ul>
+
+                <p>Therefore: L = n(λ_n/2) (same as string fixed at both ends)</p>
+
+                <div class="math-block">
+                    f_n = nv/(2L)  where n = 1, 2, 3, 4, ...
+                </div>
+
+                <p>Frequency spectrum: f₁, 2f₁, 3f₁, 4f₁, ... (all harmonics present)</p>
+
+                <p><strong>Critical IB Distinction:</strong></p>
+                <ul>
+                    <li>Closed pipe: only odd harmonics, fundamental frequency = v/(4L)</li>
+                    <li>Open pipe: all harmonics, fundamental frequency = v/(2L)</li>
+                    <li>An open pipe of length L has the same fundamental as a closed pipe of length 2L</li>
+                </ul>
+
+                <p><strong>End Correction:</strong> In reality, the antinode at an open end occurs slightly beyond the physical end (approximately 0.6 times the pipe radius). For precise work, use L_eff = L + 0.6r.</p>
+            </div>
+
+            <!-- Content Section 6 -->
+            <div class="content-section">
+                <h2>Harmonics, Overtones, and Musical Applications</h2>
+
+                <h3>Terminology Clarification (IB expects precision here)</h3>
+                <ul>
+                    <li><strong>Fundamental frequency</strong> (f₁): the lowest resonant frequency, corresponding to n = 1</li>
+                    <li><strong>Harmonic:</strong> any frequency that is an integer multiple of the fundamental. The n-th harmonic has frequency nf₁
+                        <ul>
+                            <li>1st harmonic = fundamental</li>
+                            <li>2nd harmonic = first overtone (for systems that have it)</li>
+                            <li>3rd harmonic = second overtone (for systems that have it)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Overtone:</strong> any resonant frequency above the fundamental
+                        <ul>
+                            <li>For strings and open pipes: overtones = harmonics above the first</li>
+                            <li>For closed pipes: only odd harmonics exist, so the first overtone is the 3rd harmonic</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <p><strong>Example:</strong> For a closed pipe:</p>
+                <ul>
+                    <li>1st harmonic (fundamental): f₁</li>
+                    <li>3rd harmonic (1st overtone): 3f₁</li>
+                    <li>5th harmonic (2nd overtone): 5f₁</li>
+                    <li>7th harmonic (3rd overtone): 7f₁</li>
+                </ul>
+
+                <h3>Musical Instruments</h3>
+                <p><em>String Instruments (guitar, violin, piano):</em></p>
+                <ul>
+                    <li>All harmonics present</li>
+                    <li>Plucking/striking at different positions excites different harmonics</li>
+                    <li>The <strong>timbre</strong> (tone quality) depends on which harmonics are present and their relative amplitudes</li>
+                    <li>Stopping a string at the midpoint doubles the frequency (octave)</li>
+                </ul>
+
+                <p><em>Wind Instruments:</em></p>
+                <ul>
+                    <li>Clarinet: approximately a closed pipe (odd harmonics only)—distinctive tone</li>
+                    <li>Flute, saxophone: approximately open pipes (all harmonics)—different timbre</li>
+                    <li>Players change the effective length using keys/valves to change pitch</li>
+                    <li>Overblowing excites higher harmonics (e.g., octave key on saxophone)</li>
+                </ul>
+
+                <p><strong>Resonance Quality Factor:</strong> The sharpness of resonance is characterized by Q = f₀/Δf where Δf is the bandwidth. Higher Q means sharper resonance (important for musical instruments to maintain pitch).</p>
+
+                <p><strong>Beats and Tuning:</strong> When two strings are slightly detuned, the beat frequency f_beat = |f₂ - f₁| is heard. Musicians use this to tune instruments to exactly match frequencies.</p>
+            </div>
+
+            <!-- Content Section 7 -->
+            <div class="content-section">
+                <h2>Wave Speed in Strings: Tension and Linear Density</h2>
+
+                <p>For standing waves on strings, the wave speed determines the resonant frequencies. The wave speed on a string is:</p>
+                <div class="math-block">
+                    v = √(T/μ)
+                </div>
+
+                <p>where:</p>
+                <ul>
+                    <li>T is the tension in the string (N)</li>
+                    <li>μ is the linear mass density (kg/m): μ = m/L</li>
+                </ul>
+
+                <p>Combining with f_n = nv/(2L):</p>
+                <div class="math-block">
+                    f_n = (n/(2L))√(T/μ)
+                </div>
+
+                <h3>Practical Implications</h3>
+                <ol>
+                    <li><strong>Increasing tension</strong> increases frequency (tightening guitar string raises pitch)</li>
+                    <li><strong>Increasing mass per unit length</strong> decreases frequency (thicker strings produce lower notes)</li>
+                    <li><strong>Increasing length</strong> decreases frequency (longer strings produce lower notes)</li>
+                </ol>
+
+                <h3>Experimental Design</h3>
+                <p>To verify v = √(T/μ):</p>
+                <ul>
+                    <li>Use a vibration generator to drive the string at various frequencies</li>
+                    <li>Measure T using a hanging mass: T = mg</li>
+                    <li>Find resonant frequencies by observing maximum amplitude</li>
+                    <li>Plot f_n vs n to find f₁</li>
+                    <li>Calculate theoretical v = 2Lf₁ and compare with √(T/μ)</li>
+                </ul>
+
+                <p><strong>Common Experimental Issues:</strong></p>
+                <ul>
+                    <li>The string may not be perfectly uniform (μ varies)</li>
+                    <li>Tension may not equal mg exactly due to pulley friction</li>
+                    <li>Damping reduces amplitude at resonance</li>
+                    <li>Higher harmonics are increasingly damped</li>
+                </ul>
+
+                <p><strong>Data Analysis Tip:</strong> Plotting f_n vs n should give a straight line through the origin with slope v/(2L). Any intercept indicates systematic error.</p>
+            </div>
+
+            <!-- Content Section 8 -->
+            <div class="content-section">
+                <h2>Standing Waves vs Progressive Waves: Key Distinctions</h2>
+
+                <h3>Progressive (Traveling) Waves</h3>
+                <ul>
+                    <li>Energy is transported in the direction of propagation</li>
+                    <li>All points along the wave have the same amplitude A</li>
+                    <li>Phase varies continuously with position</li>
+                    <li>Wave form moves through space</li>
+                    <li>Equation: y = A sin(kx - ωt)</li>
+                    <li>No fixed nodes or antinodes</li>
+                </ul>
+
+                <h3>Standing (Stationary) Waves</h3>
+                <ul>
+                    <li>No net energy transport (energy oscillates between kinetic and potential)</li>
+                    <li>Amplitude varies with position: A_pos = 2A|sin(kx)|</li>
+                    <li>All points between two nodes oscillate in phase</li>
+                    <li>Wave pattern remains stationary in space</li>
+                    <li>Equation: y = 2A sin(kx) cos(ωt)</li>
+                    <li>Fixed nodes (zero amplitude) and antinodes (maximum amplitude)</li>
+                </ul>
+
+                <p><strong>IB Exam Focus:</strong> Questions often ask you to:</p>
+                <ol>
+                    <li>Identify whether a diagram shows a standing or progressive wave</li>
+                    <li>Explain the formation of standing waves from two progressive waves</li>
+                    <li>Calculate energy distribution (standing waves store energy, progressive waves transport it)</li>
+                    <li>Distinguish between phase relationships (standing: all in phase between nodes; progressive: continuous phase variation)</li>
+                </ol>
+
+                <p><strong>Energy Density:</strong> For progressive waves, energy density is uniform. For standing waves, energy is concentrated near antinodes (where amplitude is maximum) and zero at nodes.</p>
+            </div>
+
+            <!-- Content Section 9 -->
+            <div class="content-section">
+                <h2>Advanced HL Considerations and Applications</h2>
+
+                <h3>Two-Dimensional Standing Waves</h3>
+                <p>Standing waves can form in two dimensions (e.g., drumheads, lakes). The boundary conditions are more complex, leading to mode shapes described by Bessel functions or products of sines. The frequency depends on two mode numbers: f_mn ∝ √(m² + n²).</p>
+
+                <p><strong>Chladni Patterns:</strong> Sprinkling sand on a vibrating plate reveals nodes (where sand accumulates) and antinodes (where sand is thrown off). These patterns demonstrate two-dimensional standing waves and are used in acoustic engineering.</p>
+
+                <h3>Quantum Mechanical Connection (conceptual, HL awareness)</h3>
+                <p>The standing wave patterns we observe macroscopically are fundamental to quantum mechanics:</p>
+                <ul>
+                    <li>Electrons in atoms exist in standing wave patterns (orbitals)</li>
+                    <li>Only certain energies (eigenvalues) are allowed, corresponding to resonant frequencies</li>
+                    <li>The Schrödinger equation produces standing wave solutions</li>
+                    <li>Quantum number n directly corresponds to harmonic number</li>
+                </ul>
+
+                <h3>Microwave Cavities and Electromagnetic Standing Waves</h3>
+                <p>Electromagnetic waves can form standing wave patterns in cavities:</p>
+                <ul>
+                    <li>Used in microwave ovens (wavelength ~12 cm, so nodes and antinodes are ~6 cm apart—reason for turntables)</li>
+                    <li>Laser cavities use standing wave resonance</li>
+                    <li>Radio frequency cavities in particle accelerators</li>
+                </ul>
+
+                <h3>Acoustic Engineering Applications</h3>
+                <ul>
+                    <li>Concert hall design considers standing wave formation to avoid "dead spots" (nodes) and "hot spots" (antinodes)</li>
+                    <li>Room modes in audio recording studios</li>
+                    <li>Noise cancellation using destructive interference</li>
+                    <li>Ultrasound imaging relies on resonance in tissue</li>
+                </ul>
+
+                <p><strong>Seismic Standing Waves:</strong> Earthquake waves can form standing wave patterns in sedimentary basins, amplifying ground motion at certain locations (nodes in bedrock become antinodes at the surface due to boundary conditions).</p>
+            </div>
+
+            <!-- Key Definitions -->
+            <div class="content-section">
+                <h2>Key Definitions</h2>
+
+                <div class="definition-box">
+                    <div class="definition-term">Standing Wave</div>
+                    <div class="definition-text">A wave pattern formed by the superposition of two identical waves traveling in opposite directions, characterized by fixed nodes (zero amplitude) and antinodes (maximum amplitude). The pattern appears stationary in space while particles oscillate in time.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Node</div>
+                    <div class="definition-text">A point in a standing wave where the amplitude is always zero. Nodes occur at positions where destructive interference is complete at all times, located at x = n(λ/2) from a reference node.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Antinode</div>
+                    <div class="definition-text">A point in a standing wave where the amplitude is maximum (2A for waves of amplitude A). Antinodes occur midway between consecutive nodes, at positions where constructive interference is maximum.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Fundamental Frequency</div>
+                    <div class="definition-text">The lowest resonant frequency of a standing wave system, corresponding to the first harmonic (n=1). For a string fixed at both ends: f₁ = v/(2L). All other resonant frequencies are integer multiples of this.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Harmonic</div>
+                    <div class="definition-text">A resonant frequency that is an integer multiple of the fundamental frequency. The n-th harmonic has frequency f_n = nf₁ where n = 1, 2, 3, ... The first harmonic is the fundamental.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Overtone</div>
+                    <div class="definition-text">Any resonant frequency above the fundamental. The first overtone is the second-lowest resonant frequency. For systems with all harmonics, the m-th overtone is the (m+1)-th harmonic.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Resonance</div>
+                    <div class="definition-text">The phenomenon where a system oscillates with maximum amplitude when driven at one of its natural frequencies. For standing waves, resonance occurs when the boundary conditions are satisfied: L = n(λ/2) (both ends same type).</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Boundary Condition</div>
+                    <div class="definition-text">A constraint on the wave function at the boundaries of the system. Fixed ends require nodes (zero displacement); free ends allow antinodes (maximum displacement). These conditions determine which wavelengths can form standing waves.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Linear Mass Density (μ)</div>
+                    <div class="definition-text">The mass per unit length of a string, measured in kg/m. Defined as μ = m/L where m is total mass and L is length. It determines wave speed via v = √(T/μ).</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Closed Pipe</div>
+                    <div class="definition-text">An air column with one end closed and one end open. Boundary conditions require a node at the closed end and an antinode at the open end. Only odd harmonics are present: f_n = (2n-1)v/(4L) for n = 1, 2, 3, ...</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Open Pipe</div>
+                    <div class="definition-text">An air column with both ends open. Boundary conditions require antinodes at both ends. All harmonics are present: f_n = nv/(2L) for n = 1, 2, 3, ..., identical to a string fixed at both ends.</div>
+                </div>
+            </div>
+
+            <!-- Practice Problems -->
+            <div class="problems-section">
+                <h2>Practice Problems</h2>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 1</span>
+                    <div class="problem-question">
+                        A guitar string of length 65.0 cm and mass 2.50 g is under tension of 85.0 N. (a) Calculate the fundamental frequency. (b) What is the frequency of the third harmonic? (c) Sketch the standing wave pattern for the second harmonic, labeling nodes and antinodes.
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) First, calculate linear mass density: μ = m/L = (2.50 × 10⁻³)/(0.650) = 3.85 × 10⁻³ kg/m.</p>
+                        <p>Wave speed: v = √(T/μ) = √(85.0/(3.85 × 10⁻³)) = 148.6 m/s.</p>
+                        <p>Fundamental frequency: f₁ = v/(2L) = 148.6/(2 × 0.650) = 114 Hz.</p>
+                        <p>(b) Third harmonic: f₃ = 3f₁ = 3(114) = 342 Hz.</p>
+                        <p>(c) Second harmonic has 2 antinodes and 3 nodes (at both ends and center). The pattern shows one complete wavelength fitting in the string length.</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>This problem tests the fundamental relationships for standing waves on strings. Key steps: (1) convert units consistently, (2) calculate μ from given mass and length, (3) use v = √(T/μ) to find wave speed, (4) apply f₁ = v/(2L) for fundamental, (5) recognize that harmonics are integer multiples. The sketch should show nodes at x = 0, L/2, and L, with antinodes at L/4 and 3L/4.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 2</span>
+                    <div class="problem-question">
+                        An organ pipe open at both ends has a fundamental frequency of 256 Hz when the temperature is 20°C (speed of sound = 343 m/s). (a) Calculate the length of the pipe. (b) If one end is now closed, what is the new fundamental frequency? (c) Explain why closing one end changes the frequency.
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) For open pipe: f₁ = v/(2L), so L = v/(2f₁) = 343/(2 × 256) = 0.670 m.</p>
+                        <p>(b) For closed pipe: f₁ = v/(4L) = 343/(4 × 0.670) = 128 Hz.</p>
+                        <p>(c) Closing one end changes the boundary condition from antinode to node, doubling the wavelength of the fundamental mode from 2L to 4L. Since f = v/λ and v is unchanged, doubling λ halves the frequency.</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>This problem requires understanding the difference between open and closed pipes. The fundamental frequency of a closed pipe is exactly half that of an open pipe of the same length. This is why organ pipes can produce low frequencies without being excessively long—closing one end drops the pitch by one octave.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 3</span>
+                    <div class="problem-question">
+                        A string fixed at both ends supports a standing wave with 4 nodes (including those at the ends). The string is 1.20 m long and the wave speed is 240 m/s. (a) What harmonic is this? (b) Calculate the wavelength and frequency. (c) How many antinodes are present?
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) With 4 nodes total, there are 3 segments between nodes. The number of segments equals the harmonic number, so this is the 3rd harmonic (n = 3).</p>
+                        <p>(b) For 3rd harmonic: L = 3(λ/2), so λ = 2L/3 = 2(1.20)/3 = 0.800 m.</p>
+                        <p>Frequency: f = v/λ = 240/0.800 = 300 Hz.</p>
+                        <p>(c) Number of antinodes equals harmonic number: 3 antinodes.</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>Counting nodes correctly is crucial. With both ends fixed, there are always nodes at the boundaries. The harmonic number equals the number of antinodes, which also equals the number of segments between consecutive nodes. The relationship L = nλ/2 directly gives the wavelength once you identify n.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 4</span>
+                    <div class="problem-question">
+                        A physics student investigates standing waves on a string using a vibration generator. When the tension is 12.0 N, resonance occurs at frequencies of 60.0 Hz, 90.0 Hz, and 120.0 Hz. (a) Explain why these are resonant frequencies. (b) What is the fundamental frequency? (c) What harmonic is the 90.0 Hz resonance?
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) These frequencies are resonant because they satisfy the boundary conditions for standing waves. They are integer multiples of a common fundamental frequency, indicating harmonics of the system.</p>
+                        <p>(b) The spacing between consecutive resonances is 30.0 Hz, which equals the fundamental frequency: f₁ = 30.0 Hz. Verification: 60.0 = 2(30.0), 90.0 = 3(30.0), 120.0 = 4(30.0).</p>
+                        <p>(c) The 90.0 Hz resonance is the 3rd harmonic since 90.0 = 3f₁.</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>When multiple resonant frequencies are given, look for the common difference—this is always the fundamental frequency for systems where all harmonics are present. The fact that consecutive resonances differ by a constant amount confirms this is a string (or open pipe) where all integer harmonics exist. For a closed pipe, the spacing would be 2f₁.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 5</span>
+                    <div class="problem-question">
+                        Two violinists play the same note. Violinist A's string vibrates at 440.0 Hz. Violinist B's string is slightly out of tune and produces beats at a rate of 3.0 Hz. (a) What are the two possible frequencies of violinist B's string? (b) Violinist B tightens the string and the beat frequency decreases. Which of the two frequencies was B's string producing? (c) Explain the physics of beat formation.
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) Beat frequency is f_beat = |f_B - f_A|, so 3.0 = |f_B - 440.0|. Two possibilities: f_B = 443.0 Hz or f_B = 437.0 Hz.</p>
+                        <p>(b) Tightening the string increases its frequency. If beat frequency decreases, the frequencies must be getting closer together. Since B's frequency increases with tightening, B must have started at 437.0 Hz (below 440.0 Hz).</p>
+                        <p>(c) Beats result from interference between two waves of slightly different frequencies. The amplitude oscillates at the beat frequency as the two waves alternately reinforce and cancel. This is a manifestation of the superposition principle.</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>Beat problems require understanding both the mathematical formula and physical interpretation. The key insight is that beat frequency measures the difference between two frequencies, so you need additional information (like which way the frequency changes) to determine which of the two possibilities is correct. Musicians use beats to tune instruments—they adjust until the beat frequency approaches zero.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 6</span>
+                    <div class="problem-question">
+                        A closed organ pipe has length 0.850 m. The speed of sound is 340 m/s. (a) Calculate the wavelength and frequency of the fundamental mode. (b) What is the frequency of the first overtone? (c) Sketch both patterns showing nodes (N) and antinodes (A). (d) If this were an open pipe of the same length, what would be the fundamental frequency?
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) For closed pipe fundamental: L = λ₁/4, so λ₁ = 4L = 4(0.850) = 3.40 m.</p>
+                        <p>f₁ = v/λ₁ = 340/3.40 = 100 Hz.</p>
+                        <p>(b) First overtone is 3rd harmonic: f₃ = 3f₁ = 300 Hz.</p>
+                        <p>(c) Fundamental: N at closed end, A at open end (distance L). First overtone: N at closed end, A at middle and open end, with additional N between them (distance L = 3λ/4).</p>
+                        <p>(d) Open pipe: f₁ = v/(2L) = 340/(2 × 0.850) = 200 Hz (exactly double the closed pipe).</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>This comprehensive problem tests understanding of closed pipes. Remember: (1) closed pipes have only odd harmonics, so first overtone is 3rd harmonic, not 2nd; (2) fundamental wavelength is 4L, not 2L; (3) boundary conditions are different at each end; (4) an open pipe of the same length has twice the fundamental frequency. Drawing the patterns helps visualize why these relationships hold.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 7</span>
+                    <div class="problem-question">
+                        A student performs an experiment to measure the speed of sound. A tuning fork of frequency 512 Hz is held above a closed tube partially filled with water. Resonance is first observed when the air column length is 16.5 cm. (a) Explain why resonance occurs at this length. (b) Calculate the speed of sound from this data. (c) Predict the next air column length at which resonance will occur. (d) State one source of systematic error in this experiment.
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) Resonance occurs when the air column length equals an odd number of quarter wavelengths. At 16.5 cm, L = λ/4 for the fundamental mode. The closed end (water surface) is a node, and the open end is an antinode.</p>
+                        <p>(b) λ = 4L = 4(0.165) = 0.660 m. v = fλ = 512(0.660) = 338 m/s.</p>
+                        <p>(c) Next resonance: L₂ = 3(λ/4) = 3(0.165) = 49.5 cm. The increase is λ/2 = 33.0 cm.</p>
+                        <p>(d) The antinode actually occurs slightly above the tube opening (end correction), so the effective length is longer than measured, causing a systematic underestimate of wavelength and hence wave speed.</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>This classic experiment tests practical understanding of resonance in closed pipes. Key points: (1) identify boundary conditions correctly, (2) recognize that first resonance is fundamental (λ/4), (3) know that subsequent resonances are spaced by λ/2, (4) appreciate real-world complications like end correction. The end correction is typically 0.6 times the tube radius and becomes significant for wide tubes.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 8</span>
+                    <div class="problem-question">
+                        A string of length L and linear mass density μ is under tension T. Derive an expression for the wavelength of the n-th harmonic in terms of L only. Then derive an expression for the frequency of the n-th harmonic in terms of L, T, μ, and n.
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>For a string fixed at both ends, the resonance condition is L = n(λ_n/2). Solving for wavelength: λ_n = 2L/n.</p>
+                        <p>The wave speed on the string is v = √(T/μ). Using f = v/λ:</p>
+                        <p>f_n = v/λ_n = √(T/μ)/(2L/n) = n√(T/μ)/(2L) = (n/(2L))√(T/μ).</p>
+                        <p>Therefore: λ_n = 2L/n and f_n = (n/(2L))√(T/μ).</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>This derivation question is typical of HL exams. Start from boundary conditions (L = nλ/2), then use wave equation (v = fλ) and string wave speed formula (v = √(T/μ)). The result shows that frequency is proportional to harmonic number and to √T, inversely proportional to length, and inversely proportional to √μ. These relationships explain how string instruments work.</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 9</span>
+                    <div class="problem-question">
+                        Compare and contrast standing waves and progressive waves. Your answer should address: (i) energy transfer, (ii) amplitude variation with position, (iii) phase relationships, (iv) mathematical representation.
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>(i) Energy transfer: Progressive waves transport energy in the direction of propagation at rate P = ½μvω²A² for a string. Standing waves do not transport energy—energy oscillates between kinetic and potential within the system, with time-averaged energy flow of zero.</p>
+                        <p>(ii) Amplitude variation: Progressive waves have uniform amplitude A at all positions. Standing waves have position-dependent amplitude A(x) = 2A|sin(kx)|, with nodes (zero amplitude) and antinodes (amplitude 2A).</p>
+                        <p>(iii) Phase relationships: In progressive waves, phase varies continuously with position—adjacent particles have small phase differences. In standing waves, all particles between two nodes oscillate in phase, while particles on opposite sides of a node are in antiphase (180° out of phase).</p>
+                        <p>(iv) Mathematical form: Progressive: y = A sin(kx - ωt) (inseparable space-time dependence). Standing: y = 2A sin(kx) cos(ωt) (separable into spatial and temporal parts).</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>Extended response questions require clear structure and explicit physics explanations, not just descriptions. Use the question's structure as your organizing framework. For each point, state the difference clearly and explain the physical reason. The mathematical forms reveal the fundamental difference: progressive waves have (kx - ωt) together (indicating motion), while standing waves factor into position-dependent amplitude times time-dependent oscillation (indicating a stationary pattern).</p>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <span class="problem-number">Problem 10</span>
+                    <div class="problem-question">
+                        A string has a fundamental frequency of 200 Hz. The string is pinned at its midpoint so that each half vibrates independently. What is the new fundamental frequency of each half? Explain your reasoning with reference to boundary conditions.
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-content">
+                        <div class="solution-label">Solution:</div>
+                        <p>The new fundamental frequency is 400 Hz (double the original).</p>
+                        <p>Explanation: Originally, the string length is L with fundamental frequency f₁ = v/(2L). When pinned at the midpoint, each half has length L/2 and is now fixed at both ends (the pin creates a node). The fundamental frequency of each half is:</p>
+                        <p>f₁' = v/(2(L/2)) = v/L = 2f₁ = 400 Hz.</p>
+                        <p>The boundary conditions for each half are identical to the original string (nodes at both ends), but the effective length has halved. Since frequency is inversely proportional to length (f ∝ 1/L), halving the length doubles the frequency—this is why touching a string at its midpoint produces a note one octave higher.</p>
+                        <div class="solution-label">Explanation:</div>
+                        <p>This problem tests whether students understand that boundary conditions and length determine resonant frequencies. The key insight is that creating a node at the midpoint effectively creates two independent strings, each half the original length. The factor-of-two relationship between length and frequency is fundamental to string instruments—it's how guitarists play harmonics and why fret spacing follows a logarithmic pattern.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exam Tips -->
+            <div class="tips-box">
+                <h3>Exam Tips</h3>
+                <ul>
+                    <li>Always sketch the standing wave pattern when solving problems—it helps identify the harmonic number and avoid errors with nodes/antinodes</li>
+                    <li>For closed pipes, remember only odd harmonics exist (1st, 3rd, 5th, ...). The first overtone is the 3rd harmonic, not the 2nd</li>
+                    <li>When counting nodes, decide whether to include boundary nodes. Focus instead on the wavelength-length relationship: L = nλ/2</li>
+                    <li>In calculations involving strings, always calculate linear mass density μ first (μ = m/L) before finding wave speed</li>
+                    <li>Check that your frequency increases when you increase tension or decrease mass/length—if not, you've made an error</li>
+                    <li>The amplitude at antinodes is 2A (twice the original wave amplitude), not A—this comes from constructive interference</li>
+                    <li>For experimental questions, mention end correction as a source of systematic error when dealing with pipes</li>
+                    <li>When comparing harmonics and overtones, be precise: the nth harmonic is the (n-1)th overtone. For closed pipes with only odd harmonics, the 3rd harmonic is the 1st overtone</li>
+                    <li>Beat frequency problems: f_beat = |f₁ - f₂|. You need additional information to determine which of two possible frequencies is correct</li>
+                    <li>In derivation questions, start from boundary conditions (nodes/antinodes at boundaries), apply the resonance condition (L = nλ/2 or variants), then use v = fλ</li>
+                    <li>Standing waves do NOT transport energy—a common exam question asks you to explain this. Energy oscillates between kinetic and potential but doesn't flow along the wave</li>
+                    <li>When asked to 'explain' or 'justify', don't just state formulas—describe the physical mechanism (e.g., 'superposition of incident and reflected waves creates regions of constructive and destructive interference')</li>
+                    <li>For multi-part calculations, use your answer from part (a) in part (b) even if you're unsure—examiners award 'error carried forward' credit</li>
+                    <li>Speed of sound in air is approximately 340 m/s at 20°C (given in data booklet), but wave speed in strings must be calculated from v = √(T/μ)</li>
+                    <li>In graph sketching, label axes with quantities and units, show key values (e.g., f₁, 2f₁), and indicate the physical meaning of slope or intercept</li>
+                </ul>
+            </div>
+
+            <!-- Problem-Solving Strategy -->
+            <div class="content-section">
+                <h2>Problem-Solving Strategies for IB Exams</h2>
+
+                <h3>Step-by-Step Approach</h3>
+                <ol>
+                    <li><strong>Identify the system:</strong> String fixed at both ends? Open pipe? Closed pipe?</li>
+                    <li><strong>Draw the wave pattern:</strong> Sketch nodes and antinodes for the specified harmonic</li>
+                    <li><strong>Apply boundary conditions:</strong> Count nodes and antinodes to verify the pattern</li>
+                    <li><strong>Relate length to wavelength:</strong> Use L = n(λ/2) (both ends same) or L = (2n-1)(λ/4) (ends different)</li>
+                    <li><strong>Calculate frequency:</strong> Use f = v/λ with appropriate wave speed</li>
+                    <li><strong>Check units:</strong> Frequency in Hz, length in m, speed in m/s</li>
+                </ol>
+
+                <h3>Common IB Question Types</h3>
+                <p><strong>Type 1: Calculating harmonic frequencies</strong></p>
+                <ul>
+                    <li>Given: string length, tension, mass</li>
+                    <li>Find: fundamental frequency, higher harmonics</li>
+                    <li>Method: Calculate μ, then v, then f₁ = v/(2L), then f_n = nf₁</li>
+                </ul>
+
+                <p><strong>Type 2: Identifying harmonic number from diagram</strong></p>
+                <ul>
+                    <li>Count nodes or antinodes</li>
+                    <li>For both ends fixed: n = number of antinodes</li>
+                    <li>Remember: nodes at boundaries don't always "count" in simple formulas—focus on the wavelength relationship</li>
+                </ul>
+
+                <p><strong>Type 3: Experimental investigation</strong></p>
+                <ul>
+                    <li>Design experiment to verify standing wave relationships</li>
+                    <li>Identify independent and dependent variables</li>
+                    <li>Discuss sources of uncertainty</li>
+                    <li>Sketch expected graphs</li>
+                </ul>
+
+                <p><strong>Type 4: Comparing open and closed pipes</strong></p>
+                <ul>
+                    <li>Given same fundamental frequency, relate lengths</li>
+                    <li>Explain why only odd harmonics appear in closed pipes</li>
+                    <li>Calculate beat frequency when both are played together</li>
+                </ul>
+
+                <h3>Common Errors to Avoid</h3>
+                <ol>
+                    <li>Confusing harmonic number with overtone number</li>
+                    <li>Forgetting that closed pipes have only odd harmonics</li>
+                    <li>Using wrong boundary conditions (node vs antinode)</li>
+                    <li>Mixing up λ and λ/2 in resonance conditions</li>
+                    <li>Not recognizing that antinode amplitude is 2A, not A</li>
+                    <li>Assuming all resonances are equally strong (damping affects higher harmonics more)</li>
+                </ol>
+
+                <p><strong>Time Management:</strong> Standing wave questions typically require:</p>
+                <ul>
+                    <li>3-5 minutes for straightforward calculations</li>
+                    <li>8-10 minutes for multi-step problems involving experimental design</li>
+                    <li>15-20 minutes for extended response questions requiring explanations and derivations</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Lesson Navigation Footer -->
+        <div class="lesson-footer">
+            <button class="nav-button prev" onclick="navigateLesson('prev')">
+                ← Previous Lesson
+            </button>
+            <button class="mark-complete" id="markCompleteBtn" onclick="toggleComplete()">
+                Mark as Complete
+            </button>
+            <button class="nav-button next" onclick="navigateLesson('next')">
+                Next Lesson →
+            </button>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-button" onclick="openChat()"></div>
+
+    <script>
+        // Progress Tracking
+        let scrollProgress = 0;
+        let isCompleted = false;
+
+        function updateProgress() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            scrollProgress = (scrolled / documentHeight) * 100;
+
+            document.getElementById('progressBar').style.width = scrollProgress + '%';
+            document.querySelector('.progress-percentage').textContent = Math.round(scrollProgress) + '%';
+
+            // Save progress
+            localStorage.setItem('c4_progress', scrollProgress);
+        }
+
+        window.addEventListener('scroll', updateProgress);
+        window.addEventListener('load', () => {
+            const savedProgress = localStorage.getItem('c4_progress');
+            if (savedProgress) {
+                scrollProgress = parseFloat(savedProgress);
+            }
+
+            const completed = localStorage.getItem('c4_completed');
+            if (completed === 'true') {
+                isCompleted = true;
+                document.getElementById('markCompleteBtn').classList.add('completed');
+                document.getElementById('markCompleteBtn').textContent = '✓ Completed';
+            }
+
+            updateProgress();
+        });
+
+        // Toggle Solution Visibility
+        function toggleSolution(button) {
+            const solutionContent = button.nextElementSibling;
+            solutionContent.classList.toggle('show');
+            button.textContent = solutionContent.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+        }
+
+        // Mark Complete
+        function toggleComplete() {
+            isCompleted = !isCompleted;
+            const btn = document.getElementById('markCompleteBtn');
+
+            if (isCompleted) {
+                btn.classList.add('completed');
+                btn.textContent = '✓ Completed';
+                localStorage.setItem('c4_completed', 'true');
+            } else {
+                btn.classList.remove('completed');
+                btn.textContent = 'Mark as Complete';
+                localStorage.setItem('c4_completed', 'false');
+            }
+        }
+
+        // Lesson Navigation
+        function navigateLesson(direction) {
+            if (direction === 'prev') {
+                window.location.href = 'c3_wave_phenomena.html';
+            } else if (direction === 'next') {
+                window.location.href = 'c5_doppler_effect.html';
+            }
+        }
+
+        // Chatbot
+        function openChat() {
+            alert('Chatbot feature coming soon! This will provide instant help with physics concepts.');
+        }
+    </script>
+</body>
+</html>

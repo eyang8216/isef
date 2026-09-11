@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C2: Cell Respiration - Energy Production in Cells</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4A90E2;
+            --secondary-color: #50C878;
+            --accent-color: #FF6B6B;
+            --dark-bg: #1a1a2e;
+            --light-bg: #f5f7fa;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff;
+            --border-color: #e1e8ed;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), #357ABD);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .navbar-menu a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-menu a:hover {
+            opacity: 0.8;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--secondary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 80px auto 100px;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .lesson-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        /* Learning Objectives */
+        .objectives-box {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .objectives-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .objectives-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .objectives-box li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .objectives-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .definition-box .term {
+            font-weight: bold;
+            color: #e65100;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-box .definition {
+            color: #333;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .content-section h3 {
+            color: #357ABD;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Math Equations */
+        .equation {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            overflow-x: auto;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        table th, table td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* Practice Problems */
+        .practice-section {
+            margin: 3rem 0;
+        }
+
+        .practice-section h2 {
+            color: var(--accent-color);
+        }
+
+        .problem {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .problem-number {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-question {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .solution-toggle {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .solution-toggle:hover {
+            background: #e55555;
+            transform: translateY(-2px);
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 5px;
+            border: 2px solid var(--accent-color);
+        }
+
+        .solution-content.show {
+            display: block;
+        }
+
+        .solution-content h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Exam Tips */
+        .tips-box {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .tips-box h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .tips-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tips-box li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tips-box li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            background: var(--primary-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+            background: #357ABD;
+        }
+
+        /* Footer Navigation */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        .footer-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #357ABD;
+            transform: translateY(-2px);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .lesson-info {
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .main-content {
+                margin: 70px 1rem 100px;
+                padding: 1rem;
+            }
+
+            .lesson-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .footer-nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .chatbot-widget {
+                bottom: 120px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">Biology IB HL</div>
+            <ul class="navbar-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#lessons">Lessons</a></li>
+                <li><a href="#practice">Practice</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1>C2: Cell Respiration - Energy Production in Cells</h1>
+            <div class="lesson-meta">
+                <span><strong>Syllabus Code:</strong> C2</span>
+                <span><strong>Level:</strong> HL (with SL foundations)</span>
+                <span><strong>Subject:</strong> Biology</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="objectives-box">
+            <h3>Learning Objectives</h3>
+            <ul>
+                <li>C2.1 - Explain ATP as the universal energy currency and its structure</li>
+                <li>C2.2 - Describe glycolysis and calculate net ATP and NADH yield</li>
+                <li>C2.3 - Explain the link reaction connecting glycolysis to Krebs cycle</li>
+                <li>C2.4 - Describe the Krebs cycle and calculate yields of reduced coenzymes</li>
+                <li>C2.5 - Explain oxidative phosphorylation via electron transport chain and chemiosmosis</li>
+                <li>C2.6 - Calculate theoretical and actual ATP yields from glucose oxidation</li>
+                <li>C2.7 - Compare aerobic and anaerobic respiration pathways</li>
+                <li>C2.8 - Describe lactate and ethanol fermentation mechanisms</li>
+                <li>C2.9 - Explain how respirometers measure respiration rates</li>
+                <li>C2.10 - Apply knowledge to analyze experimental data on cellular respiration</li>
+            </ul>
+        </div>
+
+        <!-- Key Definitions -->
+        <div id="definitions">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="term">Cell Respiration</div>
+                <div class="definition">The controlled release of energy from organic compounds to synthesize ATP through oxidation reactions</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">ATP (Adenosine Triphosphate)</div>
+                <div class="definition">Universal energy currency consisting of adenosine bonded to three phosphate groups; energy released when terminal phosphate is hydrolyzed</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Glycolysis</div>
+                <div class="definition">Metabolic pathway converting glucose to two pyruvate molecules, yielding net 2 ATP and 2 NADH in the cytoplasm</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Krebs Cycle</div>
+                <div class="definition">Cyclical metabolic pathway in mitochondrial matrix oxidizing acetyl-CoA to CO2, producing reduced coenzymes and ATP</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Oxidative Phosphorylation</div>
+                <div class="definition">ATP synthesis driven by electron transport chain creating proton gradient across inner mitochondrial membrane</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Chemiosmosis</div>
+                <div class="definition">ATP synthesis via proton flow through ATP synthase driven by electrochemical gradient</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Substrate-level Phosphorylation</div>
+                <div class="definition">Direct ATP synthesis by transfer of phosphate from substrate to ADP during glycolysis and Krebs cycle</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="term">Anaerobic Respiration</div>
+                <div class="definition">ATP production without oxygen, using glycolysis followed by fermentation to regenerate NAD+</div>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content-section">
+            <h2>Introduction: Why Cells Need Energy</h2>
+            <p>All living cells require continuous energy input to maintain life processes. This energy powers active transport, protein synthesis, DNA replication, cell division, muscle contraction, and maintaining body temperature. While sunlight provides energy for photosynthetic organisms, all cells—including plant cells—rely on cell respiration to convert chemical energy stored in organic molecules into ATP.</p>
+
+            <h3>The Central Role of ATP</h3>
+            <p>ATP (adenosine triphosphate) is the universal energy currency of cells. Its structure consists of:</p>
+            <ul>
+                <li>Adenine (nitrogenous base)</li>
+                <li>Ribose (5-carbon sugar)</li>
+                <li>Three phosphate groups linked by high-energy bonds</li>
+            </ul>
+
+            <p>Energy is released when ATP is hydrolyzed to ADP (adenosine diphosphate) and inorganic phosphate:</p>
+
+            <div class="equation">
+                ATP + H₂O → ADP + Pᵢ + energy (30.5 kJ/mol)
+            </div>
+
+            <p>This reaction is catalyzed by ATPase enzymes. The energy released is used to drive endergonic (energy-requiring) reactions in cells. ATP is ideal as an energy currency because:</p>
+            <ol>
+                <li>It releases energy in small, manageable amounts</li>
+                <li>It is rapidly regenerated (recycled 300-400 times daily)</li>
+                <li>It is mobile and can diffuse to where energy is needed</li>
+                <li>The hydrolysis reaction is reversible</li>
+            </ol>
+
+            <h3>Overview of Cell Respiration</h3>
+            <p>Cell respiration is the controlled release of energy from organic compounds to form ATP. The complete oxidation of glucose follows the equation:</p>
+
+            <div class="equation">
+                C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energy
+            </div>
+
+            <p>This process occurs in four main stages:</p>
+            <ol>
+                <li><strong>Glycolysis</strong> (cytoplasm) - glucose → pyruvate</li>
+                <li><strong>Link reaction</strong> (mitochondrial matrix) - pyruvate → acetyl-CoA</li>
+                <li><strong>Krebs cycle</strong> (mitochondrial matrix) - acetyl-CoA → CO₂ + reduced coenzymes</li>
+                <li><strong>Oxidative phosphorylation</strong> (inner mitochondrial membrane) - reduced coenzymes → ATP</li>
+            </ol>
+        </div>
+
+        <div class="content-section">
+            <h2>Glycolysis: The First Stage</h2>
+            <p>Glycolysis occurs in the cytoplasm and does not require oxygen, making it the universal first step in both aerobic and anaerobic respiration. The pathway converts one glucose molecule (6 carbons) into two pyruvate molecules (3 carbons each).</p>
+
+            <h3>The Two Phases of Glycolysis</h3>
+            <p><strong>Phase 1: Energy Investment (Steps 1-5)</strong><br>
+            Glucose is phosphorylated twice, using 2 ATP, making it more reactive and trapping it in the cell. The 6-carbon molecule is then split into two 3-carbon molecules (triose phosphates).</p>
+
+            <p><strong>Phase 2: Energy Payoff (Steps 6-10)</strong><br>
+            Each triose phosphate is oxidized and converted to pyruvate. This produces:</p>
+            <ul>
+                <li>2 ATP per triose phosphate (4 ATP total) via substrate-level phosphorylation</li>
+                <li>1 NADH per triose phosphate (2 NADH total) via dehydrogenation</li>
+            </ul>
+
+            <p><strong>Net Yield from Glycolysis:</strong></p>
+            <ul>
+                <li>ATP: 4 produced - 2 consumed = <strong>2 ATP net</strong></li>
+                <li>NADH: <strong>2 NADH</strong></li>
+                <li>Pyruvate: <strong>2 pyruvate</strong></li>
+            </ul>
+
+            <h3>Key Enzymes:</h3>
+            <ul>
+                <li>Hexokinase (step 1): phosphorylates glucose</li>
+                <li>Phosphofructokinase (step 3): rate-limiting enzyme, regulated by ATP/ADP ratio</li>
+                <li>Pyruvate kinase (step 10): catalyzes final ATP generation</li>
+            </ul>
+
+            <h3>Why Glycolysis Matters:</h3>
+            <p>Glycolysis is evolutionarily ancient and occurs in virtually all organisms. It can proceed anaerobically, allowing ATP production when oxygen is limited. However, it produces only 2 ATP per glucose—about 2% of glucose's total energy content. The majority of energy remains stored in pyruvate and NADH.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Link Reaction: Connecting to the Krebs Cycle</h2>
+            <p>After glycolysis, pyruvate must be transported into mitochondria for further oxidation. The link reaction (also called pyruvate oxidation or transition reaction) occurs in the mitochondrial matrix and connects glycolysis to the Krebs cycle.</p>
+
+            <h3>The Link Reaction Process:</h3>
+            <p>For each pyruvate molecule:</p>
+
+            <div class="equation">
+                Pyruvate (3C) + CoA + NAD⁺ → Acetyl-CoA (2C) + CO₂ + NADH
+            </div>
+
+            <p>This reaction involves three simultaneous changes:</p>
+            <ol>
+                <li><strong>Decarboxylation</strong>: removal of CO₂ (reduces 3C to 2C)</li>
+                <li><strong>Dehydrogenation</strong>: removal of hydrogen (reduces NAD⁺ to NADH)</li>
+                <li><strong>Combination with coenzyme A</strong>: forms acetyl-CoA</li>
+            </ol>
+
+            <p>The enzyme complex catalyzing this is <strong>pyruvate dehydrogenase complex</strong>, one of the largest enzyme complexes known.</p>
+
+            <p><strong>Yield from Link Reaction (per glucose):</strong><br>
+            Since 2 pyruvate are produced from glucose:</p>
+            <ul>
+                <li><strong>2 acetyl-CoA</strong></li>
+                <li><strong>2 NADH</strong></li>
+                <li><strong>2 CO₂</strong></li>
+            </ul>
+
+            <h3>Regulation:</h3>
+            <p>Pyruvate dehydrogenase is inhibited by high ATP and acetyl-CoA (negative feedback) and activated by high ADP and pyruvate. This ensures the cell only oxidizes pyruvate when energy is needed.</p>
+
+            <h3>Irreversibility:</h3>
+            <p>The link reaction is irreversible under physiological conditions. Once pyruvate is decarboxylated to acetyl-CoA, it cannot be converted back to glucose. This is why fatty acids (which break down to acetyl-CoA) cannot be used to synthesize glucose in animals.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Krebs Cycle: Complete Oxidation</h2>
+            <p>The Krebs cycle (citric acid cycle or TCA cycle) occurs in the mitochondrial matrix. It completely oxidizes the 2-carbon acetyl group from acetyl-CoA to 2CO₂, capturing energy in reduced coenzymes.</p>
+
+            <h3>The Cycle Steps:</h3>
+            <ol>
+                <li>Acetyl-CoA (2C) + Oxaloacetate (4C) → Citrate (6C) + CoA<br>
+                <em>Enzyme: citrate synthase</em></li>
+
+                <li>Citrate (6C) → Isocitrate (6C) → α-ketoglutarate (5C) + CO₂ + NADH<br>
+                <em>First decarboxylation and dehydrogenation</em></li>
+
+                <li>α-ketoglutarate (5C) → Succinyl-CoA (4C) + CO₂ + NADH<br>
+                <em>Second decarboxylation and dehydrogenation</em></li>
+
+                <li>Succinyl-CoA (4C) → Succinate (4C) + ATP (or GTP)<br>
+                <em>Substrate-level phosphorylation</em></li>
+
+                <li>Succinate (4C) → Fumarate (4C) + FADH₂<br>
+                <em>Dehydrogenation using FAD</em></li>
+
+                <li>Fumarate (4C) → Malate (4C) → Oxaloacetate (4C) + NADH<br>
+                <em>Final dehydrogenation, regenerating oxaloacetate</em></li>
+            </ol>
+
+            <p><strong>Yield per Acetyl-CoA (one turn):</strong></p>
+            <ul>
+                <li><strong>3 NADH</strong></li>
+                <li><strong>1 FADH₂</strong></li>
+                <li><strong>1 ATP</strong> (or GTP, equivalent)</li>
+                <li><strong>2 CO₂</strong></li>
+            </ul>
+
+            <p><strong>Yield per Glucose (two turns):</strong></p>
+            <ul>
+                <li><strong>6 NADH</strong></li>
+                <li><strong>2 FADH₂</strong></li>
+                <li><strong>2 ATP</strong></li>
+                <li><strong>4 CO₂</strong></li>
+            </ul>
+
+            <h3>Why the Cycle is Cyclical:</h3>
+            <p>Oxaloacetate is regenerated at the end, allowing continuous operation as long as acetyl-CoA is supplied. The cycle is amphibolic—it functions in both catabolism (breaking down) and anabolism (building up), providing intermediates for biosynthesis.</p>
+
+            <h3>Regulation:</h3>
+            <p>Key regulatory enzymes (citrate synthase, isocitrate dehydrogenase, α-ketoglutarate dehydrogenase) are inhibited by high ATP and NADH ratios, preventing wasteful oxidation when energy is abundant.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Oxidative Phosphorylation: The Major ATP Source</h2>
+            <p>Oxidative phosphorylation occurs at the inner mitochondrial membrane and produces the majority of ATP in aerobic respiration. It consists of two coupled processes: the electron transport chain (ETC) and chemiosmosis.</p>
+
+            <h3>The Electron Transport Chain</h3>
+            <p>The ETC consists of four protein complexes (I, II, III, IV) embedded in the inner mitochondrial membrane, plus two mobile electron carriers (ubiquinone/coenzyme Q and cytochrome c).</p>
+
+            <p><strong>NADH Pathway:</strong><br>
+            NADH → Complex I → Ubiquinone → Complex III → Cytochrome c → Complex IV → O₂</p>
+            <ul>
+                <li>Protons pumped at Complexes I, III, and IV</li>
+                <li>NADH delivers electrons at higher energy level</li>
+            </ul>
+
+            <p><strong>FADH₂ Pathway:</strong><br>
+            FADH₂ → Complex II → Ubiquinone → Complex III → Cytochrome c → Complex IV → O₂</p>
+            <ul>
+                <li>Protons pumped at Complexes III and IV only</li>
+                <li>FADH₂ bypasses Complex I (less proton pumping)</li>
+            </ul>
+
+            <p>As electrons pass through the chain, they lose energy. This energy pumps protons (H⁺) from the mitochondrial matrix into the intermembrane space, creating an electrochemical gradient (proton-motive force).</p>
+
+            <h3>Chemiosmosis and ATP Synthesis</h3>
+            <p>The proton gradient represents stored potential energy. Protons flow back through <strong>ATP synthase</strong> (Complex V), a remarkable molecular motor. As protons flow through the F₀ subunit, it rotates the F₁ subunit, which catalyzes:</p>
+
+            <div class="equation">
+                ADP + Pᵢ → ATP
+            </div>
+
+            <p>This process, called chemiosmosis, couples the exergonic flow of protons to the endergonic synthesis of ATP.</p>
+
+            <h3>Oxygen's Essential Role</h3>
+            <p>Oxygen is the final electron acceptor:</p>
+
+            <div class="equation">
+                ½O₂ + 2H⁺ + 2e⁻ → H₂O
+            </div>
+
+            <p>Without oxygen, electrons cannot exit the chain, NADH and FADH₂ cannot be reoxidized, and NAD⁺ and FAD cannot be regenerated for glycolysis and Krebs cycle. Aerobic respiration stops.</p>
+
+            <h3>ATP Yield from Oxidative Phosphorylation:</h3>
+            <ul>
+                <li>Each NADH generates approximately <strong>2.5 ATP</strong></li>
+                <li>Each FADH₂ generates approximately <strong>1.5 ATP</strong></li>
+            </ul>
+            <p>These are average values; the actual ratio depends on proton pumping efficiency and the H⁺/ATP ratio of ATP synthase.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Total ATP Yield: Theoretical vs Actual</h2>
+            <h3>Theoretical Maximum ATP Yield from One Glucose:</h3>
+
+            <p><strong>From Glycolysis:</strong></p>
+            <ul>
+                <li>2 ATP (substrate-level)</li>
+                <li>2 NADH → 5 ATP (if transported via malate-aspartate shuttle) or 3 ATP (if via glycerol-3-phosphate shuttle)</li>
+            </ul>
+
+            <p><strong>From Link Reaction:</strong></p>
+            <ul>
+                <li>2 NADH → 5 ATP</li>
+            </ul>
+
+            <p><strong>From Krebs Cycle:</strong></p>
+            <ul>
+                <li>2 ATP (substrate-level)</li>
+                <li>6 NADH → 15 ATP</li>
+                <li>2 FADH₂ → 3 ATP</li>
+            </ul>
+
+            <div class="equation">
+                <strong>Theoretical Total (using malate-aspartate shuttle):</strong><br>
+                2 + 5 + 5 + 2 + 15 + 3 = 32 ATP
+            </div>
+
+            <div class="equation">
+                <strong>Theoretical Total (using glycerol-3-phosphate shuttle):</strong><br>
+                2 + 3 + 5 + 2 + 15 + 3 = 30 ATP
+            </div>
+
+            <h3>Why Actual Yields are Lower (typically 30-32 ATP):</h3>
+            <ol>
+                <li><strong>Proton Leak:</strong> Inner mitochondrial membrane is not perfectly impermeable; some protons leak across without passing through ATP synthase</li>
+                <li><strong>Transport Costs:</strong> ATP must be transported out of mitochondria in exchange for ADP (uses energy from proton gradient)</li>
+                <li><strong>NADH from Glycolysis:</strong> Produced in cytoplasm, must be transported into mitochondria via shuttle systems (costs energy)</li>
+                <li><strong>Variable H⁺/ATP Ratios:</strong> The number of protons required per ATP varies (approximately 4 H⁺ per ATP including transport costs)</li>
+                <li><strong>Alternative Uses:</strong> Proton gradient also powers other mitochondrial transport processes</li>
+            </ol>
+
+            <h3>Comparison with Older Textbooks:</h3>
+            <p>Older sources cite 36-38 ATP per glucose using 3 ATP per NADH and 2 ATP per FADH₂. Modern research shows lower P/O ratios (ATP per oxygen atom), yielding 30-32 ATP. IB examinations accept values in the range of 30-32 ATP.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Anaerobic Respiration and Fermentation</h2>
+            <p>When oxygen is absent or limited, cells cannot use oxidative phosphorylation. Glycolysis can continue only if NAD⁺ is regenerated to accept hydrogen. Fermentation achieves this by using pyruvate or its derivatives as the final electron acceptor.</p>
+
+            <h3>Lactate Fermentation (Animals, Some Bacteria)</h3>
+            <p>Occurs in muscle cells during intense exercise when oxygen supply is insufficient:</p>
+
+            <div class="equation">
+                Pyruvate + NADH → Lactate + NAD⁺
+            </div>
+
+            <p>Catalyzed by lactate dehydrogenase. The process:</p>
+            <ol>
+                <li>Regenerates NAD⁺ for glycolysis to continue</li>
+                <li>Produces no additional ATP (only glycolysis produces ATP)</li>
+                <li>Creates lactate that accumulates in muscle and blood</li>
+                <li>Is reversible—lactate is transported to liver and converted back to pyruvate when oxygen becomes available (Cori cycle)</li>
+            </ol>
+
+            <h3>Ethanol Fermentation (Yeast, Some Bacteria)</h3>
+            <p>Used in brewing and baking:</p>
+
+            <div class="equation">
+                Pyruvate → Ethanal + CO₂<br>
+                Ethanal + NADH → Ethanol + NAD⁺
+            </div>
+
+            <p>Two-step process:</p>
+            <ol>
+                <li>Decarboxylation: pyruvate → ethanal + CO₂ (pyruvate decarboxylase)</li>
+                <li>Reduction: ethanal + NADH → ethanol + NAD⁺ (alcohol dehydrogenase)</li>
+            </ol>
+
+            <p>Regenerates NAD⁺ for glycolysis. CO₂ makes bread rise; ethanol provides intoxicating effect in beverages.</p>
+
+            <h3>Comparison: Aerobic vs Anaerobic</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Aerobic</th>
+                        <th>Anaerobic (Lactate)</th>
+                        <th>Anaerobic (Ethanol)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Location</td>
+                        <td>Cytoplasm + mitochondria</td>
+                        <td>Cytoplasm only</td>
+                        <td>Cytoplasm only</td>
+                    </tr>
+                    <tr>
+                        <td>O₂ required</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>ATP per glucose</td>
+                        <td>30-32</td>
+                        <td>2</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Products</td>
+                        <td>CO₂, H₂O</td>
+                        <td>Lactate</td>
+                        <td>Ethanol, CO₂</td>
+                    </tr>
+                    <tr>
+                        <td>Reversible</td>
+                        <td>No</td>
+                        <td>Yes (lactate → pyruvate)</td>
+                        <td>No</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Efficiency:</h3>
+            <p>Anaerobic respiration captures only ~2% of glucose's energy (2 ATP vs 30-32 ATP). The remaining energy remains in lactate or ethanol. This is highly inefficient but allows rapid ATP production when oxygen is limited.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Measuring Respiration Rates</h2>
+            <p>Respiration rates can be measured experimentally using respirometers, which detect changes in gas volume or pressure as organisms respire.</p>
+
+            <h3>Simple Respirometer Design</h3>
+            <p>A typical respirometer consists of:</p>
+            <ul>
+                <li>Sealed chamber containing organism (seeds, insects, small animal)</li>
+                <li>Soda lime or potassium hydroxide to absorb CO₂ produced</li>
+                <li>Capillary tube with colored fluid to measure volume change</li>
+                <li>Water bath to maintain constant temperature</li>
+            </ul>
+
+            <h3>Principle:</h3>
+            <p>During aerobic respiration:</p>
+            <ul>
+                <li>O₂ is consumed</li>
+                <li>CO₂ is produced but absorbed by soda lime</li>
+                <li>Net decrease in gas volume</li>
+                <li>Colored fluid moves toward chamber</li>
+            </ul>
+            <p>The rate of fluid movement indicates the rate of O₂ consumption, which reflects respiration rate.</p>
+
+            <h3>Calculating Respiration Rate:</h3>
+            <div class="equation">
+                Respiration rate = Volume of O₂ consumed (mm³) / [Time (min) × Mass of organism (g)]
+            </div>
+            <p>Units: mm³ O₂ g⁻¹ min⁻¹</p>
+
+            <h3>Respiratory Quotient (RQ):</h3>
+            <p>RQ indicates which substrate is being respired:</p>
+
+            <div class="equation">
+                RQ = CO₂ produced / O₂ consumed
+            </div>
+
+            <ul>
+                <li><strong>Carbohydrates:</strong> RQ = 1.0 (C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O)</li>
+                <li><strong>Lipids:</strong> RQ ≈ 0.7 (more O₂ needed per CO₂ produced)</li>
+                <li><strong>Proteins:</strong> RQ ≈ 0.9</li>
+                <li><strong>Anaerobic:</strong> RQ = ∞ (CO₂ produced without O₂ consumption)</li>
+            </ul>
+
+            <h3>Measuring RQ:</h3>
+            <p>Requires two respirometers:</p>
+            <ol>
+                <li>With CO₂ absorber (measures O₂ consumption only)</li>
+                <li>Without CO₂ absorber (measures net gas exchange: O₂ consumed - CO₂ produced)</li>
+            </ol>
+
+            <h3>Experimental Controls:</h3>
+            <ul>
+                <li>Control respirometer with no organism (accounts for pressure/temperature changes)</li>
+                <li>Constant temperature (temperature affects gas volume and metabolic rate)</li>
+                <li>Same mass/number of organisms</li>
+                <li>Equilibration period before measurements</li>
+            </ul>
+
+            <h3>Sources of Error:</h3>
+            <ul>
+                <li>Temperature fluctuations</li>
+                <li>Incomplete CO₂ absorption</li>
+                <li>Organism movement affecting readings</li>
+                <li>Leaks in apparatus</li>
+                <li>Anaerobic respiration occurring (produces CO₂ without consuming O₂)</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Real-World Applications</h2>
+
+            <h3>Medicine and Exercise Physiology</h3>
+            <p>Understanding cell respiration is crucial for managing metabolic diseases:</p>
+            <ul>
+                <li><strong>Diabetes:</strong> Impaired glucose uptake affects glycolysis</li>
+                <li><strong>Mitochondrial diseases:</strong> Mutations in ETC proteins cause severe disorders</li>
+                <li><strong>Athletic performance:</strong> Training increases mitochondrial density, improving aerobic capacity</li>
+                <li><strong>Altitude adaptation:</strong> Low oxygen stimulates red blood cell production</li>
+            </ul>
+
+            <h3>Biotechnology and Industry</h3>
+            <ul>
+                <li><strong>Brewing and baking:</strong> Exploits yeast ethanol fermentation</li>
+                <li><strong>Yogurt production:</strong> Bacterial lactate fermentation</li>
+                <li><strong>Biofuel production:</strong> Engineered microorganisms maximize ethanol output</li>
+                <li><strong>Bioprocessing:</strong> Controlling oxygen levels optimizes product yields</li>
+            </ul>
+
+            <h3>Agriculture</h3>
+            <ul>
+                <li><strong>Seed storage:</strong> Low O₂ atmospheres reduce respiration, preserving viability</li>
+                <li><strong>Fruit storage:</strong> Controlled atmosphere storage slows ripening</li>
+                <li><strong>Grain storage:</strong> Monitoring CO₂ levels detects pest infestation or spoilage</li>
+            </ul>
+
+            <h3>Environmental Science</h3>
+            <ul>
+                <li><strong>Soil respiration:</strong> Indicates microbial activity and carbon cycling</li>
+                <li><strong>Aquatic ecosystems:</strong> Dissolved oxygen levels determine organism survival</li>
+                <li><strong>Climate change:</strong> Increased soil respiration releases CO₂, creating feedback loops</li>
+            </ul>
+
+            <h3>Forensic Science</h3>
+            <ul>
+                <li><strong>Time of death estimation:</strong> Temperature and metabolic changes</li>
+                <li><strong>Decomposition rates:</strong> Affected by oxygen availability and temperature</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Common Misconceptions</h2>
+
+            <div class="definition-box" style="background: #ffe6e6; border-left-color: #e74c3c;">
+                <div class="term">Misconception 1: "Oxygen is needed for glycolysis"</div>
+                <div class="definition"><strong>Reality:</strong> Glycolysis is anaerobic and occurs in the cytoplasm. Oxygen is only required for the ETC. However, without oxygen, NADH from glycolysis cannot be reoxidized via oxidative phosphorylation, so fermentation must regenerate NAD⁺.</div>
+            </div>
+
+            <div class="definition-box" style="background: #ffe6e6; border-left-color: #e74c3c;">
+                <div class="term">Misconception 2: "ATP is produced only in mitochondria"</div>
+                <div class="definition"><strong>Reality:</strong> Glycolysis produces 2 ATP in the cytoplasm via substrate-level phosphorylation. The majority of ATP (from oxidative phosphorylation) is produced in mitochondria, but not all.</div>
+            </div>
+
+            <div class="definition-box" style="background: #ffe6e6; border-left-color: #e74c3c;">
+                <div class="term">Misconception 3: "All 38 ATP come from one glucose"</div>
+                <div class="definition"><strong>Reality:</strong> Older textbooks cite 38 ATP (gross) or 36 ATP (net). Modern values are 30-32 ATP due to updated P/O ratios and accounting for transport costs.</div>
+            </div>
+
+            <div class="definition-box" style="background: #ffe6e6; border-left-color: #e74c3c;">
+                <div class="term">Misconception 4: "Fermentation produces energy"</div>
+                <div class="definition"><strong>Reality:</strong> Fermentation itself produces no ATP. Its purpose is to regenerate NAD⁺ so glycolysis can continue producing 2 ATP per glucose. The overall yield remains 2 ATP from glycolysis.</div>
+            </div>
+
+            <div class="definition-box" style="background: #ffe6e6; border-left-color: #e74c3c;">
+                <div class="term">Misconception 5: "Lactate causes muscle soreness"</div>
+                <div class="definition"><strong>Reality:</strong> Lactate is cleared rapidly (within an hour). Delayed onset muscle soreness (DOMS) is caused by micro-tears in muscle fibers and inflammation, not lactate accumulation.</div>
+            </div>
+
+            <div class="definition-box" style="background: #ffe6e6; border-left-color: #e74c3c;">
+                <div class="term">Misconception 6: "The Krebs cycle directly produces most ATP"</div>
+                <div class="definition"><strong>Reality:</strong> Krebs cycle produces only 2 ATP directly (substrate-level phosphorylation). Its primary function is generating reduced coenzymes (6 NADH + 2 FADH₂) that drive oxidative phosphorylation to produce ~24 ATP.</div>
+            </div>
+
+            <div class="definition-box" style="background: #ffe6e6; border-left-color: #e74c3c;">
+                <div class="term">Misconception 7: "CO₂ is produced throughout cell respiration"</div>
+                <div class="definition"><strong>Reality:</strong> CO₂ is produced only in: Link reaction (1 CO₂ per pyruvate), Krebs cycle (2 CO₂ per acetyl-CoA), and Ethanol fermentation (1 CO₂ per pyruvate). Glycolysis and lactate fermentation produce no CO₂.</div>
+            </div>
+        </div>
+
+        <!-- Practice Problems Section -->
+        <div class="practice-section">
+            <h2>Practice Problems</h2>
+
+            <div class="problem">
+                <div class="problem-number">Problem 1</div>
+                <div class="problem-question">
+                    A student investigates aerobic respiration in germinating peas using a respirometer at 25°C. The colored fluid in the capillary tube moves 15 mm toward the chamber in 10 minutes. The bore of the capillary tube is 1 mm in diameter. The total mass of peas is 5.0 g. Calculate the rate of oxygen consumption per gram of peas per minute. Show your working.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution-content" id="solution-1">
+                    <h4>Solution:</h4>
+                    <p><strong>Working:</strong></p>
+                    <p>Volume of O₂ consumed = πr²h = π × (0.5)² × 15 = 11.78 mm³</p>
+                    <p>Respiration rate = 11.78 mm³ / (10 min × 5.0 g) = <strong>0.236 mm³ g⁻¹ min⁻¹</strong></p>
+                    <h4>Explanation:</h4>
+                    <p>First calculate the volume using the cylinder formula V = πr²h. Radius is half the diameter (0.5 mm). Then divide by time and mass to get rate per gram per minute. This represents the O₂ consumption rate, which is proportional to aerobic respiration rate.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <div class="problem-number">Problem 2</div>
+                <div class="problem-question">
+                    Complete oxidation of one glucose molecule produces 30 ATP. Of these, 4 ATP are produced by substrate-level phosphorylation. (a) Calculate how many ATP are produced by oxidative phosphorylation. (b) Calculate the percentage of total ATP produced by oxidative phosphorylation. (c) Explain why this demonstrates that oxidative phosphorylation is the major source of ATP.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution-content" id="solution-2">
+                    <h4>Solution:</h4>
+                    <p><strong>(a)</strong> 30 - 4 = <strong>26 ATP from oxidative phosphorylation</strong></p>
+                    <p><strong>(b)</strong> (26/30) × 100 = <strong>86.7%</strong></p>
+                    <p><strong>(c)</strong> Over 86% of ATP comes from oxidative phosphorylation, making it the dominant pathway for ATP production in aerobic conditions.</p>
+                    <h4>Explanation:</h4>
+                    <p>Substrate-level phosphorylation occurs in glycolysis (2 ATP) and Krebs cycle (2 ATP). All remaining ATP comes from oxidative phosphorylation driven by NADH and FADH₂ oxidation through the ETC. This question emphasizes the quantitative importance of the ETC and chemiosmosis.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <div class="problem-number">Problem 3</div>
+                <div class="problem-question">
+                    A mutation in Complex I of the electron transport chain prevents NADH from being oxidized, but FADH₂ can still donate electrons at Complex II. Explain the effect this would have on: (a) ATP production from glucose, (b) the Krebs cycle, (c) glycolysis.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution-content" id="solution-3">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) ATP production drastically reduced.</strong> NADH cannot be oxidized, losing ~25 ATP per glucose (10 NADH × 2.5 ATP each). Only FADH₂-derived ATP (~3 ATP) and substrate-level phosphorylation (~4 ATP) remain ≈ 7 ATP total.</p>
+                    <p><strong>(b) Krebs cycle would slow or stop.</strong> NAD⁺ cannot be regenerated, so dehydrogenation reactions cannot proceed. NADH accumulates.</p>
+                    <p><strong>(c) Glycolysis would slow.</strong> NADH from glycolysis cannot be reoxidized to NAD⁺ via oxidative phosphorylation, depleting cytoplasmic NAD⁺ needed for the glycolysis dehydrogenation step.</p>
+                    <h4>Explanation:</h4>
+                    <p>This question tests understanding of the interconnection between pathways. Without NAD⁺ regeneration, both glycolysis and Krebs cycle are inhibited despite adequate oxygen. This demonstrates that aerobic respiration requires functional ETC, not just oxygen availability.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <div class="problem-number">Problem 4</div>
+                <div class="problem-question">
+                    During intense exercise, muscle cells produce lactate. (a) State the substrate and product of lactate fermentation. (b) Explain why lactate fermentation is necessary during intense exercise. (c) Describe what happens to lactate after exercise stops.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution-content" id="solution-4">
+                    <h4>Solution:</h4>
+                    <p><strong>(a)</strong> Substrate: pyruvate (and NADH). Product: lactate (and NAD⁺).</p>
+                    <p><strong>(b)</strong> During intense exercise, oxygen supply to muscles is insufficient for oxidative phosphorylation. NADH accumulates and NAD⁺ is depleted. Lactate fermentation regenerates NAD⁺ from NADH, allowing glycolysis to continue producing ATP (2 per glucose). Without NAD⁺ regeneration, glycolysis would stop and no ATP would be produced.</p>
+                    <p><strong>(c)</strong> Lactate diffuses into blood and is transported to the liver. In liver cells (with adequate oxygen), lactate is oxidized back to pyruvate by lactate dehydrogenase. Pyruvate then enters aerobic respiration or is converted to glucose via gluconeogenesis (Cori cycle).</p>
+                    <h4>Explanation:</h4>
+                    <p>This tests understanding of anaerobic respiration's role and reversibility. Key points: fermentation regenerates NAD⁺ (not produces ATP), it's temporary during O₂ deficit, and lactate is recycled rather than being waste. The Cori cycle demonstrates integration between different tissues.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <div class="problem-number">Problem 5</div>
+                <div class="problem-question">
+                    A researcher measures gas exchange in a respirometer containing woodlice. In one hour, 180 mm³ of O₂ is consumed and 180 mm³ of CO₂ is produced (after correcting for the control). (a) Calculate the respiratory quotient (RQ). (b) Identify which type of substrate is primarily being respired. (c) Explain your reasoning.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution-content" id="solution-5">
+                    <h4>Solution:</h4>
+                    <p><strong>(a)</strong> RQ = CO₂ produced / O₂ consumed = 180/180 = <strong>1.0</strong></p>
+                    <p><strong>(b)</strong> Carbohydrates (sugars, starch, glycogen)</p>
+                    <p><strong>(c)</strong> An RQ of 1.0 indicates that one molecule of CO₂ is produced for each molecule of O₂ consumed. This matches the stoichiometry of carbohydrate oxidation: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O (ratio 6:6 = 1.0). Lipids have RQ ≈ 0.7 because they require more oxygen relative to CO₂ produced, and proteins have RQ ≈ 0.9.</p>
+                    <h4>Explanation:</h4>
+                    <p>RQ analysis is a powerful tool for identifying respiratory substrate. The balanced equation for glucose shows equal moles of O₂ and CO₂. Lipids have lower RQ because they contain less oxygen initially, requiring more O₂ for complete oxidation. Students should relate RQ values to substrate composition.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <div class="problem-number">Problem 6</div>
+                <div class="problem-question">
+                    The table shows NADH and FADH₂ production at different stages of aerobic respiration of one glucose molecule. Calculate the maximum number of ATP that could be produced by oxidative phosphorylation, assuming 2.5 ATP per NADH and 1.5 ATP per FADH₂.
+                    <table style="margin-top: 1rem;">
+                        <tr><th>Stage</th><th>NADH</th><th>FADH₂</th></tr>
+                        <tr><td>Glycolysis</td><td>2</td><td>0</td></tr>
+                        <tr><td>Link reaction</td><td>2</td><td>0</td></tr>
+                        <tr><td>Krebs cycle</td><td>6</td><td>2</td></tr>
+                        <tr><td><strong>Total</strong></td><td><strong>10</strong></td><td><strong>2</strong></td></tr>
+                    </table>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+                <div class="solution-content" id="solution-6">
+                    <h4>Solution:</h4>
+                    <p>ATP from NADH: 10 × 2.5 = 25 ATP</p>
+                    <p>ATP from FADH₂: 2 × 1.5 = 3 ATP</p>
+                    <p><strong>Total ATP from oxidative phosphorylation: 25 + 3 = 28 ATP</strong></p>
+                    <h4>Explanation:</h4>
+                    <p>This calculation tests understanding of the relationship between reduced coenzymes and ATP yield. NADH yields more ATP than FADH₂ because NADH electrons enter the ETC at Complex I (higher energy level), allowing more proton pumping than FADH₂ electrons entering at Complex II. The 28 ATP, plus 4 ATP from substrate-level phosphorylation, gives approximately 32 ATP total (some may be lost to transport costs).</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Exam Tips Section -->
+        <div class="tips-box">
+            <h3>Exam Tips</h3>
+            <ul>
+                <li>Always show your working for calculations—partial credit is awarded even if final answer is wrong</li>
+                <li>When calculating ATP yield, state your assumptions (e.g., '2.5 ATP per NADH, 1.5 per FADH₂') as different values appear in different sources</li>
+                <li>For respirometer questions, remember to account for the control setup to correct for pressure/temperature changes</li>
+                <li>In compare/contrast questions, use a table or clear structure with both similarities AND differences</li>
+                <li>When asked to 'explain,' provide both the what (description) and why (reason/mechanism)—one-word answers rarely earn full marks</li>
+                <li>Know the exact locations: glycolysis in cytoplasm, link reaction and Krebs cycle in mitochondrial matrix, ETC on inner mitochondrial membrane</li>
+                <li>For anaerobic respiration, emphasize that fermentation regenerates NAD⁺, not produces ATP—the 2 ATP comes from glycolysis</li>
+                <li>In essay questions about respiration, use technical terms precisely: 'decarboxylation' not 'CO₂ removed,' 'dehydrogenation' not 'hydrogen removed'</li>
+                <li>Questions about poisons/inhibitors test understanding of interconnections—explain cascade effects (e.g., ETC blocked → NADH accumulates → Krebs cycle stops)</li>
+                <li>For RQ calculations, learn the values: carbohydrates = 1.0, lipids = 0.7, proteins = 0.9, anaerobic = infinity</li>
+                <li>Data-based questions often require you to calculate rates (per gram, per minute)—check units carefully</li>
+                <li>When drawing or labeling diagrams, include all required components: inner/outer membranes, matrix, intermembrane space, cristae, ATP synthase position</li>
+                <li>Common command terms: 'State' = no explanation needed, 'Explain' = reason/mechanism required, 'Calculate' = show working, 'Compare' = similarities AND differences</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChatbot()">💬</button>
+    </div>
+
+    <!-- Footer Navigation -->
+    <div class="footer-nav">
+        <div class="footer-nav-content">
+            <button class="nav-button" onclick="previousLesson()">← Previous Lesson</button>
+            <span class="lesson-info">Lesson C2 of 20</span>
+            <button class="nav-button" onclick="nextLesson()">Next Lesson →</button>
+        </div>
+    </div>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Toggle Solution Function
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = solution.previousElementSibling;
+
+            if (solution.classList.contains('show')) {
+                solution.classList.remove('show');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('show');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Chatbot Function
+        function openChatbot() {
+            alert('Chatbot feature: Connect this to your AI tutoring system!\n\nThis would open a chat interface where students can ask questions about cell respiration.');
+        }
+
+        // Navigation Functions
+        function previousLesson() {
+            alert('Navigate to previous lesson (C1)');
+            // window.location.href = 'lesson_c1.html';
+        }
+
+        function nextLesson() {
+            alert('Navigate to next lesson (C3)');
+            // window.location.href = 'lesson_c3.html';
+        }
+
+        // Track Reading Progress
+        let sectionsRead = new Set();
+
+        function trackProgress() {
+            const sections = document.querySelectorAll('.content-section');
+            const windowHeight = window.innerHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                const sectionTop = rect.top + scrollTop;
+                const sectionBottom = sectionTop + rect.height;
+
+                if (scrollTop + windowHeight > sectionTop + 100) {
+                    sectionsRead.add(index);
+                }
+            });
+
+            const progress = (sectionsRead.size / sections.length) * 100;
+            console.log('Reading progress: ' + progress.toFixed(0) + '%');
+
+            // Store progress in localStorage
+            localStorage.setItem('lesson_c2_progress', progress.toFixed(0));
+        }
+
+        window.addEventListener('scroll', trackProgress);
+        window.addEventListener('load', trackProgress);
+
+        // Load saved progress
+        window.addEventListener('load', function() {
+            const savedProgress = localStorage.getItem('lesson_c2_progress');
+            if (savedProgress) {
+                console.log('Resumed at: ' + savedProgress + '% complete');
+            }
+        });
+
+        // Print button functionality
+        function printLesson() {
+            window.print();
+        }
+
+        // Bookmark functionality
+        function bookmarkLesson() {
+            const title = document.title;
+            const url = window.location.href;
+
+            if (window.sidebar && window.sidebar.addPanel) {
+                window.sidebar.addPanel(title, url, '');
+            } else if (window.external && ('AddFavorite' in window.external)) {
+                window.external.AddFavorite(url, title);
+            } else {
+                alert('Press ' + (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
+            }
+        }
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Quiz mode toggle
+        let quizMode = false;
+
+        function toggleQuizMode() {
+            quizMode = !quizMode;
+            const solutions = document.querySelectorAll('.solution-content');
+
+            if (quizMode) {
+                solutions.forEach(sol => sol.classList.remove('show'));
+                document.querySelectorAll('.solution-toggle').forEach(btn => {
+                    btn.textContent = 'Show Solution';
+                });
+                alert('Quiz mode activated! All solutions hidden.');
+            } else {
+                alert('Quiz mode deactivated.');
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Press 'P' for previous lesson
+            if (e.key === 'p' || e.key === 'P') {
+                if (!e.target.matches('input, textarea')) {
+                    previousLesson();
+                }
+            }
+            // Press 'N' for next lesson
+            if (e.key === 'n' || e.key === 'N') {
+                if (!e.target.matches('input, textarea')) {
+                    nextLesson();
+                }
+            }
+            // Press 'C' for chatbot
+            if (e.key === 'c' || e.key === 'C') {
+                if (!e.target.matches('input, textarea')) {
+                    openChatbot();
+                }
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.content-section, .definition-box, .problem');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Study timer
+        let studyStartTime = Date.now();
+
+        window.addEventListener('beforeunload', function() {
+            const studyTime = Math.floor((Date.now() - studyStartTime) / 1000 / 60);
+            localStorage.setItem('lesson_c2_study_time', studyTime);
+        });
+
+        // Display study stats on load
+        window.addEventListener('load', function() {
+            const totalStudyTime = localStorage.getItem('lesson_c2_study_time') || 0;
+            console.log('Total study time for this lesson: ' + totalStudyTime + ' minutes');
+        });
+    </script>
+</body>
+</html>

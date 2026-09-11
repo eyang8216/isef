@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic C2: Wave Model - IB Physics HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .navbar-info {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .navbar-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Learning Objectives */
+        .objectives-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .objectives-section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .objectives-list {
+            list-style: none;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .objectives-list li {
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0.5rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .content-section ul {
+            margin-bottom: 1.2rem;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ebf3 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .problem-container:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+            border-color: #667eea;
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .problem-number {
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .problem-question {
+            flex: 1;
+            margin-left: 1rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .solution-toggle {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .solution-toggle:hover {
+            background: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .solution-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .solution-content.active {
+            max-height: 5000px;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .solution-content h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .explanation-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #f57c00;
+        }
+
+        /* Exam Tips */
+        .tips-container {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tips-container h2 {
+            color: #e65100;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .tip-item {
+            background: white;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff9800;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .nav-button.prev {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .problem-header {
+                flex-direction: column;
+            }
+
+            .problem-question {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>Topic C2: Wave Model - Complete IB Physics HL Guide</h1>
+            <div class="navbar-info">
+                <span class="navbar-badge">Physics</span>
+                <span class="navbar-badge">Higher Level</span>
+                <span class="navbar-badge">Syllabus C.2</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Tracking -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-label">
+                <span>Lesson Progress</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Learning Objectives -->
+        <section class="objectives-section">
+            <h2>Learning Objectives</h2>
+            <ul class="objectives-list">
+                <li>Describe the characteristics of traveling waves including amplitude, wavelength, frequency, period, and wave speed</li>
+                <li>Apply the wave equation v = fλ to solve problems involving wave motion</li>
+                <li>Explain the relationship between intensity and amplitude of a wave</li>
+                <li>Apply the principle of superposition to analyze wave interactions</li>
+                <li>Distinguish between transverse and longitudinal waves and explain polarization</li>
+                <li>Analyze single-slit diffraction patterns and calculate angular positions of minima</li>
+                <li>Explain the formation of two-source interference patterns and calculate fringe spacing</li>
+                <li>Relate path difference and phase difference in interference phenomena</li>
+                <li>Describe the modulation of double-slit interference by single-slit diffraction</li>
+                <li>Analyze multiple-slit and thin-film interference patterns</li>
+                <li>Apply the Rayleigh criterion to determine the resolution of optical systems</li>
+                <li>Calculate frequency shifts using the Doppler effect for both sound and electromagnetic waves</li>
+            </ul>
+        </section>
+
+        <!-- Key Definitions -->
+        <section class="content-section">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Traveling Wave</div>
+                <div class="definition-text">A disturbance that transfers energy from one location to another without transferring matter, characterized by oscillations that propagate through space and time.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Wavelength (λ)</div>
+                <div class="definition-text">The distance between two consecutive points in phase on a wave (e.g., crest to crest), measured in meters.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Frequency (f)</div>
+                <div class="definition-text">The number of complete oscillations passing a point per unit time, measured in hertz (Hz = s⁻¹).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Amplitude (A)</div>
+                <div class="definition-text">The maximum displacement of a point on the wave from its equilibrium position, measured in meters or appropriate units.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Intensity (I)</div>
+                <div class="definition-text">The power per unit area carried by a wave, measured in W m⁻². For waves in 3D space: I ∝ A² and I ∝ 1/r².</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Superposition Principle</div>
+                <div class="definition-text">When two or more waves meet, the resultant displacement at any point is the vector sum of the individual displacements at that point.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Polarization</div>
+                <div class="definition-text">A property of transverse waves where oscillations occur in a specific plane perpendicular to the direction of energy transfer. Cannot occur in longitudinal waves.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Coherence</div>
+                <div class="definition-text">Two sources are coherent if they maintain a constant phase relationship. Essential for stable interference patterns.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Path Difference (Δx)</div>
+                <div class="definition-text">The difference in distances traveled by two waves from their sources to a point of interest. Related to phase difference by: δ = (2π/λ)Δx.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Rayleigh Criterion</div>
+                <div class="definition-text">Two point sources are just resolved when the central maximum of one diffraction pattern coincides with the first minimum of the other: θ = 1.22λ/b (for circular aperture).</div>
+            </div>
+        </section>
+
+        <!-- Content Sections -->
+        <section class="content-section">
+            <h2>Introduction: The Wave Model</h2>
+            <p>The wave model is one of the most powerful frameworks in physics, describing phenomena ranging from ocean waves to light, sound, and even quantum mechanical behavior. Understanding waves is essential for explaining how energy and information transfer through space without the bulk motion of matter.</p>
+            <p>Waves appear everywhere in nature: seismic waves traveling through Earth's interior, electromagnetic waves enabling wireless communication, sound waves carrying music to our ears, and light waves revealing the structure of distant galaxies. The IB Physics HL curriculum develops both the mathematical framework and physical intuition needed to analyze these diverse phenomena through a unified lens.</p>
+            <p>Topic C2 builds systematically from basic wave properties through increasingly sophisticated interference and diffraction phenomena. You'll master both the conceptual understanding (WHY waves behave as they do) and the quantitative tools (HOW to calculate and predict wave behavior) needed for IB examinations and further study in physics, engineering, and related fields.</p>
+            <p><strong>Prerequisites:</strong> This topic assumes familiarity with trigonometric functions (sine, cosine), basic calculus concepts (rates of change), and vector addition. You should be comfortable with Topic A (Space, time and motion) concepts like velocity and acceleration.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Traveling Waves and Wave Characteristics</h2>
+            <p>A traveling wave is a disturbance that propagates through space, transferring energy without permanently displacing the medium. Consider dropping a stone in a pond: water molecules oscillate up and down, but the wave pattern moves outward—energy travels, not the water itself.</p>
+
+            <h3>Wave Classification:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Mechanical waves</strong> require a medium (sound, water waves, seismic waves)</li>
+                <li><strong>Electromagnetic waves</strong> require no medium (light, radio, X-rays)</li>
+                <li><strong>Transverse waves</strong>: oscillations perpendicular to energy transfer (light, water surface waves, waves on strings)</li>
+                <li><strong>Longitudinal waves</strong>: oscillations parallel to energy transfer (sound, P-waves)</li>
+            </ul>
+
+            <h3>Fundamental Wave Parameters:</h3>
+            <p><strong>1. Amplitude (A):</strong> Maximum displacement from equilibrium. Determines energy carried by the wave since energy ∝ A².</p>
+            <p><strong>2. Wavelength (λ):</strong> Spatial period—the distance over which the wave pattern repeats. For a sinusoidal wave: λ is the distance between consecutive crests.</p>
+            <p><strong>3. Period (T):</strong> Temporal period—the time for one complete oscillation at a fixed point. If you watch one point on a string, T is the time between successive peaks.</p>
+            <p><strong>4. Frequency (f):</strong> The inverse of period: f = 1/T. Measures oscillations per second (Hz).</p>
+            <p><strong>5. Wave speed (v):</strong> The speed at which wave pattern propagates through space.</p>
+
+            <h3>The Fundamental Wave Equation:</h3>
+            <p><strong>v = fλ</strong></p>
+            <p>This equation connects spatial (λ) and temporal (f) properties through the propagation speed. Derivation: A wave travels one wavelength (λ) in one period (T), so v = λ/T = λf.</p>
+
+            <h3>Wave Speed Dependencies:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>String waves: v = √(T/μ) where T is tension, μ is linear mass density</li>
+                <li>Sound in gases: v ∝ √T_abs (temperature dependent)</li>
+                <li>Electromagnetic waves in vacuum: c = 3.00 × 10⁸ m s⁻¹ (constant)</li>
+            </ul>
+
+            <h3>Intensity and Amplitude Relationship:</h3>
+            <p>Intensity measures power per unit area: I = P/A (W m⁻²). For waves, intensity is proportional to the square of amplitude:</p>
+            <p><strong>I ∝ A²</strong></p>
+            <p>For a point source emitting uniformly in 3D space, energy spreads over spherical surfaces. Since surface area increases as 4πr², intensity follows the inverse square law:</p>
+            <p><strong>I = P/(4πr²) ∝ 1/r²</strong></p>
+            <p>Combining these: if amplitude at distance r₁ is A₁, then at distance r₂:</p>
+            <p><strong>A₂/A₁ = r₁/r₂</strong></p>
+            <p>So amplitude decreases linearly with distance for 3D wave propagation.</p>
+
+            <h3>Mathematical Description of Waves:</h3>
+            <p>A sinusoidal wave traveling in the +x direction can be written as:</p>
+            <p><strong>y(x,t) = A sin(kx - ωt + φ)</strong></p>
+            <p>where:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>k = 2π/λ is the wave number (spatial frequency)</li>
+                <li>ω = 2πf is the angular frequency (temporal frequency)</li>
+                <li>φ is the phase constant (initial phase)</li>
+                <li>v = ω/k = fλ (wave speed)</li>
+            </ul>
+            <p>For a wave traveling in the -x direction, use sin(kx + ωt + φ).</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Superposition and Interference</h2>
+
+            <h3>The Principle of Superposition:</h3>
+            <p>When two or more waves overlap in space, the resultant displacement at any point equals the vector sum of individual displacements. This is a fundamental principle that applies to all types of waves (with qualifications for very large amplitude waves where linear approximations fail).</p>
+            <p>Mathematically: <strong>y_total = y₁ + y₂ + y₃ + ...</strong></p>
+
+            <h3>Constructive and Destructive Interference:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Constructive interference:</strong> Waves combine to produce larger amplitude (crests align with crests)</li>
+                <li><strong>Destructive interference:</strong> Waves combine to produce smaller amplitude (crests align with troughs)</li>
+                <li><strong>General case:</strong> Partial interference produces intermediate amplitudes</li>
+            </ul>
+
+            <h3>Conditions for Stable Interference Patterns:</h3>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Coherence:</strong> Sources must maintain constant phase relationship</li>
+                <li><strong>Similar frequencies:</strong> For sustained patterns, frequencies must be nearly identical</li>
+                <li><strong>Overlapping waves:</strong> Waves must physically occupy the same region</li>
+            </ol>
+
+            <h3>Phase Difference and Path Difference:</h3>
+            <p>Two waves from coherent sources reaching a point have:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Path difference:</strong> Δx = |S₁P - S₂P| (geometric difference in distances traveled)</li>
+                <li><strong>Phase difference:</strong> δ = (2π/λ)Δx (difference in oscillation phase)</li>
+            </ul>
+
+            <p>For two waves with equal amplitude A:</p>
+            <p><strong>Constructive interference (maximum):</strong> Δx = nλ where n = 0, 1, 2, ...</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Resultant amplitude = 2A</li>
+                <li>Phase difference: δ = 2πn (in phase)</li>
+            </ul>
+
+            <p><strong>Destructive interference (minimum):</strong> Δx = (n + ½)λ where n = 0, 1, 2, ...</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Resultant amplitude = 0</li>
+                <li>Phase difference: δ = (2n+1)π (out of phase)</li>
+            </ul>
+
+            <h3>General Amplitude Formula:</h3>
+            <p>For two coherent waves with equal amplitude A and phase difference δ:</p>
+            <p><strong>A_resultant = 2A cos(δ/2)</strong></p>
+            <p>This interpolates smoothly between maximum (2A when δ = 0) and minimum (0 when δ = π).</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Polarization of Transverse Waves</h2>
+
+            <h3>Polarization: A Property Unique to Transverse Waves</h3>
+            <p>In a transverse wave, oscillations occur perpendicular to the propagation direction. But perpendicular defines a plane, not a unique direction. Polarization specifies which direction within that perpendicular plane the oscillations occur.</p>
+
+            <h3>Types of Polarization:</h3>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Unpolarized:</strong> Oscillations occur randomly in all perpendicular directions (most common for natural light)</li>
+                <li><strong>Linearly polarized:</strong> Oscillations confined to a single plane (e.g., light after passing through a polarizer)</li>
+                <li><strong>Circularly/elliptically polarized:</strong> The oscillation direction rotates as the wave propagates (HL extension, not required)</li>
+            </ol>
+
+            <h3>Why Longitudinal Waves Cannot Be Polarized:</h3>
+            <p>In longitudinal waves (like sound), oscillations occur parallel to propagation direction. There's only one direction parallel to propagation, so there's no choice of orientation—no polarization is possible.</p>
+
+            <h3>Malus's Law:</h3>
+            <p>When polarized light of intensity I₀ passes through a polarizer whose axis makes angle θ with the polarization direction:</p>
+            <p><strong>I = I₀ cos²θ</strong></p>
+            <p>This explains:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Maximum transmission when θ = 0° (aligned): I = I₀</li>
+                <li>Zero transmission when θ = 90° (crossed polarizers): I = 0</li>
+                <li>50% transmission when θ = 45°: I = I₀/2</li>
+            </ul>
+
+            <h3>Applications:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>LCD displays use crossed polarizers with liquid crystals that rotate polarization</li>
+                <li>Polarized sunglasses reduce glare from reflected light (which is partially polarized)</li>
+                <li>Stress analysis in engineering: transparent materials under stress become birefringent (polarization-dependent)</li>
+                <li>3D cinema: different polarizations for left and right eye images</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Single-Slit Diffraction</h2>
+
+            <h3>Diffraction: Wave Bending Around Obstacles</h3>
+            <p>When a wave encounters an obstacle or aperture with size comparable to its wavelength, it bends around edges—a phenomenon called diffraction. This is fundamentally a consequence of Huygens' principle: every point on a wavefront acts as a source of secondary wavelets.</p>
+
+            <h3>Single-Slit Diffraction Pattern:</h3>
+            <p>When plane waves pass through a slit of width b, the transmitted wave diffracts, creating a pattern on a distant screen with:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>A bright central maximum (widest and brightest)</li>
+                <li>Progressively dimmer secondary maxima on either side</li>
+                <li>Dark minima separating the maxima</li>
+            </ul>
+
+            <h3>Position of Minima:</h3>
+            <p>The angular position θ of the nth minimum (dark fringe) from the center is given by:</p>
+            <p><strong>b sin θ = nλ</strong></p>
+            <p>where:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>b = slit width</li>
+                <li>n = 1, 2, 3, ... (order of minimum; n = 0 is the central maximum, not a minimum)</li>
+                <li>λ = wavelength</li>
+            </ul>
+
+            <h3>Physical Explanation:</h3>
+            <p>Consider the slit divided into two halves. At angle θ where b sin θ = λ, the path difference between rays from the top and middle of the slit is λ/2. These rays interfere destructively. Similarly, rays from just below the top and just below the middle also differ by λ/2 and cancel. Every ray from the top half has a corresponding ray from the bottom half that cancels it—producing a minimum.</p>
+
+            <h3>Central Maximum Width:</h3>
+            <p>The angular width of the central maximum (from first minimum on one side to first minimum on the other) is:</p>
+            <p><strong>Δθ ≈ 2λ/b</strong> (for small angles)</p>
+            <p>Linear width on a screen at distance D:</p>
+            <p><strong>w ≈ 2λD/b</strong></p>
+
+            <h3>Key Insights:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Narrower slits (smaller b) → wider diffraction patterns</li>
+                <li>Longer wavelengths (larger λ) → wider diffraction patterns</li>
+                <li>Central maximum is twice as wide as secondary maxima</li>
+                <li>About 95% of light intensity is in the central maximum</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Double-Slit Interference</h2>
+
+            <h3>Young's Double-Slit Experiment: Wave Nature of Light</h3>
+            <p>Thomas Young's 1801 experiment provided compelling evidence for the wave nature of light by demonstrating interference. Coherent light passing through two narrow slits creates a pattern of bright and dark fringes on a screen—impossible to explain with particle theory alone.</p>
+
+            <h3>Pattern Formation:</h3>
+            <p>Two slits separated by distance d act as coherent sources. At any point P on a distant screen:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Path difference: Δx = d sin θ (where θ is angle from center)</li>
+                <li>Constructive interference (bright fringes): d sin θ = nλ where n = 0, ±1, ±2, ...</li>
+                <li>Destructive interference (dark fringes): d sin θ = (n + ½)λ</li>
+            </ul>
+
+            <h3>Fringe Spacing:</h3>
+            <p>For a screen at distance D from the slits, with small angle approximation (sin θ ≈ tan θ ≈ θ):</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Position of nth bright fringe from center: x_n = nλD/d</li>
+                <li>Fringe spacing (distance between consecutive bright fringes): <strong>s = λD/d</strong></li>
+            </ul>
+
+            <h3>Key Relationships:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Larger slit separation (d) → narrower fringes (smaller s)</li>
+                <li>Longer wavelength (λ) → wider fringes (larger s)</li>
+                <li>Greater screen distance (D) → wider fringes (larger s)</li>
+            </ul>
+
+            <h3>Intensity Distribution:</h3>
+            <p>The intensity varies as:</p>
+            <p><strong>I = I_max cos²(πd sin θ/λ)</strong></p>
+            <p>where I_max = 4I₀ (I₀ is intensity from one slit alone).</p>
+
+            <h3>Comparison: Interference vs. Diffraction</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Interference: interaction between waves from different sources (double-slit spacing d)</li>
+                <li>Diffraction: interaction between waves from different parts of the same wavefront (slit width b)</li>
+                <li>Both phenomena are manifestations of superposition</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Modulation of Double-Slit Interference by Single-Slit Diffraction</h2>
+
+            <h3>The Complete Double-Slit Pattern:</h3>
+            <p>Real double-slits have finite width b (not infinitesimal). The observed pattern results from the combination of:</p>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Interference</strong> from the two slits (separation d): produces closely spaced fringes</li>
+                <li><strong>Diffraction</strong> from each individual slit (width b): modulates the interference pattern intensity</li>
+            </ol>
+
+            <h3>Pattern Characteristics:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>The double-slit interference pattern appears as the "fine structure"</li>
+                <li>The single-slit diffraction envelope modulates the interference fringe intensity</li>
+                <li>Interference fringes gradually diminish in brightness away from center</li>
+                <li>Missing orders occur when interference maxima coincide with diffraction minima</li>
+            </ul>
+
+            <h3>Missing Orders:</h3>
+            <p>An interference maximum is missing when it coincides with a diffraction minimum:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Interference maximum: d sin θ = n_int λ</li>
+                <li>Diffraction minimum: b sin θ = n_diff λ</li>
+            </ul>
+            <p>Dividing these equations: <strong>d/b = n_int/n_diff</strong></p>
+            <p>So the n_int-th order interference maximum is missing when n_int = (d/b) × n_diff</p>
+            <p><strong>Example:</strong> If d = 4b, then d/b = 4, so the 4th, 8th, 12th, ... interference orders are missing (they coincide with the 1st, 2nd, 3rd, ... diffraction minima).</p>
+
+            <h3>Practical Significance:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Explains why interference fringes don't all have equal brightness</li>
+                <li>Important in diffraction grating design (multiple slits)</li>
+                <li>Demonstrates that real optical systems combine multiple wave phenomena</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Multiple-Slit Interference and Diffraction Gratings</h2>
+
+            <h3>Diffraction Gratings: Multiple-Slit Interference</h3>
+            <p>A diffraction grating consists of many equally spaced parallel slits (or lines). Typical gratings have 300-600 lines per mm, giving slit spacing d ≈ 1.7-3.3 μm.</p>
+
+            <h3>Grating Equation:</h3>
+            <p>For principal maxima (bright fringes):</p>
+            <p><strong>d sin θ = nλ</strong></p>
+            <p>where n = 0, ±1, ±2, ... is the order of the maximum.</p>
+            <p>This is identical to the double-slit condition, but multiple slits create:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Sharper maxima:</strong> Width decreases as number of slits increases</li>
+                <li><strong>Darker regions between maxima:</strong> More complete destructive interference</li>
+                <li><strong>Higher resolution:</strong> Ability to distinguish nearby wavelengths</li>
+            </ul>
+
+            <h3>Advantages of Gratings Over Double-Slits:</h3>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Higher intensity:</strong> More slits transmit more light</li>
+                <li><strong>Sharper maxima:</strong> Better for precise wavelength measurement</li>
+                <li><strong>Higher resolution:</strong> Can distinguish wavelengths differing by &lt; 1 nm</li>
+            </ol>
+
+            <h3>Grating Applications:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Spectrometers: Separate light into component wavelengths</li>
+                <li>Monochromators: Select specific wavelengths</li>
+                <li>Optical sensors: Wavelength-sensitive detectors</li>
+                <li>CDs/DVDs: The track spacing acts as a reflection grating (d ≈ 1.6 μm for CDs)</li>
+            </ul>
+
+            <h3>Maximum Order:</h3>
+            <p>Since |sin θ| ≤ 1, the maximum order observable is:</p>
+            <p><strong>n_max = ⌊d/λ⌋</strong></p>
+            <p>For white light, different wavelengths appear at different angles, creating a spectrum (except for n = 0, which is white).</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Thin-Film Interference</h2>
+
+            <h3>Interference in Thin Films:</h3>
+            <p>When light reflects from the top and bottom surfaces of a thin film (soap bubbles, oil on water, anti-reflection coatings), the two reflected waves can interfere, producing colors.</p>
+
+            <h3>Path Difference Considerations:</h3>
+            <p>For a film of thickness t and refractive index n, with light incident at angle θ:</p>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Optical path difference: Δx = 2nt cos θ_t (where θ_t is refraction angle in film)</li>
+                <li>For near-normal incidence: Δx ≈ 2nt</li>
+            </ol>
+
+            <h3>Phase Change on Reflection:</h3>
+            <p><strong>CRITICAL:</strong> When light reflects from a denser medium (higher refractive index), it undergoes a phase change of π (equivalent to path difference of λ/2).</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Reflection from rare to dense medium: phase change π</li>
+                <li>Reflection from dense to rare medium: no phase change</li>
+            </ul>
+
+            <h3>Conditions for Constructive/Destructive Interference:</h3>
+            <p>For a thin film in air (n &gt; 1) with near-normal incidence:</p>
+            <p><strong>Constructive (bright):</strong> 2nt = (m + ½)λ where m = 0, 1, 2, ...</p>
+            <p><strong>Destructive (dark):</strong> 2nt = mλ where m = 0, 1, 2, ...</p>
+            <p><strong>Note:</strong> These conditions include the π phase change from the top surface reflection. If both or neither surface produces phase change, the conditions swap.</p>
+
+            <h3>Applications:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Anti-reflection coatings:</strong> Film thickness chosen so reflected waves destructively interfere (typically t = λ/4n for single-layer coatings)</li>
+                <li><strong>Soap bubbles:</strong> Varying thickness creates rainbow colors</li>
+                <li><strong>Oil slicks:</strong> Thin oil films (n ≈ 1.5) on water show interference colors</li>
+                <li><strong>Quality control:</strong> Newton's rings reveal surface flatness</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Resolution and the Rayleigh Criterion</h2>
+
+            <h3>Diffraction-Limited Resolution:</h3>
+            <p>Diffraction fundamentally limits the ability of optical instruments to distinguish nearby objects. Even perfect lenses with no aberrations cannot overcome this quantum limit.</p>
+
+            <h3>Circular Aperture Diffraction:</h3>
+            <p>A circular aperture (lens, telescope, eye pupil) of diameter b creates a diffraction pattern with:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Central bright disk (Airy disk)</li>
+                <li>Concentric rings of decreasing intensity</li>
+                <li>Angular radius of first minimum: <strong>θ = 1.22λ/b</strong></li>
+            </ul>
+            <p>The factor 1.22 comes from Bessel function mathematics (beyond IB scope).</p>
+
+            <h3>Rayleigh Criterion:</h3>
+            <p>Two point sources are <strong>just resolved</strong> when the central maximum of one Airy disk coincides with the first minimum of the other. This gives minimum resolvable angular separation:</p>
+            <p><strong>θ_min = 1.22λ/b</strong></p>
+
+            <h3>Key Insights:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Larger aperture (b) → better resolution (smaller θ)</li>
+                <li>Shorter wavelength (λ) → better resolution</li>
+                <li>Blue light resolves better than red light</li>
+                <li>Telescopes need large diameters for good resolution</li>
+                <li>Microscopes use short-wavelength UV or electron beams for high resolution</li>
+            </ul>
+
+            <h3>Linear Resolution:</h3>
+            <p>For an object at distance D, the minimum resolvable linear separation is:</p>
+            <p><strong>d_min = Dθ_min = 1.22λD/b</strong></p>
+
+            <h3>Applications:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Astronomy:</strong> Telescope diameter determines ability to see binary stars</li>
+                <li><strong>Microscopy:</strong> Resolving cellular structures requires short wavelengths</li>
+                <li><strong>Photography:</strong> Diffraction limits resolution at small apertures (high f-numbers)</li>
+                <li><strong>Human eye:</strong> Pupil diameter ≈ 3 mm (dark) to 7 mm (bright); can resolve ≈ 0.3 mm at 25 cm</li>
+            </ul>
+
+            <h3>Beyond the Rayleigh Criterion:</h3>
+            <p>Modern techniques (computational imaging, interferometry) can exceed the Rayleigh limit under special conditions, but the criterion remains fundamental for conventional imaging.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Doppler Effect</h2>
+
+            <h3>The Doppler Effect: Frequency Shifts from Relative Motion</h3>
+            <p>When there is relative motion between a wave source and observer, the observed frequency differs from the emitted frequency. This applies to all wave types but differs in detail between mechanical waves (requiring a medium) and electromagnetic waves (no medium).</p>
+
+            <h3>Physical Origin:</h3>
+            <p>Consider a source emitting waves of frequency f_s and wavelength λ_s = v/f_s.</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Source moving toward observer: Successive wavefronts are compressed (shorter wavelength)</li>
+                <li>Source moving away from observer: Successive wavefronts are stretched (longer wavelength)</li>
+                <li>Observer moving: Encounters wavefronts at a different rate</li>
+            </ul>
+
+            <h3>Doppler Effect for Sound (Mechanical Waves):</h3>
+            <p>For sound waves in air with speed v:</p>
+            <p><strong>f_o = f_s [(v ± v_o)/(v ∓ v_s)]</strong></p>
+            <p>where:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>f_o = observed frequency</li>
+                <li>f_s = source frequency</li>
+                <li>v_o = observer speed</li>
+                <li>v_s = source speed</li>
+                <li>v = wave speed in medium</li>
+            </ul>
+
+            <h3>Sign Conventions:</h3>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Numerator: + if observer moves toward source, - if away</li>
+                <li>Denominator: - if source moves toward observer, + if away</li>
+                <li>Mnemonic: Approaching increases frequency (use signs that make fraction &gt; 1)</li>
+            </ul>
+
+            <h3>Doppler Effect for Light (Electromagnetic Waves):</h3>
+            <p>For electromagnetic waves, only relative velocity matters (special relativity). For v &lt;&lt; c:</p>
+            <p><strong>Non-relativistic approximation:</strong></p>
+            <p>Δf/f_s = v_r/c</p>
+            <p>where v_r is radial velocity (positive = approaching, negative = receding).</p>
+            <p>Equivalently: <strong>f_o = f_s(1 ± v_r/c)</strong></p>
+
+            <h3>Wavelength Shift:</h3>
+            <p><strong>Δλ/λ_s = ±v_r/c</strong></p>
+            <p>(+ for receding/redshift, - for approaching/blueshift)</p>
+
+            <h3>Applications:</h3>
+            <p><strong>1. Astronomy:</strong></p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Redshift measurements determine galaxy velocities and distances (Hubble's law)</li>
+                <li>Exoplanet detection via stellar wobble</li>
+                <li>Binary star systems analysis</li>
+            </ul>
+
+            <p><strong>2. Radar speed detection:</strong></p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Police radar measures reflected wave frequency shift</li>
+                <li>Weather radar measures precipitation motion</li>
+            </ul>
+
+            <p><strong>3. Medical ultrasound:</strong></p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Doppler ultrasound measures blood flow velocity</li>
+                <li>Echocardiography assesses heart valve function</li>
+            </ul>
+
+            <p><strong>4. Navigation:</strong></p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>GPS uses Doppler corrections for satellite motion</li>
+                <li>Aircraft navigation systems</li>
+            </ul>
+
+            <h3>Relativistic Doppler Effect (Brief Note):</h3>
+            <p>For velocities approaching c, time dilation matters:</p>
+            <p><strong>f_o = f_s √[(1 - v_r/c)/(1 + v_r/c)]</strong></p>
+            <p>This becomes significant for v &gt; 0.1c (not typically required for IB calculations but good to know conceptually).</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Common Misconceptions and Exam Tips</h2>
+
+            <h3>Common Misconceptions:</h3>
+
+            <p><strong>1. "Intensity and amplitude are the same thing"</strong></p>
+            <p>Wrong: I ∝ A². Doubling amplitude quadruples intensity. Exam trap: Questions asking for amplitude change given intensity change.</p>
+
+            <p><strong>2. "All interference creates standing waves"</strong></p>
+            <p>Wrong: Interference of traveling waves creates interference patterns. Standing waves require specific boundary conditions and superposition of counter-propagating waves.</p>
+
+            <p><strong>3. "Path difference equals phase difference"</strong></p>
+            <p>Wrong: They're related by δ = (2π/λ)Δx but have different units (radians vs. meters).</p>
+
+            <p><strong>4. "Diffraction only occurs at slits"</strong></p>
+            <p>Wrong: Diffraction occurs at any obstacle or aperture comparable to wavelength. Includes edges, holes, barriers.</p>
+
+            <p><strong>5. "Single-slit and double-slit patterns are unrelated"</strong></p>
+            <p>Wrong: Real double-slit patterns show both effects. Single-slit diffraction modulates double-slit interference.</p>
+
+            <p><strong>6. "Polarization can occur for sound waves"</strong></p>
+            <p>Wrong: Polarization requires transverse waves. Sound is longitudinal.</p>
+
+            <p><strong>7. "Thin film interference always requires the same conditions"</strong></p>
+            <p>Wrong: Must account for phase changes on reflection. Conditions reverse depending on whether reflections occur at rare-to-dense vs. dense-to-rare boundaries.</p>
+
+            <p><strong>8. "Rayleigh criterion is the absolute limit of resolution"</strong></p>
+            <p>Partially wrong: It's the conventional criterion for optical systems, but modern techniques can exceed it with additional information or constraints.</p>
+
+            <p><strong>9. "Doppler effect formulas are the same for sound and light"</strong></p>
+            <p>Wrong: Sound uses (v±v_o)/(v∓v_s) (depends on observer and source speeds separately). Light uses only relative velocity (special relativity).</p>
+
+            <p><strong>10. "Higher order interference maxima are brighter"</strong></p>
+            <p>Wrong: Central maximum (n=0) is typically brightest. Higher orders are progressively dimmer due to diffraction envelope.</p>
+        </section>
+
+        <!-- Practice Problems -->
+        <section class="content-section">
+            <h2>Practice Problems</h2>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 1</span>
+                    <p class="problem-question">A water wave has wavelength 2.4 m and frequency 0.50 Hz. (a) Calculate the wave speed. (b) The wave passes from deep to shallow water where the speed decreases to 0.80 m s⁻¹. Determine the new wavelength and frequency in shallow water. (c) Explain why the frequency remains constant but wavelength changes.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution-content" id="solution-1">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Using v = fλ:</strong><br>
+                    v = (0.50 Hz)(2.4 m) = 1.2 m s⁻¹</p>
+
+                    <p><strong>(b) Frequency is determined by the source and remains constant: f = 0.50 Hz</strong><br>
+                    Using v = fλ in shallow water:<br>
+                    λ = v/f = 0.80/0.50 = 1.6 m</p>
+
+                    <p><strong>(c)</strong> Frequency is set by the wave source (whatever is creating the oscillations) and doesn't change as the wave propagates through different media. However, when wave speed changes due to medium properties, wavelength must adjust to maintain v = fλ. The wave crests arrive at the boundary at frequency f, and they must leave at the same frequency (otherwise crests would pile up or disappear at the boundary, violating conservation).</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This problem tests fundamental wave equation understanding and the crucial concept that frequency is invariant across medium boundaries while wavelength adjusts. The physical explanation in part (c) demonstrates understanding beyond formula manipulation.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 2</span>
+                    <p class="problem-question">A point source emits sound uniformly in all directions with power 5.0 W. The intensity at distance 2.0 m from the source is 0.10 W m⁻². (a) Calculate the intensity at distance 8.0 m. (b) If the amplitude at 2.0 m is A₀, determine the amplitude at 8.0 m in terms of A₀. (c) State one assumption made in your calculations.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution-content" id="solution-2">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) For a point source, I ∝ 1/r², so:</strong><br>
+                    I₁/I₂ = r₂²/r₁²<br>
+                    I₂ = I₁(r₁/r₂)² = 0.10 × (2.0/8.0)² = 0.10 × (1/4)² = 0.10 × 1/16 = 6.3 × 10⁻³ W m⁻²</p>
+
+                    <p><strong>(b) Since I ∝ A² and I ∝ 1/r², we have A ∝ 1/r</strong><br>
+                    A₂/A₁ = r₁/r₂ = 2.0/8.0 = 1/4<br>
+                    Therefore: A₂ = A₀/4</p>
+
+                    <p><strong>(c) Assumptions (any one):</strong></p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>No absorption of sound by the medium (air)</li>
+                        <li>No reflections from nearby surfaces</li>
+                        <li>Source emits uniformly in all directions (isotropic)</li>
+                        <li>No wind or temperature gradients affecting propagation</li>
+                    </ul>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This problem combines inverse-square law for intensity with the I ∝ A² relationship. Students often forget that amplitude decreases linearly (∝ 1/r) while intensity decreases quadratically (∝ 1/r²). The assumptions question tests understanding of ideal model limitations.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 3</span>
+                    <p class="problem-question">In a Young's double-slit experiment, coherent light of wavelength 600 nm passes through two slits separated by 0.30 mm. A screen is placed 2.0 m from the slits. (a) Calculate the fringe spacing. (b) Determine the distance from the central maximum to the third bright fringe. (c) If the experiment is repeated with blue light (λ = 450 nm) while keeping all other parameters constant, state whether the fringe spacing increases, decreases, or stays the same, and calculate the new fringe spacing.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution-content" id="solution-3">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Convert units:</strong> λ = 600 nm = 600 × 10⁻⁹ m = 6.0 × 10⁻⁷ m<br>
+                    d = 0.30 mm = 3.0 × 10⁻⁴ m<br>
+                    D = 2.0 m</p>
+
+                    <p>Fringe spacing: s = λD/d<br>
+                    s = (6.0 × 10⁻⁷ × 2.0)/(3.0 × 10⁻⁴)<br>
+                    s = (12.0 × 10⁻⁷)/(3.0 × 10⁻⁴) = 4.0 × 10⁻³ m = 4.0 mm</p>
+
+                    <p><strong>(b) Position of nth bright fringe: x_n = ns</strong><br>
+                    For n = 3: x₃ = 3 × 4.0 mm = 12 mm = 1.2 cm</p>
+
+                    <p><strong>(c) Since s ∝ λ, decreasing wavelength decreases fringe spacing.</strong><br>
+                    New fringe spacing: s' = λ'D/d = (450 × 10⁻⁹ × 2.0)/(3.0 × 10⁻⁴)<br>
+                    s' = (9.0 × 10⁻⁷)/(3.0 × 10⁻⁴) = 3.0 × 10⁻³ m = 3.0 mm</p>
+
+                    <p>Alternatively: s'/s = λ'/λ, so s' = s × (450/600) = 4.0 × 0.75 = 3.0 mm</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This standard double-slit problem emphasizes unit conversion (a common error source) and proportional reasoning. Part (c) tests whether students understand the λ-dependence and can use it for efficient calculation.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 4</span>
+                    <p class="problem-question">Light of wavelength 540 nm is incident normally on a single slit of width 0.12 mm. A screen is placed 1.5 m beyond the slit. (a) Calculate the angular position of the first minimum. (b) Determine the width of the central maximum on the screen. (c) Sketch the intensity pattern showing relative intensities of central and secondary maxima. (d) Explain what happens to the diffraction pattern if the slit width is decreased.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution-content" id="solution-4">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) First minimum occurs when: b sin θ = λ</strong><br>
+                    sin θ = λ/b = (540 × 10⁻⁹)/(0.12 × 10⁻³) = (5.4 × 10⁻⁷)/(1.2 × 10⁻⁴)<br>
+                    sin θ = 4.5 × 10⁻³<br>
+                    θ ≈ 4.5 × 10⁻³ rad = 0.26° (small angle, so sin θ ≈ θ in radians)</p>
+
+                    <p><strong>(b) Angular width from first minimum to first minimum = 2θ = 9.0 × 10⁻³ rad</strong><br>
+                    Linear width on screen: w = D × 2θ = 1.5 × 9.0 × 10⁻³ = 1.35 × 10⁻² m = 13.5 mm ≈ 14 mm</p>
+
+                    <p><strong>(c) [Sketch should show]:</strong></p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>Tall central maximum (width 2θ)</li>
+                        <li>Much dimmer secondary maxima (width θ each, intensity ≈ 4% of central)</li>
+                        <li>Minima at θ, 2θ, 3θ, ... on each side</li>
+                        <li>Intensity envelope decreasing away from center</li>
+                    </ul>
+
+                    <p><strong>(d)</strong> If slit width b decreases, the angular width θ = λ/b increases (inverse relationship). The diffraction pattern becomes wider - the central maximum spreads out more. In the limit b → λ, the pattern approaches a hemisphere (very wide spreading).</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This problem tests single-slit diffraction understanding. Part (b) requires recognizing that the central maximum extends from -θ to +θ (width 2θ). Part (d) assesses conceptual understanding of the inverse relationship between aperture size and diffraction angle.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 5</span>
+                    <p class="problem-question">A diffraction grating has 400 lines per mm. Light containing two wavelengths, 580 nm and 596 nm, is incident normally on the grating. (a) Calculate the angular separation between these two wavelengths in the first-order spectrum. (b) Determine the highest order in which both wavelengths can be observed. (c) Explain why diffraction gratings are preferred over double-slits for measuring wavelengths precisely.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution-content" id="solution-5">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Grating spacing: d = 1/(400 × 10³) m = 2.5 × 10⁻⁶ m</strong></p>
+
+                    <p>For first order (n = 1), using d sin θ = nλ:<br>
+                    For λ₁ = 580 nm: sin θ₁ = λ₁/d = (580 × 10⁻⁹)/(2.5 × 10⁻⁶) = 0.232<br>
+                    θ₁ = 13.41°</p>
+
+                    <p>For λ₂ = 596 nm: sin θ₂ = λ₂/d = (596 × 10⁻⁹)/(2.5 × 10⁻⁶) = 0.2384<br>
+                    θ₂ = 13.79°</p>
+
+                    <p>Angular separation: Δθ = θ₂ - θ₁ = 13.79° - 13.41° = 0.38°</p>
+
+                    <p><strong>(b) Maximum order when sin θ = 1:</strong><br>
+                    n_max = d/λ</p>
+
+                    <p>For longer wavelength (596 nm, which reaches sin θ = 1 first):<br>
+                    n_max = (2.5 × 10⁻⁶)/(596 × 10⁻⁹) = 4.19</p>
+
+                    <p>Highest integer order: n = 4</p>
+
+                    <p><strong>(c) Diffraction gratings produce:</strong></p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>Sharper, narrower maxima (inversely proportional to number of illuminated slits)</li>
+                        <li>Brighter maxima (more slits contribute)</li>
+                        <li>Larger angular separation between wavelengths at higher orders</li>
+                    </ul>
+                    <p>These factors allow more precise measurement of wavelength differences. The narrow, bright lines are easier to locate accurately than the broad double-slit fringes.</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This problem tests grating equation application and understanding of resolution limits. Part (b) requires recognizing that the longer wavelength determines the maximum order (it reaches sin θ = 1 first). Part (c) assesses understanding of why multiple-slit systems outperform two-slit systems.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 6</span>
+                    <p class="problem-question">A soap film (n = 1.33) appears dark when viewed in reflected white light at normal incidence. The minimum thickness that appears dark is measured. (a) Explain why the film appears dark. (b) If the minimum dark thickness corresponds to red light (λ = 680 nm in air), calculate this thickness. (c) Would this same thickness appear bright or dark for blue light (λ = 450 nm)? Justify your answer with calculation.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+                <div class="solution-content" id="solution-6">
+                    <h4>Solution:</h4>
+                    <p><strong>(a)</strong> The film appears dark due to destructive interference between:</p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>Light reflected from the top surface (air-soap boundary)</li>
+                        <li>Light reflected from the bottom surface (soap-air boundary)</li>
+                    </ul>
+                    <p>The top surface reflection involves a phase change of π (rare-to-dense reflection: air to soap). The bottom surface reflection has no phase change (dense-to-rare: soap to air). This π phase difference, combined with the optical path difference 2nt through the film, determines interference.</p>
+
+                    <p><strong>(b) For destructive interference (dark) with one π phase change:</strong><br>
+                    2nt = mλ where m = 1, 2, 3, ...</p>
+
+                    <p>For minimum thickness, m = 1:<br>
+                    t = λ/(2n) = 680/(2 × 1.33) = 680/2.66 = 256 nm ≈ 2.6 × 10⁻⁷ m</p>
+
+                    <p><strong>(c) Check interference condition for λ = 450 nm at this thickness:</strong><br>
+                    2nt = 2 × 1.33 × 256 = 681 nm</p>
+
+                    <p>Compare to blue wavelength: 681/450 = 1.51 ≈ 3/2</p>
+
+                    <p>This is close to (m + 1/2)λ with m = 1 (specifically, 1.5λ).<br>
+                    This condition corresponds to CONSTRUCTIVE interference (accounting for the π phase change).</p>
+
+                    <p>Therefore, the film appears BRIGHT for blue light.</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This thin-film problem requires careful tracking of phase changes. The key insight is that the condition 2nt = mλ means destructive (dark) when there's one phase change, but constructive (bright) when there's zero or two phase changes. Testing a different wavelength shows the film appears colored because different wavelengths satisfy different interference conditions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 7</span>
+                    <p class="problem-question">The Hubble Space Telescope has a primary mirror diameter of 2.4 m. Consider observations at wavelength 550 nm. (a) Calculate the minimum angular separation that can be resolved. (b) Determine the minimum linear separation that can be resolved for objects at distance 10 light-years. (1 ly = 9.46 × 10¹⁵ m) (c) Explain why space-based telescopes achieve better resolution than ground-based telescopes of similar size.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(7)">Show Solution</button>
+                <div class="solution-content" id="solution-7">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Rayleigh criterion for circular aperture:</strong><br>
+                    θ_min = 1.22λ/b = 1.22 × (550 × 10⁻⁹)/(2.4)<br>
+                    θ_min = 6.71 × 10⁻⁹/(2.4) = 2.80 × 10⁻⁷ rad</p>
+
+                    <p>Converting to arcseconds: θ_min = 2.80 × 10⁻⁷ × (206265) = 0.058 arcsec</p>
+
+                    <p><strong>(b) Distance D = 10 ly = 10 × 9.46 × 10¹⁵ m = 9.46 × 10¹⁶ m</strong></p>
+
+                    <p>Linear separation: d_min = D × θ_min<br>
+                    d_min = (9.46 × 10¹⁶) × (2.80 × 10⁻⁷) = 2.65 × 10¹⁰ m</p>
+
+                    <p>Expressing in astronomical units (1 AU = 1.50 × 10¹¹ m):<br>
+                    d_min = 2.65 × 10¹⁰/(1.50 × 10¹¹) = 0.18 AU</p>
+
+                    <p><strong>(c)</strong> Ground-based telescopes suffer from atmospheric turbulence ("seeing"), which causes:</p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>Blurring of images (typical seeing ≈ 1 arcsec, much worse than diffraction limit)</li>
+                        <li>Twinkling and image motion</li>
+                        <li>Reduction in effective resolution</li>
+                    </ul>
+
+                    <p>Space-based telescopes avoid atmospheric effects, achieving diffraction-limited resolution. Additionally:</p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>No atmospheric absorption (can observe UV and IR blocked by atmosphere)</li>
+                        <li>No thermal variations from day-night cycles</li>
+                        <li>Stable pointing without atmospheric refraction</li>
+                    </ul>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This resolution problem connects theoretical limits to practical astronomy. The calculation shows Hubble's diffraction limit (0.058 arcsec) is far better than ground-based seeing (≈1 arcsec). Part (b) illustrates that even with excellent angular resolution, resolving nearby stars in other star systems requires them to be separated by significant fractions of an AU.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 8</span>
+                    <p class="problem-question">A police radar gun operates at frequency 10.5 GHz. It detects a reflected signal from an approaching car with a frequency shift of +2800 Hz. (a) Calculate the speed of the car. (Speed of light c = 3.00 × 10⁸ m s⁻¹) (b) Explain why the frequency shift is not simply Δf = fv/c. (c) State one assumption made in your calculation.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(8)">Show Solution</button>
+                <div class="solution-content" id="solution-8">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) For radar, there's a DOUBLE Doppler shift:</strong></p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>First shift: Car acts as moving observer receiving radar</li>
+                        <li>Second shift: Car acts as moving source reflecting radar back</li>
+                    </ul>
+
+                    <p>For non-relativistic speeds (v &lt;&lt; c), the double Doppler shift is:<br>
+                    Δf = 2f₀(v/c)</p>
+
+                    <p>Solving for v:<br>
+                    v = (Δf × c)/(2f₀) = (2800 × 3.00 × 10⁸)/(2 × 10.5 × 10⁹)<br>
+                    v = (8.4 × 10¹¹)/(2.1 × 10¹⁰) = 40 m s⁻¹</p>
+
+                    <p>Converting: v = 40 m s⁻¹ = 144 km h⁻¹ (or 89 mph)</p>
+
+                    <p><strong>(b) The double Doppler shift occurs because:</strong></p>
+                    <ol style="margin-left: 2rem;">
+                        <li>The moving car receives radar at shifted frequency f' = f₀(1 + v/c)</li>
+                        <li>The car reflects this frequency, acting as a moving source</li>
+                        <li>The radar gun receives frequency f'' = f'(1 + v/c) = f₀(1 + v/c)²</li>
+                        <li>For v &lt;&lt; c: f'' ≈ f₀(1 + 2v/c)</li>
+                        <li>Therefore: Δf = f'' - f₀ ≈ 2f₀(v/c)</li>
+                    </ol>
+                    <p>The factor of 2 arises from the round-trip nature of reflection.</p>
+
+                    <p><strong>(c) Assumptions (any one):</strong></p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>Car velocity is directly toward/away from radar (radial motion only)</li>
+                        <li>v &lt;&lt; c (non-relativistic approximation valid)</li>
+                        <li>Reflection occurs from a single point on the car</li>
+                        <li>No interference from other moving objects</li>
+                    </ul>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This Doppler problem tests understanding of the double-shift effect in radar systems. Many students incorrectly use Δf = fv/c (single shift), missing the factor of 2. The explanation in part (b) demonstrates understanding of the physical process, not just formula memorization.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 9</span>
+                    <p class="problem-question">In a Young's double-slit experiment, each slit has width b = 0.040 mm and the slits are separated by d = 0.20 mm. Light of wavelength 500 nm is used. (a) Determine which orders of the interference pattern are missing due to single-slit diffraction. (b) Calculate the ratio of the number of bright interference fringes visible within the central diffraction maximum. (c) Sketch the intensity pattern, indicating both interference and diffraction effects.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(9)">Show Solution</button>
+                <div class="solution-content" id="solution-9">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Missing orders occur when an interference maximum coincides with a diffraction minimum.</strong></p>
+
+                    <p>Interference maxima: d sin θ = n_int λ<br>
+                    Diffraction minima: b sin θ = n_diff λ</p>
+
+                    <p>Dividing: d/b = n_int/n_diff</p>
+
+                    <p>d/b = 0.20/0.040 = 5</p>
+
+                    <p>Therefore: n_int = 5n_diff</p>
+
+                    <p>Missing orders: n_int = 5, 10, 15, 20, ... (coincide with n_diff = 1, 2, 3, 4, ...)</p>
+
+                    <p><strong>(b) The first diffraction minimum occurs at:</strong><br>
+                    sin θ = λ/b = (500 × 10⁻⁹)/(0.040 × 10⁻³) = 0.0125</p>
+
+                    <p>Interference maxima within this angle satisfy:<br>
+                    d sin θ &lt; λ/b<br>
+                    n &lt; d/(λ/b) × λ = d/b = 5</p>
+
+                    <p>So n = 0, ±1, ±2, ±3, ±4 are within the central diffraction maximum.</p>
+
+                    <p>Total bright fringes: 9 fringes (including central maximum n = 0)</p>
+
+                    <p><strong>(c) [Sketch should show]:</strong></p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>Broad single-slit diffraction envelope (central maximum with first minimum at sin θ = λ/b)</li>
+                        <li>Narrow interference fringes spaced at sin θ = nλ/d</li>
+                        <li>9 visible interference fringes within central diffraction maximum (n = -4 to +4)</li>
+                        <li>Missing 5th order fringes at the first diffraction minimum</li>
+                        <li>Diminishing intensity of interference fringes away from center</li>
+                        <li>Secondary diffraction maxima much dimmer, containing fewer interference fringes</li>
+                    </ul>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This advanced problem combines single-slit diffraction and double-slit interference. Part (a) tests the missing order concept. Part (b) requires finding how many interference fringes fit within the central diffraction maximum. The ratio d/b = 5 is the key parameter determining both missing orders and fringe count.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 10</span>
+                    <p class="problem-question">A galaxy is observed to emit light with a spectral line that has laboratory wavelength λ₀ = 656 nm (hydrogen-alpha line). The observed wavelength from the galaxy is λ = 668 nm. (a) Determine whether the galaxy is approaching or receding from Earth. (b) Calculate the radial velocity of the galaxy. (c) Using Hubble's law (v = H₀d with H₀ = 70 km s⁻¹ Mpc⁻¹), estimate the distance to the galaxy in Mpc. (1 Mpc = 3.09 × 10²² m)</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(10)">Show Solution</button>
+                <div class="solution-content" id="solution-10">
+                    <h4>Solution:</h4>
+                    <p><strong>(a)</strong> The observed wavelength (668 nm) is LONGER than the laboratory wavelength (656 nm). This is a redshift (shift toward longer wavelength/lower frequency).</p>
+
+                    <p>Redshift indicates the galaxy is RECEDING from Earth (moving away).</p>
+
+                    <p><strong>(b) Wavelength shift: Δλ = 668 - 656 = 12 nm</strong></p>
+
+                    <p>For non-relativistic Doppler effect:<br>
+                    Δλ/λ₀ = v/c</p>
+
+                    <p>v = c(Δλ/λ₀) = (3.00 × 10⁸) × (12/656)<br>
+                    v = (3.00 × 10⁸) × (0.01829) = 5.49 × 10⁶ m s⁻¹<br>
+                    v = 5490 km s⁻¹ ≈ 5500 km s⁻¹</p>
+
+                    <p><strong>(c) Using Hubble's law: v = H₀d</strong></p>
+
+                    <p>d = v/H₀ = 5490/70 = 78.4 Mpc ≈ 78 Mpc</p>
+
+                    <p>Converting to meters:<br>
+                    d = 78 × 3.09 × 10²² = 2.4 × 10²⁴ m</p>
+
+                    <p>Converting to light-years (1 ly = 9.46 × 10¹⁵ m):<br>
+                    d = (2.4 × 10²⁴)/(9.46 × 10¹⁵) = 2.5 × 10⁸ ly = 250 million light-years</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This cosmological Doppler problem connects spectroscopy to distance measurement. Part (a) tests understanding of redshift vs. blueshift. Part (b) applies electromagnetic Doppler effect. Part (c) introduces Hubble's law, showing how redshift measurements enable distance determination for galaxies—one of the most important applications of the Doppler effect in astronomy.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exam Tips -->
+        <div class="tips-container">
+            <h2>IB Exam Tips</h2>
+            <div class="tip-item">Always convert wavelength to meters before calculations - mixing nm, μm, and m is the most common arithmetic error</div>
+            <div class="tip-item">For interference problems, sketch a diagram showing path difference even if not asked - it helps avoid sign errors and shows systematic thinking</div>
+            <div class="tip-item">Remember phase change of π at rare-to-dense reflections in thin films - draw both reflection points and mark which ones have phase changes</div>
+            <div class="tip-item">Small angle approximation (sin θ ≈ θ) is only valid for θ &lt; 10° - check whether the question requires exact trigonometry</div>
+            <div class="tip-item">In Doppler effect problems with sound, write the full formula with sign choices first, then substitute - this shows method and avoids sign errors</div>
+            <div class="tip-item">Distinguish between diffraction (single aperture) and interference (multiple sources) in written responses - examiners penalize terminology confusion</div>
+            <div class="tip-item">For resolution calculations, specify whether the aperture is circular (use 1.22λ/b) or rectangular slit (use λ/b)</div>
+            <div class="tip-item">When comparing intensities, remember I ∝ A² and I ∝ 1/r² - questions often test whether you apply both correctly</div>
+            <div class="tip-item">In double-slit problems, identify all three parameters: slit separation d (for interference), slit width b (for diffraction), screen distance D</div>
+            <div class="tip-item">For essay questions on wave phenomena, always mention coherence when discussing interference - it's a marking point examiners specifically look for</div>
+        </div>
+
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChat()" title="Ask a question">💬</button>
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="lesson-footer">
+        <div class="footer-content">
+            <button class="nav-button prev" onclick="previousLesson()">← Previous Lesson</button>
+            <button class="nav-button next" onclick="nextLesson()">Next Lesson →</button>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Tracking
+        let currentProgress = 0;
+
+        function updateProgress() {
+            const sections = document.querySelectorAll('.content-section, .objectives-section');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollProgress = (window.scrollY / documentHeight) * 100;
+
+            currentProgress = Math.min(Math.round(scrollProgress), 100);
+
+            document.getElementById('progress-fill').style.width = currentProgress + '%';
+            document.getElementById('progress-text').textContent = currentProgress + '%';
+
+            localStorage.setItem('lesson_c2_progress', currentProgress);
+        }
+
+        window.addEventListener('load', () => {
+            const savedProgress = localStorage.getItem('lesson_c2_progress');
+            if (savedProgress) {
+                document.getElementById('progress-fill').style.width = savedProgress + '%';
+                document.getElementById('progress-text').textContent = savedProgress + '%';
+            }
+        });
+
+        window.addEventListener('scroll', updateProgress);
+
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = solution.previousElementSibling;
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('active');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        function openChat() {
+            alert('Chatbot feature coming soon! Ask questions about wave physics, diffraction, interference, or the Doppler effect.');
+        }
+
+        function previousLesson() {
+            alert('Navigate to previous lesson (C1)');
+        }
+
+        function nextLesson() {
+            alert('Navigate to next lesson (C3)');
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        localStorage.setItem('lesson_c2_visited', 'true');
+        localStorage.setItem('lesson_c2_last_visit', new Date().toISOString());
+    </script>
+</body>
+</html>

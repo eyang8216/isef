@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B4: Thermodynamics | Fluapi Physics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-menu a:hover {
+            opacity: 0.8;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f0f0f0;
+            padding: 20px 40px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Main Content */
+        .content {
+            padding: 40px;
+        }
+
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .lesson-code {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .lesson-title {
+            font-size: 42px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .lesson-level {
+            color: #764ba2;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Learning Objectives */
+        .objectives-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+
+        .objectives-section h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+        }
+
+        .objectives-list {
+            list-style: none;
+        }
+
+        .objectives-list li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-size: 18px;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        .definition-text {
+            color: #333;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin: 40px 0;
+        }
+
+        .content-section h2 {
+            color: #764ba2;
+            font-size: 32px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content-section h3 {
+            color: #667eea;
+            font-size: 24px;
+            margin: 25px 0 15px 0;
+        }
+
+        .content-section p {
+            color: #444;
+            margin: 15px 0;
+            text-align: justify;
+        }
+
+        .content-section strong {
+            color: #764ba2;
+        }
+
+        /* Math Formulas */
+        .formula {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            margin: 30px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .problem-header {
+            background: #764ba2;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-header:hover {
+            background: #667eea;
+        }
+
+        .problem-question {
+            padding: 20px;
+            background: white;
+        }
+
+        .problem-solution {
+            padding: 20px;
+            background: #f8f9fa;
+            display: none;
+        }
+
+        .problem-solution.active {
+            display: block;
+        }
+
+        .problem-explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f4f8;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+
+        .toggle-icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .toggle-icon.active {
+            transform: rotate(180deg);
+        }
+
+        /* Exam Tips */
+        .tips-section {
+            background: #fff9e6;
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+
+        .tips-section h2 {
+            color: #f57c00;
+            margin-bottom: 20px;
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tips-list li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            color: #333;
+        }
+
+        .tips-list li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            font-size: 18px;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-icon {
+            color: white;
+            font-size: 28px;
+        }
+
+        /* Navigation Footer */
+        .lesson-nav {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button.prev {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .nav-button.prev:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button.next:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+
+            .container {
+                border-radius: 0;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .lesson-title {
+                font-size: 28px;
+            }
+
+            .navbar-menu {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-brand">Fluapi Physics</div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="lessons.html">Lessons</a></li>
+                <li><a href="practice.html">Practice</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">Progress: <span id="progressPercent">0</span>% Complete</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Lesson Header -->
+            <div class="lesson-header">
+                <span class="lesson-code">B4</span>
+                <h1 class="lesson-title">Thermodynamics</h1>
+                <div class="lesson-level">Higher Level (HL)</div>
+            </div>
+
+            <!-- Learning Objectives -->
+            <div class="objectives-section">
+                <h2>Learning Objectives</h2>
+                <ul class="objectives-list">
+                    <li>Understand internal energy as the total kinetic and potential energy of particles in a system</li>
+                    <li>Apply the concept of absolute temperature and its relationship to average kinetic energy</li>
+                    <li>Use the ideal gas equation PV = nRT and explain its derivation from kinetic theory</li>
+                    <li>Analyze thermodynamic processes using PV diagrams including isothermal, isobaric, isochoric, and adiabatic processes</li>
+                    <li>Apply the first law of thermodynamics ΔU = Q - W to solve problems involving energy transfers</li>
+                    <li>Calculate work done by or on a gas using W = ∫PdV and graphical methods</li>
+                    <li>Evaluate heat engine efficiency and apply it to real-world engines</li>
+                    <li>Understand entropy as a measure of disorder and apply the second law of thermodynamics</li>
+                    <li>Explain why certain processes are irreversible using entropy considerations</li>
+                    <li>Apply thermodynamic principles to cyclic processes including the Carnot cycle</li>
+                </ul>
+            </div>
+
+            <!-- Key Definitions -->
+            <div class="definitions-section">
+                <h2 style="color: #764ba2; margin-bottom: 20px;">Key Definitions</h2>
+
+                <div class="definition-box">
+                    <div class="definition-term">Internal Energy (U)</div>
+                    <div class="definition-text">The total kinetic and potential energy of all particles in a system. For an ideal gas, U depends only on temperature: U = (3/2)nRT for a monatomic gas.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Absolute Temperature</div>
+                    <div class="definition-text">Temperature measured on the Kelvin scale where 0 K represents the lowest possible temperature. It is directly proportional to the average kinetic energy of particles: ⟨KE⟩ = (3/2)kT.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">First Law of Thermodynamics</div>
+                    <div class="definition-text">The principle of energy conservation applied to thermal systems: ΔU = Q - W, where Q is heat added to the system and W is work done by the system.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Isothermal Process</div>
+                    <div class="definition-text">A thermodynamic process occurring at constant temperature. For an ideal gas: ΔU = 0, so Q = W, and PV = constant.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Adiabatic Process</div>
+                    <div class="definition-text">A process with no heat transfer (Q = 0). Therefore ΔU = -W. For an ideal gas: PVᵞ = constant, where γ = Cp/Cv.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Entropy (S)</div>
+                    <div class="definition-text">A measure of the disorder or number of microstates of a system. For reversible processes: ΔS = Q/T. The entropy of an isolated system never decreases.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Heat Engine Efficiency</div>
+                    <div class="definition-text">The ratio of useful work output to heat input: η = W/Qₕ = 1 - Qc/Qₕ. The maximum possible efficiency is the Carnot efficiency: ηc = 1 - Tc/Tₕ.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Second Law of Thermodynamics</div>
+                    <div class="definition-text">Heat cannot spontaneously flow from a colder to a hotter body. Equivalently: the entropy of an isolated system never decreases (ΔS ≥ 0).</div>
+                </div>
+            </div>
+
+            <!-- Content Section 1: Internal Energy and Temperature -->
+            <div class="content-section">
+                <h2>Internal Energy and Temperature</h2>
+                <p>Internal energy is one of the most fundamental concepts in thermodynamics. Unlike mechanical energy which describes the motion and position of objects as a whole, internal energy accounts for the energy at the microscopic level—the random motion and interactions of individual particles.</p>
+
+                <h3>The Nature of Internal Energy</h3>
+                <p>Internal energy (U) consists of two components:</p>
+                <p><strong>1. Kinetic energy of particles:</strong> Due to their random translational, rotational, and vibrational motion</p>
+                <p><strong>2. Potential energy:</strong> Due to intermolecular forces between particles</p>
+                <p>For an ideal gas (where we assume no intermolecular forces), internal energy is purely kinetic. This simplification makes ideal gases particularly useful for understanding thermodynamic principles.</p>
+
+                <h3>Temperature and Kinetic Energy</h3>
+                <p>Temperature is not just a measure of "hotness"—it has a precise physical meaning. The absolute temperature T (in Kelvin) is directly proportional to the average translational kinetic energy of particles:</p>
+                <div class="formula">⟨KE⟩ = (3/2)k<sub>B</sub>T</div>
+                <p>where k<sub>B</sub> = 1.38 × 10<sup>-23</sup> J K<sup>-1</sup> is Boltzmann's constant.</p>
+                <p>This relationship explains why absolute zero (0 K or -273.15°C) represents the lowest possible temperature: it's the point where particles have minimum kinetic energy (quantum mechanics prevents it from being exactly zero).</p>
+                <p>For a monatomic ideal gas containing n moles, the total internal energy is:</p>
+                <div class="formula">U = (3/2)nRT</div>
+                <p>where R = 8.31 J mol<sup>-1</sup> K<sup>-1</sup> is the universal gas constant. Notice that U depends only on temperature, not on pressure or volume.</p>
+
+                <h3>Thermal Equilibrium</h3>
+                <p>Two systems are in thermal equilibrium when they have the same temperature and no net heat flows between them. This is the basis of the zeroth law of thermodynamics: if A is in equilibrium with B, and B is in equilibrium with C, then A is in equilibrium with C.</p>
+                <p><strong>Common Misconception:</strong> Students often confuse heat and temperature. Temperature is a measure of average kinetic energy per particle, while heat is energy transferred due to temperature difference. A large cold object can contain more internal energy than a small hot object.</p>
+
+                <h3>Worked Example 1</h3>
+                <p><strong>Problem:</strong> Calculate the average kinetic energy of a nitrogen molecule at room temperature (20°C).</p>
+                <p><strong>Solution:</strong></p>
+                <p>First, convert to Kelvin: T = 20 + 273 = 293 K</p>
+                <p>Using the relationship:</p>
+                <div class="formula">⟨KE⟩ = (3/2)k<sub>B</sub>T = (3/2)(1.38 × 10<sup>-23</sup>)(293) = 6.07 × 10<sup>-21</sup> J</div>
+                <p>This tiny energy per molecule adds up—one mole contains 6.02 × 10<sup>23</sup> molecules.</p>
+            </div>
+
+            <!-- Content Section 2: The Ideal Gas Law and Kinetic Theory -->
+            <div class="content-section">
+                <h2>The Ideal Gas Law and Kinetic Theory</h2>
+                <p>The ideal gas law combines several empirical gas laws into one elegant equation, but more importantly, it can be derived from kinetic theory—demonstrating how macroscopic properties emerge from microscopic behavior.</p>
+
+                <h3>The Ideal Gas Equation</h3>
+                <div class="formula">PV = nRT</div>
+                <p>where:</p>
+                <ul style="margin-left: 30px;">
+                    <li>P = pressure (Pa)</li>
+                    <li>V = volume (m³)</li>
+                    <li>n = number of moles</li>
+                    <li>R = 8.31 J mol<sup>-1</sup> K<sup>-1</sup> (universal gas constant)</li>
+                    <li>T = absolute temperature (K)</li>
+                </ul>
+                <p>Alternatively, using N (number of molecules) instead of n (number of moles):</p>
+                <div class="formula">PV = Nk<sub>B</sub>T</div>
+                <p>where k<sub>B</sub> = R/N<sub>A</sub> = 1.38 × 10<sup>-23</sup> J K<sup>-1</sup>.</p>
+
+                <h3>Kinetic Theory Derivation (HL)</h3>
+                <p>The kinetic theory of gases makes several assumptions:</p>
+                <ol style="margin-left: 30px;">
+                    <li>Gases consist of a large number of particles in random motion</li>
+                    <li>Particles have negligible volume compared to container volume</li>
+                    <li>Collisions are perfectly elastic</li>
+                    <li>No intermolecular forces except during collisions</li>
+                    <li>Collision time is negligible compared to time between collisions</li>
+                </ol>
+                <p>Consider a cubic container of side length L. When a particle with velocity component v<sub>x</sub> collides elastically with a wall, its momentum change is 2mv<sub>x</sub>. The time between collisions with the same wall is 2L/v<sub>x</sub>, so the force on that wall from one particle is:</p>
+                <div class="formula">F = Δp/Δt = 2mv<sub>x</sub>/(2L/v<sub>x</sub>) = mv<sub>x</sub><sup>2</sup>/L</div>
+                <p>For N particles, the total force is:</p>
+                <div class="formula">F = (m/L)Σv<sub>x,i</sub><sup>2</sup> = (Nm/L)⟨v<sub>x</sub><sup>2</sup>⟩</div>
+                <p>Pressure is force per unit area: P = F/L<sup>2</sup> = Nm⟨v<sub>x</sub><sup>2</sup>⟩/L<sup>3</sup> = Nm⟨v<sub>x</sub><sup>2</sup>⟩/V</p>
+                <p>Since motion is random in all directions: ⟨v<sub>x</sub><sup>2</sup>⟩ = ⟨v<sub>y</sub><sup>2</sup>⟩ = ⟨v<sub>z</sub><sup>2</sup>⟩ = (1/3)⟨v<sup>2</sup>⟩</p>
+                <p>Therefore:</p>
+                <div class="formula">PV = (1/3)Nm⟨v<sup>2</sup>⟩</div>
+                <p>The average kinetic energy is ⟨KE⟩ = (1/2)m⟨v<sup>2</sup>⟩ = (3/2)k<sub>B</sub>T, which gives:</p>
+                <div class="formula">PV = Nk<sub>B</sub>T</div>
+                <p>This is the ideal gas law derived from first principles.</p>
+
+                <h3>Root-Mean-Square Speed</h3>
+                <p>The rms speed is defined as:</p>
+                <div class="formula">v<sub>rms</sub> = √⟨v<sup>2</sup>⟩ = √(3k<sub>B</sub>T/m) = √(3RT/M)</div>
+                <p>where M is the molar mass in kg/mol. This is the typical speed of gas molecules.</p>
+
+                <h3>Worked Example 2</h3>
+                <p><strong>Problem:</strong> Calculate the rms speed of oxygen molecules (O₂) at 25°C.</p>
+                <p><strong>Solution:</strong></p>
+                <p>T = 25 + 273 = 298 K<br>
+                M = 32 × 10<sup>-3</sup> kg/mol (molar mass of O₂)</p>
+                <div class="formula">v<sub>rms</sub> = √(3RT/M) = √(3 × 8.31 × 298 / 32 × 10<sup>-3</sup>) = √231,000 = 481 m/s</div>
+                <p>This is faster than the speed of sound in air (343 m/s at 20°C), which makes sense because sound propagates through molecular collisions.</p>
+            </div>
+
+            <!-- Content Section 3: The First Law of Thermodynamics -->
+            <div class="content-section">
+                <h2>The First Law of Thermodynamics</h2>
+                <p>The first law of thermodynamics is essentially conservation of energy applied to thermal systems. It's one of the most important principles in physics.</p>
+
+                <h3>Statement of the First Law</h3>
+                <div class="formula">ΔU = Q - W</div>
+                <p>where:</p>
+                <ul style="margin-left: 30px;">
+                    <li>ΔU = change in internal energy</li>
+                    <li>Q = heat added to the system (positive if heat enters)</li>
+                    <li>W = work done by the system (positive if system does work)</li>
+                </ul>
+
+                <h3>Sign Conventions (Critical for IB exams)</h3>
+                <ul style="margin-left: 30px;">
+                    <li>Q > 0: heat added to system</li>
+                    <li>Q < 0: heat removed from system</li>
+                    <li>W > 0: system does work (expansion)</li>
+                    <li>W < 0: work done on system (compression)</li>
+                </ul>
+
+                <h3>Physical Interpretation</h3>
+                <p>The first law tells us that the internal energy of a system can change in two ways:</p>
+                <p><strong>1. Heat transfer (Q):</strong> Energy transfer due to temperature difference</p>
+                <p><strong>2. Work (W):</strong> Energy transfer due to mechanical processes</p>
+                <p>If you add 100 J of heat to a gas and it does 60 J of work by expanding, its internal energy increases by 40 J.</p>
+
+                <h3>Work Done By a Gas</h3>
+                <p>When a gas expands or contracts, it does work on its surroundings (or has work done on it). For a small volume change dV at pressure P:</p>
+                <div class="formula">dW = P dV</div>
+                <p>For a finite process:</p>
+                <div class="formula">W = ∫PdV (from V₁ to V₂)</div>
+                <p>This integral equals the area under the P-V curve—a crucial insight for analyzing thermodynamic processes graphically.</p>
+
+                <h3>Special Cases</h3>
+                <p><strong>1. Isochoric (constant volume):</strong> W = 0, so ΔU = Q<br>
+                • All heat goes into changing internal energy<br>
+                • Example: heating gas in a rigid container</p>
+
+                <p><strong>2. Isothermal (constant temperature):</strong> ΔU = 0, so Q = W<br>
+                • For ideal gas, temperature constant means internal energy constant<br>
+                • Heat added equals work done</p>
+
+                <p><strong>3. Adiabatic (no heat transfer):</strong> Q = 0, so ΔU = -W<br>
+                • Internal energy changes only through work<br>
+                • Example: rapid compression/expansion</p>
+
+                <p><strong>4. Isobaric (constant pressure):</strong> W = PΔV<br>
+                • Simple work calculation<br>
+                • ΔU = Q - PΔV</p>
+
+                <h3>Worked Example 3</h3>
+                <p><strong>Problem:</strong> A gas is compressed from 5.0 L to 2.0 L at a constant pressure of 200 kPa. During this process, 150 J of heat is removed from the gas. Calculate the change in internal energy.</p>
+                <p><strong>Solution:</strong></p>
+                <p>First, calculate work. Since the gas is compressed, work is done ON the gas (W is negative for work done by gas):</p>
+                <div class="formula">W = PΔV = (200 × 10³)(2.0 - 5.0) × 10<sup>-3</sup> = -600 J</div>
+                <p>The negative sign indicates compression (work done on the gas).</p>
+                <p>Heat removed means Q = -150 J (negative because heat leaves the system).</p>
+                <p>Applying the first law:</p>
+                <div class="formula">ΔU = Q - W = -150 - (-600) = +450 J</div>
+                <p>The internal energy increases by 450 J despite heat being removed, because the work done on the gas increases its internal energy more than the heat loss decreases it.</p>
+            </div>
+
+            <!-- Content Section 4: Thermodynamic Processes and PV Diagrams -->
+            <div class="content-section">
+                <h2>Thermodynamic Processes and PV Diagrams</h2>
+                <p>PV diagrams (pressure-volume graphs) are essential tools for visualizing and analyzing thermodynamic processes. The path taken on a PV diagram determines the work done and heat transferred.</p>
+
+                <h3>Reading PV Diagrams</h3>
+                <p>Key principles:</p>
+                <ul style="margin-left: 30px;">
+                    <li>Each point represents an equilibrium state (P, V, T)</li>
+                    <li>A path represents a process</li>
+                    <li>Area under the curve = work done by gas</li>
+                    <li>Clockwise cycle: net work done by gas (heat engine)</li>
+                    <li>Counterclockwise cycle: net work done on gas (refrigerator/heat pump)</li>
+                </ul>
+
+                <h3>Isothermal Processes (Constant T)</h3>
+                <p>For an ideal gas at constant temperature:</p>
+                <div class="formula">PV = nRT = constant</div>
+                <p>This gives a hyperbolic curve on a PV diagram.</p>
+                <p>Since ΔU = 0 (temperature constant), the first law gives:</p>
+                <div class="formula">Q = W = nRT ln(V₂/V₁)</div>
+                <p>For expansion (V₂ > V₁): W > 0, heat must be added to maintain constant temperature.<br>
+                For compression (V₂ < V₁): W < 0, heat must be removed.</p>
+
+                <h3>Adiabatic Processes (Q = 0)</h3>
+                <p>No heat transfer, so ΔU = -W. For an ideal gas:</p>
+                <div class="formula">PVᵞ = constant</div>
+                <p>where γ = C<sub>p</sub>/C<sub>v</sub> is the heat capacity ratio:</p>
+                <ul style="margin-left: 30px;">
+                    <li>Monatomic gas: γ = 5/3 ≈ 1.67</li>
+                    <li>Diatomic gas: γ = 7/5 = 1.4</li>
+                </ul>
+                <p>Adiabatic curves are steeper than isothermal curves on PV diagrams.</p>
+                <p>Alternative forms:</p>
+                <div class="formula">TVᵞ⁻¹ = constant<br>
+                Tᵞ P¹⁻ᵞ = constant</div>
+                <p>For adiabatic expansion:</p>
+                <ul style="margin-left: 30px;">
+                    <li>Volume increases, so pressure and temperature decrease</li>
+                    <li>Gas does work, so internal energy decreases</li>
+                    <li>Cooling occurs without heat loss</li>
+                </ul>
+
+                <h3>Isobaric Processes (Constant P)</h3>
+                <p>Horizontal line on PV diagram.</p>
+                <div class="formula">W = P(V₂ - V₁) = PΔV</div>
+                <p>For ideal gas: ΔU = nC<sub>V</sub>ΔT</p>
+                <p>Therefore: Q = ΔU + W = nC<sub>V</sub>ΔT + nRΔT = nC<sub>P</sub>ΔT</p>
+                <p>where C<sub>P</sub> = C<sub>V</sub> + R (Mayer's relation).</p>
+
+                <h3>Isochoric Processes (Constant V)</h3>
+                <p>Vertical line on PV diagram.</p>
+                <div class="formula">W = 0</div>
+                <div class="formula">Q = ΔU = nC<sub>V</sub>ΔT</div>
+                <p>All heat goes into changing internal energy.</p>
+
+                <h3>Worked Example 4</h3>
+                <p><strong>Problem:</strong> One mole of an ideal monatomic gas undergoes an isothermal expansion at 300 K from 2.0 L to 8.0 L. Calculate (a) the work done, (b) the heat transferred, and (c) the change in internal energy.</p>
+                <p><strong>Solution:</strong></p>
+                <p>(a) For isothermal process:</p>
+                <div class="formula">W = nRT ln(V₂/V₁) = (1)(8.31)(300) ln(8.0/2.0)<br>
+                W = 2493 × ln(4) = 2493 × 1.386 = 3450 J</div>
+                <p>(b) Since isothermal: ΔU = 0, so Q = W = 3450 J</p>
+                <p>(c) ΔU = 0 (temperature is constant)</p>
+                <p>The gas does 3450 J of work, and exactly 3450 J of heat must be added to maintain constant temperature.</p>
+            </div>
+
+            <!-- Content Section 5: Heat Engines and Efficiency -->
+            <div class="content-section">
+                <h2>Heat Engines and Efficiency</h2>
+                <p>Heat engines convert thermal energy into mechanical work. Understanding their limitations is crucial for engineering and environmental physics.</p>
+
+                <h3>The Heat Engine Cycle</h3>
+                <p>A heat engine operates in a cycle:</p>
+                <ol style="margin-left: 30px;">
+                    <li>Absorbs heat Q<sub>h</sub> from a hot reservoir at temperature T<sub>h</sub></li>
+                    <li>Converts some to work W</li>
+                    <li>Rejects waste heat Q<sub>c</sub> to a cold reservoir at temperature T<sub>c</sub></li>
+                    <li>Returns to initial state (ΔU = 0 for complete cycle)</li>
+                </ol>
+                <p>For a complete cycle: ΔU = 0, so:</p>
+                <div class="formula">W = Q<sub>h</sub> - Q<sub>c</sub></div>
+
+                <h3>Efficiency</h3>
+                <p>Efficiency is the ratio of useful work output to heat input:</p>
+                <div class="formula">η = W/Q<sub>h</sub> = (Q<sub>h</sub> - Q<sub>c</sub>)/Q<sub>h</sub> = 1 - Q<sub>c</sub>/Q<sub>h</sub></div>
+                <p>Efficiency is always less than 100% because some heat must be rejected (required by the second law).</p>
+
+                <h3>The Carnot Cycle</h3>
+                <p>The Carnot cycle is a theoretical ideal cycle consisting of:</p>
+                <ol style="margin-left: 30px;">
+                    <li>Isothermal expansion at T<sub>h</sub> (absorb heat)</li>
+                    <li>Adiabatic expansion (temperature drops to T<sub>c</sub>)</li>
+                    <li>Isothermal compression at T<sub>c</sub> (reject heat)</li>
+                    <li>Adiabatic compression (temperature rises to T<sub>h</sub>)</li>
+                </ol>
+                <p>The Carnot efficiency represents the maximum possible efficiency between two temperatures:</p>
+                <div class="formula">η<sub>C</sub> = 1 - T<sub>c</sub>/T<sub>h</sub></div>
+                <p>This depends only on temperatures, not on the working substance.</p>
+
+                <h3>Key Insights</h3>
+                <ul style="margin-left: 30px;">
+                    <li>No real engine can exceed Carnot efficiency</li>
+                    <li>To maximize efficiency: increase T<sub>h</sub> or decrease T<sub>c</sub></li>
+                    <li>Even ideal engines cannot be 100% efficient (would require T<sub>c</sub> = 0 K)</li>
+                    <li>Real engines have lower efficiency due to friction, heat losses, non-ideal processes</li>
+                </ul>
+
+                <h3>Real-World Applications</h3>
+                <ul style="margin-left: 30px;">
+                    <li>Gasoline engines: η ≈ 25-30%</li>
+                    <li>Diesel engines: η ≈ 35-40%</li>
+                    <li>Modern power plants: η ≈ 35-45%</li>
+                    <li>Combined cycle plants: η ≈ 60%</li>
+                </ul>
+
+                <h3>Worked Example 5</h3>
+                <p><strong>Problem:</strong> A heat engine operates between a hot reservoir at 600 K and a cold reservoir at 300 K. (a) What is the maximum theoretical efficiency? (b) If the engine absorbs 2000 J per cycle, what is the maximum work it can do?</p>
+                <p><strong>Solution:</strong></p>
+                <p>(a) Maximum efficiency is the Carnot efficiency:</p>
+                <div class="formula">η<sub>C</sub> = 1 - T<sub>c</sub>/T<sub>h</sub> = 1 - 300/600 = 0.5 = 50%</div>
+                <p>(b) Maximum work:</p>
+                <div class="formula">W = η<sub>C</sub> × Q<sub>h</sub> = 0.5 × 2000 = 1000 J</div>
+                <p>The remaining 1000 J must be rejected as waste heat to the cold reservoir.</p>
+                <p><strong>Environmental Context:</strong> The second law of thermodynamics explains why power plants must reject large amounts of waste heat (often to rivers or cooling towers). This isn't due to poor design—it's a fundamental limitation. This is why combined heat and power (CHP) systems, which use waste heat for heating, are more efficient overall.</p>
+            </div>
+
+            <!-- Content Section 6: Entropy and the Second Law -->
+            <div class="content-section">
+                <h2>Entropy and the Second Law of Thermodynamics</h2>
+                <p>The second law of thermodynamics introduces directionality to physical processes—it explains why time flows in one direction and why certain processes are irreversible.</p>
+
+                <h3>The Second Law: Multiple Formulations</h3>
+                <ol style="margin-left: 30px;">
+                    <li><strong>Clausius statement:</strong> Heat cannot spontaneously flow from cold to hot</li>
+                    <li><strong>Kelvin-Planck statement:</strong> No heat engine can convert heat entirely to work in a cyclic process</li>
+                    <li><strong>Entropy statement:</strong> The entropy of an isolated system never decreases</li>
+                </ol>
+                <p>These statements are equivalent—each implies the others.</p>
+
+                <h3>Entropy: A Measure of Disorder</h3>
+                <p>Entropy (S) quantifies the disorder or randomness of a system. More precisely, it's related to the number of microstates Ω (arrangements of particles) corresponding to a macrostate:</p>
+                <div class="formula">S = k<sub>B</sub> ln Ω</div>
+                <p>For reversible processes, the change in entropy is:</p>
+                <div class="formula">ΔS = Q/T</div>
+                <p>where Q is heat transferred reversibly at temperature T.</p>
+                <p>For irreversible processes:</p>
+                <div class="formula">ΔS > Q/T</div>
+
+                <h3>The Second Law: Entropy Form</h3>
+                <p>For an isolated system:</p>
+                <div class="formula">ΔS<sub>universe</sub> ≥ 0</div>
+                <p>Entropy can decrease locally (e.g., freezing water), but only if entropy increases elsewhere by a greater amount. The total entropy of the universe always increases.</p>
+
+                <h3>Reversible vs Irreversible Processes</h3>
+                <p><strong>Reversible:</strong> Can be run backward without leaving changes in the universe. Characteristics:</p>
+                <ul style="margin-left: 30px;">
+                    <li>Proceed through equilibrium states</li>
+                    <li>Infinitely slow (quasi-static)</li>
+                    <li>No friction or dissipation</li>
+                    <li>ΔS<sub>universe</sub> = 0</li>
+                    <li>Theoretical idealization</li>
+                </ul>
+
+                <p><strong>Irreversible:</strong> Cannot be spontaneously reversed. Characteristics:</p>
+                <ul style="margin-left: 30px;">
+                    <li>Rapid processes</li>
+                    <li>Friction, turbulence, diffusion</li>
+                    <li>Heat flow across finite temperature difference</li>
+                    <li>ΔS<sub>universe</sub> > 0</li>
+                    <li>All real processes</li>
+                </ul>
+
+                <p>Examples of irreversible processes:</p>
+                <ul style="margin-left: 30px;">
+                    <li>Mixing of gases</li>
+                    <li>Heat conduction from hot to cold</li>
+                    <li>Friction converting kinetic energy to heat</li>
+                    <li>Breaking a glass</li>
+                    <li>Biological aging</li>
+                </ul>
+
+                <h3>Entropy Changes in Different Processes</h3>
+                <p><strong>1. Isothermal process:</strong> ΔS = Q/T = nR ln(V₂/V₁)</p>
+                <p><strong>2. Adiabatic reversible:</strong> ΔS = 0 (no heat transfer, reversible)</p>
+                <p><strong>3. Adiabatic irreversible:</strong> ΔS > 0 (entropy generated internally)</p>
+                <p><strong>4. Phase change:</strong> ΔS = L/T where L is latent heat</p>
+
+                <h3>Worked Example 6</h3>
+                <p><strong>Problem:</strong> A 2.0 kg block of ice at 0°C melts completely to water at 0°C. Calculate the entropy change. (Latent heat of fusion = 334 kJ/kg)</p>
+                <p><strong>Solution:</strong></p>
+                <p>The process occurs at constant temperature T = 273 K.</p>
+                <p>Heat absorbed: Q = mL = (2.0)(334 × 10³) = 668,000 J</p>
+                <p>Entropy change:</p>
+                <div class="formula">ΔS = Q/T = 668,000/273 = 2450 J K<sup>-1</sup></div>
+                <p>The entropy increases because the liquid state has more disorder than the solid state. This is an irreversible process—ice naturally melts at temperatures above 0°C.</p>
+
+                <h3>The Arrow of Time</h3>
+                <p>The second law provides a thermodynamic arrow of time. While the fundamental laws of physics (Newton's laws, Maxwell's equations, Schrödinger equation) are time-reversible, the second law is not. Entropy increase defines the forward direction of time. This explains why we remember the past but not the future, why eggs don't unscramble, and why friction always opposes motion.</p>
+
+                <h3>Statistical Interpretation</h3>
+                <p>Entropy increase isn't a strict law but a statistical certainty. A system naturally evolves toward states with more microstates (higher probability). For example, gas molecules could spontaneously gather in one corner of a room, but the probability is astronomically small: approximately (1/2)<sup>N</sup> where N ≈ 10²³. We never observe such events.</p>
+            </div>
+
+            <!-- Content Section 7: Cyclic Processes and Heat Pumps -->
+            <div class="content-section">
+                <h2>Cyclic Processes and Heat Pumps</h2>
+                <p>Besides heat engines, other cyclic devices include refrigerators and heat pumps. Understanding these completes our picture of thermodynamic cycles.</p>
+
+                <h3>Refrigerators and Heat Pumps</h3>
+                <p>These devices work opposite to heat engines:</p>
+                <ul style="margin-left: 30px;">
+                    <li>Input: Work W</li>
+                    <li>Action: Move heat from cold to hot (against natural flow)</li>
+                    <li>Output: Heat delivered to hot reservoir Q<sub>h</sub> = Q<sub>c</sub> + W</li>
+                </ul>
+                <p>They require work because the second law prohibits spontaneous heat flow from cold to hot.</p>
+
+                <h3>Coefficient of Performance (COP)</h3>
+                <p>Instead of efficiency, we use COP:</p>
+                <p><strong>For refrigerator:</strong></p>
+                <div class="formula">COP<sub>R</sub> = Q<sub>c</sub>/W = Q<sub>c</sub>/(Q<sub>h</sub> - Q<sub>c</sub>)</div>
+                <p>COP<sub>R</sub> measures how much heat is removed per unit work.</p>
+
+                <p><strong>For heat pump:</strong></p>
+                <div class="formula">COP<sub>HP</sub> = Q<sub>h</sub>/W = Q<sub>h</sub>/(Q<sub>h</sub> - Q<sub>c</sub>)</div>
+                <p>COP<sub>HP</sub> measures how much heat is delivered per unit work.</p>
+                <p>Note: COP<sub>HP</sub> = COP<sub>R</sub> + 1</p>
+                <p>COP can exceed 1 (and typically does)—this isn't a violation of conservation of energy because the device moves existing thermal energy rather than creating it.</p>
+
+                <h3>Maximum COP (Carnot Limit)</h3>
+                <p>For ideal reversible refrigerator:</p>
+                <div class="formula">COP<sub>R</sub> = T<sub>c</sub>/(T<sub>h</sub> - T<sub>c</sub>)</div>
+                <p>For ideal reversible heat pump:</p>
+                <div class="formula">COP<sub>HP</sub> = T<sub>h</sub>/(T<sub>h</sub> - T<sub>c</sub>)</div>
+
+                <h3>Worked Example 7</h3>
+                <p><strong>Problem:</strong> A refrigerator operates between -10°C and 25°C. (a) What is the maximum theoretical COP? (b) If it has 40% of the ideal efficiency and removes 5000 J from the cold compartment, how much work is required?</p>
+                <p><strong>Solution:</strong></p>
+                <p>(a) Convert to Kelvin:</p>
+                <ul style="margin-left: 30px;">
+                    <li>T<sub>c</sub> = -10 + 273 = 263 K</li>
+                    <li>T<sub>h</sub> = 25 + 273 = 298 K</li>
+                </ul>
+                <p>Maximum COP:</p>
+                <div class="formula">COP<sub>R,max</sub> = T<sub>c</sub>/(T<sub>h</sub> - T<sub>c</sub>) = 263/(298 - 263) = 263/35 = 7.51</div>
+                <p>(b) Actual COP = 0.40 × 7.51 = 3.00</p>
+                <p>Work required:</p>
+                <div class="formula">W = Q<sub>c</sub>/COP<sub>R</sub> = 5000/3.00 = 1667 J</div>
+                <p>The refrigerator removes 5000 J from inside and rejects 6667 J to the room (5000 + 1667).</p>
+
+                <h3>Analysis of Complete Cycles</h3>
+                <p>For any complete thermodynamic cycle:</p>
+                <ul style="margin-left: 30px;">
+                    <li>System returns to initial state: ΔU<sub>cycle</sub> = 0</li>
+                    <li>Net work: W<sub>net</sub> = ∮ P dV = area enclosed by cycle on PV diagram</li>
+                    <li>Net heat: Q<sub>net</sub> = W<sub>net</sub> (from first law with ΔU = 0)</li>
+                    <li>Clockwise cycle: heat engine (W<sub>net</sub> > 0)</li>
+                    <li>Counterclockwise cycle: refrigerator/heat pump (W<sub>net</sub> < 0)</li>
+                </ul>
+
+                <h3>Real-World Applications</h3>
+                <ol style="margin-left: 30px;">
+                    <li><strong>Air conditioners:</strong> COP<sub>R</sub> typically 2-4</li>
+                    <li><strong>Heat pumps for home heating:</strong> COP<sub>HP</sub> typically 3-5 (delivers 3-5 times more heat than electric resistance heating for same electricity)</li>
+                    <li><strong>Industrial refrigeration:</strong> Must operate at lower temperatures, so COP is lower</li>
+                    <li><strong>Cryogenics:</strong> Extremely low COP when approaching absolute zero</li>
+                </ol>
+            </div>
+
+            <!-- Content Section 8: Problem-Solving Strategies -->
+            <div class="content-section">
+                <h2>Problem-Solving Strategies for Thermodynamics</h2>
+                <p>Success in thermodynamics requires systematic approaches and attention to signs and units.</p>
+
+                <h3>General Strategy</h3>
+                <ol style="margin-left: 30px;">
+                    <li><strong>Identify the system:</strong> What are you analyzing? What's inside vs outside?</li>
+                    <li><strong>Identify the process:</strong> Isothermal? Adiabatic? Isobaric? Isochoric? Or a combination?</li>
+                    <li><strong>List known quantities:</strong> Always include units. Convert to SI units immediately.</li>
+                    <li><strong>Determine what to find:</strong> Work? Heat? Temperature change? Entropy change?</li>
+                    <li><strong>Choose appropriate equations:</strong> Based on process type.</li>
+                    <li><strong>Watch signs carefully:</strong>
+                        <ul>
+                            <li>Heat added: Q > 0</li>
+                            <li>Heat removed: Q < 0</li>
+                            <li>Work by gas (expansion): W > 0</li>
+                            <li>Work on gas (compression): W < 0</li>
+                        </ul>
+                    </li>
+                    <li><strong>Check reasonableness:</strong> Does temperature increase when heat is added? Does entropy increase for irreversible processes?</li>
+                </ol>
+
+                <h3>Common Pitfalls to Avoid</h3>
+                <ol style="margin-left: 30px;">
+                    <li><strong>Temperature in Celsius:</strong> Always convert to Kelvin for thermodynamic equations</li>
+                    <li><strong>Sign errors:</strong> The most common mistake. Be consistent with conventions.</li>
+                    <li><strong>Pressure units:</strong> Ensure consistent units (Pa, not kPa or atm, unless converting)</li>
+                    <li><strong>Volume units:</strong> Convert liters to m³: 1 L = 10<sup>-3</sup> m³</li>
+                    <li><strong>Confusing Q and ΔU:</strong> Heat transferred vs internal energy change</li>
+                    <li><strong>Applying ideal gas law to non-ideal conditions:</strong> Very high pressure or very low temperature</li>
+                    <li><strong>Forgetting that U depends only on T for ideal gas:</strong> Not on P or V</li>
+                    <li><strong>Using ΔU = Q - W with wrong signs:</strong> Master the sign convention</li>
+                </ol>
+
+                <h3>For PV Diagram Problems</h3>
+                <ol style="margin-left: 30px;">
+                    <li>Sketch the process if not provided</li>
+                    <li>Calculate work from area under curve (count squares if necessary)</li>
+                    <li>Use process type to determine relationship between variables</li>
+                    <li>Calculate Q from first law: Q = ΔU + W</li>
+                </ol>
+
+                <h3>For Efficiency Problems</h3>
+                <ol style="margin-left: 30px;">
+                    <li>Identify hot and cold temperatures (in Kelvin)</li>
+                    <li>Calculate Carnot efficiency as upper limit</li>
+                    <li>Actual efficiency is always less</li>
+                    <li>Check that η < 1 (or < 100%)</li>
+                </ol>
+
+                <h3>For Entropy Problems</h3>
+                <ol style="margin-left: 30px;">
+                    <li>Identify if process is reversible or irreversible</li>
+                    <li>For reversible: ΔS = Q/T (be careful if T changes)</li>
+                    <li>For isolated system: ΔS<sub>total</sub> ≥ 0</li>
+                    <li>Consider entropy changes of all parts (system + surroundings)</li>
+                </ol>
+            </div>
+
+            <!-- Practice Problems Section -->
+            <div class="content-section">
+                <h2>Practice Problems</h2>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 1: Isothermal Expansion</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>A cylinder contains 0.50 mol of an ideal monatomic gas at 300 K. The gas expands isothermally to twice its initial volume. Calculate (a) the work done by the gas, (b) the heat absorbed, and (c) the change in internal energy.</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>(a) For isothermal expansion:<br>
+                        W = nRT ln(V₂/V₁) = (0.50)(8.31)(300) ln(2)<br>
+                        W = 1246.5 × 0.693 = 864 J</p>
+                        <p>(b) For isothermal process, ΔU = 0 (temperature constant)<br>
+                        From first law: Q = ΔU + W = 0 + 864 = 864 J</p>
+                        <p>(c) ΔU = 0 (for isothermal process with ideal gas)</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> In an isothermal process, temperature remains constant, so internal energy of an ideal gas doesn't change. All heat absorbed is converted to work. The natural logarithm appears because PV = constant gives P = nRT/V, and integrating P dV produces the logarithm.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 2: Adiabatic Compression</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>An ideal gas undergoes an adiabatic compression from 5.0 L to 2.0 L. The initial pressure is 100 kPa and the gas is diatomic (γ = 1.4). Calculate (a) the final pressure, and (b) state whether the temperature increases or decreases.</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>(a) For adiabatic process: P₁V₁<sup>γ</sup> = P₂V₂<sup>γ</sup></p>
+                        <p>P₂ = P₁(V₁/V₂)<sup>γ</sup> = (100 kPa)(5.0/2.0)<sup>1.4</sup><br>
+                        P₂ = 100 × (2.5)<sup>1.4</sup> = 100 × 3.66 = 366 kPa</p>
+                        <p>(b) Temperature increases. In compression, work is done ON the gas. Since Q = 0 (adiabatic), ΔU = -W > 0, so internal energy and temperature increase.</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> Adiabatic compression increases temperature because work done on the gas increases internal energy with no heat loss. This is why a bicycle pump gets hot when you compress air rapidly. The exponent γ = 1.4 for diatomic gases reflects their heat capacity ratio.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 3: RMS Speed Calculation</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>Calculate the rms speed of helium atoms at 27°C. (Molar mass of He = 4.0 g/mol)</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>T = 27 + 273 = 300 K<br>
+                        M = 4.0 × 10<sup>-3</sup> kg/mol</p>
+                        <p>v<sub>rms</sub> = √(3RT/M) = √(3 × 8.31 × 300 / 4.0 × 10<sup>-3</sup>)<br>
+                        v<sub>rms</sub> = √(7479/0.004) = √1,869,750<br>
+                        v<sub>rms</sub> = 1367 m/s ≈ 1.4 km/s</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> Helium atoms move very fast because they're light. This high speed explains why helium escapes Earth's atmosphere—molecules moving faster than escape velocity (~11 km/s at high altitude where collisions are rare) can leave the atmosphere. The rms speed is proportional to √(T/M), so lighter molecules at higher temperatures move faster.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 4: Heat Engine Efficiency</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>A heat engine operates between 500 K and 300 K with an actual efficiency of 30%. If it absorbs 3000 J from the hot reservoir per cycle, calculate (a) the Carnot efficiency, (b) the work done per cycle, and (c) the heat rejected to the cold reservoir.</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>(a) Carnot efficiency:<br>
+                        η<sub>C</sub> = 1 - T<sub>c</sub>/T<sub>h</sub> = 1 - 300/500 = 1 - 0.6 = 0.4 = 40%</p>
+                        <p>(b) Work done:<br>
+                        W = η × Q<sub>h</sub> = 0.30 × 3000 = 900 J</p>
+                        <p>(c) Heat rejected:<br>
+                        From W = Q<sub>h</sub> - Q<sub>c</sub>:<br>
+                        Q<sub>c</sub> = Q<sub>h</sub> - W = 3000 - 900 = 2100 J</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> The actual efficiency (30%) is less than the Carnot efficiency (40%), as it must be for any real engine. 900 J of useful work is extracted while 2100 J is wasted. To improve efficiency, we'd need to increase the temperature difference or reduce irreversibilities (friction, turbulence, heat losses).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 5: Entropy Change in Thermal Contact</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>A 0.50 kg block of aluminum (c = 900 J kg<sup>-1</sup> K<sup>-1</sup>) at 100°C is placed in thermal contact with a 1.0 kg block of copper (c = 385 J kg<sup>-1</sup> K<sup>-1</sup>) at 20°C. The system is isolated. Calculate (a) the final equilibrium temperature, and (b) the total entropy change of the system.</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>(a) Heat lost by aluminum = heat gained by copper:<br>
+                        m₁c₁(T₁ - T<sub>f</sub>) = m₂c₂(T<sub>f</sub> - T₂)<br>
+                        (0.50)(900)(100 - T<sub>f</sub>) = (1.0)(385)(T<sub>f</sub> - 20)<br>
+                        450(100 - T<sub>f</sub>) = 385(T<sub>f</sub> - 20)<br>
+                        45000 - 450T<sub>f</sub> = 385T<sub>f</sub> - 7700<br>
+                        52700 = 835T<sub>f</sub><br>
+                        T<sub>f</sub> = 63.1°C = 336.1 K</p>
+                        <p>(b) Entropy change for aluminum (T₁ = 373 K):<br>
+                        ΔS₁ = m₁c₁ ln(T<sub>f</sub>/T₁) = (0.50)(900) ln(336.1/373)<br>
+                        ΔS₁ = 450 × (-0.104) = -46.8 J/K</p>
+                        <p>Entropy change for copper (T₂ = 293 K):<br>
+                        ΔS₂ = m₂c₂ ln(T<sub>f</sub>/T₂) = (1.0)(385) ln(336.1/293)<br>
+                        ΔS₂ = 385 × (0.137) = 52.8 J/K</p>
+                        <p>Total: ΔS<sub>total</sub> = -46.8 + 52.8 = 6.0 J/K</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> The aluminum cools and loses entropy (ΔS₁ < 0) while copper warms and gains entropy (ΔS₂ > 0). The total entropy increases (ΔS<sub>total</sub> > 0), as required by the second law for an irreversible process. Heat spontaneously flows from hot to cold, creating entropy.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 6: PV Diagram Cycle Analysis</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>A gas follows the cycle ABCA on a PV diagram where: A→B is isobaric expansion at 200 kPa from 2.0 L to 5.0 L; B→C is isochoric cooling to 100 kPa; C→A is isothermal compression back to state A. Calculate (a) the net work done in one complete cycle, (b) state whether this is a heat engine or refrigerator cycle.</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>(a) Work for each process:</p>
+                        <p>A→B (isobaric): W₁ = P(V₂ - V₁) = (200 × 10³)(5.0 - 2.0) × 10<sup>-3</sup> = 600 J</p>
+                        <p>B→C (isochoric): W₂ = 0 (no volume change)</p>
+                        <p>C→A: On a PV diagram, work = area enclosed.<br>
+                        Area = ½(P<sub>A</sub> - P<sub>C</sub>)(V<sub>B</sub> - V<sub>A</sub>)<br>
+                        = ½(200 - 100) × 10³ × (5.0 - 2.0) × 10<sup>-3</sup><br>
+                        = ½(100 × 10³)(3.0 × 10<sup>-3</sup>) = 150 J</p>
+                        <p>Since cycle goes clockwise (expansion at high P, compression at low P), W<sub>net</sub> = +150 J</p>
+                        <p>(b) Clockwise cycle with W<sub>net</sub> > 0 indicates a heat engine.</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> The net work equals the enclosed area on the PV diagram. Clockwise cycles produce net positive work (heat engines convert heat to work). Counterclockwise cycles require net work input (refrigerators move heat against natural flow). The work calculation can be done by integrating each segment or by finding the enclosed area geometrically.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 7: Conceptual - 100% Efficiency Impossibility</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>Explain why it's impossible for a heat engine to be 100% efficient, even in the ideal case with no friction or other practical losses. Your answer should reference the second law of thermodynamics.</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>A heat engine cannot be 100% efficient because:</p>
+                        <p><strong>1.</strong> The second law of thermodynamics (Kelvin-Planck statement) explicitly forbids it: no cyclic process can convert heat entirely into work.</p>
+                        <p><strong>2.</strong> From entropy perspective: When heat Q<sub>h</sub> is absorbed from the hot reservoir at temperature T<sub>h</sub>, entropy decreases by Q<sub>h</sub>/T<sub>h</sub>. For a complete cycle, the engine returns to its initial state, so its entropy change is zero. Therefore, entropy must be expelled elsewhere. This requires rejecting heat Q<sub>c</sub> to the cold reservoir, increasing its entropy by Q<sub>c</sub>/T<sub>c</sub>.</p>
+                        <p><strong>3.</strong> For the total entropy change to be non-negative (second law):<br>
+                        ΔS<sub>total</sub> = Q<sub>c</sub>/T<sub>c</sub> - Q<sub>h</sub>/T<sub>h</sub> ≥ 0<br>
+                        This gives: Q<sub>c</sub> ≥ Q<sub>h</sub> × T<sub>c</sub>/T<sub>h</sub></p>
+                        <p><strong>4.</strong> Maximum efficiency (when equality holds, i.e., reversible):<br>
+                        η = 1 - Q<sub>c</sub>/Q<sub>h</sub> = 1 - T<sub>c</sub>/T<sub>h</sub> < 1 (unless T<sub>c</sub> = 0 K, which is impossible)</p>
+                        <p><strong>5.</strong> Physical interpretation: The engine must reject some heat to the cold reservoir to maintain entropy balance. Complete conversion would violate the second law.</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> This is a conceptual question testing deep understanding. The impossibility of 100% efficiency isn't due to practical imperfections—it's a fundamental law of nature. Even an ideal, frictionless Carnot engine must reject waste heat. This explains why power plants must use cooling towers and why improving efficiency requires increasing the temperature difference between reservoirs.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 8: Multi-Step Process</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>One mole of an ideal diatomic gas (γ = 1.4, C<sub>V</sub> = (5/2)R) initially at 300 K and 1.0 atm undergoes the following two-step process: (1) adiabatic compression to half the original volume, then (2) isobaric expansion back to the original volume. Calculate the net work done and the net heat transferred.</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>Initial state A: T<sub>A</sub> = 300 K, V<sub>A</sub> = V₀, P<sub>A</sub> = 101,325 Pa</p>
+                        <p><strong>Step 1:</strong> Adiabatic compression A→B to V<sub>B</sub> = V₀/2</p>
+                        <p>For adiabatic: T<sub>A</sub>V<sub>A</sub><sup>γ-1</sup> = T<sub>B</sub>V<sub>B</sub><sup>γ-1</sup><br>
+                        T<sub>B</sub> = T<sub>A</sub>(V<sub>A</sub>/V<sub>B</sub>)<sup>γ-1</sup> = 300 × (2)<sup>0.4</sup> = 300 × 1.32 = 396 K</p>
+                        <p>P<sub>B</sub> = P<sub>A</sub>(V<sub>A</sub>/V<sub>B</sub>)<sup>γ</sup> = 101,325 × (2)<sup>1.4</sup> = 267,000 Pa</p>
+                        <p>Work in step 1: W₁ = -ΔU = -nC<sub>V</sub>(T<sub>B</sub> - T<sub>A</sub>)<br>
+                        W₁ = -(1)(5/2)(8.31)(396 - 300) = -(2.5)(8.31)(96) = -1995 J<br>
+                        (Negative because work done ON gas)</p>
+                        <p><strong>Step 2:</strong> Isobaric expansion B→C at P<sub>B</sub> = 267,000 Pa from V<sub>B</sub> = V₀/2 to V<sub>C</sub> = V₀</p>
+                        <p>Since isobaric and returns to V₀:<br>
+                        T<sub>C</sub>/T<sub>B</sub> = V<sub>C</sub>/V<sub>B</sub> = 2<br>
+                        T<sub>C</sub> = 2 × 396 = 792 K</p>
+                        <p>W₂ = P<sub>B</sub>(V<sub>C</sub> - V<sub>B</sub>) = nR(T<sub>C</sub> - T<sub>B</sub>)<br>
+                        W₂ = (1)(8.31)(792 - 396) = 3291 J</p>
+                        <p><strong>Net work:</strong> W<sub>net</sub> = W₁ + W₂ = -1995 + 3291 = 1296 J</p>
+                        <p><strong>For net heat:</strong><br>
+                        ΔU<sub>total</sub> = nC<sub>V</sub>(T<sub>C</sub> - T<sub>A</sub>) = (1)(2.5)(8.31)(792 - 300) = 10,220 J<br>
+                        Q<sub>net</sub> = ΔU<sub>total</sub> + W<sub>net</sub> = 10,220 + 1296 = 11,516 J</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> This multi-step problem requires tracking state variables through each process. The adiabatic compression does no heat transfer (Q = 0) but increases temperature significantly. The isobaric expansion then does positive work and requires substantial heat input. The net effect is positive work output and large heat input, increasing internal energy.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 9: Heat Pump Performance</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>A reversible heat pump operates between the inside of a house at 20°C and the outside at -5°C. Calculate (a) the coefficient of performance, (b) the heat delivered to the house per joule of work input, and (c) compare this to electric resistance heating.</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>(a) Convert to Kelvin:<br>
+                        T<sub>h</sub> = 20 + 273 = 293 K (inside)<br>
+                        T<sub>c</sub> = -5 + 273 = 268 K (outside)</p>
+                        <p>For reversible heat pump:<br>
+                        COP<sub>HP</sub> = T<sub>h</sub>/(T<sub>h</sub> - T<sub>c</sub>) = 293/(293 - 268) = 293/25 = 11.7</p>
+                        <p>(b) COP<sub>HP</sub> = Q<sub>h</sub>/W, so:<br>
+                        Q<sub>h</sub> = COP<sub>HP</sub> × W = 11.7 × 1 J = 11.7 J per joule of work</p>
+                        <p>(c) Electric resistance heating converts electrical energy directly to heat with 100% efficiency: 1 J of electricity → 1 J of heat.</p>
+                        <p>The heat pump delivers 11.7 J for every 1 J of electricity, making it 11.7 times more efficient for heating!</p>
+                        <p>This works because the heat pump moves existing thermal energy from outside rather than creating heat from electricity.</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> Heat pumps are remarkably efficient heating systems because they transfer heat rather than generate it. Even at -5°C, significant thermal energy exists outside that can be "pumped" inside. The small temperature difference (25 K) gives high COP. As outside temperature drops, COP decreases, which is why heat pumps are most effective in moderate climates.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <span>Problem 10: Non-Standard Process</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <p>During an experiment, 0.20 mol of an ideal gas expands from 2.0 L to 8.0 L. The pressure varies according to P = αV where α = 1.5 × 10⁴ Pa/L. Calculate (a) the work done by the gas, (b) the initial and final temperatures, and (c) state what kind of process this is.</p>
+                    </div>
+                    <div class="problem-solution">
+                        <p><strong>Solution:</strong></p>
+                        <p>(a) Work done:<br>
+                        W = ∫P dV = ∫αV dV from V₁ to V₂<br>
+                        W = α[V²/2] from 2.0 to 8.0</p>
+                        <p>Convert units: α = 1.5 × 10⁴ Pa/L = 1.5 × 10⁷ Pa/m³<br>
+                        V₁ = 2.0 × 10<sup>-3</sup> m³, V₂ = 8.0 × 10<sup>-3</sup> m³</p>
+                        <p>W = (0.75 × 10⁷)[(8×10<sup>-3</sup>)² - (2×10<sup>-3</sup>)²]<br>
+                        W = (0.75 × 10⁷)[64×10<sup>-6</sup> - 4×10<sup>-6</sup>]<br>
+                        W = (0.75 × 10⁷)(60×10<sup>-6</sup>) = 450 J</p>
+                        <p>(b) Initial temperature:<br>
+                        P₁ = αV₁ = (1.5×10⁴)(2.0) = 3.0×10⁴ Pa<br>
+                        T₁ = P₁V₁/(nR) = (3.0×10⁴)(2.0×10<sup>-3</sup>)/[(0.20)(8.31)] = 36.1 K</p>
+                        <p>Final temperature:<br>
+                        P₂ = αV₂ = (1.5×10⁴)(8.0) = 1.2×10⁵ Pa<br>
+                        T₂ = P₂V₂/(nR) = (1.2×10⁵)(8.0×10<sup>-3</sup>)/[(0.20)(8.31)] = 577 K</p>
+                        <p>(c) Since P ∝ V, we have P/V = constant, which means P/V = nRT/V² is constant, so T ∝ V². This is a polytropic process with PV<sup>-1</sup> = constant (or P = αV).</p>
+                        <div class="problem-explanation">
+                            <strong>Explanation:</strong> This is an unusual process where pressure increases linearly with volume. Work is found by integration since P varies. The temperature increases significantly (from 36 K to 577 K) because both P and V increase. This isn't one of the standard processes (isothermal, adiabatic, etc.) but demonstrates the general principle that work equals the area under the P-V curve.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exam Tips Section -->
+            <div class="tips-section">
+                <h2>Exam Tips for IB Physics</h2>
+                <ul class="tips-list">
+                    <li>Always convert temperature to Kelvin before using any thermodynamic equation. T(K) = T(°C) + 273. This is the most common mistake.</li>
+                    <li>Master sign conventions: Q positive when heat enters system, W positive when system does work (expansion). Compression means negative W.</li>
+                    <li>On PV diagrams, work equals area under the curve. For cyclic processes, work equals the enclosed area. Clockwise = heat engine, counterclockwise = refrigerator.</li>
+                    <li>For ideal gas internal energy: U depends ONLY on temperature, not on P or V. So for isothermal processes, ΔU = 0 automatically.</li>
+                    <li>Distinguish between efficiency (η < 1) for heat engines and COP (can be > 1) for refrigerators/heat pumps. They measure different things.</li>
+                    <li>In adiabatic processes, use PV<sup>γ</sup> = constant. Remember γ = 5/3 for monatomic, γ = 7/5 for diatomic. Adiabatic curves are steeper than isothermal.</li>
+                    <li>For entropy: ΔS = Q/T only works if T is constant. If T changes, you need to integrate: ΔS = ∫dQ/T = nC ln(T₂/T₁) or use specific formulas.</li>
+                    <li>The Carnot efficiency η = 1 - T<sub>c</sub>/T<sub>h</sub> gives the maximum possible efficiency. Any real engine must have lower efficiency. Use this to check your answers.</li>
+                    <li>When asked if a process is reversible or irreversible, check: Does entropy of universe increase? Are there dissipative processes (friction, turbulence)? Is it quasi-static?</li>
+                    <li>For multi-step processes, track P, V, T through each step. Use ideal gas law to find missing variables. Draw the PV diagram to visualize.</li>
+                    <li>In Data-Based Questions (DBQs), carefully read axis labels and units on PV diagrams. Calculate work from area using geometry (trapezoids, triangles) when possible.</li>
+                    <li>When comparing processes, isothermal (PV = const) has gentler slope than adiabatic (PV<sup>γ</sup> = const) on PV diagrams. Use this for quick checks.</li>
+                    <li>Extended response questions often ask you to explain WHY entropy increases. Connect to microstates, probability, and directionality of time—not just formulas.</li>
+                    <li>Watch for trick questions about 100% efficiency or perpetual motion—both violate the second law. Explain using entropy or Carnot limit.</li>
+                    <li>Units: Pressure in Pa, volume in m³, temperature in K, energy in J. Convert all quantities before calculating. 1 L = 10<sup>-3</sup> m³, 1 atm = 101,325 Pa.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <div class="lesson-nav">
+            <a href="b3_gas_laws.html" class="nav-button prev">← Previous Lesson</a>
+            <a href="b5_entropy.html" class="nav-button next">Next Lesson →</a>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="alert('Chatbot feature coming soon!')">
+        <div class="chatbot-icon">💬</div>
+    </div>
+
+    <script>
+        // Progress Tracking
+        function updateProgress() {
+            const sections = document.querySelectorAll('.content-section, .objectives-section, .definitions-section');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress);
+        }
+
+        window.addEventListener('scroll', updateProgress);
+
+        // Problem Toggle Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const problemHeaders = document.querySelectorAll('.problem-header');
+
+            problemHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const solution = this.nextElementSibling.nextElementSibling;
+                    const icon = this.querySelector('.toggle-icon');
+
+                    solution.classList.toggle('active');
+                    icon.classList.toggle('active');
+                });
+            });
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <div class="lesson-nav">
+            <a href="b3_gas_laws.html" class="nav-button prev">← Previous Lesson</a>
+            <a href="b5_entropy.html" class="nav-button next">Next Lesson →</a>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="alert('Chatbot feature coming soon!')">
+        <div class="chatbot-icon">💬</div>
+    </div>
+
+    <script>
+        // Progress Tracking
+        function updateProgress() {
+            const sections = document.querySelectorAll('.content-section, .objectives-section, .definitions-section');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress);
+        }
+
+        window.addEventListener('scroll', updateProgress);
+
+        // Problem Toggle Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const problemHeaders = document.querySelectorAll('.problem-header');
+
+            problemHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const solution = this.nextElementSibling.nextElementSibling;
+                    const icon = this.querySelector('.toggle-icon');
+
+                    solution.classList.toggle('active');
+                    icon.classList.toggle('active');
+                });
+            });
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

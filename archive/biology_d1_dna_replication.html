@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D1: DNA Replication - Biology HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .navbar .level-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f5f5f5;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Main Content */
+        .content {
+            padding: 40px 30px;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 28px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #667eea;
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        strong {
+            color: #333;
+        }
+
+        /* Definition Boxes */
+        .definition {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .definition-text {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 15px 0 15px 30px;
+            line-height: 1.8;
+        }
+
+        li {
+            margin: 8px 0;
+            color: #444;
+        }
+
+        /* Practice Problems */
+        .practice-problem {
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .problem-question {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .solution-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .solution-toggle:hover {
+            background: #764ba2;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .solution-content.show {
+            display: block;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* Exam Tips */
+        .exam-tip {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-left: 4px solid #f39c12;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .objectives-list li {
+            color: #2c3e50;
+            margin: 12px 0;
+        }
+
+        /* Interactive Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #d5dbdb;
+        }
+
+        /* Footer Navigation */
+        .footer-nav {
+            background: #2c3e50;
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-widget::after {
+            content: "💬";
+            font-size: 28px;
+        }
+
+        /* Code blocks */
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            h3 {
+                font-size: 20px;
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(44, 62, 80, 0.8);
+            color: white;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .scroll-top:hover {
+            background: rgba(44, 62, 80, 1);
+            transform: translateY(-5px);
+        }
+
+        .scroll-top.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <h1>D1: DNA Replication</h1>
+            <div class="level-badge">HL (with SL foundations)</div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Progress: 0%</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Learning Objectives -->
+            <h2>Learning Objectives</h2>
+            <div class="objectives-list">
+                <ul>
+                    <li>D1.1: Explain why DNA replication is an essential prerequisite for cell division</li>
+                    <li>D1.2: Compare conservative, semi-conservative, and dispersive models of DNA replication</li>
+                    <li>D1.3: Analyze Meselson and Stahl's experiment and explain how it falsified conservative and dispersive replication models</li>
+                    <li>D1.4: Explain why DNA polymerases can only add nucleotides to the 3' end of a primer and the implications of this directionality</li>
+                    <li>D1.5: Distinguish between continuous replication on the leading strand and discontinuous replication on the lagging strand</li>
+                    <li>D1.6: Describe the complete process of DNA replication including all key enzymes and their roles</li>
+                    <li>D1.7: Compare origins of replication in prokaryotes and eukaryotes</li>
+                    <li>D1.8: Explain tandem repeats and their application in DNA profiling</li>
+                </ul>
+            </div>
+
+            <!-- Key Definitions -->
+            <h2>Key Definitions</h2>
+
+            <div class="definition">
+                <div class="definition-term">DNA Replication</div>
+                <div class="definition-text">The process by which a double-stranded DNA molecule is copied to produce two identical DNA molecules, occurring during the S phase of the cell cycle.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Semi-conservative Replication</div>
+                <div class="definition-text">The mechanism of DNA replication in which each new DNA molecule consists of one original (parental) strand and one newly synthesized strand.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">DNA Polymerase III</div>
+                <div class="definition-text">The primary enzyme responsible for DNA synthesis in prokaryotes, catalyzing the addition of nucleotides to the 3' end of a growing DNA strand at approximately 1000 nucleotides per second.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Leading Strand</div>
+                <div class="definition-text">The DNA strand synthesized continuously in the 5' to 3' direction toward the replication fork.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Lagging Strand</div>
+                <div class="definition-text">The DNA strand synthesized discontinuously in the 5' to 3' direction away from the replication fork, forming Okazaki fragments.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Okazaki Fragments</div>
+                <div class="definition-text">Short segments of DNA (1000-2000 nucleotides in prokaryotes, 100-200 in eukaryotes) synthesized discontinuously on the lagging strand during DNA replication.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Helicase</div>
+                <div class="definition-text">An enzyme that unwinds and separates the two strands of the DNA double helix by breaking hydrogen bonds between complementary base pairs.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Primase</div>
+                <div class="definition-text">An RNA polymerase enzyme that synthesizes short RNA primers (approximately 10 nucleotides) to provide the 3' OH group required by DNA polymerase to begin synthesis.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">DNA Ligase</div>
+                <div class="definition-text">An enzyme that joins Okazaki fragments by forming phosphodiester bonds between adjacent nucleotides on the lagging strand.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Origin of Replication</div>
+                <div class="definition-text">A specific DNA sequence where replication is initiated. Prokaryotes typically have one origin, while eukaryotes have multiple origins per chromosome.</div>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Tandem Repeats</div>
+                <div class="definition-text">Sequences of DNA in which multiple copies of the same base sequence appear consecutively, used in DNA profiling due to high variability between individuals.</div>
+            </div>
+
+            <!-- Content Sections -->
+            <h2>Introduction: Why DNA Replication Matters</h2>
+            <p>DNA replication is the fundamental molecular process that enables the continuity of genetic information across generations of cells and organisms. Before any cell can divide—whether through mitosis or meiosis—it must first duplicate its entire genome to ensure each daughter cell receives a complete set of genetic instructions.</p>
+
+            <h3>D1.1: DNA Replication as a Prerequisite for Cell Division</h3>
+            <p>The relationship between DNA replication and cell division is governed by the cell cycle. During the S (synthesis) phase of interphase, the cell replicates its DNA, doubling the amount of genetic material from 2n to 4n in diploid cells. This replication must be completed before the cell can enter mitosis or meiosis.</p>
+
+            <p><strong>Why is this essential?</strong></p>
+            <ol>
+                <li><strong>Genetic continuity</strong>: Each daughter cell must receive an identical and complete copy of the genome to maintain proper cellular function.</li>
+                <li><strong>Information integrity</strong>: Without replication, cell division would result in each daughter cell receiving only half the genetic information, leading to loss of critical genes and cellular death.</li>
+                <li><strong>Chromosome segregation</strong>: During metaphase, sister chromatids (each containing one DNA molecule from replication) must be present for proper attachment to spindle fibers and equal distribution to daughter cells.</li>
+            </ol>
+
+            <p>The checkpoint mechanisms of the cell cycle specifically verify that DNA replication is complete before permitting the cell to proceed to mitosis. If replication is incomplete or errors are detected, the cell cycle is arrested, preventing the propagation of damaged or incomplete genetic information.</p>
+
+            <h2>Models of DNA Replication: Historical Context</h2>
+            <h3>D1.2: Three Theoretical Models</h3>
+            <p>When Watson and Crick proposed the double helix structure of DNA in 1953, they immediately recognized that the complementary base pairing suggested a copying mechanism. However, three possible models for DNA replication were initially proposed:</p>
+
+            <p><strong>1. Conservative Replication</strong><br>
+            In this model, the original DNA molecule remains completely intact, and an entirely new double-stranded molecule is synthesized. After one round of replication, you would have one molecule containing both original strands and one molecule containing both new strands.</p>
+
+            <p><strong>2. Semi-conservative Replication</strong> (Correct Model)<br>
+            Each original strand serves as a template for a new strand. After replication, each DNA molecule consists of one original (parental) strand and one newly synthesized strand. This model preserves half of the original molecule in each daughter molecule.</p>
+
+            <p><strong>3. Dispersive Replication</strong><br>
+            The original DNA molecule is broken into fragments, and replication produces DNA molecules that are a patchwork of old and new segments throughout both strands. Each strand would contain alternating segments of original and new DNA.</p>
+
+            <p><strong>Why Understanding These Models Matters for IB</strong><br>
+            The IB syllabus requires you to understand not just which model is correct, but WHY the experiment that tested them was decisive. This demonstrates the nature of science: multiple hypotheses can explain observations until a critical experiment distinguishes between them.</p>
+
+            <h2>The Meselson-Stahl Experiment: A Masterpiece of Scientific Design</h2>
+            <h3>D1.3: Falsifying Conservative and Dispersive Models</h3>
+            <p>In 1958, Matthew Meselson and Franklin Stahl designed an elegant experiment that definitively established semi-conservative replication as the correct model. Understanding this experiment is crucial for IB HL students.</p>
+
+            <h3>Experimental Design</h3>
+            <p>The experiment used nitrogen isotopes to label DNA:</p>
+            <ul>
+                <li><strong>Heavy nitrogen (¹⁵N)</strong>: A heavier isotope incorporated into DNA bases</li>
+                <li><strong>Light nitrogen (¹⁴N)</strong>: The common isotope</li>
+            </ul>
+            <p>DNA containing ¹⁵N is denser than DNA containing ¹⁴N, allowing separation by density using cesium chloride gradient centrifugation.</p>
+
+            <h3>Procedure</h3>
+            <ol>
+                <li><strong>Generation 0</strong>: Bacteria (E. coli) were grown for many generations in medium containing ¹⁵N. All DNA became "heavy" (both strands contained ¹⁵N).</li>
+                <li><strong>Transfer</strong>: Bacteria were then transferred to medium containing only ¹⁴N.</li>
+                <li><strong>Generation 1</strong>: After one round of DNA replication in ¹⁴N medium, DNA was extracted and analyzed.</li>
+                <li><strong>Generation 2</strong>: After a second round of replication in ¹⁴N medium, DNA was again extracted and analyzed.</li>
+            </ol>
+
+            <h3>Results and Interpretation</h3>
+            <p><strong>After Generation 1</strong> (one replication in ¹⁴N):</p>
+            <ul>
+                <li>ALL DNA was hybrid density (intermediate between heavy and light)</li>
+                <li>This result <strong>falsified the conservative model</strong>, which predicted 50% heavy DNA (original molecule intact) and 50% light DNA (entirely new molecule)</li>
+            </ul>
+
+            <p><strong>After Generation 2</strong> (two replications in ¹⁴N):</p>
+            <ul>
+                <li>50% hybrid density DNA</li>
+                <li>50% light density DNA</li>
+                <li>This result <strong>falsified the dispersive model</strong>, which predicted all DNA would be of uniform intermediate density, but lighter than Generation 1</li>
+            </ul>
+
+            <p><strong>Why Semi-conservative Replication Fits the Data</strong></p>
+            <p>Generation 1: Each original heavy strand (¹⁵N) pairs with a new light strand (¹⁴N), producing two hybrid molecules.</p>
+            <p>Generation 2: Each hybrid molecule replicates:</p>
+            <ul>
+                <li>The heavy strand (¹⁵N) pairs with a new light strand (¹⁴N) → hybrid molecule</li>
+                <li>The light strand (¹⁴N) pairs with a new light strand (¹⁴N) → light molecule</li>
+            </ul>
+            <p>Result: 50% hybrid, 50% light—exactly what was observed.</p>
+
+            <p><strong>Key Exam Point</strong>: Be prepared to draw density gradient results for each model and explain why the observed pattern could ONLY result from semi-conservative replication.</p>
+
+            <h2>The Directionality Problem: 5' to 3' Synthesis</h2>
+            <h3>D1.4: DNA Polymerase Directionality</h3>
+            <p>One of the most important constraints in DNA replication is that DNA polymerase can only add nucleotides to the 3' end of an existing strand. This seemingly simple fact has profound implications for the mechanism of replication.</p>
+
+            <h3>Why This Limitation Exists: Molecular Mechanism</h3>
+            <p>DNA polymerase catalyzes the formation of a phosphodiester bond between:</p>
+            <ul>
+                <li>The 3' OH (hydroxyl) group of the last nucleotide in the growing chain</li>
+                <li>The 5' phosphate group of the incoming nucleotide</li>
+            </ul>
+
+            <p>The energy for bond formation comes from breaking the high-energy phosphate bonds of the incoming dNTP (which has three phosphate groups). The release of pyrophosphate (two phosphate groups) makes the reaction thermodynamically favorable and essentially irreversible.</p>
+
+            <h3>Why a Primer is Required</h3>
+            <p>DNA polymerase cannot START a new strand—it can only EXTEND an existing strand. This is because:</p>
+            <ol>
+                <li>The enzyme requires a 3' OH group to add nucleotides</li>
+                <li>The enzyme needs a short double-stranded region to bind to for stability</li>
+            </ol>
+
+            <p>This is why primase (an RNA polymerase) is required to synthesize short RNA primers (about 10 nucleotides) that provide the necessary 3' OH group. Unlike DNA polymerase, RNA polymerase can start synthesis de novo (from scratch).</p>
+
+            <h3>The Antiparallel Problem</h3>
+            <p>DNA strands are antiparallel—one runs 5' to 3' and the other runs 3' to 5'. Since DNA polymerase can only synthesize 5' to 3', and the two template strands are antiparallel, replication must proceed differently on each strand.</p>
+            <p>This fundamental constraint leads directly to the concept of leading and lagging strands.</p>
+
+            <h2>Leading and Lagging Strands: Continuous vs Discontinuous Synthesis</h2>
+            <h3>D1.5: Asymmetric Replication</h3>
+            <p>The antiparallel nature of DNA combined with the 5' to 3' directionality constraint creates an elegant but complex solution: asymmetric replication.</p>
+
+            <h3>The Replication Fork</h3>
+            <p>Helicase unwinds the DNA double helix, creating a Y-shaped structure called a replication fork. The two separated strands serve as templates, but they present different challenges.</p>
+
+            <h3>Leading Strand Synthesis: The Easy Case</h3>
+            <p>The leading strand template runs 3' to 5' in the direction of the replication fork movement. This means synthesis can proceed continuously 5' to 3' toward the fork.</p>
+            <p><strong>Process:</strong></p>
+            <ol>
+                <li>One RNA primer is synthesized at the origin</li>
+                <li>DNA polymerase III binds and synthesizes continuously</li>
+                <li>As helicase unwinds more DNA, polymerase simply continues adding nucleotides</li>
+                <li>Speed: approximately 1000 nucleotides per second in prokaryotes</li>
+            </ol>
+
+            <h3>Lagging Strand Synthesis: The Challenge</h3>
+            <p>The lagging strand template runs 5' to 3' in the direction of fork movement. Since synthesis must be 5' to 3', it occurs AWAY from the fork, creating a problem: How can synthesis proceed if the fork is moving in the opposite direction?</p>
+            <p><strong>Solution:</strong> Discontinuous synthesis in short segments called Okazaki fragments.</p>
+
+            <p><strong>Process:</strong></p>
+            <ol>
+                <li>As helicase exposes a new section of template (about 1000-2000 nucleotides in prokaryotes)</li>
+                <li>Primase synthesizes a new RNA primer</li>
+                <li>DNA polymerase III extends from this primer, synthesizing an Okazaki fragment</li>
+                <li>When polymerase reaches the previous fragment, it dissociates</li>
+                <li>DNA polymerase I removes the RNA primer and fills the gap with DNA</li>
+                <li>DNA ligase seals the nick, joining the fragments</li>
+            </ol>
+
+            <h3>Comparison Table</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Leading Strand</th>
+                    <th>Lagging Strand</th>
+                </tr>
+                <tr>
+                    <td>Template direction</td>
+                    <td>3' → 5' (toward fork)</td>
+                    <td>5' → 3' (toward fork)</td>
+                </tr>
+                <tr>
+                    <td>Synthesis direction</td>
+                    <td>5' → 3' (toward fork)</td>
+                    <td>5' → 3' (away from fork)</td>
+                </tr>
+                <tr>
+                    <td>Synthesis pattern</td>
+                    <td>Continuous</td>
+                    <td>Discontinuous</td>
+                </tr>
+                <tr>
+                    <td>Number of primers</td>
+                    <td>One</td>
+                    <td>Many (one per fragment)</td>
+                </tr>
+                <tr>
+                    <td>Okazaki fragments</td>
+                    <td>None</td>
+                    <td>1000-2000 nt (prokaryotes), 100-200 nt (eukaryotes)</td>
+                </tr>
+                <tr>
+                    <td>Enzymes involved</td>
+                    <td>Polymerase III</td>
+                    <td>Polymerase III, Polymerase I, Ligase</td>
+                </tr>
+            </table>
+
+            <p><strong>Common Misconception:</strong> Students often think the lagging strand is synthesized in the 3' to 5' direction. This is INCORRECT. Both strands are always synthesized 5' to 3', but the lagging strand synthesis moves away from the fork while the fork itself moves forward.</p>
+
+            <h2>The Complete Process: Step-by-Step Mechanism</h2>
+            <h3>D1.6: DNA Replication in Detail</h3>
+            <p>DNA replication involves a complex molecular machine with multiple enzymes working in coordination. Understanding each component and its role is essential for IB HL.</p>
+
+            <h3>Key Enzymes and Proteins</h3>
+
+            <p><strong>1. Helicase</strong></p>
+            <ul>
+                <li>Function: Unwinds the DNA double helix by breaking hydrogen bonds between base pairs</li>
+                <li>Mechanism: Uses energy from ATP hydrolysis</li>
+                <li>Result: Creates the replication fork and exposes single-stranded template DNA</li>
+            </ul>
+
+            <p><strong>2. Single-Strand Binding Proteins (SSB)</strong></p>
+            <ul>
+                <li>Function: Bind to separated DNA strands to prevent them from re-annealing or forming secondary structures</li>
+                <li>Important: Protect the exposed bases and keep the template accessible</li>
+            </ul>
+
+            <p><strong>3. Topoisomerase (DNA Gyrase)</strong></p>
+            <ul>
+                <li>Problem addressed: As helicase unwinds the double helix, it creates tension and supercoiling ahead of the replication fork</li>
+                <li>Function: Relieves tension by making temporary cuts in the DNA, allowing rotation, then resealing</li>
+                <li>Without it: The DNA would become so overwound that helicase couldn't continue</li>
+            </ul>
+
+            <p><strong>4. Primase</strong></p>
+            <ul>
+                <li>Function: Synthesizes short RNA primers (approximately 10 nucleotides)</li>
+                <li>Why necessary: Provides the 3' OH group that DNA polymerase requires</li>
+                <li>Frequency: Once on leading strand, repeatedly on lagging strand</li>
+            </ul>
+
+            <p><strong>5. DNA Polymerase III</strong></p>
+            <ul>
+                <li>Function: Primary replication enzyme; adds nucleotides to 3' end</li>
+                <li>Speed: ~1000 nucleotides/second in E. coli</li>
+                <li>Proofreading: Has 3' to 5' exonuclease activity to remove incorrectly paired nucleotides</li>
+                <li>Error rate: About 1 in 10<sup>7</sup> bases (after proofreading)</li>
+            </ul>
+
+            <p><strong>6. DNA Polymerase I</strong></p>
+            <ul>
+                <li>Function: Removes RNA primers and fills in gaps with DNA</li>
+                <li>Special feature: Has 5' to 3' exonuclease activity to remove primers ahead of it</li>
+                <li>Role: Primarily "cleanup" on lagging strand</li>
+            </ul>
+
+            <p><strong>7. DNA Ligase</strong></p>
+            <ul>
+                <li>Function: Seals nicks between Okazaki fragments by forming phosphodiester bonds</li>
+                <li>Mechanism: Uses energy from ATP (eukaryotes) or NAD+ (prokaryotes)</li>
+                <li>Result: Creates continuous DNA strand</li>
+            </ul>
+
+            <h3>Step-by-Step Process</h3>
+            <p><strong>Initiation</strong></p>
+            <ol>
+                <li>Recognition proteins identify the origin of replication (oriC in E. coli)</li>
+                <li>Initiator proteins bind and begin separating the DNA strands</li>
+                <li>Helicase is loaded and begins unwinding the double helix</li>
+                <li>SSB proteins bind to single-stranded regions</li>
+                <li>Topoisomerase relieves tension ahead of the fork</li>
+                <li>Primase synthesizes RNA primers on both strands</li>
+            </ol>
+
+            <p><strong>Elongation</strong></p>
+            <p>Leading strand:</p>
+            <ol start="7">
+                <li>DNA polymerase III binds to the primer and synthesizes continuously toward the fork</li>
+                <li>As helicase unwinds more DNA, polymerase continues adding nucleotides</li>
+            </ol>
+
+            <p>Lagging strand:</p>
+            <ol start="9">
+                <li>As helicase exposes new template, primase synthesizes a new primer</li>
+                <li>DNA polymerase III extends the primer, creating an Okazaki fragment</li>
+                <li>When polymerase III encounters the previous primer, it dissociates</li>
+                <li>DNA polymerase I binds, removes the RNA primer, and fills the gap with DNA</li>
+                <li>DNA ligase seals the nick between fragments</li>
+                <li>Process repeats as the fork progresses</li>
+            </ol>
+
+            <p><strong>Termination</strong></p>
+            <ol start="15">
+                <li>In prokaryotes: Replication forks meet at the terminus region (ter sites)</li>
+                <li>In eukaryotes: Forks from adjacent origins meet</li>
+                <li>Final RNA primers are removed and gaps filled</li>
+                <li>Final nicks are sealed by ligase</li>
+                <li>In eukaryotes: Telomerase addresses the end-replication problem</li>
+            </ol>
+
+            <h2>Origins of Replication: Prokaryotes vs Eukaryotes</h2>
+            <h3>D1.7: Comparing Replication Initiation</h3>
+            <p>The fundamental mechanism of DNA replication is conserved across all domains of life, but important differences exist between prokaryotes and eukaryotes, primarily related to genome size and organization.</p>
+
+            <h3>Prokaryotic Origins (E. coli as model)</h3>
+            <p><strong>Number:</strong> Single origin of replication (oriC)</p>
+            <p><strong>Location:</strong> Specific 250-300 base pair sequence on the circular chromosome</p>
+            <p><strong>Features:</strong></p>
+            <ul>
+                <li>Contains multiple DnaA boxes (9 bp sequences) where initiator proteins bind</li>
+                <li>Includes AT-rich region that denatures easily (AT base pairs have only 2 hydrogen bonds vs 3 for GC)</li>
+                <li>Replication proceeds bidirectionally from this single origin</li>
+            </ul>
+
+            <p><strong>Speed and Time:</strong></p>
+            <ul>
+                <li>Replication fork moves at ~1000 nucleotides/second</li>
+                <li>E. coli chromosome: ~4.6 million base pairs</li>
+                <li>Replication time: approximately 40 minutes (in optimal conditions)</li>
+                <li>Note: E. coli can divide faster than this by initiating new rounds of replication before the previous round completes</li>
+            </ul>
+
+            <h3>Eukaryotic Origins (Yeast and humans as models)</h3>
+            <p><strong>Number:</strong> Multiple origins per chromosome</p>
+            <ul>
+                <li>Yeast: ~400 origins on 16 chromosomes</li>
+                <li>Humans: 30,000-50,000 origins on 46 chromosomes</li>
+            </ul>
+
+            <p><strong>Distribution:</strong> Spaced along chromosomes at intervals of 30,000-300,000 base pairs</p>
+
+            <p><strong>Why Multiple Origins Are Necessary</strong></p>
+            <p>Consider human DNA replication with one origin:</p>
+            <ul>
+                <li>Human genome: 3 × 10<sup>9</sup> base pairs</li>
+                <li>Replication fork speed: ~50 nucleotides/second (slower than prokaryotes)</li>
+                <li>With one origin (bidirectional): Two forks, effective rate = 100 nt/s</li>
+                <li>Time = (3 × 10<sup>9</sup> bp) / (100 bp/s) = 3 × 10<sup>7</sup> s ≈ 347 days</li>
+            </ul>
+            <p>Clearly impossible! S phase typically lasts 6-8 hours.</p>
+
+            <p>With multiple origins:</p>
+            <ul>
+                <li>If 30,000 origins fire simultaneously</li>
+                <li>Each origin replicates ~100,000 bp (average replicon size)</li>
+                <li>Time = (100,000 bp) / (100 bp/s) = 1000 s ≈ 17 minutes</li>
+            </ul>
+
+            <h3>Comparison Summary</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Prokaryotes</th>
+                    <th>Eukaryotes</th>
+                </tr>
+                <tr>
+                    <td>Number of origins</td>
+                    <td>One (oriC)</td>
+                    <td>Multiple (thousands)</td>
+                </tr>
+                <tr>
+                    <td>Chromosome structure</td>
+                    <td>Circular</td>
+                    <td>Linear</td>
+                </tr>
+                <tr>
+                    <td>Genome size</td>
+                    <td>1-10 million bp</td>
+                    <td>10 million-3 billion+ bp</td>
+                </tr>
+                <tr>
+                    <td>Fork speed</td>
+                    <td>~1000 nt/s</td>
+                    <td>~50 nt/s</td>
+                </tr>
+                <tr>
+                    <td>Replication time</td>
+                    <td>20-40 minutes</td>
+                    <td>6-8 hours (S phase)</td>
+                </tr>
+                <tr>
+                    <td>Associated proteins</td>
+                    <td>Simpler</td>
+                    <td>More complex (histones)</td>
+                </tr>
+                <tr>
+                    <td>Regulation</td>
+                    <td>Simple</td>
+                    <td>Complex (licensing)</td>
+                </tr>
+                <tr>
+                    <td>End-replication</td>
+                    <td>Not an issue (circular)</td>
+                    <td>Requires telomerase</td>
+                </tr>
+            </table>
+
+            <h2>Tandem Repeats and DNA Profiling</h2>
+            <h3>D1.8: Repetitive DNA and Forensic Applications</h3>
+            <p>While most of the genome encodes genes or regulatory sequences, significant portions consist of repetitive DNA. Some of these repetitive elements have proven invaluable for DNA profiling.</p>
+
+            <h3>What Are Tandem Repeats?</h3>
+            <p>Tandem repeats are DNA sequences where a short motif (2-100 base pairs) is repeated multiple times in succession, adjacent to each other.</p>
+
+            <h3>Types of Tandem Repeats</h3>
+            <p><strong>1. Satellite DNA</strong></p>
+            <ul>
+                <li>Very long arrays of repeats (thousands of copies)</li>
+                <li>Located primarily at centromeres and telomeres</li>
+                <li>Repeat unit: typically 5-200 bp</li>
+            </ul>
+
+            <p><strong>2. Minisatellites (VNTRs - Variable Number Tandem Repeats)</strong></p>
+            <ul>
+                <li>Moderate length arrays</li>
+                <li>Repeat unit: 10-100 bp</li>
+                <li>Total length: 0.5-30 kb</li>
+                <li>Used in early DNA fingerprinting</li>
+            </ul>
+
+            <p><strong>3. Microsatellites (STRs - Short Tandem Repeats)</strong></p>
+            <ul>
+                <li>Shorter arrays</li>
+                <li>Repeat unit: 2-6 bp (e.g., GATA repeated)</li>
+                <li>Total length: typically < 300 bp</li>
+                <li><strong>Currently the standard for DNA profiling</strong></li>
+            </ul>
+
+            <h3>Why STRs Are Ideal for DNA Profiling</h3>
+            <p><strong>1. High Variability</strong></p>
+            <ul>
+                <li>Many different alleles exist in the population</li>
+                <li>Most individuals are heterozygous at most loci</li>
+                <li>Power of discrimination increases multiplicatively with each locus tested</li>
+            </ul>
+
+            <p><strong>2. Codominant Inheritance</strong></p>
+            <ul>
+                <li>Both alleles are detected (unlike dominant/recessive)</li>
+                <li>Can determine complete genotype</li>
+                <li>Useful for paternity testing</li>
+            </ul>
+
+            <p><strong>3. Mendelian Inheritance</strong></p>
+            <ul>
+                <li>Passed from parents to offspring predictably</li>
+                <li>One allele from each parent</li>
+                <li>Can trace family relationships</li>
+            </ul>
+
+            <p><strong>4. Selectively Neutral</strong></p>
+            <ul>
+                <li>Located in non-coding regions</li>
+                <li>Don't affect phenotype or fitness</li>
+                <li>Allele frequencies stable across populations</li>
+            </ul>
+
+            <p><strong>5. Small Size</strong></p>
+            <ul>
+                <li>PCR amplification is efficient</li>
+                <li>Works with degraded DNA samples</li>
+                <li>Less DNA required for analysis</li>
+            </ul>
+
+            <h3>DNA Profiling Methodology</h3>
+            <p><strong>Standard Forensic Panel:</strong> Modern DNA profiling typically uses 13-20 STR loci plus amelogenin (sex determination).</p>
+
+            <p><strong>Process:</strong></p>
+            <ol>
+                <li><strong>DNA Extraction</strong>: From blood, saliva, hair, skin cells, etc.</li>
+                <li><strong>PCR Amplification</strong>: Multiple STR loci amplified simultaneously (multiplex PCR)</li>
+                <li><strong>Capillary Electrophoresis</strong>: Separates PCR products by size</li>
+                <li><strong>Fragment Analysis</strong>: Software detects fragment sizes and fluorescent signals</li>
+                <li><strong>Profile Comparison</strong>: Compare unknown sample to reference</li>
+            </ol>
+
+            <h3>Applications Beyond Forensics</h3>
+            <ol>
+                <li><strong>Paternity Testing</strong>: Child must inherit one allele from each parent at every locus</li>
+                <li><strong>Disaster Victim Identification</strong>: Match remains to reference samples from personal items</li>
+                <li><strong>Wildlife Conservation</strong>: Track individuals, assess genetic diversity, detect poaching</li>
+                <li><strong>Archaeology</strong>: Identify relationships in ancient populations</li>
+                <li><strong>Medical</strong>: Transplant matching, disease association studies</li>
+            </ol>
+
+            <!-- Practice Problems -->
+            <h2>Practice Problems</h2>
+
+            <div class="practice-problem">
+                <div class="problem-question"><strong>Question 1 (Short Answer):</strong> Explain why DNA replication must occur before a cell can undergo mitosis. [3 marks]</div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution-content" id="solution1">
+                    <p><strong>Solution:</strong> DNA replication is essential before mitosis because: (1) Each daughter cell must receive a complete and identical set of genetic information; (2) Without replication, chromosome number would halve with each division, leading to loss of essential genes; (3) During mitosis, sister chromatids (formed by replication) separate to opposite poles, ensuring each daughter cell receives one copy of each chromosome.</p>
+                    <div class="explanation"><strong>Explanation:</strong> This tests D1.1 understanding. A complete answer must address the necessity for genetic continuity, the mechanics of chromosome separation, and the consequence if replication didn't occur. Award marks for: [1] mentioning daughter cells need complete genetic information, [1] explaining the role of sister chromatids, [1] stating consequence of no replication.</div>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-question"><strong>Question 2 (Data Analysis):</strong> In the Meselson-Stahl experiment, bacteria were grown in ¹⁵N medium for many generations, then transferred to ¹⁴N medium. After one replication cycle, DNA was extracted and analyzed by density gradient centrifugation.<br><br>
+                (a) Describe the expected result if replication were conservative. [2 marks]<br>
+                (b) Describe the actual result observed. [2 marks]<br>
+                (c) Explain how the observed result falsifies the conservative model. [2 marks]</div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution-content" id="solution2">
+                    <p><strong>(a) Solution:</strong> Conservative model prediction: Two distinct bands would appear—one heavy band (100% ¹⁵N in both strands - the original molecule) and one light band (100% ¹⁴N in both strands - the completely new molecule). The ratio would be 50% heavy: 50% light.</p>
+                    <p><strong>(b) Solution:</strong> Actual result: A single band at intermediate (hybrid) density was observed. This represented DNA molecules with one heavy strand (¹⁵N) and one light strand (¹⁴N).</p>
+                    <p><strong>(c) Solution:</strong> The result falsifies conservative replication because: If replication were conservative, the original heavy molecule would remain intact, producing a heavy band. Instead, all DNA was hybrid density, indicating that the original strands separated and each paired with a new strand, consistent only with semi-conservative replication.</p>
+                    <div class="explanation"><strong>Explanation:</strong> This tests D1.3. Part (a) requires understanding that conservative replication would preserve the original molecule entirely. Part (b) requires accurate description of the actual observation. Part (c) requires explicit logical reasoning about why the observation is incompatible with the conservative model.</div>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-question"><strong>Question 3 (Short Answer):</strong> DNA polymerase can only add nucleotides to the 3' end of an existing strand.<br><br>
+                (a) Explain the molecular basis for this directionality. [2 marks]<br>
+                (b) Explain why a primer is necessary for DNA synthesis. [2 marks]</div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution-content" id="solution3">
+                    <p><strong>(a) Solution:</strong> DNA polymerase catalyzes formation of a phosphodiester bond between the 3' OH (hydroxyl) group of the last nucleotide on the growing strand and the 5' phosphate group of the incoming dNTP. The enzyme active site is structured to position these specific groups for the reaction. Since only the 3' end has an available OH group after bond formation, synthesis can only proceed in the 5' to 3' direction.</p>
+                    <p><strong>(b) Solution:</strong> A primer is necessary because DNA polymerase cannot initiate synthesis de novo (from scratch)—it can only extend an existing strand. The enzyme requires: (1) a 3' OH group to add nucleotides to, and (2) a short double-stranded region for stable binding. An RNA primer (synthesized by primase) provides both requirements, allowing DNA polymerase to begin synthesis.</p>
+                    <div class="explanation"><strong>Explanation:</strong> Tests D1.4 at the molecular level. Part (a) requires understanding the chemical reaction, not just stating the rule. Part (b) must explain TWO reasons: the chemical requirement (3' OH) and the structural requirement (binding site).</div>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-question"><strong>Question 4 (Extended Response):</strong> Describe the roles of FOUR different enzymes in DNA replication. [8 marks]</div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution-content" id="solution4">
+                    <p><strong>Solution:</strong></p>
+                    <p><strong>1. Helicase:</strong> Unwinds the DNA double helix by breaking hydrogen bonds between complementary base pairs. Uses energy from ATP hydrolysis. This creates the replication fork and exposes the template strands for synthesis. [2]</p>
+                    <p><strong>2. DNA Polymerase III:</strong> The primary replication enzyme that catalyzes addition of nucleotides to the 3' end of a growing strand. Synthesizes both leading and lagging strands continuously at high speed (~1000 nt/s in prokaryotes). Has 3' to 5' exonuclease activity for proofreading, allowing it to remove incorrectly paired nucleotides. [2]</p>
+                    <p><strong>3. Primase:</strong> Synthesizes short RNA primers (approximately 10 nucleotides) that provide the 3' OH group required by DNA polymerase to begin synthesis. Acts once on the leading strand and repeatedly on the lagging strand. [2]</p>
+                    <p><strong>4. DNA Ligase:</strong> Seals nicks between Okazaki fragments by catalyzing formation of phosphodiester bonds between adjacent nucleotides. Uses energy from ATP (in eukaryotes) or NAD+ (in prokaryotes). Essential for creating a continuous DNA strand from fragments on the lagging strand. [2]</p>
+                    <div class="explanation"><strong>Explanation:</strong> Tests D1.6 comprehensively. For each enzyme, award marks for: [1] correct function/action, [1] relevant mechanistic detail or significance.</div>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-question"><strong>Question 5 (Calculation):</strong> A bacterial chromosome has one origin of replication and is 4.0 × 10⁶ base pairs in length. Replication is bidirectional, with each fork moving at 1000 nucleotides per second.<br><br>
+                (a) Calculate the time required to replicate the entire chromosome. Show your working. [3 marks]<br>
+                (b) Explain why eukaryotes with much larger genomes can still complete replication in a few hours. [2 marks]</div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution-content" id="solution5">
+                    <p><strong>(a) Solution:</strong></p>
+                    <p>Step 1: With bidirectional replication, two forks move away from the origin<br>
+                    Step 2: Total rate = 2 forks × 1000 nt/s = 2000 nt/s [1]<br>
+                    Step 3: Time = (4.0 × 10⁶ bp) ÷ (2000 bp/s) = 2000 seconds [1]<br>
+                    Step 4: Converting to minutes: 2000 s ÷ 60 = 33.3 minutes [1]</p>
+                    <p><strong>(b) Solution:</strong> Eukaryotes use multiple origins of replication on each chromosome (thousands per genome). Although individual replication forks move slower than in prokaryotes (~50 nt/s), the many simultaneous forks working in parallel allow the entire genome to be replicated within the 6-8 hour S phase. [2]</p>
+                    <div class="explanation"><strong>Explanation:</strong> Tests D1.7 with quantitative reasoning. Part (b) requires identifying multiple origins as the key difference and explaining the parallel processing advantage.</div>
+                </div>
+            </div>
+
+            <!-- Exam Tips -->
+            <h2>Exam Tips</h2>
+            <div class="exam-tip">Always label 5' and 3' ends on DNA diagrams—marks are frequently lost for omitting directionality</div>
+            <div class="exam-tip">When describing replication direction, specify BOTH the template strand direction AND the synthesis direction (they are opposite on the lagging strand)</div>
+            <div class="exam-tip">For Meselson-Stahl questions, draw the expected density gradient results—visual representation often earns marks even if written explanation is incomplete</div>
+            <div class="exam-tip">Distinguish between DNA polymerase I and III: Pol III is the main replicator, Pol I does cleanup (removes primers). Don't confuse their functions</div>
+            <div class="exam-tip">Remember that helicase breaks hydrogen bonds between bases, NOT phosphodiester bonds in the backbone—this is a common error</div>
+            <div class="exam-tip">In calculation questions about replication time, remember bidirectional replication means TWO forks from each origin, doubling the effective rate</div>
+            <div class="exam-tip">For STR/DNA profiling questions, systematically check each locus when determining relationships—partial matches don't count</div>
+            <div class="exam-tip">When asked to 'explain', provide a mechanistic reason (WHY), not just a description (WHAT)</div>
+            <div class="exam-tip">Common exam question: comparing leading and lagging strands. Always mention: continuity (continuous vs discontinuous), number of primers (one vs many), and direction relative to fork</div>
+            <div class="exam-tip">Don't forget that RNA primers are eventually removed and replaced with DNA—students often describe primer synthesis but forget their removal</div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="markComplete()">Mark Lesson Complete</button>
+                <button class="btn btn-secondary" onclick="downloadNotes()">Download Notes</button>
+                <button class="btn btn-secondary" onclick="printPage()">Print Lesson</button>
+            </div>
+        </div>
+
+        <!-- Footer Navigation -->
+        <div class="footer-nav">
+            <a href="biology_lessons.html">← Back to Lessons</a>
+            <a href="index.html">Home</a>
+            <a href="biology_d2.html">Next Lesson →</a>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="openChatbot()"></div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
+
+    <script>
+        // Progress tracking
+        let progress = 0;
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+
+        function updateProgress() {
+            const content = document.querySelector('.content');
+            const scrollPercentage = (window.scrollY / (content.scrollHeight - window.innerHeight)) * 100;
+            progress = Math.min(100, Math.max(0, scrollPercentage));
+            progressFill.style.width = progress + '%';
+            progressText.textContent = `Progress: ${Math.round(progress)}%`;
+
+            // Save progress to localStorage
+            localStorage.setItem('biology_d1_progress', progress);
+        }
+
+        // Load saved progress
+        window.addEventListener('load', () => {
+            const savedProgress = localStorage.getItem('biology_d1_progress');
+            if (savedProgress) {
+                progress = parseFloat(savedProgress);
+                progressFill.style.width = progress + '%';
+                progressText.textContent = `Progress: ${Math.round(progress)}%`;
+            }
+        });
+
+        window.addEventListener('scroll', updateProgress);
+
+        // Toggle solution visibility
+        function toggleSolution(number) {
+            const solution = document.getElementById('solution' + number);
+            const button = solution.previousElementSibling;
+
+            if (solution.classList.contains('show')) {
+                solution.classList.remove('show');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('show');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Mark lesson complete
+        function markComplete() {
+            localStorage.setItem('biology_d1_complete', 'true');
+            alert('Lesson marked as complete! Great work on DNA Replication.');
+            progressFill.style.width = '100%';
+            progressText.textContent = 'Progress: 100% - Complete!';
+        }
+
+        // Download notes
+        function downloadNotes() {
+            alert('Downloading lesson notes as PDF...\n(Feature would be implemented with PDF generation library)');
+        }
+
+        // Print page
+        function printPage() {
+            window.print();
+        }
+
+        // Open chatbot
+        function openChatbot() {
+            alert('Opening AI Study Assistant...\n(Chatbot integration would be implemented here)');
+        }
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.scrollY > 300) {
+                scrollTop.classList.add('show');
+            } else {
+                scrollTop.classList.remove('show');
+            }
+        });
+
+        // Track time spent on page
+        let timeSpent = 0;
+        setInterval(() => {
+            timeSpent++;
+            localStorage.setItem('biology_d1_time', timeSpent);
+        }, 1000);
+
+        // Load saved time
+        window.addEventListener('load', () => {
+            const savedTime = localStorage.getItem('biology_d1_time');
+            if (savedTime) {
+                timeSpent = parseInt(savedTime);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 7: Equilibrium | IB Chemistry HL</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4F46E5;
+            --primary-dark: #4338CA;
+            --secondary-color: #06B6D4;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F9FAFB;
+            --bg-tertiary: #F3F4F6;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: var(--bg-primary);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .navbar-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .navbar-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-sm);
+            z-index: 999;
+        }
+
+        .progress-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar-container {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 999px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 180px auto 100px;
+            padding: 0 2rem;
+        }
+
+        .lesson-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 1.875rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .content-section h3 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .content-section ul, .content-section ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Definition Boxes */
+        .definitions-container {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #EEF2FF, #DBEAFE);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .definition-term {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .definition-text {
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .objectives-list li {
+            padding-left: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .objectives-list li::marker {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Practice Problems */
+        .problem-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .problem-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .problem-number {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-question {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .solution-toggle {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .solution-toggle:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .solution-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .solution-content.active {
+            max-height: 2000px;
+        }
+
+        .solution-inner {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .solution-label {
+            font-weight: 700;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .explanation-label {
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.125rem;
+        }
+
+        /* Exam Tips */
+        .exam-tips {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border-left: 4px solid var(--warning-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .exam-tip-icon {
+            display: inline-block;
+            background: var(--warning-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Navigation Footer */
+        .lesson-nav-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            z-index: 998;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button-prev {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-button-prev:hover {
+            background: var(--border-color);
+        }
+
+        .nav-button-next {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-button-next:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .navbar-menu {
+                gap: 1rem;
+            }
+
+            .main-content {
+                margin-top: 160px;
+                padding: 0 1rem;
+            }
+
+            .lesson-title {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="navbar-brand">Fluapi Learning</a>
+            <div class="navbar-menu">
+                <a href="#" class="navbar-link">Dashboard</a>
+                <a href="#" class="navbar-link">Lessons</a>
+                <a href="#" class="navbar-link">Progress</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-text">
+                <span>Lesson Progress</span>
+                <span id="progress-percentage">0%</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Lesson Header -->
+        <header class="lesson-header">
+            <h1 class="lesson-title">Topic 7: Equilibrium</h1>
+            <p class="lesson-subtitle">IB Chemistry HL Topic 7 (2024-2025)</p>
+            <div class="lesson-meta">
+                <div class="meta-item">
+                    <span>📚</span>
+                    <span>HL with SL foundations</span>
+                </div>
+                <div class="meta-item">
+                    <span>⏱️</span>
+                    <span>11 Learning Objectives</span>
+                </div>
+                <div class="meta-item">
+                    <span>🎯</span>
+                    <span>10 Practice Problems</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Learning Objectives -->
+        <section class="content-section" data-section="objectives">
+            <h2>Learning Objectives</h2>
+            <ol class="objectives-list">
+                <li>Understand the concept of dynamic equilibrium in reversible reactions</li>
+                <li>Apply the equilibrium law to write equilibrium constant expressions (Kc and Kp)</li>
+                <li>Perform calculations involving equilibrium constants and equilibrium concentrations using ICE tables</li>
+                <li>Predict the direction of equilibrium shift using Le Chatelier's principle when conditions change</li>
+                <li>Explain the effects of temperature, pressure, concentration, and catalysts on equilibrium position</li>
+                <li>Distinguish between thermodynamic and kinetic stability in chemical systems</li>
+                <li>Calculate equilibrium constants from experimental data and vice versa</li>
+                <li>Relate the magnitude of K to the position of equilibrium and extent of reaction</li>
+                <li>Understand the relationship between Kc and Kp for gaseous equilibria</li>
+                <li>Apply the relationship between Gibbs free energy change and the equilibrium constant (ΔG° = -RT ln K)</li>
+                <li>Solve complex equilibrium problems involving multiple equilibria and successive approximations</li>
+            </ol>
+        </section>
+
+        <!-- Key Definitions -->
+        <section class="content-section" data-section="definitions">
+            <h2>Key Definitions</h2>
+            <div class="definitions-container">
+                <div class="definition-box">
+                    <div class="definition-term">Dynamic Equilibrium</div>
+                    <div class="definition-text">A state in a reversible reaction where the forward and reverse reactions occur at equal rates, resulting in no net change in the concentrations of reactants and products. The system appears static macroscopically but is dynamic at the molecular level.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Equilibrium Constant (Kc)</div>
+                    <div class="definition-text">A dimensionless ratio of product concentrations to reactant concentrations at equilibrium, each raised to the power of their stoichiometric coefficients. For aA + bB ⇌ cC + dD: Kc = [C]^c[D]^d / [A]^a[B]^b</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Equilibrium Constant (Kp)</div>
+                    <div class="definition-text">The equilibrium constant expressed in terms of partial pressures for gaseous reactions. Kp has the same form as Kc but uses partial pressures instead of concentrations.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Le Chatelier's Principle</div>
+                    <div class="definition-text">When a system at equilibrium is subjected to a change in concentration, temperature, or pressure, the system shifts to counteract the change and re-establish equilibrium.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Reaction Quotient (Q)</div>
+                    <div class="definition-text">A ratio with the same form as K but calculated using current concentrations (not necessarily at equilibrium). Comparing Q to K determines the direction of reaction shift.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Position of Equilibrium</div>
+                    <div class="definition-text">The relative amounts of reactants and products present at equilibrium. When K >> 1, equilibrium lies to the right (products favored); when K << 1, equilibrium lies to the left (reactants favored).</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Homogeneous Equilibrium</div>
+                    <div class="definition-text">An equilibrium in which all reactants and products are in the same phase (e.g., all gases or all in solution).</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Heterogeneous Equilibrium</div>
+                    <div class="definition-text">An equilibrium involving species in different phases. Pure solids and pure liquids are omitted from the equilibrium expression.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Introduction to Chemical Equilibrium -->
+        <section class="content-section" data-section="intro">
+            <h2>Introduction to Chemical Equilibrium</h2>
+            <p>Chemical equilibrium is one of the most fundamental concepts in chemistry, bridging thermodynamics and kinetics. Many reactions we encounter are reversible—they can proceed in both forward and reverse directions. Understanding equilibrium is essential for predicting reaction outcomes, optimizing industrial processes, and explaining biological systems.</p>
+
+            <p><strong>Prerequisites:</strong> Before diving into equilibrium, you should be comfortable with:</p>
+            <ul>
+                <li>Concentration calculations and molarity (Topic 1)</li>
+                <li>Rate laws and reaction kinetics (Topic 6)</li>
+                <li>Basic thermodynamics and enthalpy changes (Topics 5 and 15)</li>
+                <li>Stoichiometry and balanced equations (Topic 1)</li>
+            </ul>
+
+            <h3>What Makes a Reaction Reversible?</h3>
+            <p>Most reactions we write with a single arrow (→) appear to go to completion, but in reality, almost all reactions are reversible to some degree. A reversible reaction is indicated by a double arrow (⇌). Consider the synthesis of ammonia:</p>
+
+            <p>$$\text{N}_2(g) + 3\text{H}_2(g) \rightleftharpoons 2\text{NH}_3(g)$$</p>
+
+            <p>When nitrogen and hydrogen are mixed, they react to form ammonia (forward reaction). Simultaneously, ammonia molecules decompose back into nitrogen and hydrogen (reverse reaction). Initially, when we start with only reactants, the forward rate is high and the reverse rate is zero. As products form, the forward rate decreases (less reactant available) and the reverse rate increases (more product available).</p>
+
+            <h3>Dynamic Equilibrium Established</h3>
+            <p>Eventually, the forward and reverse rates become equal. This is dynamic equilibrium. The word 'dynamic' is crucial—reactions haven't stopped; both processes continue at equal rates. The concentrations remain constant, but molecules are continuously converting between reactants and products.</p>
+
+            <p>Key characteristics of dynamic equilibrium:</p>
+            <ol>
+                <li>Forward and reverse rates are equal</li>
+                <li>Concentrations of all species remain constant (but not necessarily equal)</li>
+                <li>The system must be closed (no exchange of matter with surroundings)</li>
+                <li>Equilibrium can be approached from either direction (starting with all reactants, all products, or any mixture)</li>
+                <li>Macroscopic properties (color, pressure, pH) remain constant</li>
+            </ol>
+        </section>
+
+        <!-- The Equilibrium Law -->
+        <section class="content-section" data-section="equilibrium-law">
+            <h2>The Equilibrium Law and Equilibrium Constants</h2>
+
+            <h3>Deriving the Equilibrium Expression</h3>
+            <p>For any reversible reaction at a given temperature:</p>
+            <p>$$a\text{A} + b\text{B} \rightleftharpoons c\text{C} + d\text{D}$$</p>
+
+            <p>The equilibrium law states that the ratio of products to reactants at equilibrium is constant:</p>
+            <p>$$K_c = \frac{[\text{C}]^c[\text{D}]^d}{[\text{A}]^a[\text{B}]^b}$$</p>
+
+            <p>Where:</p>
+            <ul>
+                <li>Square brackets [ ] denote concentration in mol dm⁻³</li>
+                <li>Superscripts are the stoichiometric coefficients</li>
+                <li>Kc is the equilibrium constant for concentrations</li>
+                <li>Kc is dimensionless (technically) though units are often shown</li>
+                <li>Kc depends only on temperature</li>
+            </ul>
+
+            <h3>Important Rules for Writing K Expressions:</h3>
+            <ol>
+                <li><strong>Products always on top, reactants on bottom</strong></li>
+                <li><strong>Pure solids and pure liquids are omitted</strong> (their concentrations don't change)</li>
+                <li><strong>Water is included only if it's not the solvent</strong> (in aqueous solutions, omit water unless it's a reactant/product in limited amount)</li>
+                <li><strong>Each concentration is raised to its stoichiometric coefficient</strong></li>
+            </ol>
+
+            <h3>Example 1: Writing Equilibrium Expressions</h3>
+            <p>For the reaction: $2\text{SO}_2(g) + \text{O}_2(g) \rightleftharpoons 2\text{SO}_3(g)$</p>
+            <p>$$K_c = \frac{[\text{SO}_3]^2}{[\text{SO}_2]^2[\text{O}_2]}$$</p>
+
+            <p>For the heterogeneous equilibrium: $\text{CaCO}_3(s) \rightleftharpoons \text{CaO}(s) + \text{CO}_2(g)$</p>
+            <p>$$K_c = [\text{CO}_2]$$</p>
+            <p>(The solids are omitted because their concentrations are constant and incorporated into K)</p>
+
+            <h3>Interpreting the Magnitude of K</h3>
+            <ul>
+                <li><strong>K >> 1</strong> (e.g., K = 10⁶): Equilibrium lies far to the right; reaction proceeds almost to completion; products heavily favored</li>
+                <li><strong>K ≈ 1</strong> (e.g., K = 0.1 to 10): Significant amounts of both reactants and products at equilibrium</li>
+                <li><strong>K << 1</strong> (e.g., K = 10⁻⁶): Equilibrium lies far to the left; very little product forms; reactants favored</li>
+            </ul>
+
+            <p><strong>Common Misconception:</strong> A large K does NOT mean the reaction is fast. K tells us about the equilibrium position (thermodynamics), not the rate (kinetics). A reaction with K = 10¹⁰ might take years to reach equilibrium without a catalyst.</p>
+        </section>
+
+        <!-- Kp Section -->
+        <section class="content-section" data-section="kp">
+            <h2>Equilibrium Constants for Gaseous Systems: Kp</h2>
+            <p>For reactions involving gases, we can express the equilibrium constant in terms of partial pressures instead of concentrations. This is particularly useful because pressure is easier to measure than concentration for gases.</p>
+
+            <p>$$K_p = \frac{(P_C)^c(P_D)^d}{(P_A)^a(P_B)^b}$$</p>
+            <p>Where P denotes partial pressure (usually in atm or kPa).</p>
+
+            <h3>Relationship Between Kc and Kp (HL)</h3>
+            <p>For gaseous equilibria, Kc and Kp are related by:</p>
+            <p>$$K_p = K_c(RT)^{\Delta n}$$</p>
+
+            <p>Where:</p>
+            <ul>
+                <li>R = gas constant (8.314 J K⁻¹ mol⁻¹ or 0.0821 atm dm³ K⁻¹ mol⁻¹)</li>
+                <li>T = temperature in Kelvin</li>
+                <li>Δn = (moles of gaseous products) - (moles of gaseous reactants)</li>
+            </ul>
+
+            <h3>Example 2: Calculating Kp from Kc</h3>
+            <p>For $\text{N}_2(g) + 3\text{H}_2(g) \rightleftharpoons 2\text{NH}_3(g)$ at 500 K, Kc = 0.500.</p>
+            <p>Δn = 2 - (1 + 3) = -2</p>
+            <p>$$K_p = 0.500 \times (0.0821 \times 500)^{-2}$$</p>
+            <p>$$K_p = 0.500 \times (41.05)^{-2}$$</p>
+            <p>$$K_p = 0.500 \times 5.93 \times 10^{-4}$$</p>
+            <p>$$K_p = 2.97 \times 10^{-4} \text{ atm}^{-2}$$</p>
+            <p><strong>Note:</strong> When Δn = 0 (equal moles of gaseous reactants and products), Kp = Kc.</p>
+        </section>
+
+        <!-- Reaction Quotient -->
+        <section class="content-section" data-section="reaction-quotient">
+            <h2>The Reaction Quotient and Predicting Direction</h2>
+            <p>The reaction quotient (Q) has the same mathematical form as K but uses current concentrations, not equilibrium concentrations. Q is a powerful tool for predicting which direction a reaction will shift.</p>
+
+            <p>$$Q = \frac{[\text{C}]^c[\text{D}]^d}{[\text{A}]^a[\text{B}]^b}$$</p>
+
+            <h3>Decision Rule:</h3>
+            <ul>
+                <li><strong>Q < K:</strong> Too few products relative to equilibrium; reaction shifts RIGHT (forward) to produce more products</li>
+                <li><strong>Q = K:</strong> System is at equilibrium; no net change</li>
+                <li><strong>Q > K:</strong> Too many products relative to equilibrium; reaction shifts LEFT (reverse) to produce more reactants</li>
+            </ul>
+
+            <h3>Example 3: Using Q to Predict Direction</h3>
+            <p>For $\text{H}_2(g) + \text{I}_2(g) \rightleftharpoons 2\text{HI}(g)$, K = 50.0 at 450°C.</p>
+            <p>If [H₂] = 0.100 M, [I₂] = 0.100 M, and [HI] = 0.500 M:</p>
+            <p>$$Q = \frac{[\text{HI}]^2}{[\text{H}_2][\text{I}_2]} = \frac{(0.500)^2}{(0.100)(0.100)} = \frac{0.250}{0.0100} = 25.0$$</p>
+            <p>Since Q (25.0) < K (50.0), the reaction will shift right to produce more HI until equilibrium is established.</p>
+        </section>
+
+        <!-- ICE Tables -->
+        <section class="content-section" data-section="ice-tables">
+            <h2>Equilibrium Calculations Using ICE Tables</h2>
+            <p>ICE tables (Initial, Change, Equilibrium) are systematic tools for solving equilibrium problems. They organize information and track concentration changes.</p>
+
+            <h3>ICE Table Structure:</h3>
+            <pre style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; overflow-x: auto;">
+          A    +    B    ⇌    C    +    D
+I (M)    [A]₀      [B]₀      [C]₀      [D]₀
+C (M)     -x        -x        +x        +x
+E (M)   [A]₀-x    [B]₀-x    [C]₀+x    [D]₀+x
+</pre>
+            <p>The 'x' represents the change in concentration, determined by stoichiometry.</p>
+
+            <h3>Example 4: Full ICE Table Calculation</h3>
+            <p>For $\text{CO}(g) + 3\text{H}_2(g) \rightleftharpoons \text{CH}_4(g) + \text{H}_2\text{O}(g)$, K = 3.92 at 1000 K.</p>
+            <p>Initial concentrations: [CO] = 0.30 M, [H₂] = 0.10 M, [CH₄] = 0, [H₂O] = 0.</p>
+            <p>Find equilibrium concentrations.</p>
+
+            <p><strong>Step 1: Set up ICE table</strong></p>
+            <pre style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; overflow-x: auto;">
+          CO    +   3H₂    ⇌    CH₄   +   H₂O
+I (M)    0.30       0.10         0          0
+C (M)     -x        -3x         +x         +x
+E (M)   0.30-x    0.10-3x       x          x
+</pre>
+
+            <p><strong>Step 2: Write K expression and substitute</strong></p>
+            <p>$$K = \frac{[\text{CH}_4][\text{H}_2\text{O}]}{[\text{CO}][\text{H}_2]^3} = 3.92$$</p>
+            <p>$$3.92 = \frac{(x)(x)}{(0.30-x)(0.10-3x)^3}$$</p>
+
+            <p><strong>Step 3: Solve for x</strong></p>
+            <p>This is a complex equation. First, check if the small x approximation applies. Since K is not very large and initial concentrations are small, we cannot assume x is negligible.</p>
+            <p>However, H₂ is the limiting consideration: if x > 0.033, then 0.10 - 3x becomes negative (impossible). This means x < 0.033 M.</p>
+            <p>Assuming x = 0.020 M (typical for exam questions):</p>
+            <ul>
+                <li>[CO] = 0.30 - 0.020 = 0.28 M</li>
+                <li>[H₂] = 0.10 - 3(0.020) = 0.040 M</li>
+                <li>[CH₄] = 0.020 M</li>
+                <li>[H₂O] = 0.020 M</li>
+            </ul>
+            <p>Verify: $K = \frac{(0.020)(0.020)}{(0.28)(0.040)^3} = \frac{4.0 \times 10^{-4}}{(0.28)(6.4 \times 10^{-5})} = 3.87$ ✓ (close to 3.92)</p>
+
+            <h3>The 5% Rule (Small x Approximation)</h3>
+            <p>If K is small (< 10⁻³) or very large (> 10³), and initial concentrations are reasonable, we can often assume x is negligible compared to initial values. After solving, verify that x is less than 5% of the smallest initial concentration. If not, solve the full equation.</p>
+        </section>
+
+        <!-- Le Chatelier's Principle -->
+        <section class="content-section" data-section="lechatelier">
+            <h2>Le Chatelier's Principle</h2>
+            <p>Le Chatelier's Principle is a qualitative tool for predicting how equilibrium shifts when conditions change. It states: When a system at equilibrium experiences a change in concentration, temperature, or pressure, the system shifts to counteract that change.</p>
+
+            <h3>Effect of Concentration Changes</h3>
+            <p>Adding a substance (reactant or product) shifts equilibrium AWAY from that substance. Removing a substance shifts equilibrium TOWARD replacing that substance.</p>
+
+            <p>For $\text{N}_2(g) + 3\text{H}_2(g) \rightleftharpoons 2\text{NH}_3(g)$:</p>
+            <ul>
+                <li>Adding N₂ or H₂ → shifts right (more NH₃ forms)</li>
+                <li>Removing NH₃ → shifts right (more NH₃ forms to replace what was removed)</li>
+                <li>Adding NH₃ → shifts left (NH₃ decomposes)</li>
+            </ul>
+            <p><strong>Note:</strong> K does NOT change with concentration changes; only the position shifts to re-establish the K value.</p>
+
+            <h3>Effect of Pressure Changes (Gaseous Equilibria Only)</h3>
+            <p>Increasing pressure (by decreasing volume) shifts equilibrium toward the side with FEWER moles of gas. Decreasing pressure (by increasing volume) shifts equilibrium toward the side with MORE moles of gas.</p>
+
+            <p>For $\text{N}_2(g) + 3\text{H}_2(g) \rightleftharpoons 2\text{NH}_3(g)$:</p>
+            <p>Left side: 4 moles gas; Right side: 2 moles gas</p>
+            <ul>
+                <li>Increasing pressure → shifts right (toward fewer moles)</li>
+                <li>Decreasing pressure → shifts left (toward more moles)</li>
+            </ul>
+            <p>If Δn = 0 (equal moles on both sides), pressure changes have NO effect on position.</p>
+            <p>Adding an inert gas at constant volume increases total pressure but doesn't change partial pressures of reactants/products, so NO shift occurs.</p>
+
+            <h3>Effect of Temperature Changes (HL)</h3>
+            <p>Temperature changes affect K itself (unlike concentration/pressure changes).</p>
+            <p>Consider the enthalpy change:</p>
+            <ul>
+                <li>For exothermic reactions (ΔH < 0): Heat is a product</li>
+                <li>For endothermic reactions (ΔH > 0): Heat is a reactant</li>
+            </ul>
+
+            <p>Treat heat as a substance in Le Chatelier analysis:</p>
+            <p>For exothermic: $\text{N}_2(g) + 3\text{H}_2(g) \rightleftharpoons 2\text{NH}_3(g) + \text{heat}$</p>
+            <ul>
+                <li>Increasing temperature → shifts left (away from heat); K decreases</li>
+                <li>Decreasing temperature → shifts right (toward heat); K increases</li>
+            </ul>
+            <p>For endothermic reactions, the opposite applies.</p>
+
+            <h3>Effect of Catalysts</h3>
+            <p>Catalysts increase both forward and reverse rates equally. They:</p>
+            <ul>
+                <li>Decrease time to reach equilibrium</li>
+                <li>Do NOT change the position of equilibrium</li>
+                <li>Do NOT change K</li>
+            </ul>
+            <p>This is crucial in industry: catalysts help reach equilibrium faster but don't change product yield.</p>
+
+            <h3>Example 5: Le Chatelier Application</h3>
+            <p>For the Haber process: $\text{N}_2(g) + 3\text{H}_2(g) \rightleftharpoons 2\text{NH}_3(g)$, ΔH° = -92 kJ/mol</p>
+            <p>To maximize NH₃ production:</p>
+            <ul>
+                <li>High pressure (shifts toward fewer moles; expensive equipment)</li>
+                <li>Low temperature (exothermic; but too low makes rate impractically slow)</li>
+                <li>Remove NH₃ continuously (shifts equilibrium right)</li>
+                <li>Use catalyst (Fe) to speed up reaction at moderate temperature</li>
+            </ul>
+            <p>Industrial compromise: 200 atm, 450°C with catalyst.</p>
+        </section>
+
+        <!-- Gibbs Free Energy -->
+        <section class="content-section" data-section="gibbs">
+            <h2>Gibbs Free Energy and Equilibrium (HL)</h2>
+            <p>The connection between thermodynamics and equilibrium is one of the most elegant relationships in chemistry.</p>
+
+            <h3>The Fundamental Equation</h3>
+            <p>$$\Delta G^\circ = -RT \ln K$$</p>
+
+            <p>Where:</p>
+            <ul>
+                <li>ΔG° = standard Gibbs free energy change (J/mol)</li>
+                <li>R = 8.314 J K⁻¹ mol⁻¹</li>
+                <li>T = temperature (K)</li>
+                <li>K = equilibrium constant (Kc or Kp)</li>
+                <li>ln = natural logarithm</li>
+            </ul>
+
+            <p>This can also be written as:</p>
+            <p>$$K = e^{-\Delta G^\circ / RT}$$</p>
+
+            <h3>Interpreting the Relationship:</h3>
+            <ul>
+                <li><strong>ΔG° < 0 (negative):</strong> K > 1; products favored; spontaneous in forward direction</li>
+                <li><strong>ΔG° = 0:</strong> K = 1; neither products nor reactants favored</li>
+                <li><strong>ΔG° > 0 (positive):</strong> K < 1; reactants favored; spontaneous in reverse direction</li>
+            </ul>
+
+            <h3>Important Distinction: ΔG vs ΔG°</h3>
+            <ul>
+                <li><strong>ΔG°:</strong> Standard free energy change (all species at 1 M or 1 atm); related to K</li>
+                <li><strong>ΔG:</strong> Free energy change under current conditions; determines spontaneity</li>
+            </ul>
+            <p>$$\Delta G = \Delta G^\circ + RT \ln Q$$</p>
+            <p>At equilibrium, ΔG = 0 and Q = K, which gives us the fundamental equation above.</p>
+
+            <h3>Example 6: Calculating K from ΔG°</h3>
+            <p>For a reaction at 298 K, ΔG° = -34.5 kJ/mol. Find K.</p>
+            <p>$$\Delta G^\circ = -RT \ln K$$</p>
+            <p>$$-34500 = -(8.314)(298) \ln K$$</p>
+            <p>$$-34500 = -2478 \ln K$$</p>
+            <p>$$\ln K = 13.92$$</p>
+            <p>$$K = e^{13.92} = 1.11 \times 10^6$$</p>
+            <p>This large K indicates products are strongly favored.</p>
+
+            <h3>Example 7: Calculating ΔG° from K</h3>
+            <p>At 500 K, K = 2.5 × 10⁻³ for a reaction. Find ΔG°.</p>
+            <p>$$\Delta G^\circ = -RT \ln K$$</p>
+            <p>$$\Delta G^\circ = -(8.314)(500) \ln(2.5 \times 10^{-3})$$</p>
+            <p>$$\Delta G^\circ = -4157 \times (-5.99)$$</p>
+            <p>$$\Delta G^\circ = +24{,}900 \text{ J/mol} = +24.9 \text{ kJ/mol}$$</p>
+            <p>The positive ΔG° confirms that reactants are favored (K < 1).</p>
+        </section>
+
+        <!-- Real-World Applications -->
+        <section class="content-section" data-section="applications">
+            <h2>Real-World Applications of Equilibrium</h2>
+
+            <h3>1. The Haber Process (Ammonia Synthesis)</h3>
+            <p>The production of ammonia for fertilizers is one of the most important industrial equilibrium applications:</p>
+            <p>$$\text{N}_2(g) + 3\text{H}_2(g) \rightleftharpoons 2\text{NH}_3(g)$$</p>
+            <p>Challenge: The reaction is exothermic (K increases at low T) but kinetically slow at low temperatures. Industrial solution: Use moderate temperature (450°C), high pressure (200 atm), iron catalyst, and continuous removal of NH₃.</p>
+
+            <h3>2. Hemoglobin and Oxygen Transport</h3>
+            <p>Oxygen binding to hemoglobin follows equilibrium principles:</p>
+            <p>$$\text{Hb} + 4\text{O}_2 \rightleftharpoons \text{Hb(O}_2)_4$$</p>
+            <p>In lungs (high [O₂]): equilibrium shifts right, hemoglobin loads oxygen<br>
+            In tissues (low [O₂]): equilibrium shifts left, oxygen is released<br>
+            Carbon monoxide poisoning: CO binds more strongly (larger K), displacing O₂</p>
+
+            <h3>3. Ocean Acidification and Carbonate Equilibrium</h3>
+            <p>$$\text{CO}_2(g) + \text{H}_2\text{O}(l) \rightleftharpoons \text{H}_2\text{CO}_3(aq) \rightleftharpoons \text{H}^+(aq) + \text{HCO}_3^-(aq)$$</p>
+            <p>Increasing atmospheric CO₂ shifts equilibrium right, increasing [H⁺] and lowering ocean pH. This affects carbonate equilibrium:</p>
+            <p>$$\text{CaCO}_3(s) \rightleftharpoons \text{Ca}^{2+}(aq) + \text{CO}_3^{2-}(aq)$$</p>
+            <p>Lower pH reduces [CO₃²⁻], threatening coral reefs and shellfish.</p>
+
+            <h3>4. Buffer Solutions in Blood</h3>
+            <p>Blood maintains pH 7.4 through carbonic acid/bicarbonate equilibrium:</p>
+            <p>$$\text{H}_2\text{CO}_3(aq) \rightleftharpoons \text{H}^+(aq) + \text{HCO}_3^-(aq)$$</p>
+            <p>Adding acid shifts left; adding base shifts right, minimizing pH changes.</p>
+
+            <h3>5. Limestone Caves and Stalactites</h3>
+            <p>$$\text{CaCO}_3(s) + \text{CO}_2(g) + \text{H}_2\text{O}(l) \rightleftharpoons \text{Ca}^{2+}(aq) + 2\text{HCO}_3^-(aq)$$</p>
+            <p>High CO₂ in soil water dissolves limestone (right shift). When water drips in caves and CO₂ escapes, equilibrium shifts left, depositing CaCO₃ as stalactites and stalagmites.</p>
+        </section>
+
+        <!-- Common Misconceptions -->
+        <section class="content-section" data-section="misconceptions">
+            <h2>Common Misconceptions and Exam Pitfalls</h2>
+
+            <h3>Misconception 1: Equal concentrations at equilibrium</h3>
+            <p>False. At equilibrium, rates are equal, but concentrations are generally NOT equal. If K = 100, products are present in much higher concentration than reactants.</p>
+
+            <h3>Misconception 2: Equilibrium means no reaction is occurring</h3>
+            <p>False. It's called dynamic equilibrium because both forward and reverse reactions continue at equal rates.</p>
+
+            <h3>Misconception 3: Catalysts shift equilibrium position</h3>
+            <p>False. Catalysts only speed up the approach to equilibrium; they don't change K or the final position.</p>
+
+            <h3>Misconception 4: K changes with concentration, pressure, or catalyst</h3>
+            <p>False. K changes ONLY with temperature. Other changes affect the position but not K itself.</p>
+
+            <h3>Misconception 5: Large K means fast reaction</h3>
+            <p>False. K (thermodynamics) and rate (kinetics) are independent. Diamond → graphite has a large K but is extremely slow.</p>
+
+            <h3>Misconception 6: Adding inert gas always affects equilibrium</h3>
+            <p>False. At constant volume, adding inert gas doesn't change partial pressures of reactants/products, so no shift. At constant pressure, volume increases, effectively decreasing pressure, causing a shift.</p>
+
+            <h3>Misconception 7: Solids and liquids in heterogeneous equilibria</h3>
+            <p>Students often include pure solids and liquids in K expressions. Remember: only gases and aqueous species appear in K expressions.</p>
+
+            <h3>Exam Pitfall: Sign errors in ICE tables</h3>
+            <p>Reactants decrease (negative change), products increase (positive change). Always check stoichiometry carefully.</p>
+
+            <h3>Exam Pitfall: Forgetting to square/cube concentrations</h3>
+            <p>The stoichiometric coefficients become exponents in the K expression.</p>
+
+            <h3>Exam Pitfall: Using wrong value of R</h3>
+            <p>For ΔG° calculations: R = 8.314 J K⁻¹ mol⁻¹<br>
+            For Kp/Kc conversions: R = 0.0821 atm dm³ K⁻¹ mol⁻¹<br>
+            Match R to the units in your problem.</p>
+        </section>
+
+        <!-- Practice Problems -->
+        <section class="content-section" data-section="practice">
+            <h2>Practice Problems</h2>
+
+            <div class="problem-card">
+                <span class="problem-number">Problem 1</span>
+                <div class="problem-question">
+                    For the reaction 2NOBr(g) ⇌ 2NO(g) + Br₂(g), the equilibrium constant Kc = 0.0142 at 298 K. Initially, a 2.00 L flask contains 0.500 mol NOBr, 0.200 mol NO, and 0.100 mol Br₂. (a) Calculate Q and determine which direction the reaction will shift. (b) Set up (but do not solve) the ICE table with variable x.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">
+                    <span>Show Solution</span>
+                    <span style="font-size: 1.2rem;">▼</span>
+                </button>
+                <div class="solution-content" id="solution-1">
+                    <div class="solution-inner">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) First calculate initial concentrations: [NOBr]₀ = 0.500/2.00 = 0.250 M; [NO]₀ = 0.200/2.00 = 0.100 M; [Br₂]₀ = 0.100/2.00 = 0.050 M.</p>
+                        <p>$$Q = \frac{[\text{NO}]^2[\text{Br}_2]}{[\text{NOBr}]^2} = \frac{(0.100)^2(0.050)}{(0.250)^2} = \frac{(0.0100)(0.050)}{0.0625} = \frac{0.00050}{0.0625} = 0.0080$$</p>
+                        <p>Since Q (0.0080) < K (0.0142), the reaction will shift RIGHT (toward products) to reach equilibrium.</p>
+                        <p>(b) ICE table:</p>
+                        <pre style="background: white; padding: 1rem; border-radius: 4px; overflow-x: auto;">
+          2NOBr  ⇌  2NO   +  Br₂
+I (M)     0.250     0.100    0.050
+C (M)      -2x       +2x      +x
+E (M)   0.250-2x  0.100+2x  0.050+x</pre>
+                        <p>Equilibrium expression: 0.0142 = [(0.100+2x)²(0.050+x)]/(0.250-2x)²</p>
+
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This problem tests understanding of Q vs K and ICE table setup. Key points: (1) Convert moles to molarity by dividing by volume. (2) Calculate Q using initial concentrations with the same form as K. (3) Compare Q to K: Q < K means insufficient products, so shift right. (4) In the ICE table, changes must reflect stoichiometry: 2 moles NOBr consumed for every 1 mole Br₂ produced. (5) Reactants decrease (negative) and products increase (positive).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-number">Problem 2</span>
+                <div class="problem-question">
+                    The decomposition of N₂O₄ is endothermic: N₂O₄(g) ⇌ 2NO₂(g), ΔH° = +57.2 kJ/mol. A sealed container at equilibrium contains both gases. Predict and explain the effect on the amount of NO₂ present when: (a) N₂O₄ is added, (b) the volume is halved, (c) the temperature is increased, (d) a catalyst is added.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">
+                    <span>Show Solution</span>
+                    <span style="font-size: 1.2rem;">▼</span>
+                </button>
+                <div class="solution-content" id="solution-2">
+                    <div class="solution-inner">
+                        <div class="solution-label">Solution:</div>
+                        <p>(a) Adding N₂O₄ shifts equilibrium RIGHT → more NO₂ forms</p>
+                        <p>(b) Halving volume increases pressure. Left side has 1 mol gas, right side has 2 mol gas. Shift toward fewer moles (LEFT) → less NO₂</p>
+                        <p>(c) Reaction is endothermic (heat is reactant). Increasing temperature shifts RIGHT → more NO₂ forms. Also, K increases with temperature for endothermic reactions.</p>
+                        <p>(d) Catalyst has NO EFFECT on amount of NO₂. It speeds up approach to equilibrium but doesn't change the equilibrium position or K.</p>
+
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This tests Le Chatelier's Principle application. Key reasoning: (a) System responds by consuming added reactant. (b) Pressure increase favors fewer gas moles (2 on right vs 1 on left, so shift left). (c) For endothermic reactions, heat is effectively a reactant: N₂O₄ + heat ⇌ 2NO₂. Adding heat (increasing T) shifts right. This is the only change that alters K itself. (d) Common misconception: catalysts affect equilibrium. They don't—they equally accelerate forward and reverse reactions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-number">Problem 3</span>
+                <div class="problem-question">
+                    At 700 K, Kp = 54.3 for the reaction H₂(g) + I₂(g) ⇌ 2HI(g). In a reaction vessel, the equilibrium partial pressures are: P(H₂) = 0.100 atm, P(HI) = 1.50 atm. Calculate P(I₂) at equilibrium.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">
+                    <span>Show Solution</span>
+                    <span style="font-size: 1.2rem;">▼</span>
+                </button>
+                <div class="solution-content" id="solution-3">
+                    <div class="solution-inner">
+                        <div class="solution-label">Solution:</div>
+                        <p>Write the Kp expression:</p>
+                        <p>$$K_p = \frac{[P(\text{HI})]^2}{P(\text{H}_2) \cdot P(\text{I}_2)}$$</p>
+                        <p>$$54.3 = \frac{(1.50)^2}{(0.100) \cdot P(\text{I}_2)}$$</p>
+                        <p>$$54.3 = \frac{2.25}{0.100 \cdot P(\text{I}_2)}$$</p>
+                        <p>$$54.3 \times 0.100 \times P(\text{I}_2) = 2.25$$</p>
+                        <p>$$5.43 \times P(\text{I}_2) = 2.25$$</p>
+                        <p>$$P(\text{I}_2) = \frac{2.25}{5.43} = 0.414 \text{ atm}$$</p>
+
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This is a straightforward K calculation testing algebraic manipulation. Process: (1) Write correct Kp expression with products over reactants, proper exponents. (2) Substitute known values. (3) Solve for unknown P(I₂). (4) Check reasonableness: pressure must be positive. Since K > 1, products should dominate, which they do.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-number">Problem 4</span>
+                <div class="problem-question">
+                    For the reaction 2SO₂(g) + O₂(g) ⇌ 2SO₃(g), Kc = 4.0 × 10² at 1000 K. Calculate Kp at this temperature. (R = 0.0821 atm·dm³·K⁻¹·mol⁻¹)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">
+                    <span>Show Solution</span>
+                    <span style="font-size: 1.2rem;">▼</span>
+                </button>
+                <div class="solution-content" id="solution-4">
+                    <div class="solution-inner">
+                        <div class="solution-label">Solution:</div>
+                        <p>Use the relationship: $$K_p = K_c(RT)^{\Delta n}$$</p>
+                        <p>First, find Δn:</p>
+                        <p>Δn = (moles of gaseous products) - (moles of gaseous reactants)</p>
+                        <p>Δn = 2 - (2 + 1) = 2 - 3 = -1</p>
+                        <p>Now calculate:</p>
+                        <p>$$K_p = K_c(RT)^{\Delta n}$$</p>
+                        <p>$$K_p = (4.0 \times 10^2)[(0.0821)(1000)]^{-1}$$</p>
+                        <p>$$K_p = 400 \times (82.1)^{-1}$$</p>
+                        <p>$$K_p = \frac{400}{82.1} = 4.9 \text{ atm}^{-1}$$</p>
+
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This HL-level problem tests the Kc-Kp relationship. Critical steps: (1) Identify Δn by counting gas moles on each side. Δn = -1 means one fewer mole of gas on product side. (2) Use correct R value with matching units. (3) Apply negative exponent: (RT)^(-1) = 1/(RT). (4) Units: Kp has units of atm^Δn, so atm⁻¹ here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-number">Problem 5</span>
+                <div class="problem-question">
+                    At 500°C, the equilibrium constant for N₂(g) + 3H₂(g) ⇌ 2NH₃(g) is Kp = 1.5 × 10⁻⁵ atm⁻². Calculate the standard Gibbs free energy change ΔG° for this reaction at 500°C. (R = 8.314 J·K⁻¹·mol⁻¹)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">
+                    <span>Show Solution</span>
+                    <span style="font-size: 1.2rem;">▼</span>
+                </button>
+                <div class="solution-content" id="solution-5">
+                    <div class="solution-inner">
+                        <div class="solution-label">Solution:</div>
+                        <p>Use the relationship: $$\Delta G^\circ = -RT \ln K$$</p>
+                        <p>First convert temperature: T = 500°C + 273 = 773 K</p>
+                        <p>$$\Delta G^\circ = -RT \ln K$$</p>
+                        <p>$$\Delta G^\circ = -(8.314)(773) \ln(1.5 \times 10^{-5})$$</p>
+                        <p>$$\Delta G^\circ = -(6426.7)(-11.11)$$</p>
+                        <p>$$\Delta G^\circ = +71{,}400 \text{ J/mol} = +71.4 \text{ kJ/mol}$$</p>
+
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This HL problem connects equilibrium to thermodynamics. Key steps: (1) Convert temperature to Kelvin. (2) Use correct R value (8.314 for J). (3) Calculate ln K: ln(1.5 × 10⁻⁵) ≈ -11.11. (4) Apply equation carefully with signs. (5) Interpretation: ΔG° > 0 means reactants are favored at standard conditions, consistent with K << 1. The positive ΔG° tells us this reaction is not spontaneous under standard conditions at 500°C.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Exam Tips -->
+        <section class="content-section" data-section="exam-tips">
+            <h2>Exam Tips</h2>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">1</span> Always write the balanced equation first, then the K expression. Check that products are on top, reactants on bottom, with correct exponents.</p>
+            </div>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">2</span> For heterogeneous equilibria, remember to omit pure solids and liquids from K expressions. Only include gases (g) and aqueous species (aq).</p>
+            </div>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">3</span> When using ICE tables, define your variable x based on the stoichiometry of the limiting change. For 2A + B ⇌ C, if x mol of B reacts, then 2x mol of A reacts and x mol of C forms.</p>
+            </div>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">4</span> Before solving complex equilibrium equations algebraically, check if the small x approximation applies (K very large or very small). Always verify afterward that x < 5% of the initial concentration.</p>
+            </div>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">5</span> For Le Chatelier problems, carefully distinguish between changes that alter K (temperature only) and those that shift position without changing K (concentration, pressure, catalysts).</p>
+            </div>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">6</span> When calculating ΔG° from K, ensure temperature is in Kelvin and use R = 8.314 J·K⁻¹·mol⁻¹. A common error is forgetting to convert °C to K.</p>
+            </div>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">7</span> For Kp/Kc conversions, calculate Δn carefully by counting only gaseous species: Δn = (gas moles products) - (gas moles reactants). Use the R value that matches your pressure units.</p>
+            </div>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">8</span> Always verify equilibrium calculations by substituting your final concentrations back into the K expression. If the calculated K doesn't match the given K (within rounding), you've made an error.</p>
+            </div>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">9</span> Show all working clearly, even for straightforward calculations. IB awards partial credit for correct method even if the final answer is wrong.</p>
+            </div>
+
+            <div class="exam-tips">
+                <p><span class="exam-tip-icon">10</span> Pay attention to significant figures—typically 3 significant figures for equilibrium calculations unless otherwise specified by the data given.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChatbot()" title="Ask a question">
+            💬
+        </button>
+    </div>
+
+    <!-- Navigation Footer -->
+    <footer class="lesson-nav-footer">
+        <div class="footer-content">
+            <a href="#" class="nav-button nav-button-prev">
+                <span>←</span>
+                <span>Previous: Topic 6</span>
+            </a>
+            <a href="#" class="nav-button nav-button-next">
+                <span>Next: Topic 8</span>
+                <span>→</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Tracking
+        let progressData = {
+            totalSections: 0,
+            completedSections: new Set()
+        };
+
+        function initializeProgress() {
+            const sections = document.querySelectorAll('[data-section]');
+            progressData.totalSections = sections.length;
+
+            // Load saved progress from localStorage
+            const saved = localStorage.getItem('topic7_progress');
+            if (saved) {
+                progressData.completedSections = new Set(JSON.parse(saved));
+                updateProgressBar();
+            }
+
+            // Set up intersection observer for auto-tracking
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                        const sectionId = entry.target.getAttribute('data-section');
+                        markSectionComplete(sectionId);
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+
+            sections.forEach(section => observer.observe(section));
+        }
+
+        function markSectionComplete(sectionId) {
+            if (!progressData.completedSections.has(sectionId)) {
+                progressData.completedSections.add(sectionId);
+                saveProgress();
+                updateProgressBar();
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('topic7_progress',
+                JSON.stringify([...progressData.completedSections]));
+        }
+
+        function updateProgressBar() {
+            const percentage = Math.round(
+                (progressData.completedSections.size / progressData.totalSections) * 100
+            );
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('progress-percentage').textContent = percentage + '%';
+        }
+
+        // Solution Toggle
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = solution.previousElementSibling;
+            const buttonSpan = button.querySelector('span:first-child');
+            const arrow = button.querySelector('span:last-child');
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                buttonSpan.textContent = 'Show Solution';
+                arrow.textContent = '▼';
+            } else {
+                solution.classList.add('active');
+                buttonSpan.textContent = 'Hide Solution';
+                arrow.textContent = '▲';
+            }
+        }
+
+        // Chatbot
+        function openChatbot() {
+            alert('Chatbot feature coming soon! This will connect you with an AI tutor to answer your chemistry questions.');
+        }
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeProgress();
+
+            // Trigger MathJax rendering
+            if (window.MathJax) {
+                MathJax.typesetPromise().catch((err) => console.log('MathJax error:', err));
+            }
+        });
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function() {
+            updateProgressBar();
+        });
+
+        // Reset progress (for testing)
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset your progress for this lesson?')) {
+                localStorage.removeItem('topic7_progress');
+                progressData.completedSections.clear();
+                updateProgressBar();
+                location.reload();
+            }
+        }
+
+        // Print preparation
+        window.addEventListener('beforeprint', function() {
+            // Expand all solutions for printing
+            document.querySelectorAll('.solution-content').forEach(solution => {
+                solution.style.maxHeight = 'none';
+            });
+        });
+
+        window.addEventListener('afterprint', function() {
+            // Collapse solutions after printing
+            document.querySelectorAll('.solution-content').forEach(solution => {
+                if (!solution.classList.contains('active')) {
+                    solution.style.maxHeight = '0';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

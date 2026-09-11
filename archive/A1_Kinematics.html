@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A1: Kinematics - IB Physics</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-text {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar-bg {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .lesson-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Practice Problems */
+        .practice-problem {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .problem-number {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 0.8rem;
+        }
+
+        .problem-question {
+            margin-bottom: 1rem;
+        }
+
+        .solution-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+
+        .solution-toggle:hover {
+            transform: translateY(-2px);
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .solution-content.active {
+            display: block;
+        }
+
+        /* Exam Tips */
+        .exam-tip {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 999;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-icon {
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 3rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-button.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives-list li {
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .lesson-title {
+                font-size: 2rem;
+            }
+
+            .lesson-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">IB Physics Study Platform</div>
+            <div class="navbar-links">
+                <a href="index.html">Home</a>
+                <a href="lessons.html">Lessons</a>
+                <a href="practice.html">Practice</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-text">Lesson Progress: <span id="progress-percentage">0%</span></div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1 class="lesson-title">A1: Kinematics</h1>
+            <div class="lesson-meta">
+                <span><strong>Syllabus Code:</strong> A1</span>
+                <span><strong>Level:</strong> SL+HL</span>
+                <span><strong>Subject:</strong> Physics</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="lesson-content">
+            <h2>Learning Objectives</h2>
+            <ul class="objectives-list">
+                <li>Define displacement, velocity, and acceleration as vector quantities and distinguish them from distance, speed, and rate of change of speed</li>
+                <li>Analyze motion using displacement-time, velocity-time, and acceleration-time graphs</li>
+                <li>Derive and apply equations of motion for uniform acceleration (SUVAT equations)</li>
+                <li>Determine instantaneous and average quantities from graphs and equations</li>
+                <li>Solve problems involving projectile motion by resolving into horizontal and vertical components</li>
+                <li>Calculate relative velocities in one and two dimensions (HL)</li>
+                <li>Analyze motion with fluid resistance and determine terminal speed (HL)</li>
+                <li>Apply calculus to kinematics: differentiation for velocity and acceleration, integration for displacement (HL)</li>
+            </ul>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="lesson-content">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Displacement</div>
+                <div>The change in position of an object, measured as the straight-line distance from initial to final position with direction specified. It is a vector quantity measured in meters (m). Symbol: \(s\) or \(\vec{s}\)</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Velocity</div>
+                <div>The rate of change of displacement with respect to time. It is a vector quantity measured in meters per second (m·s⁻¹). Average velocity: \(v_{\text{avg}} = \frac{\Delta s}{\Delta t}\). Instantaneous velocity: \(v = \frac{ds}{dt}\)</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Acceleration</div>
+                <div>The rate of change of velocity with respect to time. It is a vector quantity measured in meters per second squared (m·s⁻²). Average acceleration: \(a_{\text{avg}} = \frac{\Delta v}{\Delta t}\). Instantaneous acceleration: \(a = \frac{dv}{dt} = \frac{d^2s}{dt^2}\)</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Speed</div>
+                <div>The magnitude of velocity; the rate of change of distance with respect to time. It is a scalar quantity measured in m·s⁻¹. Speed has no direction.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Uniform Acceleration</div>
+                <div>Motion where the acceleration is constant in magnitude and direction. This allows the use of SUVAT equations.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Terminal Speed</div>
+                <div>The constant speed reached by a falling object when the drag force equals the weight, resulting in zero net force and zero acceleration (HL topic).</div>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="lesson-content">
+            <h2>Introduction to Kinematics</h2>
+            <p>Kinematics is the branch of mechanics that describes motion without considering the forces that cause it. It forms the foundation of physics by providing the mathematical language to describe how objects move through space and time.</p>
+
+            <h3>Prerequisites</h3>
+            <p>Before studying kinematics, you should be comfortable with:</p>
+            <ul>
+                <li>Vector algebra (addition, subtraction, resolution into components)</li>
+                <li>Coordinate systems and Cartesian coordinates</li>
+                <li>Basic calculus (differentiation and integration for HL)</li>
+                <li>Graph interpretation and gradient calculation</li>
+                <li>Trigonometry (sine, cosine, tangent for projectile motion)</li>
+            </ul>
+
+            <h3>Why Kinematics Matters</h3>
+            <p>Kinematics provides the descriptive framework for all motion in physics. Whether analyzing a car crash, designing a roller coaster, calculating satellite orbits, or understanding molecular motion, kinematic principles apply universally. The IB syllabus emphasizes both the mathematical rigor and practical applications of these concepts.</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Scalars vs Vectors: A Critical Distinction</h2>
+            <p>Understanding the difference between scalar and vector quantities is fundamental to kinematics.</p>
+
+            <h3>Scalar Quantities</h3>
+            <p>Scalars have magnitude only:</p>
+            <ul>
+                <li><strong>Distance:</strong> The total path length traveled (always positive)</li>
+                <li><strong>Speed:</strong> How fast an object moves (always positive)</li>
+                <li><strong>Time:</strong> Duration of an event</li>
+            </ul>
+
+            <h3>Vector Quantities</h3>
+            <p>Vectors have both magnitude and direction:</p>
+            <ul>
+                <li><strong>Displacement:</strong> Change in position with direction</li>
+                <li><strong>Velocity:</strong> Rate of change of displacement</li>
+                <li><strong>Acceleration:</strong> Rate of change of velocity</li>
+            </ul>
+
+            <h3>Why This Matters</h3>
+            <p>A car traveling 100 km east then 100 km west has:</p>
+            <ul>
+                <li><strong>Distance traveled:</strong> 200 km (scalar)</li>
+                <li><strong>Displacement:</strong> 0 km (vector - it's back where it started)</li>
+                <li><strong>Average speed:</strong> Depends on time taken</li>
+                <li><strong>Average velocity:</strong> 0 m·s⁻¹ (displacement is zero)</li>
+            </ul>
+            <p>This distinction is frequently tested on IB exams. Students often confuse distance with displacement or speed with velocity, leading to incorrect answers.</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Motion in One Dimension</h2>
+
+            <h3>Displacement, Velocity, and Acceleration</h3>
+            <p>For motion along a straight line, we can use positive and negative signs to indicate direction.</p>
+
+            <p><strong>Displacement</strong> is the change in position:</p>
+            <p>\[s = s_f - s_i\]</p>
+            <p>where \(s_i\) is initial position and \(s_f\) is final position.</p>
+
+            <p><strong>Average velocity</strong> over a time interval:</p>
+            <p>\[v_{\text{avg}} = \frac{\Delta s}{\Delta t} = \frac{s_f - s_i}{t_f - t_i}\]</p>
+
+            <p><strong>Instantaneous velocity</strong> at a specific moment (HL calculus approach):</p>
+            <p>\[v = \lim_{\Delta t \to 0} \frac{\Delta s}{\Delta t} = \frac{ds}{dt}\]</p>
+
+            <p>For SL students, instantaneous velocity is the gradient of a displacement-time graph at a point.</p>
+
+            <p><strong>Average acceleration:</strong></p>
+            <p>\[a_{\text{avg}} = \frac{\Delta v}{\Delta t} = \frac{v_f - v_i}{t_f - t_i}\]</p>
+
+            <p><strong>Instantaneous acceleration</strong> (HL):</p>
+            <p>\[a = \frac{dv}{dt} = \frac{d^2s}{dt^2}\]</p>
+
+            <h3>Sign Conventions</h3>
+            <p>Choose a positive direction (usually right or up) and stick with it throughout the problem. Negative values indicate motion or acceleration in the opposite direction.</p>
+
+            <h3>Common Misconception</h3>
+            <p><strong>Misconception:</strong> Negative acceleration always means slowing down.</p>
+            <p><strong>Reality:</strong> Negative acceleration means acceleration in the negative direction. If an object moves in the negative direction and has negative acceleration, it's actually speeding up in that direction. An object slows down when velocity and acceleration have opposite signs.</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Motion Graphs: The Visual Language of Kinematics</h2>
+            <p>Graphs provide powerful insights into motion. Understanding how to read, interpret, and draw motion graphs is essential for IB Physics.</p>
+
+            <h3>Displacement-Time Graphs</h3>
+            <p><strong>Key features:</strong></p>
+            <ul>
+                <li><strong>Gradient</strong> = velocity (instantaneous velocity at a point, average velocity over an interval)</li>
+                <li><strong>Horizontal line</strong> = zero velocity (object at rest)</li>
+                <li><strong>Positive gradient</strong> = motion in positive direction</li>
+                <li><strong>Negative gradient</strong> = motion in negative direction</li>
+                <li><strong>Curved line</strong> = changing velocity (acceleration)</li>
+                <li><strong>Steeper gradient</strong> = greater speed</li>
+            </ul>
+
+            <h3>Velocity-Time Graphs</h3>
+            <p><strong>Key features:</strong></p>
+            <ul>
+                <li><strong>Gradient</strong> = acceleration</li>
+                <li><strong>Area under curve</strong> = displacement (note: area below time axis is negative displacement)</li>
+                <li><strong>Horizontal line</strong> = constant velocity (zero acceleration)</li>
+                <li><strong>Positive gradient</strong> = acceleration in positive direction</li>
+                <li><strong>Negative gradient</strong> = acceleration in negative direction</li>
+            </ul>
+
+            <h3>Acceleration-Time Graphs</h3>
+            <p><strong>Key features:</strong></p>
+            <ul>
+                <li><strong>Height</strong> = instantaneous acceleration</li>
+                <li><strong>Area under curve</strong> = change in velocity</li>
+                <li><strong>Horizontal line</strong> = constant acceleration (uniform acceleration)</li>
+            </ul>
+
+            <h3>Graph Transformations</h3>
+            <p>To go from one graph to another:</p>
+            <ul>
+                <li>Displacement → Velocity: Take the gradient</li>
+                <li>Velocity → Acceleration: Take the gradient</li>
+                <li>Acceleration → Velocity: Find the area under the curve</li>
+                <li>Velocity → Displacement: Find the area under the curve</li>
+            </ul>
+
+            <h3>Worked Example: Graph Analysis</h3>
+            <p>A velocity-time graph shows a straight line from (0 s, 5 m·s⁻¹) to (10 s, 15 m·s⁻¹).</p>
+            <p>Find:<br>a) The acceleration<br>b) The displacement after 10 s</p>
+
+            <p><strong>Solution:</strong></p>
+            <p>a) Acceleration is the gradient:</p>
+            <p>\[a = \frac{\Delta v}{\Delta t} = \frac{15 - 5}{10 - 0} = \frac{10}{10} = 1.0 \text{ m·s⁻²}\]</p>
+
+            <p>b) Displacement is the area under the curve (trapezium):</p>
+            <p>\[s = \frac{1}{2}(v_i + v_f) \times t = \frac{1}{2}(5 + 15) \times 10 = 100 \text{ m}\]</p>
+
+            <p>Alternatively, using kinematics: \(s = v_i t + \frac{1}{2}at^2 = 5(10) + \frac{1}{2}(1)(10)^2 = 50 + 50 = 100\) m</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Equations of Motion for Uniform Acceleration</h2>
+            <p>When acceleration is constant, we can derive four powerful equations known as the SUVAT equations (named after the variables: \(s\), \(u\), \(v\), \(a\), \(t\)).</p>
+
+            <h3>The Four SUVAT Equations</h3>
+            <p>\[v = u + at\]</p>
+            <p>\[s = \frac{1}{2}(u + v)t\]</p>
+            <p>\[s = ut + \frac{1}{2}at^2\]</p>
+            <p>\[v^2 = u^2 + 2as\]</p>
+
+            <p>where:</p>
+            <ul>
+                <li>\(s\) = displacement</li>
+                <li>\(u\) = initial velocity</li>
+                <li>\(v\) = final velocity</li>
+                <li>\(a\) = acceleration</li>
+                <li>\(t\) = time</li>
+            </ul>
+
+            <h3>Derivation (HL Emphasis)</h3>
+            <p><strong>Equation 1:</strong> From the definition of acceleration:</p>
+            <p>\[a = \frac{v - u}{t} \implies v = u + at\]</p>
+
+            <p><strong>Equation 2:</strong> Average velocity with constant acceleration:</p>
+            <p>\[v_{\text{avg}} = \frac{u + v}{2}\]</p>
+            <p>and \(s = v_{\text{avg}} \cdot t\), so:</p>
+            <p>\[s = \frac{1}{2}(u + v)t\]</p>
+
+            <p><strong>Equation 3:</strong> Substitute \(v = u + at\) into equation 2:</p>
+            <p>\[s = \frac{1}{2}(u + u + at)t = \frac{1}{2}(2u + at)t = ut + \frac{1}{2}at^2\]</p>
+
+            <p><strong>Equation 4:</strong> From equations 1 and 2, eliminate \(t\):</p>
+            <p>From equation 1: \(t = \frac{v - u}{a}\)<br>
+            Substitute into equation 2:</p>
+            <p>\[s = \frac{1}{2}(u + v) \cdot \frac{v - u}{a} = \frac{v^2 - u^2}{2a}\]</p>
+            <p>Rearranging: \(v^2 = u^2 + 2as\)</p>
+
+            <h3>Choosing the Right Equation</h3>
+            <p>Pick the equation that:</p>
+            <ol>
+                <li>Contains the three quantities you know</li>
+                <li>Contains the one quantity you want to find</li>
+                <li>Does NOT contain the quantity you're not interested in</li>
+            </ol>
+
+            <h3>Worked Example: Braking Car</h3>
+            <p>A car traveling at 25 m·s⁻¹ brakes uniformly and comes to rest in 40 m. Calculate:<br>
+            a) The acceleration<br>
+            b) The time taken to stop</p>
+
+            <p><strong>Solution:</strong></p>
+            <p>Given: \(u = 25\) m·s⁻¹, \(v = 0\) m·s⁻¹, \(s = 40\) m</p>
+
+            <p>a) Find \(a\) (don't need \(t\)), use: \(v^2 = u^2 + 2as\)</p>
+            <p>\[0 = (25)^2 + 2a(40)\]</p>
+            <p>\[-625 = 80a\]</p>
+            <p>\[a = -7.8 \text{ m·s⁻²}\]</p>
+            <p>The negative sign indicates deceleration (acceleration opposite to motion direction).</p>
+
+            <p>b) Find \(t\), use: \(v = u + at\)</p>
+            <p>\[0 = 25 + (-7.8)t\]</p>
+            <p>\[t = \frac{25}{7.8} = 3.2 \text{ s}\]</p>
+
+            <p>Alternatively: \(s = \frac{1}{2}(u + v)t\) gives \(40 = \frac{1}{2}(25 + 0)t\), so \(t = 3.2\) s</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Projectile Motion</h2>
+            <p>Projectile motion combines horizontal and vertical motion. The key insight is to treat these as independent motions.</p>
+
+            <h3>Key Principles</h3>
+            <ol>
+                <li><strong>Horizontal motion:</strong> No horizontal forces (ignoring air resistance), so no horizontal acceleration. Constant horizontal velocity: \(v_x = v_0 \cos\theta\)</li>
+                <li><strong>Vertical motion:</strong> Constant downward acceleration due to gravity: \(a_y = -g = -9.81\) m·s⁻²</li>
+                <li><strong>Independence:</strong> Horizontal and vertical motions are independent and can be analyzed separately</li>
+            </ol>
+
+            <h3>Projectile Equations</h3>
+            <p>For a projectile launched at angle \(\theta\) with initial speed \(v_0\):</p>
+
+            <p><strong>Horizontal component:</strong></p>
+            <p>\[x = v_0 \cos\theta \cdot t\]</p>
+
+            <p><strong>Vertical component:</strong></p>
+            <p>\[y = v_0 \sin\theta \cdot t - \frac{1}{2}gt^2\]</p>
+            <p>\[v_y = v_0 \sin\theta - gt\]</p>
+
+            <h3>Important Results for Level Ground Projectiles</h3>
+
+            <p><strong>Time of flight:</strong> Time to return to launch height:</p>
+            <p>\[T = \frac{2v_0 \sin\theta}{g}\]</p>
+
+            <p><strong>Maximum height:</strong></p>
+            <p>\[h_{\text{max}} = \frac{(v_0 \sin\theta)^2}{2g}\]</p>
+
+            <p><strong>Range:</strong> Horizontal distance traveled:</p>
+            <p>\[R = \frac{v_0^2 \sin(2\theta)}{g}\]</p>
+
+            <p>Note: Maximum range occurs at \(\theta = 45°\) when \(\sin(2\theta) = 1\)</p>
+
+            <h3>Worked Example: Football Kick</h3>
+            <p>A football is kicked at 20 m·s⁻¹ at an angle of 30° to the horizontal. Calculate:<br>
+            a) Maximum height reached<br>
+            b) Time of flight<br>
+            c) Range</p>
+
+            <p><strong>Solution:</strong></p>
+            <p>Given: \(v_0 = 20\) m·s⁻¹, \(\theta = 30°\), \(g = 9.81\) m·s⁻²</p>
+
+            <p>First resolve initial velocity:</p>
+            <ul>
+                <li>\(v_{0x} = 20 \cos(30°) = 17.3\) m·s⁻¹</li>
+                <li>\(v_{0y} = 20 \sin(30°) = 10.0\) m·s⁻¹</li>
+            </ul>
+
+            <p>a) At maximum height, \(v_y = 0\). Using \(v^2 = u^2 + 2as\) for vertical motion:</p>
+            <p>\[0 = (10.0)^2 + 2(-9.81)h_{\text{max}}\]</p>
+            <p>\[h_{\text{max}} = \frac{100}{19.62} = 5.1 \text{ m}\]</p>
+
+            <p>b) Time to reach maximum height using \(v = u + at\):</p>
+            <p>\[0 = 10.0 - 9.81t_{\text{up}}\]</p>
+            <p>\[t_{\text{up}} = 1.02 \text{ s}\]</p>
+            <p>Total time of flight: \(T = 2 \times 1.02 = 2.04\) s</p>
+
+            <p>c) Range:</p>
+            <p>\[R = v_{0x} \times T = 17.3 \times 2.04 = 35.3 \text{ m}\]</p>
+            <p>Alternatively: \(R = \frac{(20)^2 \sin(60°)}{9.81} = 35.3\) m</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Relative Motion (HL)</h2>
+            <p>Relative motion describes how velocity depends on the observer's frame of reference. This is crucial for understanding collisions, navigation, and reference frames.</p>
+
+            <h3>Relative Velocity</h3>
+            <p>The velocity of object A relative to object B is:</p>
+            <p>\[\vec{v}_{AB} = \vec{v}_A - \vec{v}_B\]</p>
+            <p>where \(\vec{v}_A\) and \(\vec{v}_B\) are velocities measured in a common reference frame (usually the ground).</p>
+
+            <h3>In One Dimension</h3>
+            <p>If car A travels at 30 m·s⁻¹ east and car B travels at 20 m·s⁻¹ east:</p>
+            <p>\[v_{AB} = 30 - 20 = 10 \text{ m·s⁻¹ east}\]</p>
+            <p>Car A appears to move at 10 m·s⁻¹ east relative to car B.</p>
+
+            <h3>In Two Dimensions</h3>
+            <p>For vectors, subtract component by component:</p>
+            <p>\[v_{AB,x} = v_{A,x} - v_{B,x}\]</p>
+            <p>\[v_{AB,y} = v_{A,y} - v_{B,y}\]</p>
+
+            <p>Then find magnitude and direction:</p>
+            <p>\[|\vec{v}_{AB}| = \sqrt{v_{AB,x}^2 + v_{AB,y}^2}\]</p>
+            <p>\[\theta = \tan^{-1}\left(\frac{v_{AB,y}}{v_{AB,x}}\right)\]</p>
+
+            <h3>Worked Example: River Crossing</h3>
+            <p>A boat can travel at 5.0 m·s⁻¹ in still water. It heads directly across a river that flows at 3.0 m·s⁻¹. Find:<br>
+            a) The boat's velocity relative to the ground<br>
+            b) The direction of travel relative to the bank</p>
+
+            <p><strong>Solution:</strong></p>
+            <p>Set up coordinates: x = across river, y = downstream</p>
+            <ul>
+                <li>Boat velocity in water: \(\vec{v}_{\text{boat,water}} = (5.0, 0)\) m·s⁻¹</li>
+                <li>Water velocity: \(\vec{v}_{\text{water}} = (0, 3.0)\) m·s⁻¹</li>
+            </ul>
+
+            <p>a) Boat velocity relative to ground:</p>
+            <p>\[\vec{v}_{\text{boat,ground}} = \vec{v}_{\text{boat,water}} + \vec{v}_{\text{water}} = (5.0, 3.0) \text{ m·s⁻¹}\]</p>
+            <p>\[|\vec{v}_{\text{boat,ground}}| = \sqrt{5.0^2 + 3.0^2} = \sqrt{34} = 5.8 \text{ m·s⁻¹}\]</p>
+
+            <p>b) Direction downstream from perpendicular:</p>
+            <p>\[\theta = \tan^{-1}\left(\frac{3.0}{5.0}\right) = 31° \text{ downstream}\]</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Fluid Resistance and Terminal Speed (HL)</h2>
+            <p>Real-world motion often involves drag forces that oppose motion through fluids (liquids and gases).</p>
+
+            <h3>Drag Force</h3>
+            <p>For objects moving through fluids, the drag force depends on speed:</p>
+            <ul>
+                <li><strong>Low speeds</strong> (laminar flow): \(F_D \propto v\) (linear drag)</li>
+                <li><strong>High speeds</strong> (turbulent flow): \(F_D \propto v^2\) (quadratic drag)</li>
+            </ul>
+            <p>For most everyday situations: \(F_D = kv^2\) where \(k\) depends on fluid density, object shape, and cross-sectional area.</p>
+
+            <h3>Terminal Speed</h3>
+            <p>When an object falls through a fluid:</p>
+            <ol>
+                <li><strong>Initially:</strong> Weight \(mg\) exceeds drag, so net downward force causes acceleration</li>
+                <li><strong>As speed increases:</strong> Drag force increases</li>
+                <li><strong>At terminal speed:</strong> Drag equals weight, net force is zero, acceleration is zero</li>
+            </ol>
+
+            <p>\[F_D = mg\]</p>
+            <p>\[kv_t^2 = mg\]</p>
+            <p>\[v_t = \sqrt{\frac{mg}{k}}\]</p>
+
+            <h3>Factors Affecting Terminal Speed</h3>
+            <ul>
+                <li><strong>Mass:</strong> Greater mass → higher terminal speed</li>
+                <li><strong>Cross-sectional area:</strong> Larger area → lower terminal speed</li>
+                <li><strong>Shape:</strong> Streamlined shape → higher terminal speed</li>
+                <li><strong>Fluid density:</strong> Denser fluid → lower terminal speed</li>
+            </ul>
+
+            <h3>Motion Characteristics</h3>
+            <ul>
+                <li><strong>Velocity-time graph:</strong> Exponential approach to terminal speed (asymptotic)</li>
+                <li><strong>Acceleration-time graph:</strong> Decreases from \(g\) to zero</li>
+            </ul>
+
+            <h3>Why Parachutes Work</h3>
+            <p>A parachute dramatically increases cross-sectional area and drag coefficient \(k\), reducing terminal speed to a survivable value (typically 5-6 m·s⁻¹ vs. 50-60 m·s⁻¹ without).</p>
+
+            <h3>Worked Example: Skydiver</h3>
+            <p>A 70 kg skydiver reaches terminal speed of 60 m·s⁻¹. After deploying a parachute, terminal speed becomes 5.0 m·s⁻¹. Calculate the ratio of drag coefficients \(\frac{k_{\text{parachute}}}{k_{\text{no parachute}}}\).</p>
+
+            <p><strong>Solution:</strong></p>
+            <p>At terminal speed: \(kv_t^2 = mg\) (constant for both cases)</p>
+
+            <p>Before parachute:</p>
+            <p>\[k_1(60)^2 = (70)(9.81)\]</p>
+            <p>\[k_1 = \frac{686.7}{3600} = 0.191 \text{ kg·m⁻¹}\]</p>
+
+            <p>With parachute:</p>
+            <p>\[k_2(5.0)^2 = (70)(9.81)\]</p>
+            <p>\[k_2 = \frac{686.7}{25} = 27.5 \text{ kg·m⁻¹}\]</p>
+
+            <p>Ratio:</p>
+            <p>\[\frac{k_2}{k_1} = \frac{27.5}{0.191} = 144\]</p>
+
+            <p>Alternatively, since \(k \propto \frac{1}{v_t^2}\):</p>
+            <p>\[\frac{k_2}{k_1} = \left(\frac{v_{t1}}{v_{t2}}\right)^2 = \left(\frac{60}{5.0}\right)^2 = 144\]</p>
+
+            <p>The parachute increases the drag coefficient by a factor of 144.</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Calculus Approach to Kinematics (HL)</h2>
+            <p>Calculus provides a rigorous mathematical foundation for kinematics and allows us to solve problems with non-uniform acceleration.</p>
+
+            <h3>Differentiation: Finding Rates of Change</h3>
+            <p>If position is given as a function of time \(s(t)\):</p>
+
+            <p><strong>Velocity</strong> (first derivative):</p>
+            <p>\[v(t) = \frac{ds}{dt}\]</p>
+
+            <p><strong>Acceleration</strong> (second derivative):</p>
+            <p>\[a(t) = \frac{dv}{dt} = \frac{d^2s}{dt^2}\]</p>
+
+            <h3>Integration: Finding Accumulated Quantities</h3>
+            <p>If acceleration is given as a function of time \(a(t)\):</p>
+
+            <p><strong>Velocity</strong> (integrate acceleration):</p>
+            <p>\[v(t) = v_0 + \int_0^t a(t') \, dt'\]</p>
+
+            <p><strong>Displacement</strong> (integrate velocity):</p>
+            <p>\[s(t) = s_0 + \int_0^t v(t') \, dt'\]</p>
+
+            <h3>Worked Example: Non-Uniform Acceleration</h3>
+            <p>The position of a particle is given by \(s(t) = 2t^3 - 5t^2 + 3t + 1\) where \(s\) is in meters and \(t\) is in seconds.</p>
+
+            <p>Find:<br>
+            a) Velocity at \(t = 2\) s<br>
+            b) Acceleration at \(t = 2\) s<br>
+            c) When the particle is at rest</p>
+
+            <p><strong>Solution:</strong></p>
+
+            <p>a) Differentiate to find velocity:</p>
+            <p>\[v(t) = \frac{ds}{dt} = 6t^2 - 10t + 3\]</p>
+            <p>At \(t = 2\) s:</p>
+            <p>\[v(2) = 6(2)^2 - 10(2) + 3 = 24 - 20 + 3 = 7 \text{ m·s⁻¹}\]</p>
+
+            <p>b) Differentiate again for acceleration:</p>
+            <p>\[a(t) = \frac{dv}{dt} = 12t - 10\]</p>
+            <p>At \(t = 2\) s:</p>
+            <p>\[a(2) = 12(2) - 10 = 14 \text{ m·s⁻²}\]</p>
+
+            <p>c) Particle is at rest when \(v(t) = 0\):</p>
+            <p>\[6t^2 - 10t + 3 = 0\]</p>
+            <p>Using quadratic formula:</p>
+            <p>\[t = \frac{10 \pm \sqrt{100 - 72}}{12} = \frac{10 \pm \sqrt{28}}{12} = \frac{10 \pm 5.29}{12}\]</p>
+            <p>\[t_1 = 1.27 \text{ s}, \quad t_2 = 0.39 \text{ s}\]</p>
+            <p>The particle is at rest at \(t = 0.39\) s and \(t = 1.27\) s.</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Real-World Applications</h2>
+
+            <h3>1. Vehicle Safety and Braking Distances</h3>
+            <p>Using \(v^2 = u^2 + 2as\), we can calculate stopping distances for vehicles. This informs speed limit policies and road design. For example, doubling speed quadruples the braking distance (since \(s \propto v^2\)).</p>
+
+            <h3>2. Sports Ballistics</h3>
+            <p>Projectile motion equations are essential in sports:</p>
+            <ul>
+                <li><strong>Basketball:</strong> Optimizing shooting angle and speed</li>
+                <li><strong>Football/Soccer:</strong> Calculating free kick trajectories</li>
+                <li><strong>Golf:</strong> Understanding drive distances and trajectories</li>
+                <li><strong>Baseball:</strong> Analyzing pitch and hit trajectories</li>
+            </ul>
+
+            <h3>3. Aerospace Engineering</h3>
+            <p>Relative velocity calculations are critical for:</p>
+            <ul>
+                <li>Aircraft navigation in wind</li>
+                <li>Satellite orbit adjustments</li>
+                <li>Spacecraft docking maneuvers</li>
+                <li>Missile interception systems</li>
+            </ul>
+
+            <h3>4. Parachute Design</h3>
+            <p>Understanding terminal velocity and drag forces enables safe parachute design for:</p>
+            <ul>
+                <li>Military operations</li>
+                <li>Recreational skydiving</li>
+                <li>Emergency aircraft evacuation</li>
+                <li>Payload delivery systems</li>
+            </ul>
+
+            <h3>5. Traffic Flow Analysis</h3>
+            <p>Kinematics helps optimize:</p>
+            <ul>
+                <li>Traffic light timing</li>
+                <li>Safe following distances</li>
+                <li>Merge lane design</li>
+                <li>Emergency braking scenarios</li>
+            </ul>
+
+            <h3>6. Animation and Computer Graphics</h3>
+            <p>Realistic motion in video games and movies requires accurate kinematic modeling of falling objects, jumping characters, and projectiles.</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Common Misconceptions and Exam Pitfalls</h2>
+
+            <h3>Misconception 1: Confusing Distance and Displacement</h3>
+            <p><strong>Wrong:</strong> Assuming distance = displacement magnitude</p>
+            <p><strong>Right:</strong> Displacement is the straight-line distance from start to finish with direction. Distance is the total path length. They're only equal for straight-line motion in one direction.</p>
+
+            <h3>Misconception 2: Acceleration Always Means Speeding Up</h3>
+            <p><strong>Wrong:</strong> Thinking negative acceleration always means slowing down</p>
+            <p><strong>Right:</strong> Acceleration indicates the direction of the change in velocity. An object slows down when velocity and acceleration have opposite signs (regardless of which is positive).</p>
+
+            <h3>Misconception 3: At Maximum Height, Acceleration is Zero</h3>
+            <p><strong>Wrong:</strong> Thinking \(a = 0\) at the top of a projectile's trajectory</p>
+            <p><strong>Right:</strong> \(v_y = 0\) at maximum height, but \(a = -g = -9.81\) m·s⁻² throughout the entire flight. Gravity never stops acting.</p>
+
+            <h3>Misconception 4: Horizontal and Vertical Motions Affect Each Other</h3>
+            <p><strong>Wrong:</strong> Thinking horizontal speed affects vertical motion time</p>
+            <p><strong>Right:</strong> Horizontal and vertical components are independent (ignoring air resistance). Time of flight depends only on vertical motion.</p>
+
+            <h3>Misconception 5: Using the Wrong Sign Convention</h3>
+            <p><strong>Wrong:</strong> Randomly assigning positive/negative signs</p>
+            <p><strong>Right:</strong> Choose a positive direction at the start and maintain it consistently. For projectiles, typically take up as positive, so \(g = -9.81\) m·s⁻².</p>
+
+            <h3>Misconception 6: Misinterpreting Graph Gradients</h3>
+            <p><strong>Wrong:</strong> Confusing the value on a graph with its gradient</p>
+            <p><strong>Right:</strong> On a velocity-time graph, the y-value is velocity, but the gradient is acceleration. On a displacement-time graph, the gradient is velocity.</p>
+
+            <h3>Misconception 7: Terminal Velocity is Zero Velocity</h3>
+            <p><strong>Wrong:</strong> Thinking terminal speed means the object stops</p>
+            <p><strong>Right:</strong> Terminal speed is the constant speed reached when drag force equals driving force (weight for falling objects). The object continues moving at this constant speed.</p>
+        </div>
+
+        <div class="lesson-content">
+            <h2>IB Exam Strategy for Kinematics</h2>
+
+            <h3>Command Terms Matter</h3>
+            <ul>
+                <li><strong>Define:</strong> Give precise meanings (use standard definitions)</li>
+                <li><strong>Calculate:</strong> Show working, include units, use appropriate significant figures</li>
+                <li><strong>Sketch:</strong> Must show correct shape and key features (labeled axes, intercepts)</li>
+                <li><strong>Derive:</strong> Show logical mathematical steps from given equations</li>
+                <li><strong>Explain:</strong> Give reasons using physics principles, not just description</li>
+            </ul>
+
+            <h3>Data-Based Questions (Paper 2)</h3>
+            <p>For kinematics graphs:</p>
+            <ol>
+                <li>Always state what gradient/area represents</li>
+                <li>Show sample calculations with data from the graph</li>
+                <li>Calculate uncertainties if error bars are shown</li>
+                <li>Comment on precision vs accuracy</li>
+                <li>Identify anomalies and suggest causes</li>
+            </ol>
+
+            <h3>Problem-Solving Checklist</h3>
+            <ol>
+                <li><strong>Draw a diagram:</strong> Include coordinate system, known values, and what you're finding</li>
+                <li><strong>List known values:</strong> Use standard notation (\(u\), \(v\), \(a\), \(s\), \(t\))</li>
+                <li><strong>Identify what's unknown:</strong> What are you solving for?</li>
+                <li><strong>Choose equation:</strong> Pick one containing known values and the unknown</li>
+                <li><strong>Substitute carefully:</strong> Keep track of signs and units</li>
+                <li><strong>Check answer:</strong> Does the magnitude make sense? Is the sign correct?</li>
+            </ol>
+
+            <h3>HL-Specific Tips</h3>
+            <ul>
+                <li>Practice calculus-based kinematics questions until differentiation/integration becomes automatic</li>
+                <li>For relative motion, always draw velocity vector diagrams</li>
+                <li>Terminal velocity questions often require you to set forces equal (\(F_D = mg\))</li>
+                <li>Non-uniform acceleration requires integration; you cannot use SUVAT equations</li>
+            </ul>
+
+            <h3>Common Mark Losses</h3>
+            <ul>
+                <li>Forgetting units (costs 1 mark per question typically)</li>
+                <li>Sign errors (especially in projectile motion)</li>
+                <li>Not using consistent coordinate systems</li>
+                <li>Confusing scalar and vector quantities</li>
+                <li>Insufficient significant figures or too many</li>
+                <li>Not showing working in multi-step calculations</li>
+            </ul>
+        </div>
+
+        <div class="lesson-content">
+            <h2>Summary and Next Steps</h2>
+            <p>Kinematics provides the essential mathematical framework for describing motion. Key takeaways:</p>
+
+            <ol>
+                <li><strong>Vectors vs scalars:</strong> Understand the fundamental distinction</li>
+                <li><strong>Three representations:</strong> Equations, graphs, and calculus (HL) are different ways to describe the same motion</li>
+                <li><strong>Independence principle:</strong> Horizontal and vertical motions are independent in projectile motion</li>
+                <li><strong>Terminal speed:</strong> Occurs when drag force equals driving force</li>
+                <li><strong>Relative motion:</strong> Velocity depends on the observer's reference frame</li>
+            </ol>
+
+            <h3>Links to Future Topics</h3>
+            <p>Kinematics connects to:</p>
+            <ul>
+                <li><strong>A2 Forces and Momentum:</strong> Newton's laws explain why acceleration occurs</li>
+                <li><strong>A3 Work, Energy, and Power:</strong> Kinematic equations help calculate kinetic energy changes</li>
+                <li><strong>C2 Wave Model:</strong> Wave motion uses similar mathematics</li>
+                <li><strong>D1 Gravitational Fields:</strong> Projectile motion extends to orbital mechanics</li>
+            </ul>
+
+            <h3>Practice Recommendations</h3>
+            <ol>
+                <li>Work through past IB papers focusing on kinematics (typically Paper 1 Section A questions 1-5)</li>
+                <li>Practice graph sketching and interpretation daily</li>
+                <li>Master SUVAT equation selection (this becomes automatic with practice)</li>
+                <li>For HL: Ensure calculus techniques are fluent</li>
+                <li>Always check your answers using alternative methods when possible</li>
+            </ol>
+
+            <p>Mastering kinematics requires practice, but the concepts themselves are straightforward. Focus on understanding WHY things work, not just memorizing equations, and you'll find these principles apply throughout your physics course.</p>
+        </div>
+
+
+
+        <!-- Practice Problems -->
+        <div class="lesson-content">
+            <h2>Practice Problems</h2>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 1</div>
+                <div class="problem-question">A train accelerates uniformly from rest to 30 m·s⁻¹ in 45 s. Calculate: (a) the acceleration, (b) the distance traveled during this time.</div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution-content" id="solution-1">
+                    <p>Given: \(u = 0\) m·s⁻¹, \(v = 30\) m·s⁻¹, \(t = 45\) s</p>
+
+                    <p><strong>(a)</strong> Using \(v = u + at\):</p>
+                    <p>\[30 = 0 + a(45)\]</p>
+                    <p>\[a = \frac{30}{45} = 0.67 \text{ m·s⁻²}\]</p>
+
+                    <p><strong>(b)</strong> Using \(s = ut + \frac{1}{2}at^2\):</p>
+                    <p>\[s = 0 + \frac{1}{2}(0.67)(45)^2 = \frac{1}{2}(0.67)(2025) = 678 \approx 680 \text{ m}\]</p>
+
+                    <p>Alternatively, using \(s = \frac{1}{2}(u+v)t\):</p>
+                    <p>\[s = \frac{1}{2}(0 + 30)(45) = 675 \text{ m}\]</p>
+
+                    <p><em>Explanation:</em> This is a standard uniform acceleration problem. Part (a) tests direct application of a SUVAT equation. Part (b) can be solved multiple ways - always verify using a different method when possible. The slight difference (675 vs 678 m) comes from rounding the acceleration.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 2</div>
+                <div class="problem-question">A ball is thrown vertically upward with an initial speed of 20 m·s⁻¹ from ground level. Taking \(g = 10\) m·s⁻², calculate: (a) the maximum height reached, (b) the time taken to reach maximum height, (c) the total time in the air.</div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution-content" id="solution-2">
+                    <p>Given: \(u = +20\) m·s⁻¹ (upward positive), \(g = -10\) m·s⁻² (downward), \(v = 0\) at maximum height</p>
+
+                    <p><strong>(a)</strong> Using \(v^2 = u^2 + 2as\) at maximum height where \(v = 0\):</p>
+                    <p>\[0 = (20)^2 + 2(-10)h\]</p>
+                    <p>\[0 = 400 - 20h\]</p>
+                    <p>\[h = 20 \text{ m}\]</p>
+
+                    <p><strong>(b)</strong> Using \(v = u + at\):</p>
+                    <p>\[0 = 20 + (-10)t\]</p>
+                    <p>\[t = 2.0 \text{ s}\]</p>
+
+                    <p><strong>(c)</strong> By symmetry, time to fall back down equals time to rise:</p>
+                    <p>\[t_{\text{total}} = 2 \times 2.0 = 4.0 \text{ s}\]</p>
+
+                    <p>Alternatively, using \(s = ut + \frac{1}{2}at^2\) with \(s = 0\) (returns to ground):</p>
+                    <p>\[0 = 20t + \frac{1}{2}(-10)t^2\]</p>
+                    <p>\[0 = 20t - 5t^2 = t(20 - 5t)\]</p>
+                    <p>\[t = 0 \text{ (start) or } t = 4.0 \text{ s (landing)}\]</p>
+
+                    <p><em>Explanation:</em> This tests understanding of projectile motion in one dimension with careful attention to sign convention. The symmetry principle (equal time up and down) is useful but should be verified mathematically. Note that acceleration is constant throughout, even at maximum height where \(v = 0\).</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 3</div>
+                <div class="problem-question">The velocity-time graph for a car shows a straight line from (0 s, 0 m·s⁻¹) to (5 s, 15 m·s⁻¹), then constant velocity to (12 s, 15 m·s⁻¹), then a straight line to (15 s, 0 m·s⁻¹). Sketch the corresponding displacement-time and acceleration-time graphs.</div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution-content" id="solution-3">
+                    <p><strong>Acceleration-time graph:</strong></p>
+                    <ul>
+                        <li>0 to 5 s: \(a = \frac{15 - 0}{5 - 0} = 3.0\) m·s⁻² (horizontal line at 3.0)</li>
+                        <li>5 to 12 s: \(a = 0\) (horizontal line at 0)</li>
+                        <li>12 to 15 s: \(a = \frac{0 - 15}{15 - 12} = -5.0\) m·s⁻² (horizontal line at -5.0)</li>
+                    </ul>
+
+                    <p><strong>Displacement-time graph:</strong></p>
+                    <ul>
+                        <li>0 to 5 s: Displacement = area under v-t graph = \(\frac{1}{2}(5)(15) = 37.5\) m. Curve is parabolic (increasing gradient) from (0, 0) to (5, 37.5)</li>
+                        <li>5 to 12 s: Displacement increases linearly: \(\Delta s = 15 \times 7 = 105\) m. Straight line from (5, 37.5) to (12, 142.5)</li>
+                        <li>12 to 15 s: Displacement increases by \(\frac{1}{2}(3)(15) = 22.5\) m. Curve is parabolic (decreasing gradient) from (12, 142.5) to (15, 165)</li>
+                    </ul>
+
+                    <p>Final displacement: 165 m</p>
+
+                    <p><em>Explanation:</em> This tests graph transformation skills. Remember: gradient of s-t graph = velocity, gradient of v-t graph = acceleration, area under v-t graph = displacement. The s-t graph has three distinct sections with different curvatures corresponding to the three acceleration values.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 4</div>
+                <div class="problem-question">A projectile is launched at 40 m·s⁻¹ at an angle of 37° above the horizontal. Using \(g = 10\) m·s⁻², calculate: (a) the time of flight, (b) the maximum height, (c) the range, (d) the speed at maximum height.</div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution-content" id="solution-4">
+                    <p>Given: \(v_0 = 40\) m·s⁻¹, \(\theta = 37°\), \(g = 10\) m·s⁻²</p>
+
+                    <p>Resolve components: \(\sin(37°) \approx 0.6\), \(\cos(37°) \approx 0.8\)</p>
+                    <ul>
+                        <li>\(v_{0x} = 40(0.8) = 32\) m·s⁻¹</li>
+                        <li>\(v_{0y} = 40(0.6) = 24\) m·s⁻¹</li>
+                    </ul>
+
+                    <p><strong>(a)</strong> Time of flight using \(s = ut + \frac{1}{2}at^2\) with \(s_y = 0\) (returns to launch height):</p>
+                    <p>\[0 = 24t + \frac{1}{2}(-10)t^2\]</p>
+                    <p>\[0 = 24t - 5t^2 = t(24 - 5t)\]</p>
+                    <p>\[t = 0 \text{ or } t = 4.8 \text{ s}\]</p>
+                    <p>Time of flight: \(T = 4.8\) s</p>
+
+                    <p><strong>(b)</strong> At maximum height, \(v_y = 0\). Using \(v^2 = u^2 + 2as\):</p>
+                    <p>\[0 = (24)^2 + 2(-10)h_{\text{max}}\]</p>
+                    <p>\[h_{\text{max}} = \frac{576}{20} = 28.8 \text{ m}\]</p>
+
+                    <p><strong>(c)</strong> Range:</p>
+                    <p>\[R = v_{0x} \times T = 32 \times 4.8 = 153.6 \text{ m}\]</p>
+                    <p>Alternatively: \(R = \frac{v_0^2 \sin(2\theta)}{g} = \frac{(40)^2 \sin(74°)}{10} = \frac{1600(0.96)}{10} \approx 154\) m</p>
+
+                    <p><strong>(d)</strong> At maximum height, \(v_y = 0\) but \(v_x = 32\) m·s⁻¹ (unchanged):</p>
+                    <p>\[v_{\text{max height}} = \sqrt{v_x^2 + v_y^2} = \sqrt{(32)^2 + 0} = 32 \text{ m·s⁻¹}\]</p>
+
+                    <p><em>Explanation:</em> This comprehensive projectile problem tests all key concepts. Note that at maximum height, the projectile still has horizontal velocity (a common mistake is to say speed = 0). The range formula is useful but should be verified by calculating range from time of flight and horizontal velocity.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 5 (HL)</div>
+                <div class="problem-question">A car travels north at 25 m·s⁻¹ while a truck travels east at 15 m·s⁻¹. Calculate: (a) the velocity of the car relative to the truck, (b) the velocity of the truck relative to the car.</div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution-content" id="solution-5">
+                    <p>Set up coordinates: east = +x, north = +y</p>
+
+                    <p>Car velocity: \(\vec{v}_C = (0, 25)\) m·s⁻¹<br>
+                    Truck velocity: \(\vec{v}_T = (15, 0)\) m·s⁻¹</p>
+
+                    <p><strong>(a)</strong> Velocity of car relative to truck:</p>
+                    <p>\[\vec{v}_{CT} = \vec{v}_C - \vec{v}_T = (0, 25) - (15, 0) = (-15, 25) \text{ m·s⁻¹}\]</p>
+
+                    <p>Magnitude:</p>
+                    <p>\[|\vec{v}_{CT}| = \sqrt{(-15)^2 + (25)^2} = \sqrt{225 + 625} = \sqrt{850} = 29.2 \text{ m·s⁻¹}\]</p>
+
+                    <p>Direction:</p>
+                    <p>\[\theta = \tan^{-1}\left(\frac{25}{15}\right) = 59.0° \text{ north of west}\]</p>
+
+                    <p><strong>(b)</strong> Velocity of truck relative to car:</p>
+                    <p>\[\vec{v}_{TC} = \vec{v}_T - \vec{v}_C = (15, 0) - (0, 25) = (15, -25) \text{ m·s⁻¹}\]</p>
+
+                    <p>Magnitude:</p>
+                    <p>\[|\vec{v}_{TC}| = 29.2 \text{ m·s⁻¹}\]</p>
+
+                    <p>Direction:</p>
+                    <p>\[\theta = \tan^{-1}\left(\frac{-25}{15}\right) = 59.0° \text{ south of east}\]</p>
+
+                    <p>Note: \(\vec{v}_{TC} = -\vec{v}_{CT}\) (opposite vectors)</p>
+
+                    <p><em>Explanation:</em> This tests vector subtraction for relative velocity. The magnitudes are equal but directions are opposite - this is always true for relative velocities. Drawing vector diagrams helps visualize the solution. HL students must be comfortable with 2D vector operations.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 6</div>
+                <div class="problem-question">A stone is dropped from rest from a cliff. After 2.0 s, a second stone is thrown downward from the same point. If both stones reach the ground simultaneously after a total time of 5.0 s for the first stone, calculate the initial speed of the second stone. Use \(g = 10\) m·s⁻².</div>
+                <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+                <div class="solution-content" id="solution-6">
+                    <p><strong>First stone</strong> (dropped, \(u_1 = 0\)):</p>
+                    <p>Time of fall: \(t_1 = 5.0\) s</p>
+                    <p>Distance fallen using \(s = ut + \frac{1}{2}gt^2\):</p>
+                    <p>\[h = 0 + \frac{1}{2}(10)(5.0)^2 = 125 \text{ m}\]</p>
+
+                    <p><strong>Second stone</strong> (thrown downward):</p>
+                    <p>Time of fall: \(t_2 = 5.0 - 2.0 = 3.0\) s</p>
+                    <p>Must fall same distance: \(s = 125\) m</p>
+                    <p>Initial velocity \(u_2\) is what we need to find.</p>
+
+                    <p>Using \(s = ut + \frac{1}{2}gt^2\):</p>
+                    <p>\[125 = u_2(3.0) + \frac{1}{2}(10)(3.0)^2\]</p>
+                    <p>\[125 = 3.0u_2 + \frac{1}{2}(10)(9)\]</p>
+                    <p>\[125 = 3.0u_2 + 45\]</p>
+                    <p>\[3.0u_2 = 80\]</p>
+                    <p>\[u_2 = 26.7 \text{ m·s⁻¹}\]</p>
+
+                    <p>The second stone must be thrown downward at 26.7 m·s⁻¹ (or 27 m·s⁻¹ to 2 s.f.)</p>
+
+                    <p><em>Explanation:</em> This problem requires finding the cliff height from the first stone's motion, then using that as a constraint for the second stone. The key insight is that both stones travel the same distance but in different times. This tests problem-solving strategy and equation manipulation.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 7 (HL)</div>
+                <div class="problem-question">A boat that can travel at 8.0 m·s⁻¹ in still water needs to travel directly across a river 120 m wide with a current of 5.0 m·s⁻¹. Calculate: (a) the direction the boat must head, (b) the time taken to cross.</div>
+                <button class="solution-toggle" onclick="toggleSolution(7)">Show Solution</button>
+                <div class="solution-content" id="solution-7">
+                    <p>Set up: x = across river, y = downstream</p>
+
+                    <p>For the boat to travel directly across, the resultant velocity must be perpendicular to the current (purely in x-direction).</p>
+
+                    <p>Boat velocity components:</p>
+                    <ul>
+                        <li>\(v_{\text{boat},x} = v_{\text{boat}} \cos\theta\)</li>
+                        <li>\(v_{\text{boat},y} = v_{\text{boat}} \sin\theta\)</li>
+                    </ul>
+
+                    <p>Current velocity: \((0, 5.0)\) m·s⁻¹</p>
+
+                    <p>Resultant velocity: \((v_{\text{boat}} \cos\theta, v_{\text{boat}} \sin\theta + 5.0)\)</p>
+
+                    <p><strong>(a)</strong> For direct crossing, y-component must be zero:</p>
+                    <p>\[v_{\text{boat}} \sin\theta + 5.0 = 0\]</p>
+                    <p>\[8.0 \sin\theta = -5.0\]</p>
+                    <p>\[\sin\theta = -\frac{5.0}{8.0} = -0.625\]</p>
+                    <p>\[\theta = -38.7°\]</p>
+
+                    <p>The boat must head at 38.7° upstream from perpendicular (or 51.3° from the bank).</p>
+
+                    <p><strong>(b)</strong> Resultant velocity across river:</p>
+                    <p>\[v_x = v_{\text{boat}} \cos\theta = 8.0 \cos(38.7°) = 8.0(0.781) = 6.25 \text{ m·s⁻¹}\]</p>
+
+                    <p>Time to cross:</p>
+                    <p>\[t = \frac{\text{width}}{v_x} = \frac{120}{6.25} = 19.2 \text{ s}\]</p>
+
+                    <p><em>Explanation:</em> This is a classic relative motion problem testing vector addition. The boat must aim upstream to compensate for the current. The resultant velocity across the river is less than the boat's speed in still water. Students often forget that heading direction and travel direction are different.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 8 (HL)</div>
+                <div class="problem-question">A skydiver of mass 75 kg falls from rest. Air resistance provides a drag force \(F_D = kv^2\) where \(k = 0.24\) kg·m⁻¹. Calculate: (a) the terminal speed, (b) the acceleration when falling at 30 m·s⁻¹. Use \(g = 10\) m·s⁻².</div>
+                <button class="solution-toggle" onclick="toggleSolution(8)">Show Solution</button>
+                <div class="solution-content" id="solution-8">
+                    <p><strong>(a)</strong> At terminal speed, drag force equals weight:</p>
+                    <p>\[F_D = mg\]</p>
+                    <p>\[kv_t^2 = mg\]</p>
+                    <p>\[v_t = \sqrt{\frac{mg}{k}} = \sqrt{\frac{75 \times 10}{0.24}} = \sqrt{\frac{750}{0.24}} = \sqrt{3125} = 55.9 \text{ m·s⁻¹}\]</p>
+
+                    <p><strong>(b)</strong> At \(v = 30\) m·s⁻¹:</p>
+
+                    <p>Weight: \(W = mg = 75 \times 10 = 750\) N (downward)</p>
+
+                    <p>Drag: \(F_D = kv^2 = 0.24 \times (30)^2 = 0.24 \times 900 = 216\) N (upward)</p>
+
+                    <p>Net force: \(F_{\text{net}} = 750 - 216 = 534\) N (downward)</p>
+
+                    <p>Acceleration using Newton's second law:</p>
+                    <p>\[a = \frac{F_{\text{net}}}{m} = \frac{534}{75} = 7.1 \text{ m·s⁻²}\]</p>
+
+                    <p>The skydiver is still accelerating downward at 7.1 m·s⁻² when falling at 30 m·s⁻¹ (this is less than \(g\) because drag opposes motion).</p>
+
+                    <p><em>Explanation:</em> This HL problem tests understanding of terminal velocity and force balance. At speeds below terminal velocity, acceleration is positive (speeding up); at terminal speed, acceleration is zero; above terminal speed (impossible when falling unless pushed), acceleration would be negative. The acceleration decreases as speed increases.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 9 (HL)</div>
+                <div class="problem-question">The position of a particle is given by \(s(t) = 4t^3 - 9t^2 + 6t\) where \(s\) is in meters and \(t\) is in seconds. Determine: (a) when the particle is instantaneously at rest, (b) the acceleration at these times.</div>
+                <button class="solution-toggle" onclick="toggleSolution(9)">Show Solution</button>
+                <div class="solution-content" id="solution-9">
+                    <p>Position: \(s(t) = 4t^3 - 9t^2 + 6t\)</p>
+
+                    <p><strong>(a)</strong> Find velocity by differentiating:</p>
+                    <p>\[v(t) = \frac{ds}{dt} = 12t^2 - 18t + 6\]</p>
+
+                    <p>Particle at rest when \(v(t) = 0\):</p>
+                    <p>\[12t^2 - 18t + 6 = 0\]</p>
+
+                    <p>Divide by 6:</p>
+                    <p>\[2t^2 - 3t + 1 = 0\]</p>
+
+                    <p>Factor:</p>
+                    <p>\[(2t - 1)(t - 1) = 0\]</p>
+
+                    <p>Solutions: \(t = 0.5\) s and \(t = 1.0\) s</p>
+
+                    <p><strong>(b)</strong> Find acceleration by differentiating velocity:</p>
+                    <p>\[a(t) = \frac{dv}{dt} = 24t - 18\]</p>
+
+                    <p>At \(t = 0.5\) s:</p>
+                    <p>\[a(0.5) = 24(0.5) - 18 = 12 - 18 = -6.0 \text{ m·s⁻²}\]</p>
+
+                    <p>At \(t = 1.0\) s:</p>
+                    <p>\[a(1.0) = 24(1.0) - 18 = 24 - 18 = 6.0 \text{ m·s⁻²}\]</p>
+
+                    <p>At \(t = 0.5\) s, the particle is at rest with acceleration -6.0 m·s⁻² (about to move in negative direction).<br>
+                    At \(t = 1.0\) s, the particle is at rest with acceleration +6.0 m·s⁻² (about to move in positive direction).</p>
+
+                    <p><em>Explanation:</em> This HL calculus problem tests differentiation and interpretation. When velocity is zero but acceleration is non-zero, the particle is instantaneously at rest but changing direction. The sign of acceleration indicates which direction motion will resume. Practice these calculus manipulations until they become automatic.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 10</div>
+                <div class="problem-question">In a velocity-time graph, the area under the curve between \(t = 0\) and \(t = 10\) s is 150 m. If the velocity increases uniformly from 10 m·s⁻¹ to a final value over this time, calculate: (a) the final velocity, (b) the acceleration.</div>
+                <button class="solution-toggle" onclick="toggleSolution(10)">Show Solution</button>
+                <div class="solution-content" id="solution-10">
+                    <p>Given: Initial velocity \(u = 10\) m·s⁻¹, time \(t = 10\) s, displacement \(s = 150\) m (area under curve)</p>
+
+                    <p><strong>(a)</strong> For uniform acceleration, the area under v-t graph is a trapezium:</p>
+                    <p>\[s = \frac{1}{2}(u + v)t\]</p>
+                    <p>\[150 = \frac{1}{2}(10 + v)(10)\]</p>
+                    <p>\[150 = 5(10 + v)\]</p>
+                    <p>\[30 = 10 + v\]</p>
+                    <p>\[v = 20 \text{ m·s⁻¹}\]</p>
+
+                    <p><strong>(b)</strong> Acceleration using \(v = u + at\):</p>
+                    <p>\[20 = 10 + a(10)\]</p>
+                    <p>\[10 = 10a\]</p>
+                    <p>\[a = 1.0 \text{ m·s⁻²}\]</p>
+
+                    <p>Alternatively, using \(s = ut + \frac{1}{2}at^2\):</p>
+                    <p>\[150 = 10(10) + \frac{1}{2}a(10)^2\]</p>
+                    <p>\[150 = 100 + 50a\]</p>
+                    <p>\[a = 1.0 \text{ m·s⁻²}\]</p>
+
+                    <p><em>Explanation:</em> This problem tests understanding that area under a velocity-time graph represents displacement. For uniform acceleration, you can use either the trapezium formula or SUVAT equations. This type of question frequently appears on IB exams, combining graph interpretation with kinematics equations.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="lesson-content">
+            <h2>IB Exam Tips</h2>
+
+            <div class="exam-tip">Always define your positive direction at the start of projectile motion problems and use \(g = -9.81\) m·s⁻² consistently if up is positive</div>
+
+            <div class="exam-tip">For graph questions, explicitly state what gradient and area represent before calculating (gains method marks even if calculation is wrong)</div>
+
+            <div class="exam-tip">In projectile motion, remember that acceleration is \(-g\) throughout the entire flight, including at maximum height where velocity is momentarily zero</div>
+
+            <div class="exam-tip">When choosing a SUVAT equation, list all five quantities and identify which three you know and which one you want - this prevents choosing the wrong equation</div>
+
+            <div class="exam-tip">Check units in every answer - forgetting units typically costs one mark per question on IB exams</div>
+
+            <div class="exam-tip">For relative velocity problems (HL), always draw a vector diagram showing both velocities and the resultant - this prevents sign errors</div>
+
+            <div class="exam-tip">In terminal velocity questions, remember to set drag force equal to weight, not to zero. Common mistake: solving \(F_D = 0\) instead of \(F_D = mg\)</div>
+
+            <div class="exam-tip">Use consistent significant figures based on the given data - typically 2 or 3 significant figures for IB Physics, never more than the least precise given value</div>
+
+            <div class="exam-tip">For calculus questions (HL), write out the differentiation/integration step explicitly even if simple - examiners want to see your method</div>
+
+            <div class="exam-tip">On displacement-time graphs, a negative gradient means motion in the negative direction, NOT slowing down - only opposite signs of velocity and acceleration indicate slowing</div>
+
+            <div class="exam-tip">When working with vectors in 2D (HL), resolve into components first, work with components, then recombine at the end - never try to work with magnitudes and angles simultaneously</div>
+
+            <div class="exam-tip">Practice sketching graphs from equations and vice versa - IB loves asking you to go from one representation to another</div>
+
+            <div class="exam-tip">For projectile range problems, remember that complementary angles (e.g., 30° and 60°) give the same range - this can be a quick answer check</div>
+
+            <div class="exam-tip">In data-based questions involving motion sensors, comment on precision (scatter in data) vs systematic errors (all points shifted) separately</div>
+
+            <div class="exam-tip">Remember that at terminal speed, velocity is constant but NOT zero - acceleration is zero, not velocity</div>
+        </div>
+
+        <!-- Footer Navigation -->
+        <div class="lesson-footer">
+            <div class="footer-nav">
+                <a href="index.html" class="nav-button">← Back to Lessons</a>
+                <a href="A2_Forces.html" class="nav-button">Next: A2 Forces →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="openChatbot()">
+        <div class="chatbot-icon">💬</div>
+    </div>
+
+    <script>
+        // Progress Tracking
+        let sectionsRead = new Set();
+        const totalSections = document.querySelectorAll('.lesson-content').length;
+
+        function updateProgress() {
+            const percentage = Math.round((sectionsRead.size / totalSections) * 100);
+            document.getElementById('progress-percentage').textContent = percentage + '%';
+            document.getElementById('progress-bar').style.width = percentage + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('A1_Kinematics_progress', JSON.stringify(Array.from(sectionsRead)));
+        }
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('A1_Kinematics_progress');
+            if (saved) {
+                sectionsRead = new Set(JSON.parse(saved));
+                updateProgress();
+            }
+        }
+
+        // Track section visibility
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionIndex = Array.from(document.querySelectorAll('.lesson-content')).indexOf(entry.target);
+                    if (sectionIndex !== -1) {
+                        sectionsRead.add(sectionIndex);
+                        updateProgress();
+                    }
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+
+        // Observe all lesson content sections
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+
+            document.querySelectorAll('.lesson-content').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Trigger MathJax rendering
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        });
+
+        // Toggle Solution Visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = solution.previousElementSibling;
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('active');
+                button.textContent = 'Hide Solution';
+
+                // Trigger MathJax rendering for the newly visible content
+                if (window.MathJax) {
+                    MathJax.typesetPromise([solution]);
+                }
+            }
+        }
+
+        // Chatbot Widget Functionality
+        function openChatbot() {
+            alert('Chatbot feature coming soon! This will connect to an AI assistant to help with physics questions.');
+            // In a real implementation, this would open a chat interface
+            // You could integrate with OpenAI API, custom chatbot, etc.
+        }
+
+        // Smooth Scrolling for Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Press 'C' to open chatbot
+            if (e.key === 'c' || e.key === 'C') {
+                if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+                    const target = e.target;
+                    if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+                        openChatbot();
+                    }
+                }
+            }
+
+            // Press 'R' to reset progress
+            if (e.key === 'r' || e.key === 'R') {
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    if (confirm('Reset your progress for this lesson?')) {
+                        sectionsRead.clear();
+                        updateProgress();
+                        localStorage.removeItem('A1_Kinematics_progress');
+                        alert('Progress reset!');
+                    }
+                }
+            }
+        });
+
+        // Print Functionality
+        function printLesson() {
+            window.print();
+        }
+
+        // Add print button (optional - can be added to navbar if desired)
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add a print button to the navbar here if needed
+        });
+
+        // Track time spent on page
+        let startTime = Date.now();
+        let timeSpent = 0;
+
+        function updateTimeSpent() {
+            timeSpent = Math.floor((Date.now() - startTime) / 1000);
+            localStorage.setItem('A1_Kinematics_time', timeSpent);
+        }
+
+        setInterval(updateTimeSpent, 10000); // Update every 10 seconds
+
+        window.addEventListener('beforeunload', updateTimeSpent);
+
+        // Load time spent
+        const savedTime = localStorage.getItem('A1_Kinematics_time');
+        if (savedTime) {
+            timeSpent = parseInt(savedTime);
+        }
+
+        // Highlight current section in view
+        const sections = document.querySelectorAll('.lesson-content');
+        const highlightObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.borderLeft = '4px solid #667eea';
+                    entry.target.style.transition = 'border-left 0.3s';
+                } else {
+                    entry.target.style.borderLeft = 'none';
+                }
+            });
+        }, {
+            threshold: 0.3
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            sections.forEach(section => {
+                highlightObserver.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>

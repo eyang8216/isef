@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motion in Fields (D3) - IB Physics HL</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 60px;
+            width: 100%;
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 140px auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            padding: 0.5rem 1rem;
+            background: #f0f4ff;
+            color: #667eea;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        /* Learning Objectives */
+        .objectives-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .objectives-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .objectives-list {
+            list-style: none;
+        }
+
+        .objectives-list li {
+            padding: 0.8rem;
+            padding-left: 2rem;
+            position: relative;
+            border-left: 3px solid #667eea;
+            margin-bottom: 0.5rem;
+            background: #f9fafb;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0.5rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Definition Boxes */
+        .definition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .definition-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid #764ba2;
+        }
+
+        .definition-term {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #555;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f4ff;
+        }
+
+        .content-section h3 {
+            font-size: 1.5rem;
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            color: #444;
+        }
+
+        .content-section strong {
+            color: #667eea;
+        }
+
+        .content-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .content-section th,
+        .content-section td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+
+        .content-section th {
+            background: #f0f4ff;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .content-section ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .problem-question {
+            color: #333;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .solution-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .solution-toggle:hover {
+            transform: translateY(-2px);
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .solution-content.active {
+            display: block;
+        }
+
+        .solution-content h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        /* Exam Tips */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tip-card {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 3px solid #764ba2;
+        }
+
+        .tip-card:before {
+            content: "💡";
+            margin-right: 0.5rem;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button.prev {
+            background: #f0f4ff;
+            color: #667eea;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                margin: 120px auto 2rem;
+                padding: 0 1rem;
+            }
+
+            .lesson-title {
+                font-size: 2rem;
+            }
+
+            .definition-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-title">IB Physics HL</div>
+            <div class="nav-badge">Topic D3: Motion in Fields</div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-text">Lesson Progress: <span id="progress-percentage">0%</span></div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1 class="lesson-title">Motion in Fields (D3)</h1>
+            <div class="lesson-meta">
+                <span class="meta-badge">Syllabus Code: D3</span>
+                <span class="meta-badge">Level: HL</span>
+                <span class="meta-badge">Physics</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="objectives-section">
+            <h2 class="objectives-title">Learning Objectives</h2>
+            <ul class="objectives-list">
+                <li>Understand the concept of a field as a region where a force acts on an object</li>
+                <li>Calculate gravitational field strength and relate it to gravitational force</li>
+                <li>Apply Newton's law of gravitation to calculate forces between masses</li>
+                <li>Determine gravitational potential and gravitational potential energy in uniform and radial fields</li>
+                <li>Calculate electric field strength for point charges and uniform fields</li>
+                <li>Determine electric potential and electric potential energy for point charges</li>
+                <li>Apply Coulomb's law to calculate electrostatic forces</li>
+                <li>Determine the magnitude and direction of magnetic force on moving charges and current-carrying conductors</li>
+                <li>Analyze motion of charged particles in uniform electric and magnetic fields</li>
+                <li>Derive and apply orbital motion equations including orbital speed, period, and energy</li>
+                <li>Calculate escape velocity from gravitational fields</li>
+                <li>Compare and contrast gravitational, electric, and magnetic fields</li>
+            </ul>
+        </div>
+
+        <!-- Key Definitions -->
+        <h2 style="font-size: 2rem; color: #667eea; margin: 2rem 0 1rem;">Key Definitions</h2>
+        <div class="definition-grid">
+            <div class="definition-box">
+                <div class="definition-term">Field</div>
+                <div class="definition-text">A region of space where an object experiences a force due to its mass (gravitational), charge (electric), or motion through the field (magnetic).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Gravitational Field Strength (g)</div>
+                <div class="definition-text">The gravitational force per unit mass experienced by a small test mass placed at that point: g = F/m (units: N/kg or m/s²).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Electric Field Strength (E)</div>
+                <div class="definition-text">The electric force per unit positive charge experienced by a small test charge placed at that point: E = F/q (units: N/C or V/m).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Gravitational Potential (Vg)</div>
+                <div class="definition-text">The work done per unit mass in bringing a small test mass from infinity to that point in the field. Always negative for attractive fields (units: J/kg).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Electric Potential (V)</div>
+                <div class="definition-text">The work done per unit positive charge in bringing a small test charge from infinity to that point in the field (units: V or J/C).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Magnetic Flux Density (B)</div>
+                <div class="definition-text">The strength of the magnetic field, defined by the force per unit current per unit length on a conductor: B = F/(IL) (units: T or tesla).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Equipotential Surface</div>
+                <div class="definition-text">A surface where all points have the same potential. No work is done moving along an equipotential surface.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Escape Velocity</div>
+                <div class="definition-text">The minimum velocity required for an object to escape from a gravitational field to infinity without further propulsion.</div>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content-section">
+            <h2>Introduction to Fields</h2>
+            <p>Fields are fundamental concepts in physics that describe how forces act at a distance. Rather than thinking of objects directly touching each other, we model interactions through fields that permeate space.</p>
+
+            <p><strong>Prerequisites:</strong> You should be familiar with forces (Topic B), Newton's laws, energy and work (Topic B), and basic kinematics. Understanding vectors is essential.</p>
+
+            <p><strong>The Field Concept:</strong> A field is a region of space where an object with certain properties (mass, charge, or motion) experiences a force. There are three fundamental fields in IB Physics:</p>
+
+            <ul>
+                <li><strong>Gravitational fields</strong> - Created by mass, experienced by mass</li>
+                <li><strong>Electric fields</strong> - Created by charge, experienced by charge</li>
+                <li><strong>Magnetic fields</strong> - Created by moving charges, experienced by moving charges</li>
+            </ul>
+
+            <p>Fields can be represented using field lines, which show:</p>
+            <ul>
+                <li><strong>Direction:</strong> The direction of force on a positive test object (test mass or test charge)</li>
+                <li><strong>Strength:</strong> Closer lines indicate stronger fields</li>
+            </ul>
+
+            <p><strong>Field Strength Definition:</strong> Field strength is defined as force per unit property:</p>
+            <ul>
+                <li>Gravitational: \(g = F/m\) (force per unit mass)</li>
+                <li>Electric: \(E = F/q\) (force per unit charge)</li>
+                <li>Magnetic: Defined through \(F = BIL\) or \(F = qvB\)</li>
+            </ul>
+
+            <p>This definition means field strength at a point is independent of the test object used to measure it.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Gravitational Fields</h2>
+
+            <h3>Newton's Law of Gravitation</h3>
+            <p>The gravitational force between two point masses is given by:</p>
+            <p>$$F = \frac{Gm_1m_2}{r^2}$$</p>
+
+            <p>where:</p>
+            <ul>
+                <li>\(G = 6.67 \times 10^{-11}\) N m² kg⁻² (gravitational constant)</li>
+                <li>\(m_1, m_2\) are the masses</li>
+                <li>\(r\) is the distance between centers of mass</li>
+            </ul>
+
+            <p>The force is always <strong>attractive</strong> and acts along the line joining the centers.</p>
+
+            <h3>Gravitational Field Strength</h3>
+            <p>For a point mass \(M\) creating a field:</p>
+            <p>$$g = \frac{GM}{r^2}$$</p>
+
+            <p>This is a <strong>radial field</strong> - field strength decreases with the square of distance. Near Earth's surface, \(g \approx 9.81\) m/s² and can be treated as <strong>uniform</strong> over small height changes.</p>
+
+            <p><strong>Key Insight:</strong> Gravitational field strength has the same numerical value and units as gravitational acceleration. This is because \(F = mg\) and \(F = ma\) give \(a = g\).</p>
+
+            <h3>Gravitational Potential</h3>
+            <p>Gravitational potential at a point is:</p>
+            <p>$$V_g = -\frac{GM}{r}$$</p>
+
+            <p>The negative sign indicates that work must be done <strong>against</strong> the field to move a mass from that point to infinity (where \(V_g = 0\) by definition).</p>
+
+            <p><strong>Relationship between field strength and potential:</strong></p>
+            <p>$$g = -\frac{dV_g}{dr}$$</p>
+
+            <p>In words: field strength is the negative potential gradient.</p>
+
+            <h3>Gravitational Potential Energy</h3>
+            <p>The potential energy of mass \(m\) at distance \(r\) from mass \(M\) is:</p>
+            <p>$$E_p = mV_g = -\frac{GMm}{r}$$</p>
+
+            <p>Note that \(E_p \to 0\) as \(r \to \infty\). This means all gravitational potential energies in bound systems are negative.</p>
+
+            <p>For uniform fields (near Earth's surface): \(E_p = mgh\) where \(h\) is height above reference.</p>
+
+            <p><strong>Change in potential energy:</strong> \(\Delta E_p = m\Delta V_g\)</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Orbital Motion</h2>
+
+            <h3>Circular Orbits</h3>
+            <p>For a satellite in circular orbit, gravitational force provides centripetal force:</p>
+            <p>$$\frac{GMm}{r^2} = \frac{mv^2}{r}$$</p>
+
+            <p>Simplifying gives the <strong>orbital speed:</strong></p>
+            <p>$$v = \sqrt{\frac{GM}{r}}$$</p>
+
+            <p><strong>Key observation:</strong> Orbital speed decreases with increasing orbital radius (v ∝ r⁻¹/²).</p>
+
+            <h3>Orbital Period</h3>
+            <p>Since \(v = 2\pi r/T\), combining with orbital speed:</p>
+            <p>$$T = \frac{2\pi r}{v} = 2\pi r\sqrt{\frac{r}{GM}} = 2\pi\sqrt{\frac{r^3}{GM}}$$</p>
+
+            <p>This gives <strong>Kepler's Third Law:</strong> \(T^2 \propto r^3\)</p>
+
+            <p>For orbits around Earth: \(T^2 = \frac{4\pi^2}{GM_E}r^3\)</p>
+
+            <h3>Orbital Energy</h3>
+            <p>Total energy of an orbiting satellite:</p>
+            <p>$$E_{total} = E_k + E_p = \frac{1}{2}mv^2 - \frac{GMm}{r}$$</p>
+
+            <p>Substituting \(v^2 = GM/r\):</p>
+            <p>$$E_{total} = \frac{1}{2}m\frac{GM}{r} - \frac{GMm}{r} = -\frac{GMm}{2r}$$</p>
+
+            <p><strong>Critical insights:</strong></p>
+            <ul>
+                <li>Total energy is <strong>negative</strong> (satellite is bound)</li>
+                <li>\(E_k = \frac{GMm}{2r} = -\frac{E_{total}}{1}\) (kinetic energy is half the magnitude of potential energy)</li>
+                <li>To move to a higher orbit requires adding energy (making \(E_{total}\) less negative)</li>
+                <li>Paradoxically, satellites in higher orbits move <strong>slower</strong> but have <strong>more</strong> total energy</li>
+            </ul>
+
+            <h3>Escape Velocity</h3>
+            <p>The minimum speed needed to escape to infinity (where \(E = 0\)):</p>
+            <p>$$\frac{1}{2}mv_e^2 - \frac{GMm}{r} = 0$$</p>
+            <p>$$v_e = \sqrt{\frac{2GM}{r}}$$</p>
+
+            <p>From Earth's surface (\(r = R_E\)): \(v_e \approx 11.2\) km/s</p>
+
+            <p><strong>Note:</strong> \(v_e = \sqrt{2} \times v_{orbital}\) at the same distance.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Electric Fields</h2>
+
+            <h3>Coulomb's Law</h3>
+            <p>The electrostatic force between two point charges:</p>
+            <p>$$F = \frac{kq_1q_2}{r^2} = \frac{1}{4\pi\epsilon_0}\frac{q_1q_2}{r^2}$$</p>
+
+            <p>where:</p>
+            <ul>
+                <li>\(k = 8.99 \times 10^9\) N m² C⁻² (Coulomb's constant)</li>
+                <li>\(\epsilon_0 = 8.85 \times 10^{-12}\) F/m (permittivity of free space)</li>
+                <li>\(k = 1/(4\pi\epsilon_0)\)</li>
+            </ul>
+
+            <p>Unlike gravity, electric forces can be <strong>attractive or repulsive</strong> (like charges repel, opposite charges attract).</p>
+
+            <h3>Electric Field Strength</h3>
+            <p><strong>For a point charge</strong> \(Q\):</p>
+            <p>$$E = \frac{kQ}{r^2}$$</p>
+
+            <p>Direction: radially outward from positive charge, inward toward negative charge.</p>
+
+            <p><strong>For uniform fields</strong> (between parallel plates):</p>
+            <p>$$E = \frac{V}{d}$$</p>
+
+            <p>where \(V\) is potential difference and \(d\) is separation. Field lines are parallel and equally spaced.</p>
+
+            <h3>Electric Potential</h3>
+            <p>For a point charge \(Q\):</p>
+            <p>$$V = \frac{kQ}{r}$$</p>
+
+            <p>Note: No negative sign (unlike gravity) because the sign of \(Q\) determines whether potential is positive or negative.</p>
+
+            <p><strong>Relationship to field strength:</strong></p>
+            <p>$$E = -\frac{dV}{dr}$$</p>
+
+            <p>For uniform fields: \(E = V/d\) (potential gradient is constant)</p>
+
+            <h3>Electric Potential Energy</h3>
+            <p>Potential energy of charge \(q\) at potential \(V\):</p>
+            <p>$$E_p = qV$$</p>
+
+            <p>For two point charges:</p>
+            <p>$$E_p = \frac{kq_1q_2}{r}$$</p>
+
+            <p><strong>Sign conventions:</strong></p>
+            <ul>
+                <li>Like charges: \(E_p > 0\) (repulsive, energy stored)</li>
+                <li>Opposite charges: \(E_p < 0\) (attractive, bound system)</li>
+            </ul>
+
+            <h3>Work Done in Electric Fields</h3>
+            <p>Work done moving charge \(q\) through potential difference \(\Delta V\):</p>
+            <p>$$W = q\Delta V$$</p>
+
+            <p>In uniform field: \(W = qEd\) where \(d\) is displacement parallel to field.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Comparing Gravitational and Electric Fields</h2>
+
+            <h3>Similarities</h3>
+            <p>Both follow inverse square laws for force and field strength:</p>
+            <ul>
+                <li>\(F \propto 1/r^2\)</li>
+                <li>Field strength \(\propto 1/r^2\)</li>
+                <li>Potential \(\propto 1/r\)</li>
+            </ul>
+
+            <p>Both are conservative fields (work done is path-independent).</p>
+            <p>Equipotential surfaces are perpendicular to field lines for both.</p>
+
+            <h3>Differences</h3>
+            <table>
+                <tr>
+                    <th>Property</th>
+                    <th>Gravitational</th>
+                    <th>Electric</th>
+                </tr>
+                <tr>
+                    <td>Always attractive/repulsive</td>
+                    <td>Always attractive</td>
+                    <td>Can be either</td>
+                </tr>
+                <tr>
+                    <td>Property that creates field</td>
+                    <td>Mass</td>
+                    <td>Charge</td>
+                </tr>
+                <tr>
+                    <td>Can be shielded?</td>
+                    <td>No</td>
+                    <td>Yes (conductors)</td>
+                </tr>
+                <tr>
+                    <td>Relative strength</td>
+                    <td>Extremely weak</td>
+                    <td>Much stronger</td>
+                </tr>
+                <tr>
+                    <td>Potential at infinity</td>
+                    <td>Zero</td>
+                    <td>Zero</td>
+                </tr>
+                <tr>
+                    <td>Potential sign</td>
+                    <td>Always negative</td>
+                    <td>Positive or negative</td>
+                </tr>
+                <tr>
+                    <td>Test object</td>
+                    <td>Test mass</td>
+                    <td>Test charge</td>
+                </tr>
+            </table>
+
+            <p><strong>Strength comparison:</strong> For a proton and electron:</p>
+            <ul>
+                <li>\(F_{electric}/F_{gravitational} \approx 10^{39}\)</li>
+            </ul>
+
+            <p>Electric forces dominate at atomic scales; gravity dominates at astronomical scales because matter is typically neutral.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Magnetic Fields</h2>
+
+            <h3>Magnetic Flux Density</h3>
+            <p>Magnetic field strength is called <strong>magnetic flux density</strong> (\(B\)), measured in tesla (T).</p>
+            <p>Unlike gravitational and electric fields, magnetic fields do NOT follow inverse square laws (field geometry depends on source configuration).</p>
+
+            <h3>Force on Current-Carrying Conductor</h3>
+            <p>When current \(I\) flows through length \(L\) of conductor in magnetic field \(B\):</p>
+            <p>$$F = BIL\sin\theta$$</p>
+
+            <p>where \(\theta\) is angle between current direction and field.</p>
+
+            <p><strong>Vector form:</strong> \(\vec{F} = I\vec{L} \times \vec{B}\)</p>
+
+            <p>Maximum force when conductor perpendicular to field (\(\theta = 90°\)): \(F = BIL\)</p>
+            <p>Zero force when conductor parallel to field (\(\theta = 0°\)).</p>
+
+            <p><strong>Direction:</strong> Use the <strong>left-hand rule</strong> (or right-hand rule depending on convention):</p>
+            <ul>
+                <li>First finger: Field direction</li>
+                <li>Second finger: Current direction</li>
+                <li>Thumb: Force direction</li>
+            </ul>
+
+            <h3>Force on Moving Charge</h3>
+            <p>A charge \(q\) moving with velocity \(v\) in magnetic field \(B\):</p>
+            <p>$$F = qvB\sin\theta$$</p>
+
+            <p>where \(\theta\) is angle between velocity and field.</p>
+
+            <p><strong>Vector form:</strong> \(\vec{F} = q\vec{v} \times \vec{B}\)</p>
+
+            <p>Key points:</p>
+            <ul>
+                <li>Force perpendicular to both \(\vec{v}\) and \(\vec{B}\)</li>
+                <li>Magnetic force does NO WORK (force always perpendicular to displacement)</li>
+                <li>Changes direction of motion, not speed</li>
+            </ul>
+
+            <h3>Circular Motion in Magnetic Fields</h3>
+            <p>When charged particle enters uniform magnetic field perpendicular to velocity, it undergoes circular motion.</p>
+
+            <p>Magnetic force provides centripetal force:</p>
+            <p>$$qvB = \frac{mv^2}{r}$$</p>
+
+            <p><strong>Radius of circular path:</strong></p>
+            <p>$$r = \frac{mv}{qB}$$</p>
+
+            <p><strong>Period of rotation:</strong></p>
+            <p>$$T = \frac{2\pi r}{v} = \frac{2\pi m}{qB}$$</p>
+
+            <p>Note: Period is independent of speed and radius.</p>
+
+            <p><strong>Applications:</strong> Mass spectrometers, cyclotrons, particle accelerators.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Motion of Charged Particles in Fields</h2>
+
+            <h3>Particle Motion in Uniform Electric Field</h3>
+            <p>Consider electron or proton entering uniform electric field with initial velocity perpendicular to field.</p>
+
+            <p><strong>Parallel to field direction:</strong></p>
+            <ul>
+                <li>Constant acceleration: \(a = F/m = qE/m\)</li>
+                <li>Equations of motion apply: \(v = u + at\), \(s = ut + \frac{1}{2}at^2\)</li>
+            </ul>
+
+            <p><strong>Perpendicular to field direction:</strong></p>
+            <ul>
+                <li>Constant velocity (no force component)</li>
+            </ul>
+
+            <p><strong>Result:</strong> Parabolic trajectory (analogous to projectile motion under gravity).</p>
+
+            <p><strong>Energy approach:</strong> Change in kinetic energy equals work done by field:</p>
+            <p>$$\Delta E_k = qV = q E d$$</p>
+
+            <h3>Particle Motion in Uniform Magnetic Field</h3>
+            <p>If velocity parallel to field: No force, particle continues straight.</p>
+            <p>If velocity perpendicular to field: Circular motion (as derived above).</p>
+            <p>If velocity at angle to field: <strong>Helical motion</strong> (combination of circular motion perpendicular to field and constant velocity parallel to field).</p>
+
+            <h3>Combined Electric and Magnetic Fields</h3>
+            <p><strong>Velocity Selector:</strong> Crossed electric and magnetic fields can select particles with specific velocity.</p>
+
+            <p>For particle moving perpendicular to both fields:</p>
+            <ul>
+                <li>Electric force: \(F_E = qE\)</li>
+                <li>Magnetic force: \(F_B = qvB\)</li>
+            </ul>
+
+            <p>For straight-line motion: \(F_E = F_B\)</p>
+            <p>$$qE = qvB$$</p>
+            <p>$$v = \frac{E}{B}$$</p>
+
+            <p>Only particles with this velocity pass through undeflected.</p>
+
+            <p><strong>Mass Spectrometer:</strong> Combines velocity selector with magnetic field to separate ions by mass-to-charge ratio. After selection, particles enter uniform magnetic field and follow circular paths with radius:</p>
+            <p>$$r = \frac{mv}{qB}$$</p>
+
+            <p>Since \(v\) is known, measuring \(r\) determines \(m/q\).</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Common Misconceptions and Exam Tips</h2>
+
+            <h3>Common Misconceptions</h3>
+            <p><strong>Misconception 1:</strong> Confusing field strength with force.</p>
+            <ul>
+                <li><strong>Correction:</strong> Field strength is force per unit mass/charge. It's a property of the field at a point, independent of the test object.</li>
+            </ul>
+
+            <p><strong>Misconception 2:</strong> Thinking gravitational potential energy \(mgh\) applies everywhere.</p>
+            <ul>
+                <li><strong>Correction:</strong> \(mgh\) only works for uniform fields (near Earth's surface). For radial fields, use \(E_p = -GMm/r\).</li>
+            </ul>
+
+            <p><strong>Misconception 3:</strong> Believing higher orbits require more speed.</p>
+            <ul>
+                <li><strong>Correction:</strong> Higher orbits have LOWER orbital speeds but MORE total energy.</li>
+            </ul>
+
+            <p><strong>Misconception 4:</strong> Assuming magnetic force does work.</p>
+            <ul>
+                <li><strong>Correction:</strong> Magnetic force is always perpendicular to velocity, so \(W = Fd\cos(90°) = 0\). It changes direction, not speed.</li>
+            </ul>
+
+            <p><strong>Misconception 5:</strong> Using positive values for gravitational potential.</p>
+            <ul>
+                <li><strong>Correction:</strong> Gravitational potential is always negative (or zero at infinity) because gravity is always attractive.</li>
+            </ul>
+
+            <p><strong>Misconception 6:</strong> Confusing electric potential (\(V\)) with potential energy (\(E_p\)).</p>
+            <ul>
+                <li><strong>Correction:</strong> Potential is energy per unit charge. \(E_p = qV\).</li>
+            </ul>
+
+            <p><strong>Misconception 7:</strong> Thinking equipotential surfaces are the same as field lines.</p>
+            <ul>
+                <li><strong>Correction:</strong> They're perpendicular! Field lines show force direction; equipotentials connect points of equal potential.</li>
+            </ul>
+        </div>
+
+        <!-- Practice Problems -->
+        <h2 style="font-size: 2rem; color: #667eea; margin: 2rem 0 1rem;">Practice Problems</h2>
+
+        <div class="problem-container">
+            <div class="problem-number">Problem 1</div>
+            <div class="problem-question">
+                A satellite of mass 500 kg orbits Earth at an altitude of 400 km above the surface. Earth's radius is 6.37 × 10⁶ m and mass is 5.97 × 10²⁴ kg. Calculate: (a) the orbital speed of the satellite, (b) the orbital period in minutes, and (c) the total energy of the satellite.
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution</h4>
+                <p>(a) Orbital radius: \(r = R_E + h = 6.37 \times 10^6 + 4.00 \times 10^5 = 6.77 \times 10^6\) m</p>
+                <p>Orbital speed: \(v = \sqrt{\frac{GM}{r}} = \sqrt{\frac{(6.67 \times 10^{-11})(5.97 \times 10^{24})}{6.77 \times 10^6}}\)</p>
+                <p>\(v = \sqrt{5.88 \times 10^7} = 7.67 \times 10^3\) m/s = 7.67 km/s</p>
+
+                <p>(b) Period: \(T = \frac{2\pi r}{v} = \frac{2\pi (6.77 \times 10^6)}{7.67 \times 10^3} = 5.55 \times 10^3\) s</p>
+                <p>Converting: \(T = 5550/60 = 92.5\) minutes</p>
+
+                <p>(c) Total energy: \(E = -\frac{GMm}{2r} = -\frac{(6.67 \times 10^{-11})(5.97 \times 10^{24})(500)}{2(6.77 \times 10^6)}\)</p>
+                <p>\(E = -1.47 \times 10^{10}\) J = -14.7 GJ</p>
+
+                <p><strong>Explanation:</strong> This problem tests orbital mechanics fundamentals. Note that we use the total orbital radius (Earth radius + altitude), not just the altitude. The negative total energy indicates the satellite is in a bound orbit. The period of about 92 minutes is typical for low Earth orbit.</p>
+            </div>
+        </div>
+
+        <div class="problem-container">
+            <div class="problem-number">Problem 2</div>
+            <div class="problem-question">
+                Two point charges, \(q_1 = +3.0\) μC and \(q_2 = -5.0\) μC, are separated by 40 cm. Calculate: (a) the electric force between them, (b) the electric field strength at the midpoint between them, and (c) the electric potential at the midpoint.
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution</h4>
+                <p>(a) Using Coulomb's law:</p>
+                <p>\(F = \frac{kq_1q_2}{r^2} = \frac{(8.99 \times 10^9)(3.0 \times 10^{-6})(5.0 \times 10^{-6})}{(0.40)^2}\)</p>
+                <p>\(F = 0.843\) N (attractive, so toward each other)</p>
+
+                <p>(b) At midpoint (\(r = 0.20\) m from each charge):</p>
+                <p>Field from \(q_1\) (pointing away): \(E_1 = \frac{kq_1}{r^2} = \frac{(8.99 \times 10^9)(3.0 \times 10^{-6})}{(0.20)^2} = 6.74 \times 10^5\) N/C (to the right)</p>
+                <p>Field from \(q_2\) (pointing toward): \(E_2 = \frac{k|q_2|}{r^2} = \frac{(8.99 \times 10^9)(5.0 \times 10^{-6})}{(0.20)^2} = 1.12 \times 10^6\) N/C (to the right)</p>
+                <p>Both point in same direction (toward negative charge), so:</p>
+                <p>\(E_{total} = E_1 + E_2 = 1.79 \times 10^6\) N/C toward \(q_2\)</p>
+
+                <p>(c) Potential at midpoint:</p>
+                <p>\(V = V_1 + V_2 = \frac{kq_1}{r} + \frac{kq_2}{r} = \frac{k(q_1 + q_2)}{r}\)</p>
+                <p>\(V = \frac{(8.99 \times 10^9)(3.0 - 5.0) \times 10^{-6}}{0.20} = -8.99 \times 10^4\) V = -89.9 kV</p>
+
+                <p><strong>Explanation:</strong> For part (b), both charges create fields pointing toward the negative charge at the midpoint, so they add. For part (c), potential is a scalar, so we add algebraically considering signs. The negative potential indicates work would be needed to bring a positive test charge from infinity to this point.</p>
+            </div>
+        </div>
+
+        <div class="problem-container">
+            <div class="problem-number">Problem 3</div>
+            <div class="problem-question">
+                An electron enters a uniform magnetic field of 0.50 T with velocity 2.0 × 10⁷ m/s perpendicular to the field. Calculate the radius of the circular path and the period of rotation. (Electron: mass = 9.11 × 10⁻³¹ kg, charge = -1.60 × 10⁻¹⁹ C)
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution</h4>
+                <p>Radius of circular path:</p>
+                <p>\(r = \frac{mv}{|q|B} = \frac{(9.11 \times 10^{-31})(2.0 \times 10^7)}{(1.60 \times 10^{-19})(0.50)}\)</p>
+                <p>\(r = \frac{1.822 \times 10^{-23}}{8.0 \times 10^{-20}} = 2.28 \times 10^{-4}\) m = 0.228 mm</p>
+
+                <p>Period:</p>
+                <p>\(T = \frac{2\pi m}{|q|B} = \frac{2\pi (9.11 \times 10^{-31})}{(1.60 \times 10^{-19})(0.50)}\)</p>
+                <p>\(T = \frac{5.72 \times 10^{-30}}{8.0 \times 10^{-20}} = 7.15 \times 10^{-11}\) s = 71.5 ps</p>
+
+                <p>Alternatively: \(T = \frac{2\pi r}{v} = \frac{2\pi (2.28 \times 10^{-4})}{2.0 \times 10^7} = 7.16 \times 10^{-11}\) s (confirms answer)</p>
+
+                <p><strong>Explanation:</strong> Note we use the magnitude of the electron's charge. The small radius (0.2 mm) and short period (picoseconds) are typical for electron motion in magnetic fields. This principle is used in cathode ray tubes and particle accelerators.</p>
+            </div>
+        </div>
+
+        <div class="problem-container">
+            <div class="problem-number">Problem 4</div>
+            <div class="problem-question">
+                Calculate the escape velocity from: (a) Earth's surface (mass = 5.97 × 10²⁴ kg, radius = 6.37 × 10⁶ m), and (b) the Moon's surface (mass = 7.35 × 10²² kg, radius = 1.74 × 10⁶ m). Comment on the significance of these values.
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution</h4>
+                <p>(a) Earth's escape velocity:</p>
+                <p>\(v_e = \sqrt{\frac{2GM}{R}} = \sqrt{\frac{2(6.67 \times 10^{-11})(5.97 \times 10^{24})}{6.37 \times 10^6}}\)</p>
+                <p>\(v_e = \sqrt{1.25 \times 10^8} = 1.12 \times 10^4\) m/s = 11.2 km/s</p>
+
+                <p>(b) Moon's escape velocity:</p>
+                <p>\(v_e = \sqrt{\frac{2(6.67 \times 10^{-11})(7.35 \times 10^{22})}{1.74 \times 10^6}}\)</p>
+                <p>\(v_e = \sqrt{5.63 \times 10^6} = 2.37 \times 10^3\) m/s = 2.37 km/s</p>
+
+                <p>Comment: The Moon's escape velocity is about 5 times smaller than Earth's, making it much easier to launch spacecraft from the Moon. This also explains why the Moon has no atmosphere - gas molecules can reach escape velocity at typical temperatures and escape into space.</p>
+
+                <p><strong>Explanation:</strong> Escape velocity depends on both mass and radius of the body. Despite having 81 times less mass than Earth, the Moon's escape velocity is only about 5 times smaller because its radius is also smaller. The relationship \(v_e \propto \sqrt{M/R}\) shows both factors matter.</p>
+            </div>
+        </div>
+
+        <div class="problem-container">
+            <div class="problem-number">Problem 5</div>
+            <div class="problem-question">
+                A uniform electric field of strength 5.0 × 10³ N/C exists between two parallel plates separated by 8.0 cm. An electron is released from rest at the negative plate. Calculate: (a) the acceleration of the electron, (b) its velocity when it reaches the positive plate, and (c) the time taken.
+            </div>
+            <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution-content">
+                <h4>Solution</h4>
+                <p>(a) Force on electron: \(F = eE = (1.60 \times 10^{-19})(5.0 \times 10^3) = 8.0 \times 10^{-16}\) N</p>
+                <p>Acceleration: \(a = \frac{F}{m} = \frac{8.0 \times 10^{-16}}{9.11 \times 10^{-31}} = 8.78 \times 10^{14}\) m/s²</p>
+
+                <p>(b) Using energy method (preferred):</p>
+                <p>Work done: \(W = eEd = (1.60 \times 10^{-19})(5.0 \times 10^3)(0.080) = 6.4 \times 10^{-17}\) J</p>
+                <p>This equals kinetic energy gained:</p>
+                <p>\(\frac{1}{2}mv^2 = 6.4 \times 10^{-17}\)</p>
+                <p>\(v = \sqrt{\frac{2(6.4 \times 10^{-17})}{9.11 \times 10^{-31}}} = 1.19 \times 10^7\) m/s</p>
+
+                <p>Alternatively using kinematics: \(v^2 = u^2 + 2as = 0 + 2(8.78 \times 10^{14})(0.080) = 1.40 \times 10^{14}\)</p>
+                <p>\(v = 1.18 \times 10^7\) m/s (agrees within rounding)</p>
+
+                <p>(c) Time: \(v = u + at\)</p>
+                <p>\(t = \frac{v}{a} = \frac{1.19 \times 10^7}{8.78 \times 10^{14}} = 1.35 \times 10^{-8}\) s = 13.5 ns</p>
+
+                <p><strong>Explanation:</strong> The energy method is often simpler and avoids accumulated rounding errors. The final speed (about 4% of light speed) is high enough that we're approaching the regime where relativistic effects would become noticeable, though we ignore them at IB level. Note the extremely short time - electrons respond very quickly to electric fields.</p>
+            </div>
+        </div>
+
+        <!-- Exam Tips -->
+        <h2 style="font-size: 2rem; color: #667eea; margin: 2rem 0 1rem;">Exam Tips</h2>
+        <div class="tips-grid">
+            <div class="tip-card">Always draw diagrams for field problems - show field lines, forces, and directions clearly</div>
+            <div class="tip-card">For orbital problems, remember the counterintuitive result: higher orbit = slower speed but more energy</div>
+            <div class="tip-card">Check signs carefully: gravitational potential is always negative; electric potential depends on source charge sign</div>
+            <div class="tip-card">Use energy methods when possible - often simpler than force/kinematics approaches</div>
+            <div class="tip-card">Remember magnetic force does no work (always perpendicular to motion) - it changes direction, not speed</div>
+            <div class="tip-card">For particle motion in fields, consider components parallel and perpendicular to field separately</div>
+            <div class="tip-card">Know the key relationships: orbital speed v ∝ r⁻¹/², period T² ∝ r³, energy E ∝ -1/r</div>
+            <div class="tip-card">Unit conversions are common sources of errors - write units throughout calculations</div>
+            <div class="tip-card">For comparison questions between gravitational and electric fields, organize by mathematical similarities first, then physical differences</div>
+            <div class="tip-card">Remember equipotential surfaces are perpendicular to field lines - no work is done moving along an equipotential</div>
+            <div class="tip-card">For data-based questions, expect to linearize relationships (e.g., plot T² vs r³ to verify Kepler's law)</div>
+            <div class="tip-card">When dealing with satellites, always use total orbital radius (planet radius + altitude), not just altitude</div>
+        </div>
+
+        <!-- Lesson Footer -->
+        <div class="lesson-footer">
+            <div class="footer-nav">
+                <a href="#" class="nav-button prev">← Previous Lesson</a>
+                <div style="text-align: center;">
+                    <p style="margin-bottom: 0.5rem; color: #666;">Completed this lesson?</p>
+                    <button onclick="alert('Progress saved!')" style="padding: 0.5rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">Mark as Complete</button>
+                </div>
+                <a href="#" class="nav-button next">Next Lesson →</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Chatbot Button -->
+    <button class="chatbot-button" onclick="alert('Chatbot feature coming soon!')">💬</button>
+
+    <!-- JavaScript -->
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const sections = document.querySelectorAll('.content-section, .objectives-section, .problem-container');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-percentage').textContent = Math.round(progress) + '%';
+        }
+
+        window.addEventListener('scroll', updateProgress);
+        window.addEventListener('load', updateProgress);
+
+        // Solution toggle functionality
+        function toggleSolution(button) {
+            const solution = button.nextElementSibling;
+            solution.classList.toggle('active');
+            button.textContent = solution.classList.contains('active') ? 'Hide Solution' : 'Show Solution';
+        }
+
+        // Mark sections as read
+        let readSections = new Set();
+
+        function markSectionAsRead(sectionIndex) {
+            readSections.add(sectionIndex);
+            localStorage.setItem('readSections_d3', JSON.stringify([...readSections]));
+        }
+
+        // Load saved progress
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('readSections_d3');
+            if (saved) {
+                readSections = new Set(JSON.parse(saved));
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

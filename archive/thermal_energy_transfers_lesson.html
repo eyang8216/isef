@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1: Thermal Energy Transfers - IB Physics HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: var(--bg-white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-info {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-tag {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--bg-white);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        .main-content {
+            background: var(--bg-white);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .lesson-header {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .lesson-code {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin: 0.5rem 0;
+        }
+
+        .lesson-level {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--warning-color);
+            color: white;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin: 3rem 0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Definition Boxes */
+        .definitions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .definition-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .definition-term {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        /* Practice Problems */
+        .practice-problems {
+            margin: 3rem 0;
+        }
+
+        .problem-card {
+            background: var(--bg-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .problem-card:hover {
+            border-color: var(--primary-color);
+        }
+
+        .problem-header {
+            padding: 1.5rem;
+            background: var(--bg-light);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-number {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .problem-question {
+            flex: 1;
+            margin-left: 1rem;
+            font-weight: 500;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: transform 0.3s ease;
+        }
+
+        .problem-header.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .problem-content.active {
+            max-height: 3000px;
+        }
+
+        .problem-solution, .problem-explanation {
+            padding: 1.5rem;
+        }
+
+        .problem-solution {
+            background: #f0f9ff;
+            border-top: 2px solid var(--accent-color);
+        }
+
+        .problem-explanation {
+            background: #fef3c7;
+            border-top: 2px solid var(--warning-color);
+        }
+
+        .solution-label, .explanation-label {
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .solution-label {
+            color: var(--accent-color);
+        }
+
+        .explanation-label {
+            color: var(--warning-color);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .sidebar-card {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .objectives-list {
+            list-style: none;
+        }
+
+        .objectives-list li {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-light);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+        }
+
+        .objectives-list li::before {
+            content: "✓";
+            color: var(--success-color);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Exam Tips */
+        .exam-tips-list {
+            list-style: none;
+        }
+
+        .exam-tip {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border-left: 4px solid var(--warning-color);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: var(--bg-white);
+            padding: 2rem;
+            margin-top: 3rem;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button.prev {
+            background: var(--border-color);
+            color: var(--text-dark);
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .main-content {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .lesson-title {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .definitions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Math styling */
+        code {
+            background: var(--bg-light);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--secondary-color);
+        }
+
+        strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">IB Physics HL</div>
+            <div class="nav-info">
+                <div class="nav-tag">Topic B1</div>
+                <span style="color: var(--text-light); font-weight: 500;">Thermal Energy Transfers</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-wrapper">
+            <div class="progress-header">
+                <span>Lesson Progress</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="lesson-header">
+                <div class="lesson-code">Topic B1</div>
+                <h1 class="lesson-title">Thermal Energy Transfers</h1>
+                <span class="lesson-level">Higher Level (HL)</span>
+            </div>
+
+            <!-- Introduction Section -->
+            <section class="content-section">
+                <h2>Introduction to Thermal Energy Transfers</h2>
+                <p>Thermal energy transfer is fundamental to understanding how energy moves through matter and between systems. This topic bridges microscopic molecular behavior with macroscopic thermodynamic properties, forming the foundation for topics in thermodynamics, climate science, engineering, and astrophysics.</p>
+
+                <p><strong>Prerequisites</strong>: You should be comfortable with kinetic energy ($E_k = \frac{1}{2}mv^2$), potential energy, Newton's laws, and basic statistical concepts. Understanding that temperature is related to average kinetic energy of particles will be essential.</p>
+
+                <p><strong>Topic Overview</strong>: Topic B1 explores three main areas: (1) the molecular model of matter and how it explains thermal properties, (2) energy storage and transfer through heat capacity and phase changes, and (3) mechanisms of heat transfer between systems. This topic is heavily tested through both data-based questions and conceptual problems requiring clear explanation of underlying principles.</p>
+            </section>
+
+            <!-- Molecular Theory Section -->
+            <section class="content-section">
+                <h2>Molecular Theory of Matter</h2>
+                <p>The kinetic molecular theory provides a microscopic explanation for macroscopic thermal phenomena. Matter consists of particles (atoms or molecules) in constant random motion, and the properties we observe—temperature, pressure, phase—emerge from collective particle behavior.</p>
+
+                <h3>The Three States of Matter</h3>
+
+                <p><strong>Solids</strong>: Particles are closely packed in regular geometric arrangements (crystal lattice). They vibrate about fixed equilibrium positions with relatively small amplitude. Strong intermolecular forces maintain structural rigidity. The potential energy is at a minimum in the equilibrium configuration, and thermal energy manifests primarily as vibrational kinetic energy.</p>
+
+                <p><strong>Liquids</strong>: Particles remain close together (similar density to solids) but lack long-range order. They can slide past one another, enabling flow. Intermolecular forces are still significant but not strong enough to lock particles in fixed positions. Particles have both vibrational and translational kinetic energy.</p>
+
+                <p><strong>Gases</strong>: Particles are widely separated (typically ~10 times the particle diameter). Intermolecular forces are negligible except during brief collisions. Particles move in straight lines between collisions, with kinetic energy dominating over potential energy. This explains why gases fill containers and are easily compressed.</p>
+
+                <h3>Internal Energy</h3>
+                <p>Internal energy (<code>U</code>) is the total energy stored within a system at the microscopic level. It comprises:</p>
+
+                <p style="text-align: center; font-size: 1.1rem; margin: 1.5rem 0;"><code>U = E<sub>k,random</sub> + E<sub>p,molecular</sub></code></p>
+
+                <p>where <code>E<sub>k,random</sub></code> is the random kinetic energy of molecular motion (translation, rotation, vibration) and <code>E<sub>p,molecular</sub></code> is the potential energy due to intermolecular forces.</p>
+
+                <p><strong>Key Insight</strong>: Temperature is directly proportional to the average random kinetic energy per molecule. For an ideal monatomic gas: <code>⟨E<sub>k</sub>⟩ = (3/2)k<sub>B</sub>T</code>, where <code>k<sub>B</sub> = 1.38 × 10<sup>-23</sup></code> J K<sup>-1</sup> is Boltzmann's constant.</p>
+
+                <p><strong>Important Distinction</strong>: Internal energy is NOT the same as temperature. Two systems at the same temperature can have vastly different internal energies if they have different masses or are in different phases. A cup of boiling water and a swimming pool at the same temperature have the same average molecular kinetic energy, but the pool has far more total internal energy.</p>
+
+                <h3>Temperature and Absolute Zero</h3>
+                <p>The Kelvin scale is defined such that zero Kelvin (absolute zero) corresponds to the state of minimum possible internal energy—when molecular kinetic energy approaches zero. The conversion is:</p>
+
+                <p style="text-align: center; font-size: 1.1rem; margin: 1.5rem 0;"><code>T(K) = T(°C) + 273.15</code></p>
+
+                <p>At absolute zero, quantum mechanical zero-point energy prevents particles from being completely motionless, but classical thermal motion ceases.</p>
+
+                <h3>Pressure in Gases</h3>
+                <p>Gas pressure arises from momentum transfer during molecular collisions with container walls. Each collision imparts a small impulse, and with ~10<sup>23</sup> collisions per second, we observe steady macroscopic pressure. The ideal gas equation relates macroscopic variables:</p>
+
+                <p style="text-align: center; font-size: 1.1rem; margin: 1.5rem 0;"><code>PV = nRT = Nk<sub>B</sub>T</code></p>
+
+                <p>where <code>P</code> is pressure (Pa), <code>V</code> is volume (m³), <code>n</code> is moles, <code>R = 8.31</code> J mol<sup>-1</sup> K<sup>-1</sup> is the gas constant, <code>N</code> is the number of molecules, and <code>T</code> is absolute temperature (K).</p>
+
+                <p>This equation reveals that for fixed volume, pressure increases linearly with temperature—faster moving molecules collide more frequently and with greater momentum change.</p>
+            </section>
+
+            <!-- Specific Heat Capacity Section -->
+            <section class="content-section">
+                <h2>Specific Heat Capacity</h2>
+                <p>When thermal energy is added to a substance without changing its phase, the temperature rises. The relationship between energy input and temperature change is quantified by specific heat capacity.</p>
+
+                <h3>Definition and Formula</h3>
+                <p>Specific heat capacity (<code>c</code>) is the energy required to raise the temperature of 1 kg of a substance by 1 K (or 1°C). The fundamental equation is:</p>
+
+                <p style="text-align: center; font-size: 1.3rem; margin: 1.5rem 0; background: var(--bg-light); padding: 1rem; border-radius: 8px;"><code>Q = mcΔT</code></p>
+
+                <p>where:</p>
+                <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                    <li><code>Q</code> is thermal energy transferred (J)</li>
+                    <li><code>m</code> is mass (kg)</li>
+                    <li><code>c</code> is specific heat capacity (J kg<sup>-1</sup> K<sup>-1</sup>)</li>
+                    <li><code>ΔT</code> is temperature change (K or °C)</li>
+                </ul>
+
+                <h3>Physical Interpretation</h3>
+                <p>Why do different substances have different specific heat capacities? Consider what happens when energy is added:</p>
+
+                <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                    <li><strong>Molecular degrees of freedom</strong>: Molecules can store energy in translational, rotational, and vibrational modes. Complex molecules have more ways to store energy, typically resulting in higher heat capacity.</li>
+                    <li><strong>Intermolecular forces</strong>: Energy may be used to overcome attractive forces as well as increase kinetic energy, particularly in liquids.</li>
+                    <li><strong>Mass per particle</strong>: Lighter molecules achieve higher velocities (and thus temperature increase) for a given energy input.</li>
+                </ol>
+
+                <p>Water has an exceptionally high specific heat capacity (<code>c<sub>water</sub> = 4180</code> J kg<sup>-1</sup> K<sup>-1</sup>) due to hydrogen bonding and molecular structure. This is why water is excellent for thermal regulation in organisms and climate systems.</p>
+            </section>
+
+            <!-- Phase Changes Section -->
+            <section class="content-section">
+                <h2>Phase Changes and Latent Heat</h2>
+                <p>During phase transitions (melting, freezing, boiling, condensing), thermal energy is added or removed without temperature change. This energy alters molecular arrangement and potential energy rather than kinetic energy.</p>
+
+                <h3>Latent Heat Definition</h3>
+                <p>Latent heat is the energy required per unit mass to change phase at constant temperature:</p>
+
+                <p style="text-align: center; font-size: 1.3rem; margin: 1.5rem 0; background: var(--bg-light); padding: 1rem; border-radius: 8px;"><code>Q = mL</code></p>
+
+                <p>where <code>L</code> is specific latent heat (J kg<sup>-1</sup>).</p>
+
+                <p><strong>Specific latent heat of fusion</strong> (<code>L<sub>f</sub></code>): energy to change from solid to liquid (or vice versa).<br>
+                <strong>Specific latent heat of vaporization</strong> (<code>L<sub>v</sub></code>): energy to change from liquid to gas (or vice versa).</p>
+
+                <p>For water:</p>
+                <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                    <li><code>L<sub>f</sub> = 3.34 × 10<sup>5</sup></code> J kg<sup>-1</sup></li>
+                    <li><code>L<sub>v</sub> = 2.26 × 10<sup>6</sup></code> J kg<sup>-1</sup></li>
+                </ul>
+
+                <h3>Physical Mechanism</h3>
+                <p>When ice melts, energy breaks hydrogen bonds between water molecules in the crystal lattice. The molecules gain potential energy as they move from ordered solid positions to the more random liquid state, but their average kinetic energy (temperature) remains constant at 0°C until all ice has melted.</p>
+
+                <p>Vaporization requires much more energy than fusion because molecules must be separated to gas-phase distances, completely overcoming intermolecular attractions. This is why steam burns are so severe—condensing steam releases enormous energy.</p>
+            </section>
+
+            <!-- Heat Transfer Mechanisms -->
+            <section class="content-section">
+                <h2>Mechanisms of Heat Transfer: Conduction</h2>
+                <p>Heat transfer occurs through three mechanisms: conduction, convection, and radiation. Each operates through different physical principles.</p>
+
+                <h3>Conduction Mechanism</h3>
+                <p>Conduction is energy transfer through matter without bulk movement of the material. In solids, it occurs through:</p>
+
+                <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                    <li><strong>Lattice vibrations</strong> (phonons): Vibrating atoms transfer energy to neighbors through their connecting bonds</li>
+                    <li><strong>Free electron diffusion</strong>: In metals, mobile electrons carry energy from hot to cold regions, making metals excellent conductors</li>
+                </ol>
+
+                <h3>Thermal Conductivity and Heat Flow Rate</h3>
+                <p>The rate of heat flow by conduction through a material is given by:</p>
+
+                <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0; background: var(--bg-light); padding: 1rem; border-radius: 8px;"><code>Q/t = kAΔT/d</code></p>
+
+                <p>where:</p>
+                <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                    <li><code>Q/t</code> or <code>dQ/dt</code> is power (rate of heat transfer) in watts (W)</li>
+                    <li><code>k</code> is thermal conductivity (W m<sup>-1</sup> K<sup>-1</sup>)</li>
+                    <li><code>A</code> is cross-sectional area (m²)</li>
+                    <li><code>ΔT</code> is temperature difference (K)</li>
+                    <li><code>d</code> or <code>dx</code> is thickness (m)</li>
+                </ul>
+            </section>
+
+            <section class="content-section">
+                <h2>Mechanisms of Heat Transfer: Convection</h2>
+                <p>Convection is heat transfer by bulk movement of fluids (liquids or gases). It combines conduction within the fluid with macroscopic fluid flow.</p>
+
+                <h3>Types of Convection</h3>
+                <p><strong>Natural (free) convection</strong>: Fluid motion driven by buoyancy forces arising from density differences. Hot fluid expands, becomes less dense, and rises; cool fluid sinks. Examples: heating a room, ocean currents, atmospheric circulation.</p>
+
+                <p><strong>Forced convection</strong>: Fluid motion driven by external means (fans, pumps). Examples: car radiators, forced-air heating, cooling fans in electronics.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Mechanisms of Heat Transfer: Radiation</h2>
+                <p>Thermal radiation is electromagnetic wave emission by objects due to their temperature. Unlike conduction and convection, radiation requires no medium—it can transfer energy across vacuum.</p>
+
+                <h3>Stefan-Boltzmann Law</h3>
+                <p>The power radiated by a perfect emitter (black body) is:</p>
+
+                <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0; background: var(--bg-light); padding: 1rem; border-radius: 8px;"><code>P = σAT<sup>4</sup></code></p>
+
+                <p>where:</p>
+                <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                    <li><code>P</code> is power radiated (W)</li>
+                    <li><code>σ = 5.67 × 10<sup>-8</sup></code> W m<sup>-2</sup> K<sup>-4</sup> is the Stefan-Boltzmann constant</li>
+                    <li><code>A</code> is surface area (m²)</li>
+                    <li><code>T</code> is absolute temperature (K)</li>
+                </ul>
+
+                <p>The <code>T<sup>4</sup></code> dependence means doubling absolute temperature increases radiation by a factor of 16!</p>
+
+                <h3>Real Surfaces: Emissivity</h3>
+                <p>Real objects are not perfect emitters. Emissivity (<code>ε</code>) quantifies how effectively a surface radiates compared to a black body:</p>
+
+                <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0; background: var(--bg-light); padding: 1rem; border-radius: 8px;"><code>P = εσAT<sup>4</sup></code></p>
+
+                <p>where <code>0 ≤ ε ≤ 1</code>:</p>
+                <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                    <li>Black body: <code>ε = 1</code></li>
+                    <li>Dull/black surfaces: <code>ε ≈ 0.9-0.95</code></li>
+                    <li>Shiny metal surfaces: <code>ε ≈ 0.05-0.2</code></li>
+                </ul>
+            </section>
+
+            <!-- Key Definitions -->
+            <section class="content-section">
+                <h2>Key Definitions</h2>
+                <div class="definitions-grid">
+                    <div class="definition-box">
+                        <div class="definition-term">Internal Energy (U)</div>
+                        <div class="definition-text">The total energy stored within a system at the microscopic level, equal to the sum of random kinetic energies and intermolecular potential energies of all particles. Measured in joules (J).</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Specific Heat Capacity (c)</div>
+                        <div class="definition-text">The energy required to raise the temperature of 1 kg of a substance by 1 K (or 1°C). Units: J kg⁻¹ K⁻¹. An intensive property that depends only on the material, not the amount.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Specific Latent Heat (L)</div>
+                        <div class="definition-text">The energy required per unit mass to change the phase of a substance at constant temperature. Specific latent heat of fusion (Lf) for solid-liquid transitions; specific latent heat of vaporization (Lv) for liquid-gas transitions. Units: J kg⁻¹.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Thermal Conductivity (k)</div>
+                        <div class="definition-text">A material property quantifying how effectively it conducts heat. Higher values indicate better conduction. Units: W m⁻¹ K⁻¹. Metals have high k; insulators have low k.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Conduction</div>
+                        <div class="definition-text">Heat transfer through matter without bulk movement of the material, occurring via molecular collisions and lattice vibrations (phonons) in solids, or free electron diffusion in metals.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Convection</div>
+                        <div class="definition-text">Heat transfer by bulk movement of fluids (liquids or gases) driven by buoyancy forces (natural convection) or external mechanisms like pumps or fans (forced convection).</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Thermal Radiation</div>
+                        <div class="definition-text">Heat transfer by electromagnetic waves emitted by all objects due to their temperature. Requires no medium and can occur across vacuum. Governed by the Stefan-Boltzmann law.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Emissivity (ε)</div>
+                        <div class="definition-text">A dimensionless factor (0 ≤ ε ≤ 1) describing how effectively a surface radiates thermal energy compared to an ideal black body (ε = 1). Good absorbers have high emissivity; shiny reflective surfaces have low emissivity.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Practice Problems -->
+            <section class="content-section practice-problems">
+                <h2>Practice Problems</h2>
+
+                <div class="problem-card">
+                    <div class="problem-header" onclick="toggleProblem(this)">
+                        <span class="problem-number">Problem 1</span>
+                        <span class="problem-question">A 0.80 kg copper block (specific heat capacity 385 J kg⁻¹ K⁻¹) at 120°C is placed in 1.5 kg of water at 15°C in an insulated container. Calculate the final equilibrium temperature.</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-content">
+                        <div class="problem-solution">
+                            <div class="solution-label">Solution</div>
+                            <p>Using conservation of energy: energy lost by copper = energy gained by water</p>
+                            <p><code>m<sub>c</sub>c<sub>c</sub>(T<sub>c</sub> - T<sub>f</sub>) = m<sub>w</sub>c<sub>w</sub>(T<sub>f</sub> - T<sub>w</sub>)</code></p>
+                            <p><code>0.80 × 385 × (120 - T<sub>f</sub>) = 1.5 × 4180 × (T<sub>f</sub> - 15)</code></p>
+                            <p><code>308(120 - T<sub>f</sub>) = 6270(T<sub>f</sub> - 15)</code></p>
+                            <p><code>36,960 - 308T<sub>f</sub> = 6270T<sub>f</sub> - 94,050</code></p>
+                            <p><code>131,010 = 6578T<sub>f</sub></code></p>
+                            <p><code>T<sub>f</sub> = 19.9°C ≈ 20°C</code></p>
+                        </div>
+                        <div class="problem-explanation">
+                            <div class="explanation-label">Explanation</div>
+                            <p>Energy flows from the hot copper to the cold water until thermal equilibrium is reached. The final temperature is much closer to the initial water temperature because water has both greater mass AND greater specific heat capacity, giving it much larger thermal inertia. The copper's relatively small heat capacity means it cools substantially while causing only a small temperature rise in the water.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-header" onclick="toggleProblem(this)">
+                        <span class="problem-number">Problem 2</span>
+                        <span class="problem-question">An ice cube of mass 45 g at 0°C is placed in 200 g of water at 25°C. Does all the ice melt? What is the final temperature?</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-content">
+                        <div class="problem-solution">
+                            <div class="solution-label">Solution</div>
+                            <p>(a) Energy required to melt all ice:<br>
+                            <code>Q₁ = mL<sub>f</sub> = 0.045 × 3.34 × 10⁵ = 15,030 J</code></p>
+
+                            <p>Energy available from water cooling to 0°C:<br>
+                            <code>Q₂ = mcΔT = 0.200 × 4180 × 25 = 20,900 J</code></p>
+
+                            <p>Since Q₂ > Q₁, sufficient energy exists to melt all the ice.</p>
+
+                            <p>(b) After melting, energy remaining:<br>
+                            <code>Q<sub>remaining</sub> = 20,900 - 15,030 = 5,870 J</code></p>
+
+                            <p>This heats the melted ice and original water:<br>
+                            <code>Q<sub>remaining</sub> = (m<sub>ice</sub> + m<sub>water</sub>)cΔT</code><br>
+                            <code>5,870 = (0.045 + 0.200) × 4180 × ΔT</code><br>
+                            <code>ΔT = 5,870 / (0.245 × 4180) = 5.73 K</code></p>
+
+                            <p>Final temperature: <code>T<sub>f</sub> = 0 + 5.73 = 5.7°C</code></p>
+                        </div>
+                        <div class="problem-explanation">
+                            <div class="explanation-label">Explanation</div>
+                            <p>This problem requires checking whether complete phase change occurs before calculating final temperature. We first determine if enough energy exists to complete the phase change. Since it does, we use the remaining energy to find the temperature rise. If insufficient energy existed, some ice would remain at 0°C, and the final temperature would be 0°C with a mixture of ice and water.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-header" onclick="toggleProblem(this)">
+                        <span class="problem-number">Problem 3</span>
+                        <span class="problem-question">A double-glazed window consists of two 4.0 mm glass panes (k = 0.80 W m⁻¹ K⁻¹) separated by 12 mm air gap (k = 0.024 W m⁻¹ K⁻¹). Window area 1.2 m². Temperature difference 18 K. Calculate thermal resistance and heat flow rate.</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-content">
+                        <div class="problem-solution">
+                            <div class="solution-label">Solution</div>
+                            <p>(a) Thermal resistances in series add:</p>
+
+                            <p><code>R₁ = d₁/(k₁A) = 0.004/(0.80 × 1.2) = 0.00417 K W⁻¹</code></p>
+
+                            <p><code>R<sub>air</sub> = d<sub>air</sub>/(k<sub>air</sub>A) = 0.012/(0.024 × 1.2) = 0.417 K W⁻¹</code></p>
+
+                            <p><code>R₂ = d₂/(k₂A) = 0.004/(0.80 × 1.2) = 0.00417 K W⁻¹</code></p>
+
+                            <p><code>R<sub>total</sub> = R₁ + R<sub>air</sub> + R₂ = 0.00417 + 0.417 + 0.00417 = 0.425 K W⁻¹</code></p>
+
+                            <p>(b) Heat flow rate:<br>
+                            <code>Q/t = ΔT/R<sub>total</sub> = 18/0.425 = 42.4 W</code></p>
+                        </div>
+                        <div class="problem-explanation">
+                            <div class="explanation-label">Explanation</div>
+                            <p>The air gap dominates the thermal resistance (98% of total) despite being three times thicker than the combined glass thickness. This demonstrates why air is an excellent insulator when trapped (preventing convection). A single 8 mm glass pane would have R = 0.00833 K W⁻¹, giving Q/t = 2,590 W—about 61 times greater heat loss! The double-glazing with air gap dramatically improves insulation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-header" onclick="toggleProblem(this)">
+                        <span class="problem-number">Problem 4</span>
+                        <span class="problem-question">The Sun has radius 6.96 × 10⁸ m and surface temperature 5800 K. Assuming black body emission, calculate total power radiated and intensity at Earth's distance (1.50 × 10¹¹ m).</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-content">
+                        <div class="problem-solution">
+                            <div class="solution-label">Solution</div>
+                            <p>(a) Surface area of Sun:<br>
+                            <code>A = 4πr² = 4π(6.96 × 10⁸)² = 6.09 × 10¹⁸ m²</code></p>
+
+                            <p>Power radiated:<br>
+                            <code>P = σAT⁴ = 5.67 × 10⁻⁸ × 6.09 × 10¹⁸ × (5800)⁴</code><br>
+                            <code>= 5.67 × 10⁻⁸ × 6.09 × 10¹⁸ × 1.13 × 10¹⁵</code><br>
+                            <code>= 3.90 × 10²⁶ W</code></p>
+
+                            <p>(b) This power spreads over sphere of radius r<sub>Earth</sub>:<br>
+                            <code>Area at Earth = 4πr²<sub>Earth</sub> = 4π(1.50 × 10¹¹)² = 2.83 × 10²³ m²</code></p>
+
+                            <p>Intensity at Earth:<br>
+                            <code>I = P/A<sub>Earth</sub> = 3.90 × 10²⁶ / 2.83 × 10²³ = 1380 W m⁻²</code></p>
+                        </div>
+                        <div class="problem-explanation">
+                            <div class="explanation-label">Explanation</div>
+                            <p>The Sun radiates enormous power (equivalent to ~4 × 10⁹ billion 1 GW power plants!). By the time this radiation reaches Earth, it's spread over an enormous spherical area, reducing intensity to ~1380 W m⁻² (the solar constant). This inverse-square law dilution is why solar radiation intensity decreases with distance.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Real-World Applications -->
+            <section class="content-section">
+                <h2>Real-World Applications</h2>
+
+                <h3>Climate and Ocean Thermal Inertia</h3>
+                <p>Water's high specific heat capacity makes oceans massive thermal reservoirs. They absorb enormous energy with small temperature changes, moderating coastal climates. This is why coastal regions have smaller temperature variations than inland areas.</p>
+
+                <h3>Building Insulation</h3>
+                <p>Effective insulation uses materials with low thermal conductivity (fiberglass, foam) and traps air, which has very low conductivity. Double-glazed windows reduce conduction through glass and convection in the air gap. Low-emissivity coatings reduce radiative heat transfer.</p>
+
+                <h3>Thermal Management in Electronics</h3>
+                <p>Modern processors dissipate 100+ watts in small areas. Heat is conducted to metal heat sinks, which have large surface areas and fins to maximize convection. Fans force air flow for enhanced convection. High-performance systems use liquid cooling for greater heat capacity and thermal conductivity.</p>
+
+                <h3>Space Exploration</h3>
+                <p>In space's vacuum, convection is impossible. Spacecraft use radiators to emit thermal radiation into space. Thermal blankets with low emissivity minimize radiation loss. The James Webb Space Telescope uses a multi-layer sunshield to maintain instruments at ~40 K while the sunlit side reaches ~380 K.</p>
+            </section>
+
+            <!-- Common Misconceptions -->
+            <section class="content-section">
+                <h2>Common Misconceptions</h2>
+
+                <h3>Misconception 1: Heat and Temperature Are the Same</h3>
+                <p><strong>Reality</strong>: Heat (thermal energy, Q) is energy transferred between systems. Temperature is a measure of average molecular kinetic energy. A large cold object can contain more thermal energy than a small hot object.</p>
+
+                <h3>Misconception 2: Cold Is a Substance That Flows</h3>
+                <p><strong>Reality</strong>: There is no "cold" substance. Heat flows from hot to cold regions. When you touch something cold, heat flows OUT of your hand, not "cold" INTO your hand.</p>
+
+                <h3>Misconception 3: Metals Are Colder Than Wood at Room Temperature</h3>
+                <p><strong>Reality</strong>: At thermal equilibrium, they're the same temperature. Metals feel colder because high thermal conductivity means they conduct heat away from your hand rapidly, while wood's low conductivity means slower heat loss.</p>
+
+                <h3>Misconception 4: Boiling Water Is Always at 100°C</h3>
+                <p><strong>Reality</strong>: 100°C is water's boiling point at standard atmospheric pressure (101.3 kPa). At higher altitudes (lower pressure), water boils at lower temperatures. At higher pressures (pressure cookers), it boils above 100°C.</p>
+            </section>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">Learning Objectives</h3>
+                <ul class="objectives-list">
+                    <li>Explain the molecular model of solids, liquids, and gases</li>
+                    <li>Define internal energy and relate temperature to kinetic energy</li>
+                    <li>Apply Q = mcΔT to solve heat capacity problems</li>
+                    <li>Apply Q = mL for phase change calculations</li>
+                    <li>Describe thermal conduction mechanisms</li>
+                    <li>Apply conduction equation to calculate heat flow</li>
+                    <li>Explain natural and forced convection</li>
+                    <li>Apply Stefan-Boltzmann law for radiation</li>
+                    <li>Compare three heat transfer mechanisms</li>
+                    <li>Solve multi-stage thermal energy problems</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">Exam Tips</h3>
+                <div class="exam-tips-list">
+                    <div class="exam-tip">Always convert temperatures to Kelvin when using the Stefan-Boltzmann law. For specific heat capacity, Kelvin and Celsius give the same ΔT.</div>
+                    <div class="exam-tip">When solving thermal equilibrium problems, set up energy conservation carefully: energy LOST by hot objects equals energy GAINED by cold objects.</div>
+                    <div class="exam-tip">In multi-stage problems, work systematically through each stage. Draw a heating curve sketch to identify all stages.</div>
+                    <div class="exam-tip">State assumptions explicitly when solving problems, such as "Assuming no heat loss to surroundings."</div>
+                    <div class="exam-tip">Distinguish clearly between heat (energy transfer), internal energy (total microscopic energy), and temperature (average kinetic energy).</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="alert('Chatbot feature - Connect to your learning assistant!')" title="Ask a question">💬</button>
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="lesson-footer">
+        <div class="footer-content">
+            <button class="nav-button prev" onclick="alert('Navigate to previous lesson')">← Previous Lesson</button>
+            <div style="text-align: center;">
+                <div style="font-size: 0.875rem; color: var(--text-light); margin-bottom: 0.5rem;">Topic B1</div>
+                <div style="font-weight: 600;">Thermal Energy Transfers</div>
+            </div>
+            <button class="nav-button next" onclick="alert('Navigate to next lesson')">Next Lesson →</button>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Tracking
+        function updateProgress() {
+            const mainContent = document.querySelector('.main-content');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = mainContent.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+
+            const progress = Math.min(Math.max(scrollPercent, 0), 100);
+            progressFill.style.width = progress + '%';
+            progressText.textContent = Math.round(progress) + '%';
+        }
+
+        window.addEventListener('scroll', updateProgress);
+        window.addEventListener('resize', updateProgress);
+
+        // Initialize progress on load
+        updateProgress();
+
+        // Toggle Practice Problem Solutions
+        function toggleProblem(header) {
+            header.classList.toggle('active');
+            const content = header.nextElementSibling;
+            content.classList.toggle('active');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Track section reading
+        const sections = document.querySelectorAll('.content-section');
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    console.log('Reading section:', entry.target.querySelector('h2')?.textContent);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => sectionObserver.observe(section));
+    </script>
+</body>
+</html>

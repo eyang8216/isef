@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C1: Enzymes and Metabolism | IB Biology HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+        }
+
+        .nav-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .progress-container {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-bar-container {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-header h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .objective-item {
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-left: 3px solid #667eea;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .content-section strong {
+            color: #764ba2;
+        }
+
+        .content-section ul, .content-section ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #333;
+        }
+
+        .definitions-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .practice-problem {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .problem-number {
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .problem-question {
+            flex: 1;
+            margin-left: 1rem;
+            font-weight: 500;
+        }
+
+        .solution-toggle {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .solution-toggle:hover {
+            background: #5a3a7a;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #764ba2;
+        }
+
+        .solution-content.show {
+            display: block;
+        }
+
+        .solution-label {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 0.5rem;
+        }
+
+        .exam-tips {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .exam-tips h2 {
+            color: #d63031;
+            margin-bottom: 1rem;
+        }
+
+        .tip-item {
+            background: white;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            border-radius: 5px;
+            border-left: 4px solid #d63031;
+        }
+
+        .lesson-navigation {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        footer {
+            background: #2d3436;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .navbar-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .objectives-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lesson-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-button {
+                width: 100%;
+            }
+        }
+
+        .mark-complete-btn {
+            background: #00b894;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .mark-complete-btn:hover {
+            background: #00a383;
+        }
+
+        .mark-complete-btn.completed {
+            background: #636e72;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>IB Biology HL - C1: Enzymes and Metabolism</h1>
+            <span class="nav-badge">Higher Level</span>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="progress-text">Progress: <span id="progressText">0%</span></p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h2>Learning Objectives</h2>
+            <div class="objectives-grid">
+                <div class="objective-item">Understand that metabolism is the web of all enzyme-catalyzed reactions in a cell or organism</div>
+                <div class="objective-item">Explain the relationship between enzyme structure and function, including the role of the active site</div>
+                <div class="objective-item">Describe the induced fit model of enzyme-substrate interaction</div>
+                <div class="objective-item">Analyze the effect of temperature, pH, and substrate concentration on enzyme activity</div>
+                <div class="objective-item">Calculate and interpret initial rates of enzyme-catalyzed reactions from experimental data</div>
+                <div class="objective-item">Explain competitive and non-competitive inhibition and their effects on enzyme kinetics</div>
+                <div class="objective-item">Understand allosteric regulation and end-product inhibition in metabolic pathways</div>
+                <div class="objective-item">Apply the Michaelis-Menten equation to enzyme kinetics (HL extension)</div>
+                <div class="objective-item">Explain the significance of Km and Vmax values in characterizing enzyme behavior</div>
+                <div class="objective-item">Describe how metabolic pathways are regulated through feedback mechanisms</div>
+                <div class="objective-item">Understand the difference between anabolic and catabolic pathways</div>
+                <div class="objective-item">Apply knowledge of enzymes to real-world contexts including medicine and biotechnology</div>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content-section">
+            <h2>Introduction: What is Metabolism?</h2>
+            <p>Metabolism represents the sum total of all chemical reactions occurring within a living organism. These reactions are organized into interconnected pathways that allow cells to extract energy from nutrients, synthesize complex molecules, and maintain homeostasis.</p>
+
+            <h3>The Two Faces of Metabolism:</h3>
+            <p>Metabolism consists of two complementary types of pathways:</p>
+            <ol>
+                <li><strong>Catabolic pathways</strong> break down complex molecules into simpler ones, releasing energy. Examples include cellular respiration (glucose → CO₂ + H₂O) and the digestion of proteins into amino acids. These reactions are typically exergonic (ΔG < 0), meaning they release free energy.</li>
+                <li><strong>Anabolic pathways</strong> build complex molecules from simpler precursors, requiring energy input. Examples include protein synthesis, photosynthesis, and DNA replication. These reactions are endergonic (ΔG > 0) and are driven by coupling to energy-releasing reactions.</li>
+            </ol>
+
+            <h3>Why Enzymes are Essential:</h3>
+            <p>While many metabolic reactions are thermodynamically favorable (negative ΔG), they proceed extremely slowly without catalysts because of high activation energy barriers. At physiological temperatures (~37°C in humans), most biochemical reactions would take hours, days, or even years without enzymes. Enzymes solve this problem by lowering the activation energy (Ea), allowing reactions to proceed at biologically useful rates—often increasing reaction rates by factors of 10⁶ to 10¹⁷.</p>
+
+            <p><strong>Key Principle:</strong> Enzymes are biological catalysts that speed up metabolic reactions without being consumed in the process. They do NOT change the equilibrium position or ΔG of a reaction—they only affect the rate at which equilibrium is reached.</p>
+
+            <p><strong>Prerequisite Knowledge:</strong> This topic builds on your understanding of protein structure (Topic C3), chemical bonding and thermodynamics (Chemistry), and cell structure (Topic A2).</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Enzyme Structure and the Active Site</h2>
+            <h3>Enzymes are Proteins (Mostly):</h3>
+            <p>Most enzymes are globular proteins with complex three-dimensional structures. Their catalytic function depends critically on this 3D structure, which is determined by the amino acid sequence (primary structure) and subsequent folding. A small number of enzymes are RNA molecules called ribozymes (discovered in the 1980s, earning Cech and Altman the 1989 Nobel Prize).</p>
+
+            <h3>The Active Site:</h3>
+            <p>The active site is a specific region of the enzyme, typically a pocket or groove on the surface, where substrate binding and catalysis occur. Key features include:</p>
+            <ul>
+                <li><strong>Small relative to enzyme size:</strong> Active sites typically involve only 3-12 amino acid residues, even though the enzyme may contain hundreds of amino acids.</li>
+                <li><strong>Three-dimensional complementarity:</strong> The active site has a specific 3D shape that is complementary to the substrate.</li>
+                <li><strong>Microenvironment:</strong> The active site creates a unique chemical environment (hydrophobic, charged, etc.) that facilitates the reaction.</li>
+                <li><strong>Catalytic residues:</strong> Specific amino acid side chains participate directly in catalysis through acid-base chemistry, covalent interactions, or stabilization of transition states.</li>
+            </ul>
+
+            <h3>Enzyme Specificity:</h3>
+            <p>Enzymes show remarkable specificity for their substrates, explained by several factors:</p>
+            <ol>
+                <li><strong>Substrate specificity:</strong> Most enzymes catalyze only one reaction or a small set of closely related reactions. For example, urease catalyzes only the hydrolysis of urea, not other similar compounds.</li>
+                <li><strong>Stereochemical specificity:</strong> Enzymes can distinguish between stereoisomers. For instance, L-amino acid oxidase acts only on L-amino acids, not D-amino acids.</li>
+            </ol>
+            <p>This specificity arises from the precise complementarity between the active site geometry and the substrate structure, often described by the 'lock and key' analogy—though the induced fit model (see below) is more accurate.</p>
+
+            <h3>The Induced Fit Model:</h3>
+            <p>The induced fit model, proposed by Daniel Koshland in 1958, refined our understanding of enzyme-substrate interaction:</p>
+            <ol>
+                <li>The substrate approaches and loosely binds to the enzyme.</li>
+                <li>This binding induces a conformational change in the enzyme structure.</li>
+                <li>The active site molds around the substrate, achieving optimal complementarity.</li>
+                <li>The enzyme strains the substrate, stabilizing the transition state.</li>
+                <li>After catalysis, products are released and the enzyme returns to its original conformation.</li>
+            </ol>
+
+            <p>This model explains several observations better than the rigid 'lock and key' model:</p>
+            <ul>
+                <li>Why some enzymes bind substrates that are not perfect structural matches</li>
+                <li>How enzymes achieve transition state stabilization</li>
+                <li>Why competitive inhibitors that resemble the substrate can bind but not react</li>
+            </ul>
+
+            <h3>How Enzymes Lower Activation Energy:</h3>
+            <p>Enzymes employ multiple strategies:</p>
+            <ol>
+                <li><strong>Proximity and orientation:</strong> Bringing reactants together in the correct orientation</li>
+                <li><strong>Transition state stabilization:</strong> Preferentially binding and stabilizing the high-energy transition state</li>
+                <li><strong>Providing an alternative reaction pathway:</strong> Offering different mechanism with lower Ea</li>
+                <li><strong>Acid-base catalysis:</strong> Donating or accepting protons at critical steps</li>
+                <li><strong>Covalent catalysis:</strong> Forming transient covalent bonds with substrates</li>
+                <li><strong>Electrostatic catalysis:</strong> Using charged residues to stabilize intermediates</li>
+            </ol>
+        </div>
+
+        <div class="content-section">
+            <h2>Factors Affecting Enzyme Activity</h2>
+            <h3>1. Temperature:</h3>
+            <p>Temperature affects enzyme activity through two opposing processes:</p>
+
+            <p><strong>Increasing reaction rate:</strong> Higher temperatures increase molecular kinetic energy, leading to more frequent and energetic collisions between enzyme and substrate. This follows the Arrhenius equation, roughly doubling reaction rate for every 10°C increase (Q₁₀ ≈ 2).</p>
+
+            <p><strong>Denaturation:</strong> Beyond an optimal temperature, increased thermal energy disrupts the weak bonds (hydrogen bonds, ionic interactions, hydrophobic interactions) maintaining the enzyme's 3D structure. This causes the active site to lose its precise shape, drastically reducing activity.</p>
+
+            <p><strong>Typical pattern:</strong> Enzyme activity increases with temperature up to an optimum (often 35-40°C for human enzymes, but can be 80-100°C for thermophilic bacteria), then drops sharply as denaturation dominates.</p>
+
+            <p><strong>IB Exam Context:</strong> You may be asked to interpret graphs showing enzyme activity vs. temperature, explaining the curve shape in terms of kinetic energy and denaturation. Note that the 'optimum' temperature depends on the duration of exposure—brief exposure may not show denaturation effects seen over longer periods.</p>
+
+            <h3>2. pH:</h3>
+            <p>Enzymes have an optimal pH at which they show maximum activity. pH affects enzymes through:</p>
+
+            <p><strong>Ionization of active site residues:</strong> Amino acid side chains (especially Asp, Glu, His, Lys, Arg) can be protonated or deprotonated depending on pH. These ionization states affect:</p>
+            <ul>
+                <li>Substrate binding (through charge interactions)</li>
+                <li>Catalytic mechanism (many enzymes use acid-base catalysis)</li>
+                <li>Overall enzyme structure (charged residues form ionic bonds)</li>
+            </ul>
+
+            <p><strong>Extreme pH causing denaturation:</strong> Very high or low pH values can disrupt ionic bonds and hydrogen bonds throughout the protein, causing structural denaturation similar to temperature effects.</p>
+
+            <p><strong>Examples:</strong></p>
+            <ul>
+                <li>Pepsin (stomach protease): optimum pH ≈ 2 (acidic)</li>
+                <li>Trypsin (intestinal protease): optimum pH ≈ 8 (slightly alkaline)</li>
+                <li>Catalase (blood enzyme): optimum pH ≈ 7 (neutral)</li>
+            </ul>
+
+            <p><strong>Common Misconception:</strong> Students often confuse optimal pH with optimal temperature effects. Remember: pH primarily affects ionization states and charge interactions, while temperature affects molecular motion and bond stability.</p>
+
+            <h3>3. Substrate Concentration:</h3>
+            <p>This relationship reveals fundamental properties of enzyme kinetics:</p>
+
+            <p><strong>At low [S]:</strong> Enzyme active sites are often empty, waiting for substrate molecules. Reaction rate increases approximately linearly with [S] because more substrate means more enzyme-substrate complexes form.</p>
+
+            <p><strong>At intermediate [S]:</strong> The relationship becomes non-linear as enzymes begin to become saturated with substrate. The rate still increases but less steeply.</p>
+
+            <p><strong>At high [S]:</strong> The enzyme reaches maximum velocity (Vmax) and becomes saturated—all active sites are occupied at any given moment. Adding more substrate cannot increase rate because the limiting factor is now the enzyme concentration and the speed of the catalytic cycle.</p>
+
+            <p><strong>Mathematical description:</strong> This relationship is described by the Michaelis-Menten equation (see next section).</p>
+
+            <p><strong>The rate plateau at high substrate concentration is a defining characteristic of enzyme-catalyzed reactions</strong> and distinguishes them from simple chemical catalysis.</p>
+
+            <h3>4. Enzyme Concentration:</h3>
+            <p>When substrate is in excess (saturating conditions), reaction rate is directly proportional to enzyme concentration. Doubling [E] doubles the rate because there are twice as many active sites available to catalyze the reaction. This linear relationship continues as long as substrate remains in excess.</p>
+
+            <p><strong>Practical application:</strong> This principle is used in quantitative enzyme assays where enzyme concentration is unknown—measuring the rate allows calculation of enzyme amount.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Enzyme Kinetics: The Michaelis-Menten Equation (HL)</h2>
+            <h3>The Michaelis-Menten Model:</h3>
+            <p>In 1913, Leonor Michaelis and Maud Menten developed a mathematical model describing enzyme kinetics. The basic scheme is:</p>
+            <p style="text-align: center; font-size: 1.1rem; margin: 1.5rem 0;">E + S ⇌ ES → E + P</p>
+            <p>Where:</p>
+            <ul>
+                <li>E = free enzyme</li>
+                <li>S = substrate</li>
+                <li>ES = enzyme-substrate complex</li>
+                <li>P = product</li>
+                <li>k₁, k₋₁, k₂ = rate constants</li>
+            </ul>
+
+            <h3>The Michaelis-Menten Equation:</h3>
+            <p style="text-align: center; font-size: 1.2rem; background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1.5rem 0;">v₀ = (V<sub>max</sub>[S]) / (K<sub>m</sub> + [S])</p>
+
+            <p>Where:</p>
+            <ul>
+                <li>v₀ = initial reaction velocity</li>
+                <li>V<sub>max</sub> = maximum velocity when enzyme is saturated</li>
+                <li>[S] = substrate concentration</li>
+                <li>K<sub>m</sub> = Michaelis constant (substrate concentration at half-maximal velocity)</li>
+            </ul>
+
+            <h3>Understanding K<sub>m</sub>:</h3>
+            <p>The Michaelis constant has several important interpretations:</p>
+            <ol>
+                <li><strong>Operational definition:</strong> K<sub>m</sub> is the substrate concentration at which v₀ = ½V<sub>max</sub></li>
+                <li><strong>Biochemical meaning:</strong> K<sub>m</sub> reflects the affinity between enzyme and substrate:
+                    <ul>
+                        <li>Low K<sub>m</sub> → high affinity (enzyme binds substrate tightly)</li>
+                        <li>High K<sub>m</sub> → low affinity (enzyme binds substrate weakly)</li>
+                    </ul>
+                </li>
+                <li><strong>Physiological significance:</strong> K<sub>m</sub> values typically range from 10⁻¹ to 10⁻⁷ M. Enzymes often have K<sub>m</sub> values close to the physiological concentration of their substrates, allowing sensitive regulation.</li>
+            </ol>
+
+            <h3>Understanding V<sub>max</sub>:</h3>
+            <p>V<sub>max</sub> represents the theoretical maximum rate when all enzyme molecules are bound to substrate:</p>
+            <p style="text-align: center; margin: 1rem 0;">V<sub>max</sub> = k<sub>cat</sub>[E]<sub>total</sub></p>
+            <p>Where k<sub>cat</sub> (the turnover number) is the number of substrate molecules converted to product per enzyme molecule per second. For efficient enzymes, k<sub>cat</sub> can be 10³-10⁷ s⁻¹.</p>
+
+            <h3>Catalytic Efficiency:</h3>
+            <p>The ratio k<sub>cat</sub>/K<sub>m</sub> measures catalytic efficiency—how effectively an enzyme converts substrate to product at low substrate concentrations. Some enzymes (like catalase, carbonic anhydrase) approach the diffusion limit (~10⁸-10¹⁰ M⁻¹s⁻¹), meaning they catalyze reactions nearly every time they encounter a substrate molecule.</p>
+
+            <h3>Determining K<sub>m</sub> and V<sub>max</sub> Experimentally:</h3>
+            <p><strong>Method 1: Nonlinear curve fitting</strong> - Plot v₀ vs [S] directly and fit to the Michaelis-Menten equation using computer software.</p>
+
+            <p><strong>Method 2: Lineweaver-Burk plot</strong> - Take the reciprocal of the Michaelis-Menten equation:</p>
+            <p style="text-align: center; font-size: 1.1rem; background: #f0f0f0; padding: 1rem; border-radius: 5px; margin: 1rem 0;">1/v₀ = (K<sub>m</sub>/V<sub>max</sub>) × (1/[S]) + 1/V<sub>max</sub></p>
+
+            <p>This is a straight line with:</p>
+            <ul>
+                <li>Slope = K<sub>m</sub>/V<sub>max</sub></li>
+                <li>y-intercept = 1/V<sub>max</sub></li>
+                <li>x-intercept = -1/K<sub>m</sub></li>
+            </ul>
+
+            <p>Plotting 1/v₀ vs 1/[S] (called a double reciprocal plot) yields a straight line from which K<sub>m</sub> and V<sub>max</sub> can be determined.</p>
+
+            <p><strong>IB Exam Skill:</strong> You should be able to calculate initial rates from experimental data (concentration vs. time), plot Michaelis-Menten or Lineweaver-Burk graphs, and extract kinetic parameters. Practice calculating rates as Δ[P]/Δt over the initial linear portion of product formation curves.</p>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="content-section">
+            <h2>Practice Problems</h2>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">1</div>
+                    <div class="problem-question">An enzyme has a K<sub>m</sub> of 5.0 mM and a V<sub>max</sub> of 100 μmol min⁻¹. Calculate the initial reaction velocity when substrate concentration is (a) 2.0 mM, (b) 5.0 mM, and (c) 20 mM.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) v₀ = (100 × 2.0)/(5.0 + 2.0) = 200/7.0 = 28.6 μmol min⁻¹</p>
+                    <p>(b) v₀ = (100 × 5.0)/(5.0 + 5.0) = 500/10 = 50 μmol min⁻¹</p>
+                    <p>(c) v₀ = (100 × 20)/(5.0 + 20) = 2000/25 = 80 μmol min⁻¹</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>Using the Michaelis-Menten equation: v₀ = (V<sub>max</sub> × [S])/(K<sub>m</sub> + [S]). Note that at [S] = K<sub>m</sub>, velocity is exactly half of V<sub>max</sub> (50 μmol min⁻¹). At 4× K<sub>m</sub>, velocity reaches 80% of V<sub>max</sub>. Complete saturation requires [S] >> K<sub>m</sub> (typically 10-20× K<sub>m</sub>).</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">2</div>
+                    <div class="problem-question">A student investigated the effect of temperature on catalase activity by measuring oxygen production from hydrogen peroxide decomposition. At 20°C, 15 cm³ O₂ was produced in 60 seconds. At 30°C, 28 cm³ O₂ was produced in 60 seconds. At 50°C, 8 cm³ O₂ was produced in 60 seconds. Calculate the initial rates at each temperature and explain the pattern observed.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p>Rate at 20°C = 15/60 = 0.25 cm³ s⁻¹</p>
+                    <p>Rate at 30°C = 28/60 = 0.47 cm³ s⁻¹</p>
+                    <p>Rate at 50°C = 8/60 = 0.13 cm³ s⁻¹</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>The rate nearly doubles from 20°C to 30°C, consistent with Q₁₀ ≈ 2 (increased kinetic energy leads to more frequent enzyme-substrate collisions). However, at 50°C the rate drops significantly below even the 20°C rate. This indicates that denaturation dominates at 50°C—the high temperature disrupts the enzyme's 3D structure, distorting the active site and reducing activity. The optimal temperature for this catalase appears to be between 30-40°C. This is typical for human enzymes since body temperature is ~37°C.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">3</div>
+                    <div class="problem-question">Distinguish between competitive and non-competitive inhibition in terms of: (i) binding site, (ii) effect on K<sub>m</sub>, (iii) effect on V<sub>max</sub>, and (iv) whether high substrate concentration can overcome the inhibition.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p>(i) Binding site: Competitive—binds to active site; Non-competitive—binds to allosteric site</p>
+                    <p>(ii) Effect on K<sub>m</sub>: Competitive—increases K<sub>m</sub> (apparent decrease in affinity); Non-competitive—no change in K<sub>m</sub></p>
+                    <p>(iii) Effect on V<sub>max</sub>: Competitive—no change in V<sub>max</sub>; Non-competitive—decreases V<sub>max</sub></p>
+                    <p>(iv) Overcoming inhibition: Competitive—yes, high [S] can overcome; Non-competitive—no, cannot be overcome by increasing [S]</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>Competitive inhibitors compete with substrate for the same binding site, so adding more substrate can outcompete the inhibitor (V<sub>max</sub> unchanged). The apparent K<sub>m</sub> increases because more substrate is needed to reach half-maximal velocity in the presence of inhibitor. Non-competitive inhibitors bind elsewhere and don't compete with substrate—they can bind whether substrate is present or not. This causes a conformational change that reduces catalytic efficiency regardless of substrate concentration, so V<sub>max</sub> decreases but K<sub>m</sub> (a measure of binding affinity) remains unchanged.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">4</div>
+                    <div class="problem-question">Explain how feedback inhibition regulates the synthesis of isoleucine from threonine in bacteria, and discuss why this mechanism is efficient for the cell.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Explanation:</div>
+                    <p>In bacterial cells, isoleucine is synthesized from threonine through a five-step pathway. The first enzyme, threonine deaminase, is allosterically inhibited by isoleucine (the end product). When isoleucine levels are sufficient, it binds to the allosteric site on threonine deaminase, causing a conformational change that reduces the enzyme's activity. This slows or stops the pathway. When isoleucine is consumed and levels drop, the inhibition is released and synthesis resumes.</p>
+                    <p>This mechanism is efficient because: (1) It prevents wasteful overproduction of isoleucine. (2) It conserves threonine and ATP. (3) It responds quickly to cellular needs. (4) By inhibiting the first committed step, it prevents accumulation of unnecessary intermediates. (5) It's reversible—synthesis can resume immediately when needed. This illustrates the principle of homeostasis at the metabolic level.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">5</div>
+                    <div class="problem-question">A research team is developing a new drug to lower cholesterol by inhibiting HMG-CoA reductase, the rate-limiting enzyme in cholesterol synthesis. The drug is designed to structurally resemble HMG-CoA (the substrate). (a) What type of inhibition is this likely to be? (b) How would you test experimentally whether it is competitive or non-competitive? (c) What would be an advantage of competitive over non-competitive inhibition for a drug?</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) Competitive inhibition (the drug resembles the substrate and likely binds to the active site)</p>
+                    <p>(b) Perform enzyme assays with varying substrate concentrations, with and without inhibitor. Plot Lineweaver-Burk plots. If lines intersect on y-axis (same V<sub>max</sub>, different K<sub>m</sub>), it's competitive. If they intersect on x-axis (different V<sub>max</sub>, same K<sub>m</sub>), it's non-competitive.</p>
+                    <div class="solution-label">Explanation for (c):</div>
+                    <p>Competitive inhibition can be partially overcome by increasing substrate (HMG-CoA) concentration, which provides a natural safety mechanism. If HMG-CoA levels rise (perhaps during high cholesterol synthesis demand), some enzyme activity will be preserved. Non-competitive inhibition would completely block the enzyme regardless of substrate levels, potentially causing dangerous cholesterol deficiency. Additionally, competitive inhibitors binding at the active site may be more specific to the target enzyme (since active sites are unique), whereas non-competitive inhibitors binding to allosteric sites might affect other enzymes with similar regulatory sites, causing side effects.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">6</div>
+                    <div class="problem-question">The graph below shows product formation over time for an enzyme-catalyzed reaction at three different substrate concentrations: 2 mM, 10 mM, and 50 mM. All curves eventually plateau. (a) Explain why product formation rate decreases over time. (b) Why do all three curves eventually reach different plateau heights? (c) How would you determine the initial rate (v₀) for each concentration from the graph?</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) As substrate is consumed, [S] decreases, leading to fewer enzyme-substrate collisions and lower rate. Additionally, product accumulation can cause product inhibition. Eventually substrate becomes limiting.</p>
+                    <p>(b) The different plateau heights reflect different initial substrate amounts. The 50 mM curve plateaus highest because there was more substrate to convert. All available substrate is eventually converted to product (assuming irreversible reaction).</p>
+                    <p>(c) Draw a tangent to each curve at t=0 (the steepest part). The gradient (slope) of this tangent = Δ[product]/Δtime = v₀.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This question tests understanding of enzyme kinetics in a practical experimental context. The key insight is that initial rate (v₀) must be measured when [S] is essentially unchanged from the starting concentration—this is why we measure the steepest slope at the very beginning. As the reaction proceeds, substrate depletion and product accumulation cause the rate to slow (the curve becomes less steep), eventually reaching zero when all substrate is consumed or equilibrium is reached. In IB exams, you must be able to calculate rates from such graphs by drawing tangent lines and calculating gradients with proper units.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">7</div>
+                    <div class="problem-question">Lactase enzyme supplements are available for lactose-intolerant individuals. The optimal pH for human lactase is about 6.0. Explain why: (a) lactase supplements work best when taken with milk, (b) the enzyme would not work well in the stomach (pH ~2), and (c) some supplements are enteric-coated (coating dissolves only in intestine, pH ~8).</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) Taking lactase with milk ensures the enzyme is present when lactose enters the small intestine, allowing simultaneous digestion.</p>
+                    <p>(b) Stomach pH (~2) is far below optimal pH (6.0), causing active site amino acids to be incorrectly protonated and potentially denaturing the enzyme structure.</p>
+                    <p>(c) Enteric coating protects lactase from stomach acid denaturation, allowing it to reach the small intestine (pH 7-8) intact. While pH 8 is slightly above optimal, the enzyme retains substantial activity.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This application question integrates enzyme properties (pH optimum) with digestive physiology. Lactase naturally functions in the small intestine where pH is near neutral to slightly alkaline. In the highly acidic stomach, protonation of acidic amino acids (Asp, Glu) and deprotonation of basic amino acids (Lys, Arg, His) disrupts the charge interactions maintaining the active site structure. Even if the enzyme is not permanently denatured, its activity would be severely reduced. Enteric coating is an example of pharmaceutical technology that accounts for enzyme properties.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">8</div>
+                    <div class="problem-question">An experiment measured the initial rate of an enzyme-catalyzed reaction at different substrate concentrations: [S]=1 mM, v₀=20 μmol/min; [S]=2 mM, v₀=33 μmol/min; [S]=5 mM, v₀=56 μmol/min; [S]=10 mM, v₀=67 μmol/min; [S]=20 mM, v₀=74 μmol/min. (a) Estimate V<sub>max</sub> and K<sub>m</sub> from this data. (b) At what substrate concentration would the reaction proceed at 60 μmol/min?</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) V<sub>max</sub> ≈ 80 μmol/min (extrapolate the plateau from high [S] values). At K<sub>m</sub>, v₀ = V<sub>max</sub>/2 = 40 μmol/min. From the data, v₀ reaches 40 μmol/min between 2 and 5 mM, estimate K<sub>m</sub> ≈ 3 mM.</p>
+                    <p>(b) Using v₀ = (V<sub>max</sub> × [S])/(K<sub>m</sub> + [S]): 60 = (80 × [S])/(3 + [S]); 60(3 + [S]) = 80[S]; 180 + 60[S] = 80[S]; 180 = 20[S]; [S] = 9 mM.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>Part (a) requires recognizing that as [S] increases, v₀ approaches but never quite reaches V<sub>max</sub>. The rate is increasing more slowly at high [S] (67 to 74 when [S] doubles from 10 to 20 mM), indicating near-saturation. A reasonable extrapolation gives V<sub>max</sub> ≈ 80 μmol/min. Half of this is 40 μmol/min, which occurs around 3 mM substrate concentration (K<sub>m</sub>). Part (b) requires algebraic manipulation of the Michaelis-Menten equation—a key HL skill.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">9</div>
+                    <div class="problem-question">Discuss how enzyme evolution has allowed organisms to adapt to extreme environments, using specific examples. [8 marks]</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Model Answer Structure:</div>
+                    <p><strong>Introduction:</strong> Enzymes must maintain structure and function under environmental conditions. Extremophiles have evolved modified enzymes to suit their habitats.</p>
+                    <p><strong>Paragraph 1—Thermophiles:</strong> Organisms in hot springs (Thermus aquaticus) and deep-sea vents produce thermostable enzymes active at 80-100°C. These enzymes have: more ionic bonds between charged amino acids; more disulfide bridges (covalent bonds); fewer flexible surface loops; more compact hydrophobic cores. Example: Taq polymerase from T. aquaticus is stable at 95°C, making it ideal for PCR (polymerase chain reaction) which requires repeated heating cycles.</p>
+                    <p><strong>Paragraph 2—Psychrophiles:</strong> Cold-adapted organisms (Antarctic fish, bacteria) produce enzymes that remain flexible at near-freezing temperatures. These have: fewer ionic bonds; more flexible regions; modified active sites with altered substrate affinity. This maintains sufficient molecular motion for catalysis at low temperatures.</p>
+                    <p><strong>Paragraph 3—Halophiles and pH extremophiles:</strong> Salt-loving organisms have enzymes with acidic amino acid surfaces that remain hydrated in high salt. Acidophiles (gastric bacteria) have enzymes functioning at pH 2-3, while alkaliphiles thrive at pH 10-11.</p>
+                    <p><strong>Conclusion:</strong> These adaptations demonstrate natural selection at the molecular level. Understanding extremozymes has biotechnology applications (industrial processes, drug stability, synthetic biology).</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">
+                    <div class="problem-number">10</div>
+                    <div class="problem-question">A student hypothesizes that temperature affects enzyme activity by changing the shape of the active site. Design an experiment to test this hypothesis, including independent/dependent/controlled variables, method, safety considerations, and how results would support or refute the hypothesis.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                </div>
+                <div class="solution-content">
+                    <div class="solution-label">Experimental Design:</div>
+                    <p><strong>Research Question:</strong> How does temperature affect the rate of catalase-catalyzed decomposition of hydrogen peroxide?</p>
+                    <p><strong>Hypothesis:</strong> Increasing temperature will increase enzyme activity up to an optimum, beyond which activity decreases due to denaturation (active site shape change).</p>
+                    <p><strong>Variables:</strong></p>
+                    <ul>
+                        <li>Independent: Temperature (0, 20, 30, 40, 50, 60°C)</li>
+                        <li>Dependent: Rate of oxygen production (cm³ min⁻¹)</li>
+                        <li>Controlled: H₂O₂ concentration (3%), catalase concentration (0.5% potato extract), volume of each (10 cm³), pH (buffer at pH 7), reaction time measured (60s)</li>
+                    </ul>
+                    <p><strong>Method:</strong></p>
+                    <ol>
+                        <li>Prepare water baths at each temperature (±1°C).</li>
+                        <li>Place test tube with 10 cm³ 3% H₂O₂ in water bath for 5 min to equilibrate.</li>
+                        <li>Add 10 cm³ catalase solution, immediately invert and attach gas syringe.</li>
+                        <li>Measure O₂ volume every 10 seconds for 60 seconds.</li>
+                        <li>Calculate initial rate from gradient at t=0 on graph.</li>
+                        <li>Repeat three times per temperature for reliability.</li>
+                    </ol>
+                    <p><strong>Safety:</strong> Wear goggles (H₂O₂ irritant), avoid contact with hot water baths, work in ventilated area.</p>
+                    <p><strong>Expected Results:</strong> Rate increases from 0-40°C (Q₁₀ effect), peaks around 37-40°C (human enzyme optimum), then decreases sharply at 50-60°C (denaturation). This would support the hypothesis. If rate continued increasing indefinitely, hypothesis would be refuted.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="exam-tips">
+            <h2>Exam Tips</h2>
+            <div class="tip-item">For DBQs (data-based questions), always calculate initial rates from the steepest part of the curve (t=0) using tangent lines, not average rates over the entire reaction time</div>
+            <div class="tip-item">When describing graphs, use the pattern: describe shape → explain mechanism → relate to specific enzyme behavior. Don't just state observations without explanation</div>
+            <div class="tip-item">For Michaelis-Menten calculations, always show your working and include units. Remember that K<sub>m</sub> has concentration units (mM, μM) and V<sub>max</sub> has rate units (μmol/min, etc.)</div>
+            <div class="tip-item">Distinguish clearly between competitive and non-competitive inhibition: competitive affects K<sub>m</sub> only (can be overcome), non-competitive affects V<sub>max</sub> only (cannot be overcome)</div>
+            <div class="tip-item">When explaining enzyme denaturation, specify which bonds break (hydrogen bonds, ionic interactions) and the consequence (loss of 3D structure, active site shape change, loss of function)</div>
+            <div class="tip-item">For questions about optimal pH/temperature, explain both the increase phase (kinetic energy, ionization states) and decrease phase (denaturation)</div>
+            <div class="tip-item">Remember that enzymes speed up the rate but do NOT change: equilibrium position, ΔG (free energy change), or equilibrium constant</div>
+            <div class="tip-item">In extended response questions about metabolic regulation, use the structure: mechanism → advantage → specific example with enzyme names and pathway</div>
+            <div class="tip-item">Pay attention to command terms: 'Explain' requires mechanisms/reasons (most common, 6-8 marks), 'Describe' requires characteristics only (3-4 marks), 'Distinguish' requires differences</div>
+            <div class="tip-item">For Lineweaver-Burk plots, remember the intercepts: y-intercept = 1/V<sub>max</sub>, x-intercept = -1/K<sub>m</sub>. Competitive inhibition changes x-intercept (K<sub>m</sub>), non-competitive changes y-intercept (V<sub>max</sub>)</div>
+            <div class="tip-item">Always relate enzyme properties to biological advantage: specificity prevents unwanted reactions, regulation prevents waste, induced fit ensures transition state stabilization</div>
+            <div class="tip-item">When given enzyme data with/without inhibitor, first determine whether K<sub>m</sub> and/or V<sub>max</sub> changed, then classify inhibition type based on the pattern</div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <div class="lesson-navigation">
+            <button class="nav-button" onclick="previousLesson()">Previous Lesson</button>
+            <button class="mark-complete-btn" id="markCompleteBtn" onclick="toggleComplete()">Mark as Complete</button>
+            <button class="nav-button" onclick="nextLesson()">Next Lesson</button>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChatbot()" title="Ask a question">💬</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 IB Biology Study Platform | Created for IB Diploma Programme Students</p>
+    </footer>
+
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const sections = document.querySelectorAll('.content-section');
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const progress = Math.min((scrollPosition / documentHeight) * 100, 100);
+
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = Math.round(progress) + '%';
+        }
+
+        window.addEventListener('scroll', updateProgress);
+        window.addEventListener('load', updateProgress);
+
+        // Solution toggle functionality
+        function toggleSolution(button) {
+            const solution = button.parentElement.nextElementSibling;
+            solution.classList.toggle('show');
+            button.textContent = solution.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+        }
+
+        // Mark as complete
+        function toggleComplete() {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.classList.toggle('completed');
+            if (btn.classList.contains('completed')) {
+                btn.textContent = 'Completed ✓';
+                localStorage.setItem('biology_c1_complete', 'true');
+            } else {
+                btn.textContent = 'Mark as Complete';
+                localStorage.setItem('biology_c1_complete', 'false');
+            }
+        }
+
+        // Check completion status on load
+        window.addEventListener('load', function() {
+            if (localStorage.getItem('biology_c1_complete') === 'true') {
+                const btn = document.getElementById('markCompleteBtn');
+                btn.classList.add('completed');
+                btn.textContent = 'Completed ✓';
+            }
+        });
+
+        // Navigation functions
+        function previousLesson() {
+            alert('Navigate to previous lesson');
+            // Implement navigation logic
+        }
+
+        function nextLesson() {
+            alert('Navigate to next lesson');
+            // Implement navigation logic
+        }
+
+        function openChatbot() {
+            alert('Chatbot feature coming soon!');
+            // Implement chatbot logic
+        }
+    </script>
+</body>
+</html>

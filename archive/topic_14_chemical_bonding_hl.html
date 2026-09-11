@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 14: Chemical Bonding and Structure (HL) - IB Chemistry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        /* Headings */
+        h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin: 1.5rem 0 0.8rem 0;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #444;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .objectives-list li {
+            margin: 0.5rem 0;
+            padding-left: 0.5rem;
+        }
+
+        /* Practice Problems */
+        .practice-problem {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .practice-problem:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            border-color: #667eea;
+        }
+
+        .problem-header {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .problem-question {
+            color: #555;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .solution-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: transform 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        .solution-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .solution-content {
+            display: none;
+            background: #f8f9fa;
+            padding: 1.2rem;
+            margin-top: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .solution-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .solution-label {
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 0.5rem;
+        }
+
+        .explanation-label {
+            font-weight: bold;
+            color: #764ba2;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Exam Tips */
+        .exam-tip {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-left: 4px solid #e17055;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            bottom: 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .prev-button {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .prev-button:hover {
+            background: #d0d0d0;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .next-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            .navbar {
+                padding: 1rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Section marker for progress tracking */
+        .content-section {
+            scroll-margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>Topic 14: Chemical Bonding and Structure</h1>
+            <span class="nav-badge">Higher Level</span>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-wrapper">
+            <div class="progress-text">
+                <span>Lesson Progress</span>
+                <span id="progress-percentage">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Learning Objectives -->
+        <div class="content-card content-section" data-section="objectives">
+            <h2>Learning Objectives</h2>
+            <div class="objectives-list">
+                <ul>
+                    <li>14.1.1: Describe and explain resonance structures and the concept of resonance hybrids using curved arrow notation</li>
+                    <li>14.1.2: Calculate formal charges on atoms in molecules and ions to determine the most plausible Lewis structure</li>
+                    <li>14.1.3: Distinguish between sigma and pi bonds and explain their formation through orbital overlap</li>
+                    <li>14.1.4: Deduce the electron density distribution in molecules and explain the effects of delocalization</li>
+                    <li>14.2.1: Describe and explain sp³, sp², and sp hybridization in terms of the mixing of atomic orbitals</li>
+                    <li>14.2.2: Predict and explain molecular geometry using hybridization theory</li>
+                    <li>14.2.3: Relate bond angles and molecular shape to hybridization state</li>
+                    <li>14.2.4: Apply hybridization concepts to explain properties of organic molecules</li>
+                    <li>14.3.1: Describe the formation of molecular orbitals from atomic orbitals</li>
+                    <li>14.3.2: Apply molecular orbital theory to explain bonding in homonuclear diatomic molecules</li>
+                    <li>14.3.3: Deduce bond order using molecular orbital diagrams</li>
+                    <li>14.3.4: Explain magnetic properties using molecular orbital theory</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-card content-section" data-section="definitions">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Resonance</div>
+                <div class="definition-text">A phenomenon where a molecule cannot be adequately represented by a single Lewis structure, but rather by two or more contributing structures that differ only in electron position. The actual structure is a resonance hybrid.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Formal Charge</div>
+                <div class="definition-text">The theoretical charge on an atom calculated as: FC = V - N - B/2, where V = valence electrons, N = non-bonding electrons, B = bonding electrons.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Sigma Bond</div>
+                <div class="definition-text">A covalent bond formed by direct head-on overlap of atomic orbitals along the internuclear axis. Free rotation is possible around sigma bonds.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Pi Bond</div>
+                <div class="definition-text">A covalent bond formed by sideways overlap of parallel p orbitals above and below the internuclear axis. Restricts rotation.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Hybridization</div>
+                <div class="definition-text">The mixing of atomic orbitals to form new hybrid orbitals of equal energy, suitable for pairing electrons in covalent bond formation.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Delocalization</div>
+                <div class="definition-text">The spreading of electron density over multiple atoms rather than being confined between two atoms, providing extra stability.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Molecular Orbital</div>
+                <div class="definition-text">An orbital that extends over all atoms in a molecule, formed by the combination of atomic orbitals. Can be bonding, antibonding, or non-bonding.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Bond Order</div>
+                <div class="definition-text">A measure of bond strength calculated as: Bond Order = (bonding electrons - antibonding electrons)/2</div>
+            </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="content-card content-section" data-section="intro">
+            <h2>Introduction to Advanced Bonding Theory</h2>
+            <p>While SL chemistry introduces Lewis structures and VSEPR theory, these models have limitations. They cannot explain why benzene does not undergo typical alkene reactions, why oxygen is paramagnetic despite having no unpaired electrons in Lewis structures, or why carbon forms four equivalent bonds in methane despite having electrons in different orbitals.</p>
+
+            <p>Topic 14 extends your understanding through three powerful theories:</p>
+
+            <ol>
+                <li><strong>Resonance and Formal Charge</strong> - Refines Lewis theory for molecules with delocalized electrons</li>
+                <li><strong>Hybridization Theory</strong> - Explains molecular geometry through orbital mixing</li>
+                <li><strong>Molecular Orbital Theory</strong> - Provides the most complete quantum mechanical treatment of bonding</li>
+            </ol>
+
+            <p>These models build upon foundations from Topic 4 (SL bonding) and Topic 2 (atomic structure). Understanding electron configuration, orbital shapes, and basic bonding is essential before proceeding.</p>
+        </div>
+
+        <!-- 14.1 Further Aspects of Covalent Bonding -->
+        <div class="content-card content-section" data-section="14.1">
+            <h2>14.1 Further Aspects of Covalent Bonding</h2>
+
+            <h3>Resonance Structures and Resonance Hybrids</h3>
+            <p>Some molecules cannot be accurately represented by a single Lewis structure. Consider the nitrate ion, NO₃⁻. If we draw it with one N=O double bond and two N-O single bonds, we could place the double bond in three different positions. Experimental evidence shows all three N-O bonds are identical in length (124 pm) - intermediate between typical N=O (120 pm) and N-O (136 pm) bond lengths.</p>
+
+            <p><strong>Resonance structures</strong> are different Lewis structures for the same molecule that differ only in electron positions, not atom positions. The actual structure is a <strong>resonance hybrid</strong> - a weighted average of all contributing structures.</p>
+
+            <h3>Rules for Drawing Resonance Structures:</h3>
+            <ul>
+                <li>Only electrons move (use curved arrows to show electron movement)</li>
+                <li>Atom positions remain fixed</li>
+                <li>Total number of electrons stays constant</li>
+                <li>Octet rule must be satisfied (for main group elements)</li>
+                <li>Major contributors have: lower formal charges, negative charges on more electronegative atoms, and complete octets</li>
+            </ul>
+
+            <h3>Curved Arrow Notation:</h3>
+            <p>A curved arrow shows electron movement from the tail (where electrons start) to the head (where they go). A double-headed arrow means two electrons move; a single-headed arrow (used in radical chemistry) means one electron moves.</p>
+
+            <p><strong>Example:</strong> For carbonate ion CO₃²⁻:</p>
+            <ul>
+                <li>Draw one structure with C=O double bond to one oxygen</li>
+                <li>Use curved arrows to show pi electrons moving to form a lone pair on oxygen</li>
+                <li>Another lone pair from a different oxygen forms a new pi bond with carbon</li>
+                <li>Result: Three equivalent resonance structures</li>
+            </ul>
+
+            <h3>Delocalization Energy:</h3>
+            <p>Resonance-stabilized molecules are more stable than any single contributing structure would suggest. This extra stability is called resonance stabilization or delocalization energy. Benzene's resonance energy is approximately 150 kJ/mol, making it much less reactive than expected for a molecule with three C=C bonds.</p>
+        </div>
+
+        <!-- Formal Charge Calculations -->
+        <div class="content-card content-section" data-section="formal-charge">
+            <h2>Formal Charge Calculations</h2>
+            <p>Formal charge helps identify the most plausible Lewis structure when multiple arrangements are possible. It represents the charge an atom would have if electrons in bonds were shared equally.</p>
+
+            <p><strong>Formula:</strong> FC = V - N - B/2</p>
+
+            <p>Where:</p>
+            <ul>
+                <li>V = number of valence electrons in the neutral atom</li>
+                <li>N = number of non-bonding (lone pair) electrons</li>
+                <li>B = number of bonding electrons</li>
+            </ul>
+
+            <h3>Guidelines for Using Formal Charge:</h3>
+            <ol>
+                <li>The sum of formal charges equals the total charge on the species</li>
+                <li>Most plausible structure has smallest formal charges</li>
+                <li>Negative formal charges should be on most electronegative atoms</li>
+                <li>Structures with like charges on adjacent atoms are unfavorable</li>
+                <li>Structures with formal charges of zero or +1/-1 are preferred over +2/-2</li>
+            </ol>
+
+            <h3>Worked Example: Thiocyanate Ion (SCN⁻)</h3>
+            <p><strong>Possible structures:</strong></p>
+            <ul>
+                <li>Structure A: S=C=N⁻ (linear)</li>
+                <li>Structure B: S-C≡N (linear)</li>
+                <li>Structure C: ⁻S-C≡N (linear)</li>
+            </ul>
+
+            <p><strong>For Structure A (S=C=N⁻):</strong></p>
+            <ul>
+                <li>S: FC = 6 - 4 - 4/2 = 0</li>
+                <li>C: FC = 4 - 0 - 8/2 = 0</li>
+                <li>N: FC = 5 - 4 - 4/2 = -1</li>
+                <li>Sum = -1 (correct)</li>
+            </ul>
+
+            <p><strong>For Structure C (⁻S-C≡N):</strong></p>
+            <ul>
+                <li>S: FC = 6 - 6 - 2/2 = -1</li>
+                <li>C: FC = 4 - 0 - 8/2 = 0</li>
+                <li>N: FC = 5 - 2 - 6/2 = 0</li>
+                <li>Sum = -1 (correct)</li>
+            </ul>
+
+            <p>Structure A is more plausible because the negative charge is on nitrogen (more electronegative than sulfur). However, Structure C also contributes as a resonance structure.</p>
+
+            <p><strong>Common Misconception:</strong> Formal charge is NOT the actual charge on an atom. It is a bookkeeping tool. The actual electron distribution is determined by electronegativity and molecular geometry.</p>
+        </div>
+
+        <!-- Sigma and Pi Bonds -->
+        <div class="content-card content-section" data-section="sigma-pi">
+            <h2>Sigma and Pi Bonds</h2>
+            <p>Understanding bond types requires examining how atomic orbitals overlap.</p>
+
+            <h3>Sigma (σ) Bonds:</h3>
+            <ul>
+                <li>Formed by head-on overlap along the internuclear axis</li>
+                <li>Can form from: s-s, s-p, or p-p (end-to-end) overlap</li>
+                <li>Cylindrically symmetrical around bond axis</li>
+                <li>Allow free rotation</li>
+                <li>Stronger than pi bonds due to greater overlap</li>
+                <li>Every single bond is a sigma bond</li>
+                <li>Double and triple bonds have ONE sigma bond</li>
+            </ul>
+
+            <h3>Pi (π) Bonds:</h3>
+            <ul>
+                <li>Formed by sideways overlap of parallel p orbitals</li>
+                <li>Electron density above and below internuclear axis</li>
+                <li>Restrict rotation (breaking pi bond requires ~270 kJ/mol)</li>
+                <li>Weaker than sigma bonds due to less effective overlap</li>
+                <li>Double bonds = 1σ + 1π</li>
+                <li>Triple bonds = 1σ + 2π</li>
+            </ul>
+
+            <h3>Bond Strength Comparison:</h3>
+            <ul>
+                <li>C-C (single, 1σ): 347 kJ/mol</li>
+                <li>C=C (double, 1σ + 1π): 611 kJ/mol (not double the single bond strength)</li>
+                <li>C≡C (triple, 1σ + 2π): 837 kJ/mol</li>
+            </ul>
+
+            <p>Notice that a pi bond (~260 kJ/mol) is weaker than a sigma bond (~347 kJ/mol).</p>
+
+            <h3>Conjugation and Delocalization:</h3>
+            <p>When alternating single and double bonds exist (conjugated system), p orbitals on adjacent atoms can overlap, allowing pi electrons to delocalize over multiple atoms. This provides extra stability.</p>
+
+            <p><strong>Example:</strong> 1,3-butadiene (CH₂=CH-CH=CH₂) has four p orbitals overlapping, creating a system where all four pi electrons are delocalized to some extent. This makes it about 15 kJ/mol more stable than predicted for isolated double bonds.</p>
+
+            <h3>Real-world Application:</h3>
+            <p>The rigidity of double bonds due to pi bonding is crucial in biology. The cis-trans isomerism in retinal (visual pigment) depends on restricted rotation around C=C. When light hits retinal, it isomerizes from cis to trans, triggering the vision cascade.</p>
+        </div>
+
+        <!-- 14.2 Hybridization Theory -->
+        <div class="content-card content-section" data-section="14.2">
+            <h2>14.2 Hybridization Theory</h2>
+
+            <h3>The Problem Hybridization Solves</h3>
+            <p>Consider methane (CH₄). Carbon has electron configuration 1s² 2s² 2p². You might expect:</p>
+            <ul>
+                <li>Two bonds (from two unpaired p electrons)</li>
+                <li>Bond angles of 90° (p orbitals are perpendicular)</li>
+                <li>Two different bond types (C-H bonds from s vs p)</li>
+            </ul>
+
+            <p><strong>Reality:</strong> Four equivalent bonds, 109.5° angles, all bonds identical. Hybridization theory explains this.</p>
+
+            <p><strong>Hybridization Concept:</strong> Atomic orbitals mix to form new hybrid orbitals of equal energy, oriented to minimize electron repulsion. The number of hybrid orbitals equals the number of atomic orbitals mixed.</p>
+
+            <h3>sp³ Hybridization</h3>
+            <p><strong>Process:</strong></p>
+            <ol>
+                <li>One s orbital + three p orbitals mix</li>
+                <li>Forms four equivalent sp³ hybrid orbitals</li>
+                <li>Each has 25% s character and 75% p character</li>
+                <li>Arranged tetrahedrally at 109.5° angles</li>
+            </ol>
+            <ul>
+                <li><strong>Geometry:</strong> Tetrahedral</li>
+                <li><strong>Bond angle:</strong> 109.5°</li>
+                <li><strong>Examples:</strong> CH₄, NH₃, H₂O, CCl₄, C₂H₆ (each carbon)</li>
+            </ul>
+
+            <p><strong>Note on NH₃ and H₂O:</strong> Both nitrogen and oxygen are sp³ hybridized, but:</p>
+            <ul>
+                <li>NH₃: Three bonding pairs + one lone pair = trigonal pyramidal (107°)</li>
+                <li>H₂O: Two bonding pairs + two lone pairs = bent (104.5°)</li>
+            </ul>
+            <p>Lone pairs occupy hybrid orbitals but repel more strongly than bonding pairs, compressing bond angles.</p>
+
+            <h3>sp² Hybridization</h3>
+            <p><strong>Process:</strong></p>
+            <ol>
+                <li>One s orbital + two p orbitals mix</li>
+                <li>Forms three equivalent sp² hybrid orbitals (in one plane)</li>
+                <li>One p orbital remains unhybridized (perpendicular to plane)</li>
+                <li>Each hybrid has 33% s character and 67% p character</li>
+            </ol>
+            <ul>
+                <li><strong>Geometry:</strong> Trigonal planar</li>
+                <li><strong>Bond angle:</strong> 120°</li>
+                <li><strong>Examples:</strong> C₂H₄ (ethene), CO₃²⁻, BF₃</li>
+            </ul>
+
+            <p><strong>Bonding in Ethene:</strong></p>
+            <ul>
+                <li>Each carbon: sp² hybridized</li>
+                <li>Three sp² orbitals form: two C-H sigma bonds, one C-C sigma bond</li>
+                <li>Unhybridized p orbitals on both carbons overlap sideways to form pi bond</li>
+                <li>Result: C=C has 1σ (from sp² overlap) + 1π (from p overlap)</li>
+            </ul>
+
+            <h3>sp Hybridization</h3>
+            <p><strong>Process:</strong></p>
+            <ol>
+                <li>One s orbital + one p orbital mix</li>
+                <li>Forms two equivalent sp hybrid orbitals (linear)</li>
+                <li>Two p orbitals remain unhybridized (perpendicular to each other and to sp axis)</li>
+                <li>Each hybrid has 50% s character and 50% p character</li>
+            </ol>
+            <ul>
+                <li><strong>Geometry:</strong> Linear</li>
+                <li><strong>Bond angle:</strong> 180°</li>
+                <li><strong>Examples:</strong> C₂H₂ (ethyne), CO₂, HCN</li>
+            </ul>
+
+            <p><strong>Bonding in Ethyne:</strong></p>
+            <ul>
+                <li>Each carbon: sp hybridized</li>
+                <li>Two sp orbitals form: one C-H sigma bond, one C-C sigma bond</li>
+                <li>Two unhybridized p orbitals on each carbon form two pi bonds</li>
+                <li>Result: C≡C has 1σ (from sp overlap) + 2π (from p overlaps)</li>
+            </ul>
+
+            <h3>Summary Table</h3>
+            <table>
+                <tr>
+                    <th>Hybridization</th>
+                    <th>Orbitals Mixed</th>
+                    <th>Hybrid Orbitals</th>
+                    <th>Unhybridized p</th>
+                    <th>Geometry</th>
+                    <th>Bond Angle</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td>sp³</td>
+                    <td>s + 3p</td>
+                    <td>4 sp³</td>
+                    <td>0</td>
+                    <td>Tetrahedral</td>
+                    <td>109.5°</td>
+                    <td>CH₄</td>
+                </tr>
+                <tr>
+                    <td>sp²</td>
+                    <td>s + 2p</td>
+                    <td>3 sp²</td>
+                    <td>1</td>
+                    <td>Trigonal planar</td>
+                    <td>120°</td>
+                    <td>C₂H₄</td>
+                </tr>
+                <tr>
+                    <td>sp</td>
+                    <td>s + 1p</td>
+                    <td>2 sp</td>
+                    <td>2</td>
+                    <td>Linear</td>
+                    <td>180°</td>
+                    <td>C₂H₂</td>
+                </tr>
+            </table>
+
+            <p><strong>Determining Hybridization:</strong> Count electron domains (bonding + lone pairs) around central atom:</p>
+            <ul>
+                <li>4 domains → sp³</li>
+                <li>3 domains → sp²</li>
+                <li>2 domains → sp</li>
+            </ul>
+            <p><strong>Note:</strong> Multiple bonds count as ONE domain.</p>
+        </div>
+
+        <!-- Applications to Organic Chemistry -->
+        <div class="content-card content-section" data-section="organic-apps">
+            <h2>Applications to Organic Chemistry</h2>
+            <p>Hybridization explains many properties of organic molecules:</p>
+
+            <h3>Bond Lengths:</h3>
+            <p>More s character = electrons held closer = shorter bond</p>
+            <ul>
+                <li>C(sp³)-H: 109 pm</li>
+                <li>C(sp²)-H: 108 pm</li>
+                <li>C(sp)-H: 106 pm</li>
+            </ul>
+
+            <h3>Acidity:</h3>
+            <p>More s character = orbital closer to nucleus = stabilizes negative charge better</p>
+            <ul>
+                <li>HC≡CH (sp carbon): pKa ~ 25</li>
+                <li>H₂C=CH₂ (sp² carbon): pKa ~ 44</li>
+                <li>H₃C-CH₃ (sp³ carbon): pKa ~ 50</li>
+            </ul>
+            <p>Ethyne is significantly more acidic than ethane because the sp hybridized orbital holds the negative charge closer to the nucleus after deprotonation.</p>
+
+            <h3>Electronegativity:</h3>
+            <p>Increasing s character increases effective electronegativity:</p>
+            <ul>
+                <li>C(sp³): χ ~ 2.5</li>
+                <li>C(sp²): χ ~ 2.6</li>
+                <li>C(sp): χ ~ 2.8</li>
+            </ul>
+            <p>This affects bond polarity. C(sp)-H bonds are more polar than C(sp³)-H bonds.</p>
+
+            <h3>Worked Example: Determining Hybridization in Complex Molecules</h3>
+            <p>For acetic acid (CH₃COOH):</p>
+            <ul>
+                <li>Methyl carbon (CH₃): 4 electron domains (4 single bonds) → sp³</li>
+                <li>Carbonyl carbon (C=O): 3 electron domains (2 single bonds + 1 double bond) → sp²</li>
+                <li>Oxygen in C=O: 3 electron domains (1 double bond + 2 lone pairs) → sp²</li>
+                <li>Oxygen in O-H: 4 electron domains (2 single bonds + 2 lone pairs) → sp³</li>
+            </ul>
+        </div>
+
+        <!-- 14.3 Molecular Orbital Theory -->
+        <div class="content-card content-section" data-section="14.3">
+            <h2>14.3 Molecular Orbital Theory</h2>
+
+            <h3>Limitations of Valence Bond Theory</h3>
+            <p>Hybridization and Lewis structures (collectively called valence bond theory) cannot explain:</p>
+            <ol>
+                <li>Paramagnetism of O₂ (should be diamagnetic with all electrons paired)</li>
+                <li>Why He₂ does not exist</li>
+                <li>Fractional bond orders in ions like O₂⁺</li>
+                <li>Absorption spectra details</li>
+            </ol>
+            <p>Molecular orbital (MO) theory provides a quantum mechanical solution.</p>
+
+            <h3>MO Theory Principles</h3>
+            <p><strong>Key Concepts:</strong></p>
+            <ol>
+                <li>Atomic orbitals combine to form molecular orbitals that extend over the entire molecule</li>
+                <li>Number of MOs formed = number of AOs combined</li>
+                <li>Electrons fill MOs according to Aufbau principle, Hund's rule, and Pauli exclusion</li>
+                <li>MOs can be bonding (lower energy), antibonding (higher energy), or non-bonding (same energy)</li>
+            </ol>
+
+            <p><strong>Bonding vs Antibonding:</strong></p>
+            <ul>
+                <li><strong>Bonding MO:</strong> Constructive interference of atomic orbitals increases electron density between nuclei, lowering energy and stabilizing the molecule. Designated σ or π.</li>
+                <li><strong>Antibonding MO:</strong> Destructive interference creates a node (zero electron density) between nuclei, raising energy and destabilizing the molecule. Designated σ* or π*.</li>
+            </ul>
+
+            <h3>MO Diagrams for Homonuclear Diatomics</h3>
+            <p><strong>Energy ordering (for O₂, F₂, Ne₂):</strong><br>
+            σ(2s) &lt; σ*(2s) &lt; σ(2p) &lt; π(2p) = π(2p) &lt; π*(2p) = π*(2p) &lt; σ*(2p)</p>
+
+            <p><strong>Energy ordering (for B₂, C₂, N₂):</strong><br>
+            σ(2s) &lt; σ*(2s) &lt; π(2p) = π(2p) &lt; σ(2p) &lt; π*(2p) = π*(2p) &lt; σ*(2p)</p>
+
+            <p><strong>Bond Order Calculation:</strong> Bond Order = (bonding electrons - antibonding electrons) / 2</p>
+
+            <h3>Worked Examples</h3>
+            <p><strong>Example 1: Oxygen (O₂)</strong></p>
+            <ul>
+                <li>Total electrons: 16</li>
+                <li>Configuration: σ(2s)² σ*(2s)² σ(2p)² π(2p)⁴ π*(2p)²</li>
+                <li>Bond order = (8-4)/2 = 2 (double bond)</li>
+                <li>Two unpaired electrons in π*(2p) orbitals → <strong>Paramagnetic</strong></li>
+            </ul>
+
+            <p><strong>Example 2: Comparing O₂ species</strong></p>
+            <table>
+                <tr>
+                    <th>Species</th>
+                    <th>Electrons</th>
+                    <th>Bond Order</th>
+                    <th>Bond Length</th>
+                    <th>Magnetic Property</th>
+                </tr>
+                <tr>
+                    <td>O₂⁺</td>
+                    <td>15</td>
+                    <td>2.5</td>
+                    <td>112 pm</td>
+                    <td>Paramagnetic (1 unpaired)</td>
+                </tr>
+                <tr>
+                    <td>O₂</td>
+                    <td>16</td>
+                    <td>2.0</td>
+                    <td>121 pm</td>
+                    <td>Paramagnetic (2 unpaired)</td>
+                </tr>
+                <tr>
+                    <td>O₂⁻</td>
+                    <td>17</td>
+                    <td>1.5</td>
+                    <td>133 pm</td>
+                    <td>Paramagnetic (1 unpaired)</td>
+                </tr>
+                <tr>
+                    <td>O₂²⁻</td>
+                    <td>18</td>
+                    <td>1.0</td>
+                    <td>149 pm</td>
+                    <td>Diamagnetic (0 unpaired)</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="content-card content-section" data-section="practice">
+            <h2>Practice Problems</h2>
+
+            <div class="practice-problem">
+                <div class="problem-header">Problem 1: Azide Ion Resonance</div>
+                <div class="problem-question">
+                    The azide ion (N₃⁻) has three possible Lewis structures. Draw all three resonance structures, calculate the formal charge on each atom in each structure, and identify the major contributor(s).
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>Structure A: [N≡N-N:]⁻</strong> - Formal charges: N1=+1, N2=0, N3=-2</p>
+                    <p><strong>Structure B: [N=N=N]⁻</strong> - Formal charges: N1=0, N2=+1, N3=0</p>
+                    <p><strong>Structure C: [:N-N≡N]⁻</strong> - Formal charges: N1=-2, N2=0, N3=+1</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>Structure B is the major contributor because all formal charges are minimized (0, +1, 0 vs +1, 0, -2). The actual N-N bond order is approximately 2, explaining why all N-N bonds are equivalent at 116 pm.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">Problem 2: CO₂ Hybridization</div>
+                <div class="problem-question">
+                    Describe the bonding in carbon dioxide (CO₂) using hybridization theory. State the hybridization of carbon and oxygen, and explain why CO₂ is linear.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>Carbon:</strong> sp hybridized (2 electron domains)</p>
+                    <p><strong>Oxygen:</strong> sp² hybridized (3 electron domains: 1 double bond + 2 lone pairs)</p>
+                    <p>Each C=O bond has 1 σ bond (sp-sp² overlap) + 1 π bond (p-p overlap). Total: 2σ + 2π bonds.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>CO₂ is linear (180°) because carbon has 2 electron domains, and sp hybridization corresponds to linear geometry. The two sp hybrid orbitals point in opposite directions to minimize electron repulsion.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">Problem 3: Benzene Delocalization</div>
+                <div class="problem-question">
+                    Benzene (C₆H₆) has all C-C bond lengths of 140 pm, intermediate between single (154 pm) and double (134 pm) bonds. Explain the bonding using hybridization theory and calculate delocalization energy given: predicted energy = 1957.5 kJ/mol, actual = 2340 kJ/mol.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p>Each carbon is sp² hybridized. Three sp² orbitals form 2 C-C σ bonds and 1 C-H σ bond. The unhybridized 2p orbital on each carbon overlaps with adjacent carbons, creating a delocalized π system with 6 π electrons.</p>
+                    <p><strong>Delocalization energy:</strong> 2340 - 1957.5 = 382.5 kJ/mol</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This extra stability (~383 kJ/mol) explains why benzene undergoes substitution rather than addition reactions. The equal bond lengths prove electron delocalization.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">Problem 4: C-H Bond Length Trends</div>
+                <div class="problem-question">
+                    Arrange in order of increasing C-H bond length: CH₄ (methane), C₂H₄ (ethene), C₂H₂ (ethyne). Explain using hybridization theory.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>Order:</strong> C₂H₂ (106 pm) &lt; C₂H₄ (108 pm) &lt; CH₄ (109 pm)</p>
+                    <p>CH₄: sp³ (25% s character), C₂H₄: sp² (33% s), C₂H₂: sp (50% s)</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>Higher s character means electrons held closer to nucleus, resulting in shorter bonds. sp has most s character → shortest C-H bond; sp³ has least s character → longest C-H bond.</p>
+                </div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-header">Problem 5: N₂ Reactivity</div>
+                <div class="problem-question">
+                    Explain why N₂ is much less reactive than O₂. Use molecular orbital theory with bond order calculations.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                <div class="solution-content">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>N₂:</strong> 14 electrons, bond order = 3, bond energy = 945 kJ/mol, diamagnetic</p>
+                    <p><strong>O₂:</strong> 16 electrons, bond order = 2, bond energy = 498 kJ/mol, paramagnetic</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>N₂ has higher bond order (3 vs 2) meaning much stronger bond. O₂ has unpaired electrons in antibonding π* orbitals, making it a radical that readily reacts. The triple bond in N₂ makes it one of the strongest diatomic molecules, explaining its inertness.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="content-card content-section" data-section="exam-tips">
+            <h2>Exam Strategies and Tips</h2>
+
+            <div class="exam-tip">
+                When drawing resonance structures, always verify that the sum of formal charges equals the total molecular charge
+            </div>
+
+            <div class="exam-tip">
+                For formal charge shortcuts: atoms with complete octets and no formal charge have the 'normal' number of bonds (C=4, N=3, O=2, H=1)
+            </div>
+
+            <div class="exam-tip">
+                In MO diagrams, remember the ordering changes between N₂ and O₂ due to 2s-2p orbital energy gap - frequently tested
+            </div>
+
+            <div class="exam-tip">
+                Count electron domains, not bonds, to determine hybridization: a triple bond is ONE electron domain
+            </div>
+
+            <div class="exam-tip">
+                Unpaired electrons in MO theory indicate paramagnetism - count unpaired electrons, don't rely on Lewis structures
+            </div>
+
+            <div class="exam-tip">
+                Bond order correlates inversely with bond length: higher bond order = shorter, stronger bonds
+            </div>
+
+            <div class="exam-tip">
+                Lone pairs in hybrid orbitals repel more than bonding pairs, causing deviation from ideal bond angles
+            </div>
+
+            <div class="exam-tip">
+                For major resonance contributors: (1) complete octets, (2) minimal formal charges, (3) negative charges on electronegative atoms
+            </div>
+
+            <div class="exam-tip">
+                More s character means: shorter bonds, stronger bonds, more acidic H, higher effective electronegativity
+            </div>
+
+            <div class="exam-tip">
+                Delocalization always stabilizes - multiple resonance structures = more stable than any single structure
+            </div>
+
+            <div class="exam-tip">
+                Curved arrows must show electron movement (pairs of electrons), not atom movement
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChatbot()" title="Ask a question">💬</button>
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="lesson-footer">
+        <div class="footer-content">
+            <button class="nav-button prev-button" onclick="navigateLesson('prev')">← Previous Lesson</button>
+            <button class="nav-button next-button" onclick="navigateLesson('next')">Next Lesson →</button>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Progress Tracking
+        function updateProgress() {
+            const sections = document.querySelectorAll('.content-section');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            const progress = (scrollTop / documentHeight) * 100;
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercentage = document.getElementById('progress-percentage');
+
+            progressBar.style.width = progress + '%';
+            progressPercentage.textContent = Math.round(progress) + '%';
+        }
+
+        window.addEventListener('scroll', updateProgress);
+        window.addEventListener('load', updateProgress);
+
+        // Solution Toggle
+        function toggleSolution(button) {
+            const solutionContent = button.nextElementSibling;
+            solutionContent.classList.toggle('show');
+
+            if (solutionContent.classList.contains('show')) {
+                button.textContent = 'Hide Solution';
+            } else {
+                button.textContent = 'Show Solution';
+            }
+        }
+
+        // Chatbot
+        function openChatbot() {
+            alert('Chatbot feature: Connect this to your preferred chat system or AI assistant!');
+        }
+
+        // Lesson Navigation
+        function navigateLesson(direction) {
+            if (direction === 'prev') {
+                alert('Navigate to previous lesson');
+                // window.location.href = 'topic_13.html';
+            } else {
+                alert('Navigate to next lesson');
+                // window.location.href = 'topic_15.html';
+            }
+        }
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

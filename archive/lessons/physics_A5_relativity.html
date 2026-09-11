@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic A5: Relativity - IB Physics HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .navbar-info {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .navbar-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Learning Objectives */
+        .objectives-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .objectives-section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .objectives-list {
+            list-style: none;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .objectives-list li {
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0.5rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ebf3 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .problem-container:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+            border-color: #667eea;
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .problem-number {
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .problem-question {
+            flex: 1;
+            margin-left: 1rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .solution-toggle {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .solution-toggle:hover {
+            background: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .solution-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .solution-content.active {
+            max-height: 5000px;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .solution-content h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .explanation-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #f57c00;
+        }
+
+        /* Exam Tips */
+        .tips-container {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tips-container h2 {
+            color: #e65100;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .tip-item {
+            background: white;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff9800;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .nav-button.prev {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .problem-header {
+                flex-direction: column;
+            }
+
+            .problem-question {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>Topic A5: Relativity - IB Physics HL</h1>
+            <div class="navbar-info">
+                <span class="navbar-badge">Physics</span>
+                <span class="navbar-badge">Higher Level</span>
+                <span class="navbar-badge">Syllabus A5</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Tracking -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-label">
+                <span>Lesson Progress</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Learning Objectives -->
+        <section class="objectives-section">
+            <h2>Learning Objectives</h2>
+            <ul class="objectives-list">
+                <li>Understand and apply the two postulates of special relativity to physical situations</li>
+                <li>Distinguish between inertial and non-inertial reference frames and understand Galilean relativity</li>
+                <li>Calculate time dilation effects using proper time and coordinate time in different reference frames</li>
+                <li>Calculate length contraction effects using proper length and coordinate length measurements</li>
+                <li>Construct and interpret spacetime diagrams including worldlines, light cones, and simultaneity</li>
+                <li>Apply Lorentz transformations to convert coordinates and velocities between inertial frames (HL)</li>
+                <li>Use the relativistic velocity addition formula to calculate velocities in different frames (HL)</li>
+                <li>Calculate relativistic momentum and understand why classical momentum fails at high speeds (HL)</li>
+                <li>Apply the mass-energy equivalence relation E=mc² to particle physics and nuclear reactions (HL)</li>
+                <li>Calculate total energy, rest energy, and kinetic energy for relativistic particles (HL)</li>
+                <li>Analyze relativistic collisions using conservation of energy and momentum (HL)</li>
+                <li>Understand invariant quantities in special relativity including spacetime interval and rest mass (HL)</li>
+            </ul>
+        </section>
+
+        <!-- Key Definitions -->
+        <section class="content-section">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Inertial Reference Frame</div>
+                <div class="definition-text">A reference frame in which Newton's first law holds - objects at rest remain at rest and objects in uniform motion continue in uniform motion unless acted upon by a net force. Non-accelerating frames.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Proper Time (τ)</div>
+                <div class="definition-text">The time interval measured by a clock at rest in the reference frame where the events occur at the same location. This is the shortest time interval between two events - an invariant quantity.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Proper Length (L₀)</div>
+                <div class="definition-text">The length of an object measured in the reference frame in which the object is at rest. This is the longest length measurement - an invariant quantity.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Spacetime Interval (Δs²)</div>
+                <div class="definition-text">An invariant quantity in special relativity: Δs² = c²Δt² - Δx² - Δy² - Δz². All observers in inertial frames measure the same spacetime interval between two events.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Lorentz Factor (γ)</div>
+                <div class="definition-text">γ = 1/√(1 - v²/c²), where v is relative velocity and c is the speed of light. Quantifies time dilation and length contraction effects. For v << c, γ ≈ 1; as v → c, γ → ∞.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Rest Energy (E₀)</div>
+                <div class="definition-text">The energy possessed by a particle due to its mass alone: E₀ = mc². This energy is available in principle for conversion to other forms.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Relativistic Momentum</div>
+                <div class="definition-text">p = γmv, where m is rest mass. Reduces to classical momentum p = mv for v << c, but approaches infinity as v → c, preventing massive particles from reaching light speed.</div>
+            </div>
+        </section>
+
+        <!-- Content Sections -->
+        <section class="content-section">
+            <h2>Introduction and Historical Context</h2>
+            <p>Before 1905, physics was built on two seemingly incompatible pillars: Newton's mechanics, which worked perfectly for everyday objects, and Maxwell's electromagnetism, which predicted that light travels at a constant speed c ≈ 3.00 × 10⁸ m/s. The problem? Newton's mechanics assumed that velocities simply add together (Galilean relativity), which would mean the speed of light should depend on the observer's motion. The Michelson-Morley experiment (1887) famously failed to detect any change in light's speed regardless of Earth's motion through space.</p>
+            <p>Albert Einstein's 1905 paper on special relativity resolved this paradox not by finding errors in experiments, but by questioning fundamental assumptions about space and time. His revolutionary insight: space and time are not absolute and independent, but rather interconnected in a four-dimensional spacetime continuum. The price for maintaining the constancy of light speed? Time can slow down, lengths can contract, and simultaneity becomes relative.</p>
+            <p>This topic builds on your understanding of kinematics (Topic 2) and requires strong algebraic skills. The mathematics is not overly complex, but the conceptual shifts are profound. Many predictions of relativity seem counterintuitive because we evolved in a low-velocity environment where relativistic effects are negligible.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Reference Frames and Galilean Relativity</h2>
+            <p>An <strong>inertial reference frame</strong> is any frame of reference in which Newton's first law (the law of inertia) holds true. Examples include: a train moving at constant velocity, a spacecraft coasting through space, or a laboratory at rest on Earth (approximately inertial for short-duration experiments, ignoring Earth's rotation and orbital motion).</p>
+            <p><strong>Non-inertial frames</strong> are accelerating reference frames where fictitious forces (like centrifugal force or the force you feel when a car brakes suddenly) appear. Special relativity applies only to inertial frames; general relativity extends these concepts to accelerating frames and gravity.</p>
+            <p><strong>Galilean Relativity</strong> states that the laws of mechanics are the same in all inertial reference frames. If you perform an experiment in a sealed train moving at constant velocity, you cannot determine whether you're moving or stationary - all mechanical experiments give the same results. This principle dates back to Galileo and Newton.</p>
+            <p>Galilean velocity transformation is intuitive: if a train moves at velocity v relative to the ground, and you walk at velocity u' relative to the train in the same direction, your velocity relative to the ground is simply u = u' + v. For everyday speeds, this works perfectly. The problem emerged when physicists tried to apply this to electromagnetic waves.</p>
+            <p>Maxwell's equations predict that electromagnetic waves travel at speed c in vacuum. But relative to what? If we use Galilean transformations, different observers should measure different speeds for light. Yet experiments consistently showed c is the same for all observers. Einstein's bold solution: abandon Galilean transformations and accept that the speed of light is a universal constant.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>The Two Postulates of Special Relativity</h2>
+            <p>Einstein built special relativity on just two postulates:</p>
+            <p><strong>First Postulate (Principle of Relativity):</strong> The laws of physics are the same in all inertial reference frames. This extends Galilean relativity from just mechanics to all of physics - including electromagnetism.</p>
+            <p><strong>Second Postulate (Constancy of Light Speed):</strong> The speed of light in vacuum is the same in all inertial reference frames, regardless of the motion of the light source or observer. Specifically, c = 2.998 × 10⁸ m/s in all inertial frames.</p>
+            <p>These postulates seem innocuous but lead to extraordinary consequences. If light's speed is constant regardless of how fast you chase it or run from it, then something else must change - and that something is space and time themselves.</p>
+            <p>Consider this thought experiment: Observer A stands on a platform while Observer B passes by in a train at velocity v. When they're aligned, a light bulb at the midpoint of the train car flashes. Observer B (on the train) sees light reach both ends of the car simultaneously - the light travels equal distances at speed c. Observer A (on the platform) sees something different: during the time light travels, the train moves forward, so light reaches the back of the train before the front. Yet both measure light traveling at speed c! The only resolution: they disagree about whether events are simultaneous. <strong>Simultaneity is relative.</strong></p>
+            <p>This relativity of simultaneity directly leads to time dilation and length contraction. These aren't optical illusions or measurement errors - they're fundamental properties of spacetime.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Time Dilation</h2>
+            <p>Time dilation is the phenomenon where a moving clock runs slower when observed from a stationary frame. The equation is:</p>
+            <p><strong>Δt = γ Δt₀ = Δt₀ / √(1 - v²/c²)</strong></p>
+            <p>where:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Δt₀ is the <strong>proper time</strong> - measured by a clock at rest relative to the events</li>
+                <li>Δt is the <strong>dilated time</strong> - measured by an observer moving at speed v relative to the clock</li>
+                <li>γ is the <strong>Lorentz factor</strong>: γ = 1/√(1 - v²/c²)</li>
+            </ul>
+            <p>Crucially, proper time is the shortest time interval between two events. All other observers measure longer intervals.</p>
+            <h3>The Light Clock Derivation</h3>
+            <p>Consider a 'light clock' consisting of two parallel mirrors separated by distance d, with light bouncing between them. Each round trip is one tick. In the clock's rest frame, one tick takes proper time Δt₀ = 2d/c.</p>
+            <p>Now observe this clock moving horizontally at velocity v. From your frame, the light follows a diagonal path (forming a triangle) because the clock moves while light travels vertically. The total path length is 2√(d² + (vΔt/2)²), where Δt is the time you measure for one tick.</p>
+            <p>Light travels at speed c in all frames, so: c Δt = 2√(d² + (vΔt/2)²)</p>
+            <p>Squaring both sides and solving for Δt yields: Δt = Δt₀/√(1 - v²/c²) = γ Δt₀</p>
+            <p>This isn't specific to light clocks - all physical processes slow down by the same factor, including biological aging.</p>
+            <h3>Real-world Evidence: Muons</h3>
+            <p>Muons are unstable particles created when cosmic rays hit the upper atmosphere. They have a half-life of 2.2 μs in their rest frame and are created about 10 km above Earth's surface, traveling at ~0.98c. Classically, they should travel only d = vt ≈ (0.98 × 3 × 10⁸ m/s)(2.2 × 10⁻⁶ s) ≈ 650 m before decaying - not nearly enough to reach the ground. Yet we detect many muons at sea level.</p>
+            <p>With time dilation, γ ≈ 5 at v = 0.98c, so from Earth's frame, muons live about 11 μs, traveling ~3200 m - enough to reach the ground. From the muon's frame, its lifetime is still 2.2 μs, but the atmosphere is length-contracted (next section), so it has less distance to travel. Both perspectives give the same result.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Length Contraction</h2>
+            <p>Length contraction states that objects moving relative to an observer are measured to be shorter along the direction of motion. The equation is:</p>
+            <p><strong>L = L₀/γ = L₀ √(1 - v²/c²)</strong></p>
+            <p>where:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>L₀ is the <strong>proper length</strong> - measured in the frame where the object is at rest</li>
+                <li>L is the <strong>contracted length</strong> - measured in a frame where the object moves at speed v</li>
+            </ul>
+            <p>Proper length is the longest measurement - all other observers measure shorter lengths.</p>
+            <p><strong>Important:</strong> Length contraction only occurs in the direction of motion. Perpendicular dimensions are unchanged. A meter stick moving along its length contracts, but its width and thickness remain the same.</p>
+            <h3>The Muon Example Revisited</h3>
+            <p>From Earth's frame, time dilation allows muons to survive longer (as discussed above). From the muon's frame, its lifetime is unchanged at 2.2 μs, but the 10 km atmosphere is length-contracted to L = 10 km/γ ≈ 10/5 = 2 km. At 0.98c, the muon travels this distance in about 2.2 μs - just enough time before decay. Both frames agree on the physical outcome.</p>
+            <p><strong>A Common Misconception:</strong> Students sometimes think length contraction means objects physically compress or that internal forces squeeze them. This is wrong. Length contraction is a geometric property of spacetime - it's about how measurements work in different frames, not about physical compression.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Spacetime Diagrams</h2>
+            <p>Spacetime diagrams (also called Minkowski diagrams) provide a geometric way to visualize events and worldlines in special relativity. The horizontal axis represents position (x) and the vertical axis represents time (ct, multiplied by c so both axes have the same units).</p>
+            <h3>Worldlines</h3>
+            <p>The path of an object through spacetime is called its worldline. A stationary object has a vertical worldline (changing time, constant position). A moving object has a tilted worldline - the faster it moves, the more it tilts. Light worldlines are at 45° angles (since Δx = cΔt means Δx/Δ(ct) = 1).</p>
+            <h3>Light Cones</h3>
+            <p>From any event (point in spacetime), you can draw future and past light cones - the paths that light could take from or to that event. The future light cone contains all events that could be causally affected by the original event. The past light cone contains all events that could have causally affected it. Events outside the light cones are spacelike separated - no signal can travel between them.</p>
+            <h3>Simultaneity</h3>
+            <p>On a spacetime diagram for observer at rest (frame S), events simultaneous in S lie on horizontal lines (constant ct). For an observer moving at velocity v (frame S'), simultaneous events lie on tilted lines. The tilt angle θ satisfies tan θ = v/c. This geometric representation shows why simultaneity is relative - different observers 'slice' spacetime differently.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Lorentz Transformations (HL)</h2>
+            <p>The Lorentz transformations are the equations that convert spacetime coordinates between inertial reference frames, replacing the Galilean transformations. Consider two frames S and S' with S' moving at velocity v along the positive x-axis relative to S, with origins coinciding at t = t' = 0.</p>
+            <h3>Lorentz Transformation Equations:</h3>
+            <p><strong>x' = γ(x - vt)</strong></p>
+            <p><strong>t' = γ(t - vx/c²)</strong></p>
+            <p><strong>y' = y</strong></p>
+            <p><strong>z' = z</strong></p>
+            <p>where γ = 1/√(1 - v²/c²).</p>
+            <h3>Inverse Lorentz Transformations (from S' to S - just change v to -v):</h3>
+            <p><strong>x = γ(x' + vt')</strong></p>
+            <p><strong>t = γ(t' + vx'/c²)</strong></p>
+            <p>Notice that space and time mix - the transformation for x' depends on both x and t, and t' depends on both t and x. This is the mathematical expression of spacetime as a unified entity.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Relativistic Velocity Addition (HL)</h2>
+            <p>In Galilean relativity, velocities add linearly: u = u' + v. But this violates the second postulate of relativity - if you're on a train moving at 0.8c and shine a flashlight forward at c (relative to you), an observer on the ground would measure the light at 1.8c using Galilean addition, contradicting the constancy of c.</p>
+            <p>The <strong>relativistic velocity addition formula</strong> is:</p>
+            <p><strong>u = (u' + v) / (1 + u'v/c²)</strong></p>
+            <p>where:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li>u' is the velocity of an object in frame S'</li>
+                <li>v is the velocity of S' relative to S</li>
+                <li>u is the velocity of the object in frame S</li>
+            </ul>
+            <p>This formula ensures that no velocity exceeds c.</p>
+            <h3>Verification</h3>
+            <p>If u' = c (light in S'), then: u = (c + v)/(1 + cv/c²) = (c + v)/(1 + v/c) = c</p>
+            <p>Light travels at c in all frames, as required!</p>
+            <h3>Low-velocity limit</h3>
+            <p>For v, u' << c, the term u'v/c² ≈ 0, so: u ≈ (u' + v)/(1 + 0) = u' + v</p>
+            <p>This recovers Galilean velocity addition for everyday speeds.</p>
+            <h3>Example</h3>
+            <p>A spaceship travels at 0.6c relative to Earth. It launches a probe forward at 0.8c relative to the ship. What's the probe's speed relative to Earth?</p>
+            <p>Galilean (wrong): u = 0.8c + 0.6c = 1.4c (exceeds light speed!)</p>
+            <p>Relativistic (correct): u = (0.8c + 0.6c)/(1 + (0.8c)(0.6c)/c²) = 1.4c/1.48 ≈ 0.946c</p>
+            <p>The probe moves at 94.6% of light speed relative to Earth - fast, but still less than c.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Relativistic Momentum and Energy (HL)</h2>
+            <p>Classical momentum p = mv fails at high speeds. If it held, you could accelerate a particle to exceed light speed with enough force. Einstein showed that momentum must be redefined as:</p>
+            <p><strong>p = γmv = mv/√(1 - v²/c²)</strong></p>
+            <p>As v → c, γ → ∞, so momentum approaches infinity. This means infinite force would be required to accelerate a massive particle to light speed - it's physically impossible.</p>
+            <h3>Total Energy</h3>
+            <p>Einstein's most famous equation emerges from relativity. The total energy of a particle is:</p>
+            <p><strong>E = γmc² = mc²/√(1 - v²/c²)</strong></p>
+            <h3>Rest Energy</h3>
+            <p>When v = 0, γ = 1, giving: <strong>E₀ = mc²</strong></p>
+            <p>This is the rest energy - the energy equivalent of the particle's mass. It's available in principle for conversion to other forms (as in nuclear reactions).</p>
+            <h3>Kinetic Energy</h3>
+            <p>The relativistic kinetic energy is the difference between total energy and rest energy:</p>
+            <p><strong>Eₖ = E - E₀ = (γ - 1)mc²</strong></p>
+            <p>For v << c, using binomial expansion: γ ≈ 1 + ½v²/c², so: Eₖ ≈ mc²(½v²/c²) = ½mv²</p>
+            <p>This recovers classical kinetic energy at low speeds.</p>
+            <h3>Energy-Momentum Relation</h3>
+            <p>A fundamental equation relating energy, momentum, and mass:</p>
+            <p><strong>E² = (pc)² + (mc²)²</strong></p>
+            <p>For photons (m = 0): E = pc, so p = E/c.</p>
+            <p>For particles at rest (p = 0): E = mc².</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Applications and Particle Physics (HL)</h2>
+            <h3>Nuclear Reactions and Binding Energy</h3>
+            <p>The mass-energy equivalence underlies nuclear reactions. In nuclear fusion, lighter nuclei combine to form heavier ones, releasing energy because the products have slightly less mass than the reactants. The 'missing' mass was converted to kinetic energy.</p>
+            <p><strong>Example:</strong> In the Sun's core, four protons fuse to form helium-4. The mass difference of about 24.68 MeV/c² is converted to energy, powering the Sun and all stars.</p>
+            <h3>Particle Accelerators</h3>
+            <p>Modern particle accelerators like the Large Hadron Collider (LHC) accelerate protons to 99.9999991% of light speed (γ ≈ 7460). At this speed, a proton's kinetic energy is about 7 TeV - roughly 7000 times its rest energy of 938 MeV. This enormous energy can create new particles through E = mc².</p>
+            <h3>Pair Production and Annihilation</h3>
+            <p>Energy can create matter and vice versa:</p>
+            <ul style="list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Pair production:</strong> A high-energy photon near a nucleus can create an electron-positron pair: γ → e⁻ + e⁺. The photon must have energy E ≥ 2mₑc² ≈ 1.022 MeV.</li>
+                <li><strong>Annihilation:</strong> When a particle meets its antiparticle, they annihilate into pure energy: e⁻ + e⁺ → 2γ. This produces two photons (not one) to conserve momentum.</li>
+            </ul>
+            <h3>GPS Satellites</h3>
+            <p>GPS satellites orbit at ~20,000 km altitude, moving at ~3.9 km/s. Special relativity predicts their clocks run slower by ~7 μs per day (time dilation). General relativity predicts they run faster by ~45 μs per day (gravitational time dilation - weaker gravity at altitude). The net effect is ~38 μs per day faster.</p>
+            <p>Without corrections, GPS positions would drift by ~10 km per day! The satellite clocks are pre-adjusted to 10.22999999543 MHz (instead of exactly 10.23 MHz) so they tick at the correct rate as observed from Earth.</p>
+        </section>
+
+        <!-- Practice Problems -->
+        <section class="content-section">
+            <h2>Practice Problems</h2>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 1</span>
+                    <p class="problem-question">A spacecraft travels to a star 8.0 light-years away at a speed of 0.80c relative to Earth. (a) How long does the journey take according to Earth observers? (b) How long according to the spacecraft crew? (c) Explain the resolution from both perspectives.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution-content" id="solution-1">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) From Earth's perspective:</strong></p>
+                    <p>Distance = 8.0 ly, speed = 0.80c<br>
+                    Time = distance/speed = 8.0 ly / 0.80c = 10 years</p>
+
+                    <p><strong>(b) Calculate Lorentz factor:</strong></p>
+                    <p>γ = 1/√(1 - v²/c²) = 1/√(1 - 0.80²) = 1/√(1 - 0.64) = 1/√0.36 = 1/0.6 = 5/3 ≈ 1.667</p>
+                    <p>From spacecraft perspective (proper time):<br>
+                    Δt₀ = Δt/γ = 10 years / 1.667 = 6.0 years</p>
+
+                    <p><strong>(c) Resolution:</strong></p>
+                    <p>Earth observers see time dilation - the spacecraft's clocks run slow, so the crew ages only 6.0 years during the 10-year journey. From the crew's perspective, their time is normal (6.0 years), but the distance is length-contracted: L = L₀/γ = 8.0 ly / 1.667 = 4.8 ly. At 0.80c, covering 4.8 ly takes 6.0 years. Both perspectives agree on the physical outcome.</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This classic problem demonstrates that time dilation and length contraction are complementary effects. Different observers disagree about distances and time intervals but agree on physical outcomes. The proper time (6.0 years) is measured by the spacecraft crew because the departure and arrival events occur at the same location in their frame.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 2</span>
+                    <p class="problem-question">A muon is created at 10 km altitude moving downward at 0.95c. Its rest lifetime is 2.2 μs. (a) How far can it travel in its rest frame before decaying? (b) Calculate γ. (c) How far does it travel in Earth's frame? (d) Will it reach the ground?</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution-content" id="solution-2">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) In its rest frame:</strong></p>
+                    <p>Distance = v × t₀ = (0.95 × 3.0 × 10⁸ m/s)(2.2 × 10⁻⁶ s)<br>
+                    = (2.85 × 10⁸ m/s)(2.2 × 10⁻⁶ s) = 627 m</p>
+
+                    <p><strong>(b) Lorentz factor:</strong></p>
+                    <p>γ = 1/√(1 - v²/c²) = 1/√(1 - 0.95²) = 1/√(1 - 0.9025)<br>
+                    = 1/√0.0975 = 1/0.312 ≈ 3.20</p>
+
+                    <p><strong>(c) In Earth's frame, lifetime is dilated:</strong></p>
+                    <p>Δt = γΔt₀ = 3.20 × 2.2 μs = 7.04 μs<br>
+                    Distance = v × Δt = (2.85 × 10⁸ m/s)(7.04 × 10⁻⁶ s)<br>
+                    = 2006 m ≈ 2.0 km</p>
+
+                    <p><strong>(d)</strong> Classically it travels only ~2 km and decays at ~8 km altitude. However, from the muon's frame, the atmosphere is contracted to 10 km / 3.20 = 3.13 km thick. The mean lifetime is 2.2 μs, but individual muons have exponentially distributed lifetimes - some survive much longer. About exp(-3.13/0.627) ≈ 0.67% of muons survive long enough to reach the ground, which matches observations.</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This problem illustrates both time dilation and length contraction. From Earth's perspective, muon lifetimes are extended. From the muon's perspective, the atmosphere is thinner. The exponential decay distribution means some fraction survives - this is experimentally verified and was early evidence for special relativity.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 3</span>
+                    <p class="problem-question">A spaceship approaching Earth at 0.70c fires a missile forward at 0.60c relative to the ship. What is the missile's speed relative to Earth?</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution-content" id="solution-3">
+                    <h4>Solution:</h4>
+                    <p>Use relativistic velocity addition formula:<br>
+                    u = (u' + v)/(1 + u'v/c²)</p>
+
+                    <p>where:</p>
+                    <ul style="list-style-type: disc; margin-left: 2rem;">
+                        <li>u' = 0.60c (missile velocity relative to ship)</li>
+                        <li>v = 0.70c (ship velocity relative to Earth)</li>
+                    </ul>
+
+                    <p>u = (0.60c + 0.70c)/(1 + (0.60c)(0.70c)/c²)<br>
+                    u = 1.30c/(1 + 0.42)<br>
+                    u = 1.30c/1.42<br>
+                    u = 0.915c</p>
+
+                    <p>The missile approaches Earth at 0.915c or 91.5% of light speed.</p>
+
+                    <p>Note: Galilean addition would give u = 0.60c + 0.70c = 1.30c, which violates the speed limit!</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> The relativistic velocity addition formula prevents velocities from exceeding c. The denominator (1 + u'v/c²) becomes significant at high speeds, reducing the combined velocity. As speeds approach c, this correction becomes crucial. At everyday speeds, the correction is negligible and Galilean addition works fine.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 4</span>
+                    <p class="problem-question">An electron is accelerated from rest through a potential difference. Its final speed is 0.90c. (a) Calculate its Lorentz factor. (b) Find its relativistic momentum. (c) Calculate its total energy, rest energy, and kinetic energy. (d) Compare classical and relativistic kinetic energies. [mₑ = 9.11 × 10⁻³¹ kg, mₑc² = 0.511 MeV]</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution-content" id="solution-4">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Lorentz factor:</strong></p>
+                    <p>γ = 1/√(1 - v²/c²) = 1/√(1 - 0.90²) = 1/√(1 - 0.81)<br>
+                    = 1/√0.19 = 1/0.436 = 2.29</p>
+
+                    <p><strong>(b) Relativistic momentum:</strong></p>
+                    <p>p = γmv = 2.29 × (9.11 × 10⁻³¹ kg)(0.90 × 3.0 × 10⁸ m/s)<br>
+                    = 2.29 × (9.11 × 10⁻³¹)(2.7 × 10⁸)<br>
+                    = 5.64 × 10⁻²² kg·m/s</p>
+
+                    <p><strong>(c) Energies:</strong></p>
+                    <p>Rest energy: E₀ = mₑc² = 0.511 MeV<br>
+                    Total energy: E = γE₀ = 2.29 × 0.511 = 1.17 MeV<br>
+                    Kinetic energy: Eₖ = E - E₀ = 1.17 - 0.511 = 0.659 MeV<br>
+                    = 0.659 × 1.602 × 10⁻¹³ J = 1.06 × 10⁻¹³ J</p>
+
+                    <p><strong>(d) Classical kinetic energy:</strong></p>
+                    <p>Eₖ(classical) = ½mv² = ½(9.11 × 10⁻³¹)(0.90 × 3.0 × 10⁸)²<br>
+                    = ½(9.11 × 10⁻³¹)(7.29 × 10¹⁶)<br>
+                    = 3.32 × 10⁻¹⁴ J = 0.207 MeV</p>
+
+                    <p>Comparison:<br>
+                    Relativistic: 0.659 MeV<br>
+                    Classical: 0.207 MeV<br>
+                    Ratio: 0.659/0.207 ≈ 3.18</p>
+
+                    <p>The relativistic kinetic energy is more than 3 times the classical value at v = 0.90c!</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> This problem shows that classical mechanics significantly underestimates energy at high speeds. Particle accelerators must account for relativistic effects - the energy required to accelerate particles increases dramatically as they approach light speed. The rest energy (0.511 MeV) is the minimum energy 'locked up' in the electron's mass.
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header">
+                    <span class="problem-number">Problem 5</span>
+                    <p class="problem-question">In a particle accelerator, a proton (rest mass 938 MeV/c²) has total energy 7000 MeV. (a) Find its Lorentz factor. (b) Calculate its speed as a fraction of c. (c) Find its momentum in units of MeV/c.</p>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution-content" id="solution-5">
+                    <h4>Solution:</h4>
+                    <p><strong>(a) Total energy E = γmc²:</strong></p>
+                    <p>7000 MeV = γ(938 MeV)<br>
+                    γ = 7000/938 = 7.46</p>
+
+                    <p><strong>(b) From γ = 1/√(1 - v²/c²):</strong></p>
+                    <p>7.46 = 1/√(1 - v²/c²)<br>
+                    √(1 - v²/c²) = 1/7.46 = 0.134<br>
+                    1 - v²/c² = 0.0180<br>
+                    v²/c² = 1 - 0.0180 = 0.9820<br>
+                    v/c = √0.9820 = 0.991<br>
+                    v = 0.991c or 99.1% of light speed</p>
+
+                    <p><strong>(c) Using E² = (pc)² + (mc²)²:</strong></p>
+                    <p>(7000 MeV)² = (pc)² + (938 MeV)²<br>
+                    49,000,000 = (pc)² + 879,844<br>
+                    (pc)² = 48,120,156<br>
+                    pc = 6937 MeV<br>
+                    p = 6937 MeV/c</p>
+
+                    <p>Alternatively: p = γmv = 7.46 × (938 MeV/c²) × 0.991c = 6938 MeV/c (agrees within rounding)</p>
+
+                    <div class="explanation-box">
+                        <strong>Explanation:</strong> At LHC energies, particles move at 99%+ of light speed. The total energy is dominated by kinetic energy (7000 - 938 = 6062 MeV kinetic vs 938 MeV rest). The momentum is comparable to the energy in natural units. The energy-momentum relation is essential for analyzing particle collisions and decay processes.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exam Tips -->
+        <div class="tips-container">
+            <h2>Exam Tips</h2>
+            <div class="tip-item">Always identify proper time vs coordinate time. Proper time is measured by a clock present at both events (same location in that frame) - it's always the shortest interval. Time dilation formula: Δt = γΔt₀.</div>
+            <div class="tip-item">Always identify proper length vs coordinate length. Proper length is measured in the object's rest frame - it's always the longest measurement. Length contraction: L = L₀/γ.</div>
+            <div class="tip-item">When using Lorentz transformations (HL), be clear about which frame is S and which is S', and which direction is positive. Draw a diagram showing relative motion.</div>
+            <div class="tip-item">For velocity addition problems (HL), identify what's moving relative to what. Write u', v, and u clearly before substituting. Remember the formula prevents exceeding c.</div>
+            <div class="tip-item">In energy-momentum problems (HL), use E² = (pc)² + (mc²)² for particles with mass, and E = pc for photons. Check units carefully - MeV, MeV/c, and MeV/c² are different!</div>
+            <div class="tip-item">Spacetime diagrams: vertical = time, horizontal = space. Steeper worldlines = slower motion. Light travels at 45°. Events outside light cones cannot be causally connected.</div>
+            <div class="tip-item">For the twin paradox and similar problems, identify who accelerates - that breaks the symmetry. The accelerating observer is objectively younger.</div>
+            <div class="tip-item">Common mistake: confusing when to use γ vs 1/γ. Time dilates (gets longer): Δt = γΔt₀ where γ > 1. Length contracts (gets shorter): L = L₀/γ where 1/γ < 1.</div>
+            <div class="tip-item">Show your calculation of γ explicitly in exam answers. It's often worth a mark and helps prevent errors: γ = 1/√(1 - v²/c²).</div>
+            <div class="tip-item">In collision/decay problems (HL), both energy and momentum must be conserved. Write both conservation equations. Use E² = (pc)² + (mc²)² to relate them.</div>
+            <div class="tip-item">For essay questions on relativity paradoxes, always: (1) state the apparent paradox, (2) identify the hidden asymmetry, (3) resolve using correct physics, (4) mention experimental verification if relevant.</div>
+            <div class="tip-item">When calculating relativistic kinetic energy, Eₖ = (γ - 1)mc², NOT γmc². The total energy is E = γmc², rest energy is E₀ = mc², kinetic is the difference.</div>
+            <div class="tip-item">Check limiting cases: when v << c, your answer should reduce to classical results (γ → 1, relativistic momentum → mv, Eₖ → ½mv²). This catches algebra errors.</div>
+            <div class="tip-item">Data-based questions often ask you to verify time dilation by plotting lifetime vs γ or distance vs speed. The graph should be linear with y-intercept giving the proper quantity (rest lifetime, proper length).</div>
+            <div class="tip-item">For numerical problems, keep at least 3-4 significant figures during calculations to avoid rounding errors, especially when v is close to c and γ becomes large.</div>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChat()" title="Ask a question">💬</button>
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="lesson-footer">
+        <div class="footer-content">
+            <button class="nav-button prev" onclick="previousLesson()">← Previous Lesson</button>
+            <button class="nav-button next" onclick="nextLesson()">Next Lesson →</button>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Tracking
+        let currentProgress = 0;
+
+        function updateProgress() {
+            const sections = document.querySelectorAll('.content-section, .objectives-section');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollProgress = (window.scrollY / documentHeight) * 100;
+
+            currentProgress = Math.min(Math.round(scrollProgress), 100);
+
+            document.getElementById('progress-fill').style.width = currentProgress + '%';
+            document.getElementById('progress-text').textContent = currentProgress + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('lesson_a5_progress', currentProgress);
+        }
+
+        // Load saved progress
+        window.addEventListener('load', () => {
+            const savedProgress = localStorage.getItem('lesson_a5_progress');
+            if (savedProgress) {
+                document.getElementById('progress-fill').style.width = savedProgress + '%';
+                document.getElementById('progress-text').textContent = savedProgress + '%';
+            }
+        });
+
+        // Update progress on scroll
+        window.addEventListener('scroll', updateProgress);
+
+        // Solution Toggle Function
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = solution.previousElementSibling;
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('active');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Chatbot Function
+        function openChat() {
+            alert('Chatbot feature coming soon! You can ask questions about relativity, get additional examples, or request clarification on any topic.');
+        }
+
+        // Navigation Functions
+        function previousLesson() {
+            alert('Navigate to previous lesson (A4)');
+            // In production: window.location.href = 'physics_A4.html';
+        }
+
+        function nextLesson() {
+            alert('Navigate to next lesson (B1)');
+            // In production: window.location.href = 'physics_B1.html';
+        }
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mark lesson as visited
+        localStorage.setItem('lesson_a5_visited', 'true');
+        localStorage.setItem('lesson_a5_last_visit', new Date().toISOString());
+    </script>
+</body>
+</html>

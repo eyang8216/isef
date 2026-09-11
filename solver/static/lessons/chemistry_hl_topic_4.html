@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Bonding and Structure - IB Chemistry HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-bar h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .nav-bar .syllabus-code {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f0f0f0;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 40px 30px;
+        }
+
+        .content h2 {
+            color: #667eea;
+            font-size: 28px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content h2:first-child {
+            margin-top: 0;
+        }
+
+        .content h3 {
+            color: #764ba2;
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .content ul, .content ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content li {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .definition-text {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .objectives-list h3 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .objectives-list li {
+            color: #555;
+            padding: 8px 0;
+        }
+
+        /* Practice Problems */
+        .practice-section {
+            margin-top: 40px;
+        }
+
+        .problem-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .problem-question {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .solution-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .solution-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .solution-content.active {
+            display: block;
+        }
+
+        .solution-label {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        /* Exam Tips */
+        .exam-tips {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .exam-tips h3 {
+            color: #d63031;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .exam-tips li {
+            color: #2d3436;
+            padding: 8px 0;
+            font-weight: 500;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-widget svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+
+        /* Navigation Footer */
+        .nav-footer {
+            background: #f5f5f5;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .complete-button {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .nav-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .nav-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .chatbot-widget {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        /* Highlight boxes for important notes */
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .highlight-box strong {
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <div>
+                <h1>Chemical Bonding and Structure</h1>
+                <div class="syllabus-code">IB Chemistry HL Topic 4</div>
+            </div>
+            <div class="syllabus-code">HL Level</div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">Progress: <span id="progressPercent">0</span>% Complete</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content" id="mainContent">
+            <!-- Learning Objectives -->
+            <div class="objectives-list">
+                <h3>Learning Objectives</h3>
+                <ul>
+                    <li>Deduce the type of bonding present from the chemical formula and physical properties of a substance</li>
+                    <li>Describe ionic bonding as electrostatic attraction between oppositely charged ions in a lattice structure</li>
+                    <li>Explain the formation of ions through electron transfer and relate lattice enthalpy to ionic bond strength</li>
+                    <li>Describe covalent bonding as the electrostatic attraction between nuclei and shared electron pairs</li>
+                    <li>Apply Lewis structures to represent covalent bonding, including coordinate bonds and multiple bonds</li>
+                    <li>Deduce Lewis structures for molecules and ions showing all valence electrons, including resonance structures where applicable</li>
+                    <li>Apply formal charge calculations to evaluate the stability of different Lewis structures (HL)</li>
+                    <li>Explain sigma and pi bonds in terms of orbital overlap (HL)</li>
+                    <li>Apply hybridization theory (sp, sp2, sp3) to explain molecular geometry (HL)</li>
+                    <li>Apply VSEPR theory to predict and explain molecular shapes and bond angles</li>
+                    <li>Explain the relationship between electronegativity difference and bond type</li>
+                    <li>Compare and contrast different types of covalent structures: molecular, covalent network, and allotropes of carbon</li>
+                    <li>Describe metallic bonding as electrostatic attraction between cations and delocalized electrons</li>
+                    <li>Compare intermolecular forces: London dispersion, dipole-dipole, and hydrogen bonding</li>
+                    <li>Explain trends in physical properties based on bonding type and intermolecular forces</li>
+                    <li>Predict and explain the relative strength of intermolecular forces based on molecular structure</li>
+                </ul>
+            </div>
+
+            <!-- Key Definitions -->
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Ionic Bonding</div>
+                <div class="definition-text">The electrostatic attraction between oppositely charged ions in a three-dimensional lattice structure, formed through complete electron transfer from metal to non-metal atoms.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Covalent Bonding</div>
+                <div class="definition-text">The electrostatic attraction between the nuclei of bonded atoms and the shared pair(s) of electrons between them.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Metallic Bonding</div>
+                <div class="definition-text">The electrostatic attraction between a lattice of positive metal cations and a sea of delocalized valence electrons.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Electronegativity</div>
+                <div class="definition-text">The ability of an atom to attract a shared pair of electrons in a covalent bond, measured on the Pauling scale.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Bond Polarity</div>
+                <div class="definition-text">The unequal sharing of electrons in a covalent bond due to differences in electronegativity, creating partial charges.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">VSEPR Theory</div>
+                <div class="definition-text">Valence Shell Electron Pair Repulsion theory states that electron pairs around a central atom arrange themselves to minimize repulsion, determining molecular geometry.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Hybridization</div>
+                <div class="definition-text">The mixing of atomic orbitals to form new hybrid orbitals of equal energy, used to explain molecular geometry and bonding.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Sigma Bond</div>
+                <div class="definition-text">A covalent bond formed by end-to-end overlap of atomic orbitals along the internuclear axis, allowing free rotation.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Pi Bond</div>
+                <div class="definition-text">A covalent bond formed by sideways overlap of parallel p orbitals above and below the internuclear axis, restricting rotation.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Formal Charge</div>
+                <div class="definition-text">The charge an atom would have if all bonding electrons were shared equally, calculated as: valence electrons minus non-bonding electrons minus half the bonding electrons.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Resonance Structures</div>
+                <div class="definition-text">Multiple valid Lewis structures for a molecule that differ only in the position of electrons, with the actual structure being a hybrid of all resonance forms.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">London Dispersion Forces</div>
+                <div class="definition-text">Weak intermolecular forces arising from temporary dipoles created by instantaneous uneven electron distribution in atoms or molecules.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Hydrogen Bonding</div>
+                <div class="definition-text">A strong dipole-dipole interaction between a hydrogen atom bonded to N, O, or F and a lone pair on another N, O, or F atom.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Lattice Enthalpy</div>
+                <div class="definition-text">The enthalpy change when one mole of an ionic solid is formed from its gaseous ions under standard conditions, or the reverse (dissociation).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Coordinate Bond</div>
+                <div class="definition-text">A covalent bond where both electrons in the shared pair come from the same atom, also called a dative covalent bond.</div>
+            </div>
+
+            <!-- Content Sections -->
+            <h2>Introduction: Why Chemical Bonding Matters</h2>
+            <p>Chemical bonding is the foundation of all matter and chemical reactions. Understanding why atoms bond and how different bonding types produce vastly different properties is essential for explaining phenomena from the hardness of diamond to the conductivity of metals to the unique properties of water.</p>
+            <p>Atoms bond to achieve greater stability by lowering their potential energy. Most atoms achieve this by attaining a noble gas electron configuration (octet rule for main group elements). The type of bonding depends on the difference in electronegativity between atoms and determines the physical and chemical properties of substances.</p>
+            <p>This topic builds on your understanding of atomic structure (Topic 2) and periodicity (Topic 3). You will apply electron configurations and periodic trends to explain bonding patterns and predict molecular properties.</p>
+
+            <h2>4.1 Ionic Bonding and Structure</h2>
+            <p>Ionic bonding occurs between metals and non-metals when there is a large electronegativity difference (typically greater than 1.8 on the Pauling scale). The metal atom loses electrons to form a positive cation, while the non-metal gains electrons to form a negative anion.</p>
+
+            <h3>Formation of Ions</h3>
+            <p>Consider sodium chloride formation:</p>
+            <ul>
+                <li>Na (electron configuration: 1s² 2s² 2p⁶ 3s¹) loses one electron to form Na⁺ (1s² 2s² 2p⁶), achieving neon's configuration</li>
+                <li>Cl (1s² 2s² 2p⁶ 3s² 3p⁵) gains one electron to form Cl⁻ (1s² 2s² 2p⁶ 3s² 3p⁶), achieving argon's configuration</li>
+            </ul>
+            <p>The ionic bond is NOT simply the transfer of electrons - that is ion formation. The ionic bond is the electrostatic attraction between the resulting oppositely charged ions in the crystal lattice.</p>
+
+            <h3>Lattice Structure</h3>
+            <p>Ionic compounds form three-dimensional giant lattice structures where each ion is surrounded by oppositely charged ions. In NaCl, each Na⁺ ion is surrounded by six Cl⁻ ions in an octahedral arrangement, and vice versa. This is called a 6:6 coordination.</p>
+            <p>The strength of ionic bonding is quantified by lattice enthalpy, which depends on:</p>
+            <ol>
+                <li><strong>Charge on ions:</strong> Higher charges lead to stronger attraction (|q₁ × q₂|)</li>
+                <li><strong>Size of ions:</strong> Smaller ions can get closer together, increasing attraction (inversely proportional to distance)</li>
+            </ol>
+            <p>In simpler terms: stronger ionic bonding occurs with higher charges and smaller ionic radii.</p>
+
+            <h3>Properties of Ionic Compounds</h3>
+            <ol>
+                <li><strong>High melting and boiling points:</strong> Strong electrostatic forces throughout the lattice require significant energy to overcome</li>
+                <li><strong>Brittleness:</strong> When stress is applied, ions of like charge align and repel, causing the structure to shatter</li>
+                <li><strong>Electrical conductivity:</strong> Non-conductive as solids (ions fixed in lattice), but conductive when molten or dissolved (ions free to move)</li>
+                <li><strong>Solubility:</strong> Many dissolve in polar solvents like water, which can stabilize the separated ions through ion-dipole interactions</li>
+            </ol>
+            <div class="highlight-box">
+                <strong>Common Misconception:</strong> Students often write "NaCl molecule" - ionic compounds do NOT form discrete molecules. The formula NaCl represents the simplest whole number ratio of ions, not a molecular formula.
+            </div>
+
+            <h2>4.2 Covalent Bonding Fundamentals</h2>
+            <p>Covalent bonding occurs between non-metal atoms when electrons are shared rather than transferred. The shared electrons are simultaneously attracted to both nuclei, holding the atoms together.</p>
+
+            <h3>Why Sharing Occurs</h3>
+            <p>When two atoms with similar electronegativities approach each other, neither can completely remove electrons from the other. Instead, they share electrons to achieve noble gas configurations. The bonding pair of electrons creates a region of high electron density between the nuclei.</p>
+
+            <h3>Single, Double, and Triple Bonds</h3>
+            <ul>
+                <li><strong>Single bond:</strong> One shared pair (e.g., H-H in H₂)</li>
+                <li><strong>Double bond:</strong> Two shared pairs (e.g., O=O in O₂)</li>
+                <li><strong>Triple bond:</strong> Three shared pairs (e.g., N≡N in N₂)</li>
+            </ul>
+            <p>Bond strength order: triple &gt; double &gt; single<br>
+            Bond length order: triple &lt; double &lt; single</p>
+            <p>As more electrons are shared, the nuclei are pulled closer together, creating shorter and stronger bonds.</p>
+
+            <h3>Electronegativity and Bond Type</h3>
+            <p>The Pauling electronegativity scale (0 to 4.0) quantifies an atom's ability to attract bonding electrons:</p>
+            <ul>
+                <li>F (4.0) most electronegative</li>
+                <li>Cs (0.7) least electronegative</li>
+            </ul>
+            <p>Electronegativity difference (ΔEN) determines bond character:</p>
+            <ul>
+                <li>ΔEN = 0: Pure covalent (equal sharing) - e.g., H₂, Cl₂</li>
+                <li>ΔEN = 0.1-0.4: Non-polar covalent - e.g., C-H</li>
+                <li>ΔEN = 0.5-1.7: Polar covalent (unequal sharing) - e.g., H-Cl</li>
+                <li>ΔEN &gt; 1.8: Ionic (electron transfer) - e.g., NaCl</li>
+            </ul>
+            <p>These boundaries are approximate; bonding exists on a continuum.</p>
+
+            <h3>Polar Covalent Bonds</h3>
+            <p>In polar covalent bonds, the more electronegative atom gains a partial negative charge (δ-) while the less electronegative atom gains a partial positive charge (δ+). For example, in HCl:</p>
+            <p style="text-align: center; font-size: 18px; margin: 20px 0;"><strong>δ⁺H - Clδ⁻</strong></p>
+            <p>This creates a bond dipole moment, a vector quantity pointing from positive to negative.</p>
+
+            <h3>Coordinate Bonds (Dative Covalent)</h3>
+            <p>A coordinate bond forms when both electrons in the bonding pair come from the same atom. Once formed, it is identical to a regular covalent bond.</p>
+            <p>Example: Ammonium ion (NH₄⁺) formation</p>
+            <ul>
+                <li>NH₃ has a lone pair on nitrogen</li>
+                <li>H⁺ has an empty 1s orbital</li>
+                <li>The lone pair from N donates to H⁺, forming a coordinate bond</li>
+            </ul>
+            <p>Coordinate bonds are represented with an arrow (→) pointing from donor to acceptor in Lewis structures, though this is optional after formation.</p>
+
+            <h2>4.2 Lewis Structures and Formal Charge (HL)</h2>
+
+            <h3>Drawing Lewis Structures</h3>
+            <p>Lewis structures show all valence electrons as dots or lines, with bonding pairs as lines and non-bonding pairs as dots.</p>
+            <p>Systematic approach:</p>
+            <ol>
+                <li>Count total valence electrons (add for anions, subtract for cations)</li>
+                <li>Identify the central atom (usually least electronegative, never H)</li>
+                <li>Connect atoms with single bonds</li>
+                <li>Complete octets on outer atoms (except H, which needs 2)</li>
+                <li>Place remaining electrons on central atom</li>
+                <li>If central atom lacks an octet, form multiple bonds</li>
+                <li>Check: total electrons used = total available</li>
+            </ol>
+
+            <h3>Example: Carbon Dioxide (CO₂)</h3>
+            <ol>
+                <li>Valence electrons: C(4) + 2×O(6) = 16 electrons</li>
+                <li>Central atom: C (less electronegative than O)</li>
+                <li>O-C-O skeleton uses 4 electrons</li>
+                <li>Complete octets on O atoms: 4 + 12 = 16 electrons used</li>
+                <li>Central C has only 4 electrons - needs octet</li>
+                <li>Form double bonds: O=C=O</li>
+                <li>Check: 4 bonds × 2 e⁻/bond + 4 lone pairs × 2 e⁻/pair = 16 ✓</li>
+            </ol>
+
+            <h3>Resonance Structures</h3>
+            <p>Some molecules cannot be represented by a single Lewis structure. Resonance structures are different arrangements of electrons (not atoms) that are equally valid.</p>
+            <p>Example: Ozone (O₃) has two resonance structures with the double bond on either side. The actual structure is a hybrid with both O-O bonds having bond order 1.5.</p>
+            <p>Resonance occurs when:</p>
+            <ul>
+                <li>Multiple bonds can be placed in different positions</li>
+                <li>Lone pairs can participate in bonding</li>
+                <li>The molecule has delocalized electrons</li>
+            </ul>
+            <div class="highlight-box">
+                <strong>Important:</strong> Resonance structures are NOT in equilibrium. The molecule does NOT oscillate between forms. It exists as a single hybrid structure.
+            </div>
+
+            <h3>Formal Charge (HL)</h3>
+            <p>Formal charge helps identify the most stable Lewis structure. It is calculated as:</p>
+            <p style="text-align: center; font-size: 18px; margin: 20px 0;"><strong>FC = V - N - B/2</strong></p>
+            <p>Where:</p>
+            <ul>
+                <li>V = valence electrons in free atom</li>
+                <li>N = non-bonding electrons</li>
+                <li>B = bonding electrons</li>
+            </ul>
+            <p>Rules for evaluating structures:</p>
+            <ol>
+                <li>The sum of formal charges equals the overall charge</li>
+                <li>Structures with formal charges closest to zero are most stable</li>
+                <li>Negative formal charges should be on more electronegative atoms</li>
+                <li>Adjacent formal charges of the same sign are unfavorable</li>
+            </ol>
+
+            <h3>Exceptions to the Octet Rule</h3>
+            <ol>
+                <li><strong>Incomplete octets:</strong> Be (4e⁻), B (6e⁻) - e.g., BF₃</li>
+                <li><strong>Expanded octets:</strong> Elements in period 3+ can use d orbitals - e.g., SF₆, PCl₅ (HL content)</li>
+                <li><strong>Odd-electron species:</strong> Free radicals like NO₂ have unpaired electrons</li>
+            </ol>
+            <p>Note: Expanded octets are only possible for elements with accessible d orbitals (period 3 and below).</p>
+
+            <h2>4.2 Sigma and Pi Bonds (HL)</h2>
+            <p>Understanding sigma (σ) and pi (π) bonds requires knowledge of orbital overlap - how atomic orbitals combine to form molecular orbitals.</p>
+
+            <h3>Sigma (σ) Bonds</h3>
+            <p>A sigma bond forms from end-to-end (head-on) overlap of atomic orbitals along the internuclear axis. The electron density is concentrated between the nuclei.</p>
+            <p>Types of σ bond formation:</p>
+            <ul>
+                <li>s-s overlap: H₂ (1s-1s)</li>
+                <li>s-p overlap: HCl (1s-3p)</li>
+                <li>p-p overlap: Cl₂ (3p-3p end-to-end)</li>
+                <li>hybrid-hybrid overlap: C-C in ethane (sp³-sp³)</li>
+            </ul>
+            <p>Characteristics:</p>
+            <ul>
+                <li>Strong bonds due to effective overlap</li>
+                <li>Allow free rotation around the bond axis</li>
+                <li>Present in all single, double, and triple bonds (always the first bond)</li>
+            </ul>
+
+            <h3>Pi (π) Bonds</h3>
+            <p>A pi bond forms from sideways (parallel) overlap of p orbitals above and below the internuclear axis. The electron density is concentrated in two regions, one above and one below the bonding axis.</p>
+            <p>Characteristics:</p>
+            <ul>
+                <li>Weaker than σ bonds (less effective overlap)</li>
+                <li>Restrict rotation (breaking the π bond requires ~260 kJ/mol)</li>
+                <li>Present in double bonds (1σ + 1π) and triple bonds (1σ + 2π)</li>
+                <li>Never exist without an accompanying σ bond</li>
+            </ul>
+
+            <h3>Bond Composition</h3>
+            <ul>
+                <li>Single bond: 1σ</li>
+                <li>Double bond: 1σ + 1π</li>
+                <li>Triple bond: 1σ + 2π</li>
+            </ul>
+
+            <h3>Example: Ethene (C₂H₄)</h3>
+            <ul>
+                <li>C-C double bond contains 1σ bond (sp²-sp² overlap) + 1π bond (p-p sideways overlap)</li>
+                <li>C-H single bonds are σ bonds (sp²-1s overlap)</li>
+                <li>The π bond prevents rotation around C=C, keeping the molecule planar</li>
+                <li>This explains cis-trans isomerism in alkenes</li>
+            </ul>
+            <div class="highlight-box">
+                <strong>Common Misconception:</strong> Students sometimes think double bonds are "twice as strong" as single bonds. This is false. A π bond is weaker than a σ bond, so C=C (612 kJ/mol) is not twice as strong as C-C (348 kJ/mol).
+            </div>
+
+            <h2>4.2 Hybridization Theory (HL)</h2>
+            <p>Hybridization explains molecular geometry by describing how atomic orbitals mix to form new hybrid orbitals that can form stronger bonds.</p>
+
+            <h3>Why Hybridization?</h3>
+            <p>Consider carbon (1s² 2s² 2p²). Carbon has two unpaired electrons in its ground state, suggesting it should form two bonds. However, carbon typically forms four bonds (e.g., CH₄). Additionally, the electron configuration doesn't explain the tetrahedral geometry of methane.</p>
+            <p>Hybridization theory resolves this: an electron is promoted from 2s to 2p, then the one s and three p orbitals mix to form four equivalent sp³ hybrid orbitals.</p>
+
+            <h3>sp³ Hybridization</h3>
+            <p>Mixing: 1s + 3p → 4sp³ hybrid orbitals</p>
+            <ul>
+                <li>Geometry: Tetrahedral</li>
+                <li>Bond angle: 109.5°</li>
+                <li>Examples: CH₄, NH₃, H₂O</li>
+            </ul>
+            <p>Note: NH₃ and H₂O are sp³ hybridized even though they appear pyramidal and bent. The hybridization describes all electron pairs (bonding and non-bonding), while molecular shape considers only atoms.</p>
+
+            <h3>sp² Hybridization</h3>
+            <p>Mixing: 1s + 2p → 3sp² hybrid orbitals (one p orbital remains unhybridized)</p>
+            <ul>
+                <li>Geometry: Trigonal planar (for hybrid orbitals)</li>
+                <li>Bond angle: 120°</li>
+                <li>Examples: BF₃, C₂H₄, CO₃²⁻</li>
+            </ul>
+            <p>The unhybridized p orbital is perpendicular to the plane and forms π bonds.</p>
+
+            <h3>Example: Ethene (C₂H₄)</h3>
+            <ul>
+                <li>Each carbon is sp² hybridized</li>
+                <li>Three sp² orbitals form σ bonds (one C-C, two C-H)</li>
+                <li>The unhybridized p orbitals overlap sideways to form the π bond</li>
+                <li>This explains the planar geometry and restricted rotation</li>
+            </ul>
+
+            <h3>sp Hybridization</h3>
+            <p>Mixing: 1s + 1p → 2sp hybrid orbitals (two p orbitals remain unhybridized)</p>
+            <ul>
+                <li>Geometry: Linear</li>
+                <li>Bond angle: 180°</li>
+                <li>Examples: BeCl₂, C₂H₂, CO₂</li>
+            </ul>
+            <p>The two unhybridized p orbitals (perpendicular to each other) form π bonds.</p>
+
+            <h3>Example: Ethyne (C₂H₂)</h3>
+            <ul>
+                <li>Each carbon is sp hybridized</li>
+                <li>Two sp orbitals form σ bonds (one C-C, one C-H)</li>
+                <li>Two unhybridized p orbitals on each carbon form two π bonds (perpendicular to each other)</li>
+                <li>This explains the linear geometry and cylindrical electron cloud around the C≡C bond</li>
+            </ul>
+
+            <h3>Determining Hybridization</h3>
+            <ol>
+                <li>Draw Lewis structure</li>
+                <li>Count electron domains (bonding pairs + lone pairs) on the central atom</li>
+                <li>Match to hybridization:
+                    <ul>
+                        <li>4 domains → sp³</li>
+                        <li>3 domains → sp²</li>
+                        <li>2 domains → sp</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Note: Multiple bonds count as ONE electron domain.</p>
+
+            <h3>Relationship to VSEPR</h3>
+            <p>Hybridization and VSEPR are complementary:</p>
+            <ul>
+                <li>VSEPR predicts geometry from electron pair repulsion (phenomenological)</li>
+                <li>Hybridization explains bonding through orbital mixing (theoretical)</li>
+            </ul>
+            <p>Both give the same geometry predictions, but hybridization provides deeper insight into orbital interactions.</p>
+
+            <h2>4.3 Molecular Geometry and VSEPR Theory</h2>
+            <p>VSEPR (Valence Shell Electron Pair Repulsion) theory predicts three-dimensional molecular shapes based on the principle that electron pairs arrange themselves to minimize repulsion.</p>
+
+            <h3>Electron Domains</h3>
+            <p>An electron domain is a region of electron density around the central atom:</p>
+            <ul>
+                <li>Single bond = 1 domain</li>
+                <li>Double bond = 1 domain</li>
+                <li>Triple bond = 1 domain</li>
+                <li>Lone pair = 1 domain</li>
+            </ul>
+
+            <h3>Basic Geometries (No Lone Pairs)</h3>
+            <table>
+                <tr>
+                    <th>Domains</th>
+                    <th>Geometry</th>
+                    <th>Bond Angle</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Linear</td>
+                    <td>180°</td>
+                    <td>CO₂, BeCl₂</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Trigonal planar</td>
+                    <td>120°</td>
+                    <td>BF₃, SO₃</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Tetrahedral</td>
+                    <td>109.5°</td>
+                    <td>CH₄, NH₄⁺</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Trigonal bipyramidal</td>
+                    <td>90°, 120°</td>
+                    <td>PCl₅</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Octahedral</td>
+                    <td>90°</td>
+                    <td>SF₆</td>
+                </tr>
+            </table>
+
+            <h3>Effect of Lone Pairs</h3>
+            <p>Lone pairs occupy more space than bonding pairs because they are attracted to only one nucleus. This creates greater repulsion, affecting both bond angles and molecular shape.</p>
+            <p>Repulsion strength: lone pair-lone pair &gt; lone pair-bonding pair &gt; bonding pair-bonding pair</p>
+
+            <h3>Molecular Shapes with Lone Pairs</h3>
+            <p><strong>4 Electron Domains (sp³ hybridization):</strong></p>
+            <ul>
+                <li>4 bonding, 0 lone: Tetrahedral (109.5°) - CH₄</li>
+                <li>3 bonding, 1 lone: Trigonal pyramidal (~107°) - NH₃</li>
+                <li>2 bonding, 2 lone: Bent (~104.5°) - H₂O</li>
+            </ul>
+            <p>Note: Bond angles decrease as lone pairs increase due to greater repulsion.</p>
+
+            <h3>Predicting Molecular Polarity</h3>
+            <p>A molecule is polar if:</p>
+            <ol>
+                <li>It contains polar bonds (ΔEN ≠ 0)</li>
+                <li>The bond dipoles do NOT cancel due to asymmetric geometry</li>
+            </ol>
+            <p>Examples:</p>
+            <ul>
+                <li>CO₂: Linear, bond dipoles cancel → non-polar</li>
+                <li>H₂O: Bent, bond dipoles add → polar</li>
+                <li>CCl₄: Tetrahedral, bond dipoles cancel → non-polar</li>
+                <li>CHCl₃: Tetrahedral, bond dipoles do not cancel → polar</li>
+            </ul>
+            <p>Symmetric molecules (linear, trigonal planar, tetrahedral with identical substituents, octahedral) are non-polar even if bonds are polar.</p>
+
+            <h2>4.3 Covalent Structures and Allotropes</h2>
+            <p>Covalent substances are classified into two main types based on structure:</p>
+
+            <h3>1. Simple Molecular (Covalent Molecular)</h3>
+            <p>Consist of discrete molecules held together by strong covalent bonds within molecules and weak intermolecular forces between molecules.</p>
+            <p>Examples: H₂O, CO₂, I₂, C₆H₁₂O₆ (glucose), P₄</p>
+            <p>Properties:</p>
+            <ul>
+                <li>Low melting and boiling points (weak intermolecular forces)</li>
+                <li>Non-conductive (no free electrons or ions)</li>
+                <li>Often soluble in non-polar solvents</li>
+                <li>Soft and brittle as solids</li>
+            </ul>
+
+            <h3>2. Covalent Network (Giant Covalent)</h3>
+            <p>Consist of atoms covalently bonded in a continuous three-dimensional network with no discrete molecules.</p>
+            <p>Examples: Diamond (C), graphite (C), silicon dioxide (SiO₂), silicon carbide (SiC)</p>
+            <p>Properties:</p>
+            <ul>
+                <li>Very high melting points (must break many strong covalent bonds)</li>
+                <li>Generally non-conductive (exception: graphite)</li>
+                <li>Insoluble in all solvents</li>
+                <li>Very hard (exception: graphite)</li>
+            </ul>
+
+            <h3>Allotropes of Carbon</h3>
+            <p>Allotropes are different structural forms of the same element in the same physical state.</p>
+
+            <p><strong>Diamond:</strong></p>
+            <ul>
+                <li>Each C atom is sp³ hybridized, forming 4 single bonds</li>
+                <li>Tetrahedral geometry creates a rigid 3D network</li>
+                <li>Properties: Extremely hard, high melting point (~4000°C), electrical insulator, transparent</li>
+                <li>Uses: Cutting tools, jewelry</li>
+            </ul>
+
+            <p><strong>Graphite:</strong></p>
+            <ul>
+                <li>Each C atom is sp² hybridized, forming 3 σ bonds in planar hexagonal layers</li>
+                <li>The fourth electron is delocalized in π orbitals between layers</li>
+                <li>Properties: Soft and slippery (weak forces between layers), electrical conductor (delocalized electrons), high melting point, opaque</li>
+                <li>Uses: Lubricants, electrodes, pencils</li>
+            </ul>
+
+            <p><strong>Graphene (HL):</strong></p>
+            <ul>
+                <li>Single layer of graphite (one atom thick)</li>
+                <li>Strongest material known</li>
+                <li>Excellent electrical and thermal conductor</li>
+                <li>Properties emerge from 2D structure with delocalized electrons</li>
+            </ul>
+
+            <p><strong>Fullerenes (HL):</strong></p>
+            <ul>
+                <li>Spherical or tubular carbon structures (C₆₀ buckminsterfullerene, carbon nanotubes)</li>
+                <li>Each C is sp² hybridized forming hexagons and pentagons</li>
+                <li>Properties: Molecular structure (unlike diamond/graphite), semiconducting, high tensile strength in nanotubes</li>
+                <li>Applications: Drug delivery, electronics, materials science</li>
+            </ul>
+
+            <h3>Silicon Dioxide (Quartz)</h3>
+            <ul>
+                <li>Each Si atom bonded to 4 O atoms, each O bonded to 2 Si atoms</li>
+                <li>Giant covalent network (not individual SiO₂ molecules)</li>
+                <li>Properties: High melting point (1710°C), very hard, insulator</li>
+                <li>Contrast with CO₂ (molecular): different bonding despite similar formula</li>
+            </ul>
+
+            <h3>Why the Difference?</h3>
+            <p>Carbon forms strong π bonds (similar size p orbitals), allowing stable C=C and C≡C bonds, so CO₂ exists as discrete molecules.</p>
+            <p>Silicon forms weaker π bonds (larger 3p orbitals), so it prefers to form four single bonds, creating a network structure in SiO₂.</p>
+
+            <h2>4.4 Metallic Bonding</h2>
+            <p>Metallic bonding explains the unique properties of metals through the delocalization of valence electrons.</p>
+
+            <h3>The Metallic Bond</h3>
+            <p>In metals, valence electrons are not associated with particular atoms but are delocalized throughout the structure, forming a "sea of electrons" that moves freely among the lattice of positive metal cations.</p>
+            <p>Metallic bonding = electrostatic attraction between the lattice of positive metal ions and the delocalized electrons</p>
+
+            <h3>The Electron Sea Model</h3>
+            <p>Metal atoms have low ionization energies, so valence electrons are easily removed. In the solid, these electrons become delocalized:</p>
+            <p style="text-align: center; margin: 20px 0;"><strong>M → M⁺ + e⁻ (delocalized)</strong></p>
+            <p>The resulting M⁺ cations pack efficiently (usually hexagonal close packing or cubic close packing), while electrons move freely through the structure.</p>
+
+            <h3>Properties of Metals</h3>
+            <ol>
+                <li><strong>Electrical conductivity:</strong> Delocalized electrons can move when a voltage is applied, carrying charge through the material. Conductivity decreases with temperature (increased ion vibration impedes electron flow).</li>
+                <li><strong>Thermal conductivity:</strong> Delocalized electrons transfer kinetic energy rapidly through the structure. Metals are among the best thermal conductors.</li>
+                <li><strong>Malleability and ductility:</strong> When stress is applied, layers of metal ions can slide past each other without breaking bonds because the electron sea maintains attraction regardless of ion position. This is why metals bend rather than shatter.</li>
+                <li><strong>Luster (shininess):</strong> Delocalized electrons can absorb and re-emit photons across a range of frequencies, giving metals their characteristic shine.</li>
+                <li><strong>Moderate to high melting points:</strong> Depend on the strength of metallic bonding.</li>
+            </ol>
+
+            <h3>Factors Affecting Metallic Bond Strength</h3>
+            <ol>
+                <li><strong>Number of delocalized electrons:</strong> More valence electrons = stronger bonding
+                    <ul>
+                        <li>Group 1 (1 electron): Weak bonding, low melting points (Na: 98°C)</li>
+                        <li>Group 2 (2 electrons): Stronger bonding (Mg: 650°C)</li>
+                        <li>Group 3 (3 electrons): Even stronger (Al: 660°C)</li>
+                        <li>Transition metals (variable): Very strong (W: 3422°C)</li>
+                    </ul>
+                </li>
+                <li><strong>Size of metal ion:</strong> Smaller ions = electrons closer to nuclei = stronger attraction
+                    <ul>
+                        <li>Li (180°C) &gt; Na (98°C) &gt; K (64°C) &gt; Rb (39°C) &gt; Cs (28°C)</li>
+                    </ul>
+                </li>
+                <li><strong>Packing efficiency:</strong> Close-packed structures have stronger bonding</li>
+            </ol>
+
+            <h3>Alloys</h3>
+            <p>Alloys are mixtures of metals (or metals with non-metals) that have metallic bonding.</p>
+            <p>Types:</p>
+            <ul>
+                <li><strong>Substitutional alloys:</strong> Atoms of similar size replace some host atoms (brass: Cu-Zn, bronze: Cu-Sn)</li>
+                <li><strong>Interstitial alloys:</strong> Small atoms fit in spaces between host atoms (steel: Fe-C)</li>
+            </ul>
+            <p>Alloys are often harder and stronger than pure metals because the different-sized atoms disrupt the regular lattice, making layer sliding more difficult.</p>
+
+            <h3>Comparison: Metallic vs Ionic vs Covalent Network</h3>
+            <table>
+                <tr>
+                    <th>Property</th>
+                    <th>Ionic</th>
+                    <th>Metallic</th>
+                    <th>Covalent Network</th>
+                </tr>
+                <tr>
+                    <td>Conductivity (solid)</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>No (except graphite)</td>
+                </tr>
+                <tr>
+                    <td>Conductivity (molten)</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>N/A (decomposes)</td>
+                </tr>
+                <tr>
+                    <td>Malleability</td>
+                    <td>Brittle</td>
+                    <td>Malleable</td>
+                    <td>Brittle</td>
+                </tr>
+                <tr>
+                    <td>Solubility</td>
+                    <td>Often in polar solvents</td>
+                    <td>Insoluble</td>
+                    <td>Insoluble</td>
+                </tr>
+            </table>
+
+            <h2>4.5 Intermolecular Forces</h2>
+            <p>Intermolecular forces (IMFs) are attractive forces between molecules. They are much weaker than covalent, ionic, or metallic bonds but are crucial for determining physical properties.</p>
+
+            <h3>Types of Intermolecular Forces</h3>
+
+            <h3>1. London Dispersion Forces (Van der Waals Forces)</h3>
+            <p>The weakest IMF, present in ALL molecules (polar and non-polar).</p>
+            <p>Origin: Temporary dipoles arise from instantaneous uneven electron distribution. This induces dipoles in neighboring molecules, creating weak attractions.</p>
+            <p>Strength factors:</p>
+            <ul>
+                <li><strong>Molecular size/molar mass:</strong> Larger molecules have more electrons, creating stronger temporary dipoles
+                    <ul>
+                        <li>F₂ (38 g/mol): b.p. -188°C</li>
+                        <li>Cl₂ (71 g/mol): b.p. -34°C</li>
+                        <li>Br₂ (160 g/mol): b.p. 59°C</li>
+                        <li>I₂ (254 g/mol): b.p. 184°C</li>
+                    </ul>
+                </li>
+                <li><strong>Surface area/molecular shape:</strong> Greater contact area increases dispersion forces
+                    <ul>
+                        <li>n-pentane (linear): b.p. 36°C</li>
+                        <li>neopentane (spherical, same formula): b.p. 10°C</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>2. Dipole-Dipole Interactions</h3>
+            <p>Occur between polar molecules where permanent dipoles align (positive end attracted to negative end).</p>
+            <p>Strength: Moderate (~5-20 kJ/mol), stronger than dispersion forces</p>
+            <p>Example: HCl molecules align with δ⁺H near δ⁻Cl of neighboring molecules</p>
+            <p>Polar molecules have higher boiling points than non-polar molecules of similar size:</p>
+            <ul>
+                <li>CH₃CH₃ (non-polar, 30 g/mol): b.p. -89°C</li>
+                <li>CH₃F (polar, 34 g/mol): b.p. -78°C</li>
+            </ul>
+
+            <h3>3. Hydrogen Bonding</h3>
+            <p>A special, exceptionally strong dipole-dipole interaction.</p>
+            <p>Requirements:</p>
+            <ul>
+                <li>H bonded to N, O, or F (very electronegative atoms)</li>
+                <li>Lone pair on another N, O, or F atom</li>
+            </ul>
+            <p>Representation: X-H···Y (where X and Y are N, O, or F)</p>
+            <p>Strength: ~20-40 kJ/mol (about 10× stronger than typical dipole-dipole)</p>
+
+            <h3>Why So Strong?</h3>
+            <ol>
+                <li>N, O, F are highly electronegative, creating large δ⁺ on H</li>
+                <li>H is very small, allowing close approach to lone pairs</li>
+                <li>Strong electrostatic attraction between δ⁺H and lone pair</li>
+            </ol>
+
+            <h3>Water: The Classic Example</h3>
+            <p>H₂O has exceptional properties due to hydrogen bonding:</p>
+            <ul>
+                <li>High boiling point (100°C) compared to H₂S (−60°C), despite lower molar mass</li>
+                <li>High specific heat capacity (high energy to break H-bonds)</li>
+                <li>Ice less dense than liquid water (H-bonds create open hexagonal structure)</li>
+                <li>High surface tension</li>
+                <li>Excellent solvent for polar and ionic substances</li>
+            </ul>
+
+            <h3>Hydrogen Bonding in Biology</h3>
+            <ul>
+                <li>DNA double helix: H-bonds between complementary base pairs (A-T: 2 H-bonds, G-C: 3 H-bonds)</li>
+                <li>Protein structure: H-bonds stabilize secondary structure (α-helix, β-sheet)</li>
+                <li>Water's biological importance: solvent, temperature regulation, transport</li>
+            </ul>
+
+            <h3>Comparing IMF Strengths</h3>
+            <p style="text-align: center; font-size: 18px; margin: 20px 0;"><strong>Ion-dipole &gt; Hydrogen bonding &gt; Dipole-dipole &gt; London dispersion</strong></p>
+            <p>(Note: Ion-dipole is technically an ion-molecule interaction, not IMF)</p>
+
+            <h3>Predicting Physical Properties from IMFs</h3>
+            <p><strong>Boiling Point:</strong> Stronger IMF → higher b.p. (more energy needed to separate molecules)</p>
+            <p><strong>Volatility:</strong> Stronger IMF → lower volatility (less evaporation)</p>
+            <p><strong>Viscosity:</strong> Stronger IMF → higher viscosity (more resistance to flow)</p>
+            <p><strong>Surface Tension:</strong> Stronger IMF → higher surface tension</p>
+            <p><strong>Solubility:</strong> "Like dissolves like"</p>
+            <ul>
+                <li>Polar solutes dissolve in polar solvents (can form dipole-dipole or H-bonds)</li>
+                <li>Non-polar solutes dissolve in non-polar solvents (similar dispersion forces)</li>
+                <li>Ionic compounds dissolve in polar solvents (ion-dipole interactions)</li>
+            </ul>
+            <div class="highlight-box">
+                <strong>Common Misconception:</strong> Students confuse "breaking bonds" with "overcoming IMFs." Boiling does NOT break covalent bonds within molecules - it separates molecules by overcoming IMFs. The molecule H₂O remains intact when water boils; only the H-bonds between molecules are broken.
+            </div>
+
+            <h2>Summary: Predicting Properties from Structure</h2>
+            <p>The type of bonding and structure determines macroscopic properties. Here is a systematic approach:</p>
+
+            <h3>Step 1: Identify the bonding type</h3>
+            <ul>
+                <li>Metal + non-metal → Ionic</li>
+                <li>Non-metal + non-metal → Covalent</li>
+                <li>Metal + metal → Metallic</li>
+            </ul>
+
+            <h3>Step 2: Determine structure</h3>
+            <ul>
+                <li>Ionic → Giant lattice</li>
+                <li>Covalent → Molecular (discrete molecules) OR network (continuous structure)</li>
+                <li>Metallic → Giant metallic lattice</li>
+            </ul>
+
+            <h3>Step 3: Predict properties</h3>
+            <p><strong>Ionic compounds:</strong></p>
+            <ul>
+                <li>High m.p./b.p., brittle, conduct when molten/aqueous, often soluble in water</li>
+            </ul>
+
+            <p><strong>Covalent molecular:</strong></p>
+            <ul>
+                <li>Low m.p./b.p., non-conductive, solubility depends on polarity</li>
+                <li>Properties depend on IMFs (larger/more polar → higher m.p./b.p.)</li>
+            </ul>
+
+            <p><strong>Covalent network:</strong></p>
+            <ul>
+                <li>Very high m.p./b.p., non-conductive (except graphite), insoluble, hard (except graphite)</li>
+            </ul>
+
+            <p><strong>Metallic:</strong></p>
+            <ul>
+                <li>Variable m.p./b.p., conductive, malleable/ductile, insoluble, lustrous</li>
+            </ul>
+
+            <h3>Step 4: Consider intermolecular forces (for molecular substances)</h3>
+            <ul>
+                <li>Identify IMFs present (dispersion, dipole-dipole, H-bonding)</li>
+                <li>Stronger IMFs → higher m.p./b.p., lower volatility, higher viscosity</li>
+            </ul>
+
+            <p><strong>Key Exam Strategy:</strong> Always explain properties in terms of structure AND bonding. Don't just state "it has strong bonds" - specify what type and relate to the observable property.</p>
+
+            <h2>Common Misconceptions to Avoid</h2>
+            <ol>
+                <li><strong>Ionic compounds form molecules</strong><br>
+                Wrong: "An NaCl molecule"<br>
+                Correct: "A formula unit of NaCl" or "NaCl in a lattice structure"<br>
+                Ionic compounds exist as giant lattices, not discrete molecules.</li>
+
+                <li><strong>Confusing electron domains with molecular shape</strong><br>
+                Wrong: H₂O has 4 electron domains, so it is tetrahedral<br>
+                Correct: H₂O has 4 electron domains (tetrahedral electron geometry) but is bent (molecular geometry)<br>
+                Molecular shape considers only bonded atoms, not lone pairs.</li>
+
+                <li><strong>Multiple bonds count as multiple domains</strong><br>
+                Wrong: CO₂ has 4 electron domains (2 double bonds = 4 bonding pairs)<br>
+                Correct: CO₂ has 2 electron domains (each double bond is 1 domain)<br>
+                VSEPR counts regions of electron density, not individual electron pairs.</li>
+
+                <li><strong>Boiling breaks covalent bonds</strong><br>
+                Wrong: "When water boils, H-O bonds break"<br>
+                Correct: "When water boils, hydrogen bonds between molecules break"<br>
+                Phase changes overcome IMFs, not covalent bonds.</li>
+
+                <li><strong>Electronegativity difference determines polarity alone</strong><br>
+                Wrong: "CCl₄ has polar bonds, so it is polar"<br>
+                Correct: "CCl₄ has polar bonds, but they cancel due to tetrahedral symmetry, making it non-polar"<br>
+                Molecular polarity depends on both bond polarity AND geometry.</li>
+
+                <li><strong>Hydrogen bonding occurs with any H atom</strong><br>
+                Wrong: "CH₄ can form hydrogen bonds because it has H atoms"<br>
+                Correct: "Hydrogen bonding requires H bonded to N, O, or F"<br>
+                Only H-N, H-O, and H-F bonds are sufficiently polar.</li>
+
+                <li><strong>Resonance structures are in equilibrium</strong><br>
+                Wrong: "The molecule alternates between resonance structures"<br>
+                Correct: "The actual structure is a hybrid with delocalized electrons"<br>
+                Resonance structures are a limitation of Lewis notation, not actual forms.</li>
+
+                <li><strong>Stronger bonds mean higher energy content</strong><br>
+                Wrong: "Triple bonds have more energy than single bonds"<br>
+                Correct: "Triple bonds require more energy to break, but represent a lower (more stable) energy state"<br>
+                Bond energy refers to energy required to break the bond, not energy stored.</li>
+
+                <li><strong>All covalent compounds have low melting points</strong><br>
+                Wrong: "Covalent compounds always have low melting points"<br>
+                Correct: "Covalent molecular compounds have low melting points; covalent network compounds have very high melting points"<br>
+                Distinguish between molecular and network covalent structures.</li>
+
+                <li><strong>Formal charge is the actual charge</strong><br>
+                Wrong: "The O in CO has a charge of +1"<br>
+                Correct: "The O in CO has a formal charge of +1 (a bookkeeping tool)"<br>
+                Formal charge helps evaluate Lewis structures but is not the actual partial charge distribution.</li>
+            </ol>
+
+            <!-- Practice Problems -->
+            <h2 class="practice-section">Practice Problems</h2>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 1</div>
+                <div class="problem-question">The boiling points of the hydrogen halides are: HF (20°C), HCl (−85°C), HBr (−67°C), HI (−35°C). Explain the trend in boiling points from HCl to HI, and explain why HF does not fit this trend.</div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution-content" id="solution1">
+                    <div class="solution-label">Solution:</div>
+                    <p>From HCl to HI, boiling point increases with molecular size because larger molecules have more electrons, creating stronger London dispersion forces that require more energy to overcome. HF has an anomalously high boiling point because it forms strong hydrogen bonds (H bonded to F, the most electronegative element), which are much stronger than the dipole-dipole and dispersion forces in the other hydrogen halides.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This tests understanding of both trends in dispersion forces and the special nature of hydrogen bonding. Students must recognize that HF is an exception to the size trend due to a different intermolecular force.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 2</div>
+                <div class="problem-question">Draw the Lewis structure for the nitrate ion (NO₃⁻) and determine the formal charge on each atom. Draw all resonance structures.</div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution-content" id="solution2">
+                    <div class="solution-label">Solution:</div>
+                    <p>Total valence electrons: N(5) + 3×O(6) + 1(charge) = 24 electrons. Central N bonded to three O atoms with one N=O double bond and two N-O single bonds (each with an extra lone pair). Formal charges: N = 5 - 0 - 8/2 = +1; O(double bonded) = 6 - 4 - 4/2 = 0; O(single bonded) = 6 - 6 - 2/2 = −1. There are three resonance structures with the double bond in different positions. The actual structure has all N-O bonds equivalent with bond order 1.33.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This combines Lewis structures, formal charge calculations, and resonance. Students must recognize that resonance delocalizes the negative charge across all three oxygen atoms.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 3</div>
+                <div class="problem-question">Explain why diamond is extremely hard while graphite is soft and slippery, even though both are made of only carbon atoms.</div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution-content" id="solution3">
+                    <div class="solution-label">Solution:</div>
+                    <p>Diamond has each carbon atom sp³ hybridized and bonded to four other carbon atoms in a rigid tetrahedral network, creating an extremely strong 3D structure that resists deformation. Graphite has each carbon atom sp² hybridized and bonded to three others in flat hexagonal layers. The layers are held together by weak London dispersion forces (the fourth electron is delocalized between layers), allowing layers to slide easily over each other, making graphite soft and slippery. The difference arises from different bonding arrangements (3D network vs. layered structure), not different atoms.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This requires understanding of hybridization, structure types, and relating microscopic structure to macroscopic properties. Many students know the structures but fail to explain the connection to properties.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 4</div>
+                <div class="problem-question">Arrange the following in order of increasing boiling point and justify your ranking: CH₃CH₂CH₂CH₃ (butane), CH₃CH₂OH (ethanol), CH₃OCH₃ (dimethyl ether), CH₃CH₂CH₃ (propane).</div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution-content" id="solution4">
+                    <div class="solution-label">Solution:</div>
+                    <p>Order: propane &lt; butane &lt; dimethyl ether &lt; ethanol. Propane (−42°C) is smallest with only dispersion forces. Butane (−1°C) is larger with stronger dispersion forces. Dimethyl ether (−24°C) is polar with dipole-dipole interactions, but cannot form hydrogen bonds (no H-O bond). Ethanol (78°C) can form hydrogen bonds (H-O-H···O), which are much stronger than dipole-dipole forces or dispersion forces alone. Note: Even though dimethyl ether has an O atom with lone pairs, it cannot form H-bonds because the H atoms are bonded to C, not O.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This is a common exam question testing IMF identification and comparison. Students often incorrectly place dimethyl ether above butane or think it can hydrogen bond.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 5</div>
+                <div class="problem-question">A compound has the formula XeF₄. (a) Draw the Lewis structure. (b) Predict the molecular geometry. (c) State the hybridization of Xe. (d) Is the molecule polar?</div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution-content" id="solution5">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) Total valence electrons: Xe(8) + 4×F(7) = 36 electrons. Xe is central with 4 Xe-F single bonds (8 electrons) and 2 lone pairs on Xe (4 electrons), with 3 lone pairs on each F (24 electrons). Total = 36. (b) 6 electron domains (4 bonding + 2 lone pairs) → octahedral electron geometry. With 2 lone pairs opposite each other, molecular geometry is square planar. (c) 6 electron domains → sp³d² hybridization. (d) Non-polar. Although Xe-F bonds are polar, the square planar geometry is symmetric, so bond dipoles cancel.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This HL question tests expanded octets, VSEPR with 6 domains, hybridization, and molecular polarity. Students often struggle with determining that lone pairs occupy opposite positions in octahedral geometry.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 6</div>
+                <div class="problem-question">Explain why CO₂ is a gas at room temperature while SiO₂ is a solid with a melting point above 1700°C, even though both have similar formulas.</div>
+                <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+                <div class="solution-content" id="solution6">
+                    <div class="solution-label">Solution:</div>
+                    <p>CO₂ exists as discrete linear molecules (O=C=O) held together by weak London dispersion forces, which are easily overcome at room temperature, making it a gas. SiO₂ exists as a giant covalent network where each Si is bonded to 4 O atoms and each O to 2 Si atoms in a continuous 3D structure. Melting requires breaking many strong Si-O covalent bonds throughout the structure, requiring very high temperatures. The difference arises because carbon readily forms strong C=O double bonds (good p-orbital overlap), while silicon forms weaker Si=O bonds due to poor p-orbital overlap between the larger Si and smaller O atoms, so silicon prefers to form four single bonds instead.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This tests understanding of structure types and relates them to periodic trends. Students must explain WHY the structures differ, not just state that they do.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 7</div>
+                <div class="problem-question">The C-C bond length in ethane (C₂H₆) is 154 pm, in ethene (C₂H₄) is 134 pm, and in ethyne (C₂H₂) is 120 pm. Explain this trend using orbital overlap and bonding concepts.</div>
+                <button class="solution-toggle" onclick="toggleSolution(7)">Show Solution</button>
+                <div class="solution-content" id="solution7">
+                    <div class="solution-label">Solution:</div>
+                    <p>Ethane has a C-C single bond (1 sigma bond from sp³-sp³ overlap). Ethene has a C=C double bond (1 sigma bond from sp²-sp² overlap + 1 pi bond from p-p overlap). Ethyne has a C≡C triple bond (1 sigma bond from sp-sp overlap + 2 pi bonds from p-p overlap). As more electrons are shared between the carbon atoms, the electrostatic attraction between the nuclei and the shared electrons increases, pulling the atoms closer together. Additionally, sp hybridized orbitals have more s character (50%) than sp² (33%) or sp³ (25%), and s orbitals are closer to the nucleus, contributing to shorter bonds. Bond length order: triple &lt; double &lt; single.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This combines hybridization, sigma/pi bonding concepts, and trends in bond properties. HL students should explain the role of both increased electron density and hybridization.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 8</div>
+                <div class="problem-question">Calculate the lattice enthalpy of NaCl given the following data: enthalpy of atomization of Na = +107 kJ/mol, enthalpy of atomization of Cl₂ = +121 kJ/mol, first ionization energy of Na = +496 kJ/mol, electron affinity of Cl = −349 kJ/mol, enthalpy of formation of NaCl = −411 kJ/mol.</div>
+                <button class="solution-toggle" onclick="toggleSolution(8)">Show Solution</button>
+                <div class="solution-content" id="solution8">
+                    <div class="solution-label">Solution:</div>
+                    <p>Using a Born-Haber cycle: Na(s) → Na(g): +107 kJ/mol; ½Cl₂(g) → Cl(g): +121/2 = +60.5 kJ/mol; Na(g) → Na⁺(g) + e⁻: +496 kJ/mol; Cl(g) + e⁻ → Cl⁻(g): −349 kJ/mol; Na⁺(g) + Cl⁻(g) → NaCl(s): ΔH_lattice = ?; Overall: Na(s) + ½Cl₂(g) → NaCl(s): −411 kJ/mol. Setting up: −411 = 107 + 60.5 + 496 − 349 + ΔH_lattice; −411 = 314.5 + ΔH_lattice; ΔH_lattice = −725.5 kJ/mol (formation); Lattice enthalpy (dissociation) = +725.5 kJ/mol.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This applies Hess's Law and the Born-Haber cycle. Note the sign convention: lattice enthalpy can be defined as formation (exothermic, negative) or dissociation (endothermic, positive). IB typically uses the dissociation definition.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 9</div>
+                <div class="problem-question">Compare and explain the electrical conductivity of (a) solid NaCl, (b) molten NaCl, (c) solid copper, (d) graphite, (e) diamond.</div>
+                <button class="solution-toggle" onclick="toggleSolution(9)">Show Solution</button>
+                <div class="solution-content" id="solution9">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) Non-conductive: ions fixed in lattice, cannot move to carry charge. (b) Conductive: ions free to move when molten, can carry charge. (c) Conductive: metallic bonding with delocalized electrons that move freely. (d) Conductive: each carbon has one delocalized electron in pi orbitals between layers that can move along the layers. (e) Non-conductive: all electrons localized in C-C sigma bonds, no free electrons or ions. Key principle: electrical conductivity requires mobile charge carriers (free electrons or mobile ions).</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This comprehensive question tests understanding of all three bonding types and requires students to identify mobile charge carriers in each structure.</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-number">Problem 10</div>
+                <div class="problem-question">A student proposes two Lewis structures for the cyanate ion (OCN⁻). Structure A: [O=C=N]⁻ with lone pairs. Structure B: [O≡C-N]⁻ with lone pairs. Use formal charge calculations to determine which structure is more stable.</div>
+                <button class="solution-toggle" onclick="toggleSolution(10)">Show Solution</button>
+                <div class="solution-content" id="solution10">
+                    <div class="solution-label">Solution:</div>
+                    <p>Structure A: O=C=N with all octets complete. FC(O) = 6 - 4 - 4/2 = 0; FC(C) = 4 - 0 - 8/2 = 0; FC(N) = 5 - 4 - 4/2 = −1. Sum = −1 ✓. Structure B: O≡C-N. FC(O) = 6 - 4 - 4/2 = 0; FC(C) = 4 - 0 - 8/2 = 0; FC(N) = 5 - 6 - 2/2 = −2; The oxygen would need FC = +1 to make sum = −1. Structure B has higher formal charges (−2 or +1 on O). Structure A is more stable because formal charges are minimized (closest to zero) and the negative charge is on the most electronegative atom (N is more electronegative than C). Structure A is preferred.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This HL problem requires applying formal charge rules to evaluate competing Lewis structures. Students must calculate FC for all atoms and apply stability criteria.</p>
+                </div>
+            </div>
+
+            <!-- Exam Tips -->
+            <div class="exam-tips">
+                <h3>Exam Tips</h3>
+                <ul>
+                    <li>When asked about bonding type, use BOTH the formula AND physical properties as evidence. A formula like CaCl₂ suggests ionic, but stating 'high melting point and conducts when molten' confirms it.</li>
+                    <li>For Lewis structures, always count total valence electrons first and check your final answer has the same total. A common error is miscounting, especially for ions.</li>
+                    <li>VSEPR geometry: remember that multiple bonds count as ONE electron domain. C=O is one domain, not two.</li>
+                    <li>Distinguish between electron geometry (includes lone pairs) and molecular geometry (atoms only). Water is tetrahedral electron geometry but bent molecular shape.</li>
+                    <li>When explaining properties, always connect structure to the property. Don't say 'strong bonds' - specify what type of bond/force and why it affects that property.</li>
+                    <li>For intermolecular forces questions, identify ALL forces present, then determine which is strongest. Even polar molecules have dispersion forces, but H-bonding (if present) dominates.</li>
+                    <li>Hydrogen bonding checklist: H must be bonded to N, O, or F, AND there must be a lone pair on another N, O, or F nearby. Both conditions required.</li>
+                    <li>Resonance structures: move only electrons (never atoms), maintain the same total charge, and keep octets where possible. The actual structure is a hybrid, not an equilibrium.</li>
+                    <li>Formal charge formula: FC = V − N − B/2. Remember to divide bonding electrons by 2. Most stable structures have FC closest to zero.</li>
+                    <li>Bond order relates to properties: higher bond order → shorter bond length, stronger bond, higher bond enthalpy. Triple &lt; double &lt; single for length; opposite for strength.</li>
+                    <li>For hybridization: count all electron domains (bonding + lone pairs), not just bonds. 4 domains = sp³, 3 = sp², 2 = sp. This determines orbital geometry.</li>
+                    <li>Sigma and pi bonds: every bond has one sigma bond first. Double bond = 1σ + 1π. Triple bond = 1σ + 2π. Pi bonds prevent rotation.</li>
+                    <li>Molecular polarity requires: (1) polar bonds AND (2) asymmetric geometry. Symmetric molecules are non-polar even with polar bonds (CO₂, CCl₄, BF₃).</li>
+                    <li>Allotropes differ in structure, not in element. Diamond and graphite are both pure carbon but have different arrangements and therefore different properties.</li>
+                    <li>When comparing boiling points, identify the strongest IMF in each substance. Size matters for dispersion forces; H-bonding dominates when present.</li>
+                    <li>Ionic lattice enthalpy: larger charges and smaller ions → stronger ionic bonding → higher lattice enthalpy → higher melting point.</li>
+                    <li>Metallic bonding strength: more delocalized electrons and smaller cations → stronger bonding → higher melting point → better conductivity.</li>
+                    <li>In data-based questions, use numerical values as evidence. 'The boiling point of X is 78°C, much higher than Y at −24°C, indicating stronger intermolecular forces in X.'</li>
+                    <li>Common exam error: saying 'intramolecular forces' when you mean 'intermolecular forces'. Intra = within molecules (covalent bonds); inter = between molecules (IMFs).</li>
+                    <li>For extended response questions, use the structure: identify bonding/structure type → explain at particle level → link to specific property. Always include all three parts.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="nav-footer">
+            <button class="nav-button" onclick="previousLesson()" id="prevButton">← Previous Lesson</button>
+            <button class="nav-button complete-button" onclick="markComplete()" id="completeButton">Mark as Complete</button>
+            <button class="nav-button" onclick="nextLesson()" id="nextButton">Next Lesson →</button>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="openChatbot()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3 .97 4.29L2 22l5.71-.97C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.67-.33-3.82-.91l-.27-.15-2.85.48.48-2.85-.15-.27C4.33 14.67 4 13.38 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
+            <circle cx="9" cy="12" r="1"/>
+            <circle cx="12" cy="12" r="1"/>
+            <circle cx="15" cy="12" r="1"/>
+        </svg>
+    </div>
+
+    <script>
+        // Progress tracking
+        let progress = 0;
+        const totalSections = document.querySelectorAll('h2').length;
+
+        function updateProgress() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+
+            progress = (scrollPosition / (documentHeight - windowHeight)) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress);
+        }
+
+        window.addEventListener('scroll', updateProgress);
+
+        // Solution toggles
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution' + problemNumber);
+            const button = solution.previousElementSibling;
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('active');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Navigation functions
+        function previousLesson() {
+            alert('Navigate to previous lesson');
+            // Add actual navigation logic here
+        }
+
+        function nextLesson() {
+            alert('Navigate to next lesson');
+            // Add actual navigation logic here
+        }
+
+        function markComplete() {
+            alert('Lesson marked as complete!');
+            // Add actual completion tracking logic here
+            const button = document.getElementById('completeButton');
+            button.textContent = '✓ Completed';
+            button.style.background = 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)';
+        }
+
+        // Chatbot function
+        function openChatbot() {
+            alert('Chatbot feature coming soon!');
+            // Add actual chatbot integration here
+        }
+
+        // Initialize progress on page load
+        updateProgress();
+    </script>
+</body>
+</html>

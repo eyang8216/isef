@@ -1,0 +1,945 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{float}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black
+}
+
+\sisetup{detect-all=true, per-mode=symbol}
+\setlist[itemize]{topsep=2pt,itemsep=2pt,parsep=0pt}
+\setlist[enumerate]{topsep=2pt,itemsep=2pt,parsep=0pt}
+
+\title{\textbf{Taylor Cone Experimental Validation:\\Detailed Apparatus and Procedure}}
+\author{Ethan Yang, Elliot Dong, Curtis Lau\\
+Independent Schools Foundation Academy\\
+Hong Kong SAR}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+This document provides complete experimental apparatus specifications, detailed safety protocols, and step-by-step procedures for Taylor cone onset validation experiments. It is designed as a standalone reference for experimental implementation of the theoretical and computational work described in the main ISEF paper.
+
+\subsection{Document Purpose}
+
+\begin{itemize}
+\item Complete equipment list with budget estimates and suppliers
+\item Detailed safety protocols addressing all hazards
+\item Step-by-step setup and operational procedures
+\item Troubleshooting guide and emergency procedures
+\item Required for institutional safety review and approval
+\end{itemize}
+
+\subsection{Scope}
+
+This procedure covers:
+\begin{itemize}
+\item High-voltage electrospray apparatus assembly
+\item Camera-based Taylor cone imaging
+\item Voltage ramp experiments for onset detection
+\item Image processing and data analysis workflow
+\end{itemize}
+
+\section{Complete Apparatus List with Budget}
+
+\subsection{High Voltage Power Supply}
+
+\paragraph{Primary Option: Current-Limited Lab Supply}
+
+\begin{itemize}
+\item \textbf{Item:} Glassman High Voltage PS/EH Series (0--10~kV, 1--2~mA)
+\item \textbf{Specifications:}
+  \begin{itemize}
+  \item Output: 0--10,000~V DC
+  \item Current limit: 1--2~mA (critical for safety)
+  \item Regulation: $\pm0.01\%$
+  \item Digital display and remote control
+  \end{itemize}
+\item \textbf{Cost:} \$1,500--2,500 USD
+\item \textbf{Supplier:} Glassman High Voltage, Newark Electronics, Mouser
+\item \textbf{Safety features:} Hardware current limiting, emergency shutdown, discharge circuit
+\end{itemize}
+
+\paragraph{Alternative Option: More Affordable}
+
+\begin{itemize}
+\item \textbf{Item:} Spellman SL Series (0--5~kV, 1~mA)
+\item \textbf{Cost:} \$800--1,200 USD
+\item \textbf{Supplier:} Spellman HV Electronics, eBay (used units)
+\end{itemize}
+
+\paragraph{Budget Option: Regulated Flyback Module}
+
+\begin{itemize}
+\item \textbf{Item:} XP Power CA/CB Series with external current limiter
+\item \textbf{Cost:} \$200--400 USD
+\item \textbf{Supplier:} DigiKey, Mouser
+\item \textbf{Note:} Requires additional enclosure and safety circuitry
+\end{itemize}
+
+\textbf{Recommended:} Glassman or Spellman for lab safety compliance.
+
+\subsection{Syringe Pump}
+
+\paragraph{Primary Option: Precision Syringe Pump}
+
+\begin{itemize}
+\item \textbf{Item:} Harvard Apparatus PHD 2000 or PHD ULTRA
+\item \textbf{Specifications:}
+  \begin{itemize}
+  \item Flow rate range: 0.001~$\mu$L/h to 220~mL/h
+  \item Accuracy: $\pm0.5\%$
+  \item Compatible with 0.5--60~mL syringes
+  \end{itemize}
+\item \textbf{Cost:} \$2,000--3,500 USD
+\item \textbf{Supplier:} Harvard Apparatus, VWR
+\end{itemize}
+
+\paragraph{Alternative Option: More Affordable}
+
+\begin{itemize}
+\item \textbf{Item:} New Era NE-300 Single Syringe Pump
+\item \textbf{Specifications:}
+  \begin{itemize}
+  \item Flow rate: 0.73~$\mu$L/h to 2120~mL/h
+  \item Accuracy: $\pm1\%$
+  \end{itemize}
+\item \textbf{Cost:} \$800--1,200 USD
+\item \textbf{Supplier:} New Era Pump Systems (syringepump.com)
+\end{itemize}
+
+\paragraph{Budget Option: DIY Stepper Motor Pump}
+
+\begin{itemize}
+\item \textbf{Item:} Stepper motor + lead screw + Arduino control
+\item \textbf{Cost:} \$150--300 USD
+\item \textbf{Supplier:} Parts from Amazon, Adafruit
+\item \textbf{Note:} Requires calibration and flow verification
+\end{itemize}
+
+\textbf{Recommended:} New Era NE-300 (good balance of cost and precision).
+
+\subsection{Camera and Imaging System}
+
+\paragraph{Primary Option: High-Speed CMOS Camera}
+
+\begin{itemize}
+\item \textbf{Item:} FLIR Blackfly S USB3 (BFS-U3-32S4M-C)
+\item \textbf{Specifications:}
+  \begin{itemize}
+  \item Resolution: 2048$\times$1536 pixels
+  \item Frame rate: 118~fps at full resolution
+  \item Sensor: Sony IMX252 (3.45~$\mu$m pixel)
+  \item Interface: USB 3.0
+  \end{itemize}
+\item \textbf{Cost:} \$600--900 USD
+\item \textbf{Supplier:} FLIR, Edmund Optics
+\end{itemize}
+
+\paragraph{Alternative Option: Mid-Range USB Camera}
+
+\begin{itemize}
+\item \textbf{Item:} ELP USB Camera (5MP, 2592$\times$1944)
+\item \textbf{Specifications:}
+  \begin{itemize}
+  \item Resolution: 5MP
+  \item Frame rate: 15--30~fps
+  \item Manual focus
+  \end{itemize}
+\item \textbf{Cost:} \$80--150 USD
+\item \textbf{Supplier:} Amazon, AliExpress
+\end{itemize}
+
+\paragraph{Budget Option: Webcam with Macro Lens}
+
+\begin{itemize}
+\item \textbf{Item:} Logitech C920 + macro lens adapter
+\item \textbf{Cost:} \$100--150 USD
+\item \textbf{Supplier:} Amazon, Best Buy
+\item \textbf{Note:} Limited resolution but sufficient for proof-of-concept
+\end{itemize}
+
+\textbf{Recommended:} FLIR Blackfly S (research-grade) or ELP camera (budget).
+
+\subsection{Budget Summary}
+
+\begin{table}[H]
+\centering
+\caption{Research-Grade Setup (\$7,000--10,000 USD)}
+\small
+\begin{tabular}{lr}
+\toprule
+Component & Cost (USD) \\
+\midrule
+Glassman HV Power Supply & \$2,000 \\
+Harvard Apparatus Syringe Pump & \$2,500 \\
+FLIR Blackfly Camera & \$800 \\
+Telecentric Lens & \$1,500 \\
+LED Backlight & \$150 \\
+Optical Breadboard Setup & \$500 \\
+Metal Enclosure + Safety & \$500 \\
+Needles, Electrodes, Hardware & \$300 \\
+Chemicals and Consumables & \$200 \\
+PPE and Safety Equipment & \$200 \\
+Calibration Tools & \$150 \\
+Miscellaneous & \$200 \\
+\midrule
+\textbf{Total} & \textbf{\$9,000} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Mid-Range Setup (\$3,000--4,000 USD)}
+\small
+\begin{tabular}{lr}
+\toprule
+Component & Cost (USD) \\
+\midrule
+Spellman HV Power Supply & \$1,000 \\
+New Era NE-300 Syringe Pump & \$1,000 \\
+ELP USB Camera & \$120 \\
+C-Mount Macro Lens + Extensions & \$80 \\
+Huion LED Light Pad & \$50 \\
+Optical Breadboard Setup & \$400 \\
+Metal Enclosure + Safety & \$400 \\
+Needles, Electrodes, Hardware & \$250 \\
+Chemicals and Consumables & \$150 \\
+PPE and Safety Equipment & \$150 \\
+Calibration Tools & \$100 \\
+Miscellaneous & \$150 \\
+\midrule
+\textbf{Total} & \textbf{\$3,850} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Budget Setup (\$1,200--1,800 USD)}
+\small
+\begin{tabular}{lr}
+\toprule
+Component & Cost (USD) \\
+\midrule
+XP Power HV Module + Limiter & \$300 \\
+DIY Arduino Syringe Pump & \$200 \\
+Logitech C920 + Macro Adapter & \$130 \\
+DIY LED Panel & \$35 \\
+DIY Aluminum Frame & \$80 \\
+Acrylic Box + Wire Mesh & \$180 \\
+Needles, Electrodes, Hardware & \$150 \\
+Chemicals and Consumables & \$120 \\
+PPE and Safety Equipment & \$120 \\
+Digital Calipers & \$60 \\
+Miscellaneous & \$100 \\
+\midrule
+\textbf{Total} & \textbf{\$1,475} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Safety Protocols and Risk Mitigation}
+
+\subsection{Primary Hazards}
+
+\begin{enumerate}
+\item \textbf{Electric shock} (potentially lethal)
+\item \textbf{High voltage arc/spark} (fire risk)
+\item \textbf{Chemical exposure} (ethanol, solvents)
+\item \textbf{Sharp needle} (puncture injury)
+\end{enumerate}
+
+\subsection{High Voltage Safety Protocol}
+
+\subsubsection{Before ANY Experiment}
+
+\textbf{Required checks:}
+
+\begin{itemize}
+\item[$\square$] All participants have read and signed safety acknowledgment
+\item[$\square$] Supervisor present and briefed on emergency procedures
+\item[$\square$] Emergency contact numbers posted on wall
+\item[$\square$] Fire extinguisher (Class C) within 3 meters
+\item[$\square$] First aid kit accessible
+\item[$\square$] Workspace clear of flammable materials
+\item[$\square$] All personnel wearing safety glasses
+\item[$\square$] Electrical insulating gloves available
+\item[$\square$] Door interlock tested and functional
+\item[$\square$] Emergency stop button tested
+\item[$\square$] All ground connections verified ($<1\Omega$ to earth)
+\item[$\square$] Current limit verified at 1~mA
+\item[$\square$] Only ONE person operates HV controls
+\item[$\square$] All observers maintain 2~m distance from enclosure
+\end{itemize}
+
+\subsubsection{During Experiment}
+
+\textbf{Operating rules:}
+
+\begin{itemize}
+\item Door MUST be closed before applying HV
+\item NO adjustments while HV is on
+\item If adjustment needed: TURN OFF HV $\rightarrow$ wait 60s $\rightarrow$ open door $\rightarrow$ adjust
+\item Only HV operator touches controls
+\item All observers stay behind marked line (2~m from enclosure)
+\item Monitor for unusual sounds (buzzing, crackling) $\rightarrow$ shut down immediately
+\item Monitor for unusual smells (ozone, burning) $\rightarrow$ shut down immediately
+\end{itemize}
+
+\subsubsection{After Experiment}
+
+\textbf{Shutdown procedure:}
+
+\begin{itemize}
+\item Turn voltage knob to zero (fully CCW)
+\item Turn off HV power supply main switch
+\item Wait minimum 60 seconds (capacitor discharge time)
+\item Open door (safe to enter)
+\item Use insulated stick to short HV terminal to ground (extra precaution)
+\item Only then touch equipment
+\item Disconnect HV cable from needle
+\item Cover exposed HV terminals with insulating caps
+\end{itemize}
+
+\subsubsection{Emergency: Someone is Being Shocked}
+
+\begin{center}
+\textcolor{red}{\textbf{DO NOT TOUCH THE PERSON}}
+\end{center}
+
+\begin{enumerate}
+\item \textbf{Press emergency stop button} (breaks HV circuit)
+\item \textbf{If E-stop doesn't work:} Unplug HV power supply
+\item \textbf{Wait 5 seconds} (let capacitors discharge)
+\item \textbf{Only then:} Check victim, provide first aid, call emergency services
+\end{enumerate}
+
+\textbf{Hong Kong Emergency:} 999 (Fire, Ambulance, Police)
+
+\subsection{Chemical Safety Protocol}
+
+\subsubsection{Ethanol Handling}
+
+\begin{itemize}
+\item \textbf{Hazard:} Flammable, eye irritant
+\item \textbf{PPE required:} Safety glasses, nitrile gloves, lab coat
+\item \textbf{Ventilation:} Use in well-ventilated area or fume hood
+\item \textbf{Storage:} In flammable-safe cabinet, away from HV equipment
+\item \textbf{Spill cleanup:} Absorb with paper towels, dispose in hazardous waste
+\item \textbf{Disposal:} Follow local hazardous waste regulations (do NOT pour down drain)
+\end{itemize}
+
+\subsubsection{First Aid}
+
+\begin{itemize}
+\item \textbf{Eye contact:} Rinse immediately with water for 15 minutes, seek medical attention
+\item \textbf{Skin contact:} Wash with soap and water
+\item \textbf{Ingestion:} Do not induce vomiting, seek medical attention immediately
+\item \textbf{Inhalation:} Move to fresh air
+\end{itemize}
+
+\subsection{Current Limit Verification}
+
+\textbf{CRITICAL SAFETY STEP:}
+
+\begin{enumerate}
+\item \textbf{Set current limit to 1~mA:}
+  \begin{itemize}
+  \item Adjust current limit pot/knob to minimum
+  \item Use multimeter in current measurement mode if possible
+  \end{itemize}
+
+\item \textbf{Why 1~mA limit is critical:}
+  \begin{itemize}
+  \item Current through human body:
+    \begin{itemize}
+    \item $>1$~mA: Barely perceptible
+    \item $>10$~mA: Painful, cannot let go
+    \item $>100$~mA: Potentially lethal (ventricular fibrillation)
+    \end{itemize}
+  \item 1~mA limit provides safety margin
+  \item Still sufficient for Taylor cone formation (nA--$\mu$A typical)
+  \end{itemize}
+\end{enumerate}
+
+\section{Detailed Setup Procedure}
+
+\subsection{Phase 1: Pre-Assembly Preparation (1--2 days)}
+
+\subsubsection{Workspace Preparation}
+
+\paragraph{Select appropriate workspace:}
+
+\begin{itemize}
+\item Lab bench or sturdy table (minimum 1.2~m $\times$ 0.8~m)
+\item Near grounded electrical outlet
+\item Good lighting
+\item Fire extinguisher accessible (Class C for electrical fires)
+\item First aid kit nearby
+\item Clear of flammable materials
+\end{itemize}
+
+\paragraph{Verify electrical safety:}
+
+\begin{itemize}
+\item Confirm outlet is properly grounded (use outlet tester)
+\item Check circuit breaker rating (minimum 10~A recommended)
+\item Test ground continuity (should read $<1\Omega$ to earth)
+\end{itemize}
+
+\subsection{Phase 2: Mechanical Assembly (2--3 hours)}
+
+\subsubsection{Enclosure Setup}
+
+\begin{enumerate}
+\item \textbf{Position enclosure on bench:}
+  \begin{itemize}
+  \item Leave 30~cm clearance on all sides for access
+  \item Ensure door can open fully
+  \item Mark locations for cable entry
+  \end{itemize}
+
+\item \textbf{Ground the enclosure:}
+  \begin{itemize}
+  \item Attach ground wire to metal frame
+  \item Run to building ground or ground rod
+  \item Verify continuity: $<1\Omega$ to earth ground
+  \item Label: ``SAFETY GROUND - DO NOT REMOVE''
+  \end{itemize}
+
+\item \textbf{Install interlock switch:}
+  \begin{itemize}
+  \item Mount magnetic switch on door frame
+  \item Wire normally-open contact to HV supply enable line
+  \item Test: Opening door should cut HV output immediately
+  \item Label switch: ``SAFETY INTERLOCK''
+  \end{itemize}
+
+\item \textbf{Install emergency stop button:}
+  \begin{itemize}
+  \item Mount red mushroom button outside enclosure
+  \item Wire in series with HV enable
+  \item Test functionality before proceeding
+  \item Label: ``EMERGENCY STOP''
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{Optical Breadboard Assembly}
+
+\begin{enumerate}
+\item \textbf{Mount breadboard inside enclosure:}
+  \begin{itemize}
+  \item Use rubber feet or vibration dampers
+  \item Ensure level (use spirit level)
+  \item Leave space for HV supply underneath or outside
+  \end{itemize}
+
+\item \textbf{Install optical posts:}
+  \begin{itemize}
+  \item Post 1: Camera mount (rear, centered)
+  \item Post 2: Needle/syringe holder (front-center)
+  \item Post 3--4: Electrode mount (front, vertically adjustable)
+  \item Tighten securely but avoid over-torquing
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Phase 3: Electrical Connections (1--2 hours)}
+
+\begin{center}
+\textcolor{red}{\textbf{CRITICAL: All electrical work must be done with HV power supply UNPLUGGED}}
+\end{center}
+
+\subsubsection{HV Power Supply Placement}
+
+\begin{enumerate}
+\item \textbf{Position HV supply:}
+  \begin{itemize}
+  \item \textbf{Outside} enclosure if possible (easier access, better cooling)
+  \item On rubber mat (electrical insulation)
+  \item Away from liquids
+  \item Ventilation unobstructed
+  \end{itemize}
+
+\item \textbf{Verify all controls are at minimum/off:}
+  \begin{itemize}
+  \item Voltage knob: Minimum (fully CCW)
+  \item Current limit: Minimum
+  \item Power switch: OFF
+  \item Main power: UNPLUGGED
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{HV Output Connection}
+
+\begin{enumerate}
+\item \textbf{Select appropriate HV cable:}
+  \begin{itemize}
+  \item Use HV-rated silicone insulated wire (20--30~kV rating)
+  \item Length: Minimize excess (2--3~m maximum)
+  \item Color: RED for high voltage
+  \item Do NOT use standard hookup wire
+  \end{itemize}
+
+\item \textbf{Connect HV output to needle:}
+  \begin{itemize}
+  \item Route HV cable through enclosure grommet
+  \item Connect to needle holder (must be conductive)
+  \item Use HV-rated alligator clip or crimp lug
+  \item Ensure connection is mechanically secure
+  \item Wrap connection with HV-rated electrical tape
+  \item Keep cable away from grounded surfaces ($>5$~cm clearance)
+  \end{itemize}
+
+\item \textbf{Label HV cable:}
+  \begin{itemize}
+  \item Attach warning labels every 30~cm
+  \item ``HIGH VOLTAGE - DO NOT TOUCH''
+  \item Include maximum voltage rating
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{Ground Connections}
+
+\begin{enumerate}
+\item \textbf{Ground the extractor electrode:}
+  \begin{itemize}
+  \item Connect thick ground wire (12 AWG minimum)
+  \item Run to common ground point
+  \item Verify continuity to building ground
+  \end{itemize}
+
+\item \textbf{Create single-point ground:}
+  \begin{itemize}
+  \item All grounds should connect at ONE point
+  \item This prevents ground loops
+  \item Use ground bus bar or large terminal block
+  \item Final connection to building ground or ground rod
+  \end{itemize}
+\end{enumerate}
+
+\section{Step-by-Step Experimental Protocol}
+
+\subsection{Pre-Experiment Preparation (30 minutes)}
+
+\subsubsection{Day Before Experiment}
+
+\begin{enumerate}
+\item \textbf{Check equipment:}
+  \begin{itemize}
+  \item Verify all components are functional
+  \item Check HV cable insulation (no cracks or damage)
+  \item Test camera and image capture
+  \item Verify sufficient liquid supply
+  \end{itemize}
+
+\item \textbf{Prepare test liquid:}
+  \begin{itemize}
+  \item For ethanol + NaCl:
+    \begin{itemize}
+    \item Measure 100~mL ethanol in graduated cylinder
+    \item Dissolve 0.01--0.1~g NaCl (adjust for desired conductivity)
+    \item Stir until fully dissolved
+    \item Store in sealed bottle, label clearly
+    \item Record: date, concentration, operator name
+    \end{itemize}
+  \end{itemize}
+
+\item \textbf{Clean equipment:}
+  \begin{itemize}
+  \item Wipe down electrode with ethanol (remove residue)
+  \item Inspect needle for contamination
+  \item Clean optical surfaces (lens, backlight diffuser)
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Voltage Ramp Protocol (30--60 minutes)}
+
+\begin{enumerate}
+\item \textbf{Initial state:}
+  \begin{itemize}
+  \item Voltage: 0~V
+  \item Pump: OFF
+  \item Camera: Recording
+  \item Note starting timestamp
+  \end{itemize}
+
+\item \textbf{Start liquid flow:}
+  \begin{itemize}
+  \item Set pump to 0.5--2~$\mu$L/min
+  \item Observe meniscus forming at needle tip
+  \item Wait until steady hemispherical droplet appears ($\sim$1--2~min)
+  \item If droplet falls: reduce flow rate
+  \item Record stable flow rate in metadata
+  \end{itemize}
+
+\item \textbf{Close enclosure and enable HV:}
+  \begin{itemize}
+  \item Close door (verify interlock engages)
+  \item Turn on HV power supply main switch
+  \item Verify enable LED is lit
+  \item Voltage should still be at zero
+  \end{itemize}
+
+\item \textbf{Begin voltage sweep:}
+  \begin{itemize}
+  \item \textbf{Step size:} 100--200~V per step
+  \item \textbf{Dwell time:} 20--30 seconds per step
+  \item \textbf{Procedure for each step:}
+    \begin{enumerate}
+    \item Increase voltage by one step
+    \item Read voltage display, announce/record value
+    \item Observe meniscus through camera feed
+    \item Classify state:
+      \begin{itemize}
+      \item ``Hemispherical'' - no deformation
+      \item ``Ellipsoidal'' - slight elongation
+      \item ``Conical-unstable'' - cone forms but oscillates
+      \item ``Conical-stable'' - steady cone, no spray
+      \item ``Spray'' - visible jet/droplet emission
+      \end{itemize}
+    \item Make verbal annotation (recorded by camera audio)
+    \item Wait for full dwell time before next step
+    \end{enumerate}
+  \end{itemize}
+
+\item \textbf{Identify onset condition:}
+  \begin{itemize}
+  \item \textbf{Onset voltage ($V_0$):} First voltage where stable cone appears
+  \item Hold at this voltage for 60 seconds
+  \item Verify stability (no jetting, no collapse)
+  \item Record voltage and timestamp
+  \end{itemize}
+
+\item \textbf{STOP immediately if:}
+  \begin{itemize}
+  \item Sparking/arcing occurs $\rightarrow$ shut down, investigate
+  \item Unusual odor $\rightarrow$ shut down, ventilate
+  \item Current meter shows $>1$~mA $\rightarrow$ shut down, check connections
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Shutdown Procedure (10 minutes)}
+
+\begin{enumerate}
+\item \textbf{Power down:}
+  \begin{itemize}
+  \item Turn voltage to zero
+  \item Turn off HV power supply
+  \item Wait 60 seconds
+  \item Stop syringe pump
+  \item Stop video recording
+  \end{itemize}
+
+\item \textbf{Safe equipment access:}
+  \begin{itemize}
+  \item Open enclosure door
+  \item Short HV terminal to ground (insulated stick)
+  \item Disconnect HV cable from needle
+  \item Remove test liquid syringe
+  \end{itemize}
+
+\item \textbf{Clean up:}
+  \begin{itemize}
+  \item Wipe any liquid residue from electrode
+  \item Dispose of used needle in sharps container
+  \item Cap and label used liquid (if reusing)
+  \item Store liquids in flammable cabinet
+  \end{itemize}
+
+\item \textbf{Data backup:}
+  \begin{itemize}
+  \item Copy video files to backup drive
+  \item Verify file integrity (can play back)
+  \item Fill in metadata template
+  \item Save metadata as JSON file with same filename as video
+  \end{itemize}
+\end{enumerate}
+
+\section{Troubleshooting Guide}
+
+\subsection{Problem 1: No meniscus forms at needle tip}
+
+\textbf{Possible causes:}
+\begin{itemize}
+\item Flow rate too low
+\item Needle clogged
+\item Liquid wetting properties poor
+\end{itemize}
+
+\textbf{Solutions:}
+\begin{itemize}
+\item Increase flow rate gradually (0.5 $\rightarrow$ 1 $\rightarrow$ 2~$\mu$L/min)
+\item Check for blockage: disconnect needle, run pump, verify flow
+\item Replace needle if clogged
+\item Check liquid surface tension (should be $>20$~mN/m for stable meniscus)
+\end{itemize}
+
+\subsection{Problem 2: No cone formation even at high voltage}
+
+\textbf{Possible causes:}
+\begin{itemize}
+\item Liquid not conductive enough
+\item Electrode spacing too large
+\item Voltage too low
+\item Poor electrical connection
+\end{itemize}
+
+\textbf{Solutions:}
+\begin{itemize}
+\item Increase dopant concentration (add more NaCl)
+\item Measure liquid conductivity (should be $>10$~$\mu$S/cm)
+\item Reduce electrode spacing to 10--15~mm
+\item Check HV connection to needle (verify continuity)
+\item Increase voltage gradually (literature onset: 2--5~kV typical)
+\end{itemize}
+
+\subsection{Problem 3: Sparking/arcing between needle and electrode}
+
+\textbf{Possible causes:}
+\begin{itemize}
+\item Voltage too high for given spacing
+\item Sharp edges on electrode
+\item Contamination on surfaces
+\end{itemize}
+
+\textbf{Solutions:}
+\begin{itemize}
+\item \textbf{Immediately reduce voltage to zero}
+\item Increase electrode spacing
+\item Polish electrode edges (remove burrs)
+\item Clean surfaces with ethanol
+\item Check for conductive debris (liquid droplets on surfaces)
+\end{itemize}
+
+\section{Emergency Procedures}
+
+\subsection{Emergency 1: Electrical Shock}
+
+\textbf{If someone is being shocked:}
+
+\begin{enumerate}
+\item \textbf{DO NOT TOUCH THE PERSON}
+\item Press emergency stop button or unplug HV supply
+\item Wait 5 seconds (let capacitors discharge)
+\item Check victim:
+  \begin{itemize}
+  \item Conscious? $\rightarrow$ Reassure, check for burns, seek medical attention
+  \item Unconscious? $\rightarrow$ Call 999 immediately, begin CPR if trained
+  \end{itemize}
+\item Do not move victim unless necessary for safety
+\end{enumerate}
+
+\subsection{Emergency 2: Fire}
+
+\textbf{Small fire ($<$ 30~cm):}
+
+\begin{enumerate}
+\item Press emergency stop (cut power)
+\item Use fire extinguisher (Class C)
+\item Aim at base of fire, sweep side to side
+\item If extinguished: ventilate area, document incident
+\item If spreads: proceed to large fire procedure
+\end{enumerate}
+
+\textbf{Large fire or spreading rapidly:}
+
+\begin{enumerate}
+\item Evacuate immediately (do not stop for belongings)
+\item Close door to lab
+\item Pull fire alarm
+\item Call 999 from safe location
+\item Meet at designated assembly point
+\item Do NOT re-enter building
+\end{enumerate}
+
+\subsection{Emergency 3: Chemical Spill}
+
+\textbf{Small spill ($<$ 100~mL):}
+
+\begin{enumerate}
+\item Alert others in area
+\item Put on gloves and safety glasses
+\item Absorb with paper towels or spill kit absorbent
+\item Dispose in chemical waste container
+\item Wipe area with water
+\item Ventilate area
+\end{enumerate}
+
+\textbf{Spill on person:}
+
+\begin{itemize}
+\item Remove contaminated clothing immediately
+\item Rinse affected area with water for 15 minutes
+\item Seek medical attention if irritation persists
+\end{itemize}
+
+\section{Pre-Experiment Safety Checklist}
+
+\textbf{Print and complete before EVERY experiment session:}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Date:} \underline{\hspace{3cm}}  
+\textbf{Operators:} \underline{\hspace{10cm}}  
+\textbf{Supervisor:} \underline{\hspace{4cm}}  
+\textbf{Start time:} \underline{\hspace{2cm}}
+
+\subsection{Equipment Checks}
+
+\begin{itemize}
+\item[$\square$] HV power supply: voltage at zero, current limit at 1~mA
+\item[$\square$] Interlock switch: tested and functional (open door $\rightarrow$ HV disables)
+\item[$\square$] Emergency stop: tested and functional (press button $\rightarrow$ HV disables)
+\item[$\square$] Ground connections: verified $<1\Omega$ to earth
+\item[$\square$] HV cable: inspected for damage (no cracks, no exposed conductor)
+\item[$\square$] Enclosure: door closes properly, no gaps
+\item[$\square$] Camera: recording function tested
+\item[$\square$] Backlight: functional, no flickering
+\item[$\square$] Syringe pump: smooth operation, no leaks
+\item[$\square$] Liquid supply: sufficient for planned experiments, properly labeled
+\end{itemize}
+
+\subsection{Safety Equipment}
+
+\begin{itemize}
+\item[$\square$] Fire extinguisher: present, charged, within 3 meters
+\item[$\square$] First aid kit: present and accessible
+\item[$\square$] Safety glasses: all participants wearing
+\item[$\square$] Electrical insulating gloves: available at workstation
+\item[$\square$] Nitrile gloves: available
+\item[$\square$] Lab coats: all participants wearing
+\end{itemize}
+
+\subsection{Workspace}
+
+\begin{itemize}
+\item[$\square$] Area cleared of flammable materials ($>1$~m from enclosure)
+\item[$\square$] Emergency contact numbers posted on wall
+\item[$\square$] Adequate ventilation (windows open or fume hood on)
+\item[$\square$] Clear path to exit (no obstructions)
+\item[$\square$] Observers maintain 2~m distance (marked line on floor)
+\end{itemize}
+
+\subsection{Personnel}
+
+\begin{itemize}
+\item[$\square$] All participants have read safety protocols
+\item[$\square$] All participants have signed safety acknowledgment
+\item[$\square$] Roles assigned (HV operator: \underline{\hspace{3cm}}, recorder: \underline{\hspace{3cm}})
+\item[$\square$] Everyone knows location of E-stop and fire extinguisher
+\item[$\square$] Everyone knows emergency phone number: 999
+\end{itemize}
+
+\subsection{Final Checks}
+
+\begin{itemize}
+\item[$\square$] Supervisor present and briefed
+\item[$\square$] Mobile phone present (for emergency calls)
+\item[$\square$] No food or drinks in work area
+\item[$\square$] No loose clothing or jewelry near moving parts
+\end{itemize}
+
+\vspace{1cm}
+
+\noindent\textbf{Supervisor signature:} \underline{\hspace{5cm}}  
+\textbf{Approval to proceed:} YES / NO
+
+\section{Appendix: Quick Reference}
+
+\subsection{Onset Voltage Estimation}
+
+Use this to predict expected onset voltage for your geometry:
+
+\begin{equation}
+V_0 \approx \sqrt{\frac{4\gamma L}{\varepsilon_0 \ln(4L/r_{\text{needle}})}}
+\end{equation}
+
+Where:
+\begin{itemize}
+\item $\gamma$ = surface tension (N/m)
+\item $L$ = electrode spacing (m)
+\item $\varepsilon_0 = 8.854 \times 10^{-12}$~F/m
+\item $r_{\text{needle}}$ = needle outer radius (m)
+\end{itemize}
+
+\textbf{Example calculation (ethanol, 21-gauge needle, 20~mm spacing):}
+
+\begin{itemize}
+\item $\gamma = 0.022$~N/m (ethanol)
+\item $L = 0.020$~m
+\item $r_{\text{needle}} = 0.0004$~m (21-gauge OD = 0.8~mm)
+\item $\ln(4 \times 0.020/0.0004) = \ln(200) \approx 5.3$
+\end{itemize}
+
+\begin{align}
+V_0 &\approx \sqrt{\frac{4 \times 0.022 \times 0.020}{8.854 \times 10^{-12} \times 5.3}} \\
+&\approx \sqrt{\frac{0.00176}{4.69 \times 10^{-11}}} \\
+&\approx \sqrt{3.75 \times 10^7} \\
+&\approx 6,100~\text{V}
+\end{align}
+
+\textbf{Expect onset around 6~kV for this geometry.}
+
+\subsection{Hong Kong Supplier Contacts}
+
+\paragraph{Fisher Scientific Hong Kong}
+\begin{itemize}
+\item Phone: +852 2407 2600
+\item Website: fishersci.com.hk
+\item Products: Chemicals, lab equipment, consumables
+\end{itemize}
+
+\paragraph{VWR International (Asia Pacific)}
+\begin{itemize}
+\item Phone: +852 2922 2082
+\item Website: hk.vwr.com
+\item Products: Lab equipment, chemicals
+\end{itemize}
+
+\paragraph{RS Components Hong Kong}
+\begin{itemize}
+\item Phone: +852 2610 3888
+\item Website: hk.rs-online.com
+\item Products: Test equipment, tools, components
+\end{itemize}
+
+\paragraph{Sham Shui Po Electronics Market}
+\begin{itemize}
+\item Location: Apliu Street (鴨寮街), Sham Shui Po
+\item MTR: Sham Shui Po Station Exit C2
+\item Hours: Daily 10:00--20:00
+\item Best for: Cables, connectors, tools, basic electronics
+\end{itemize}
+
+\section{Document Version Control}
+
+\textbf{Version:} 1.0  
+\textbf{Date:} \today  
+\textbf{Authors:} Ethan Yang, Elliot Dong, Curtis Lau  
+\textbf{Institution:} Independent Schools Foundation Academy  
+\textbf{Reviewed by:} \underline{\hspace{5cm}}  
+\textbf{Approval date:} \underline{\hspace{3cm}}
+
+\end{document}

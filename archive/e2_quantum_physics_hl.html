@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E2: Quantum Physics (HL) - IB Physics</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+        }
+
+        .navbar-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Learning Objectives */
+        .objectives-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .objectives-box h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .objectives-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives-box li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .objectives-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-section h3 {
+            color: #34495e;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border-left: 4px solid #764ba2;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #764ba2;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .problem-container h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .problem-question {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .solution-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.3s ease;
+        }
+
+        .solution-toggle:hover {
+            background: #5568d3;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .solution-content.active {
+            display: block;
+        }
+
+        /* Exam Tips */
+        .tips-container {
+            background: linear-gradient(135deg, #fff9c4 0%, #ffecb3 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid #ffa726;
+            margin-bottom: 2rem;
+        }
+
+        .tips-container h2 {
+            color: #e65100;
+            margin-bottom: 1rem;
+        }
+
+        .tip-item {
+            background: white;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Lesson Navigation Footer */
+        .lesson-nav {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            bottom: 0;
+            margin-top: 3rem;
+        }
+
+        .lesson-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: #5568d3;
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .navbar h1 {
+                font-size: 1.2rem;
+            }
+
+            .content-section, .problem-container {
+                padding: 1.5rem;
+            }
+
+            .lesson-nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>E2: Quantum Physics (HL)</h1>
+            <div class="navbar-badge">Higher Level</div>
+        </div>
+    </nav>
+
+    <!-- Progress Tracker -->
+    <div class="progress-container">
+        <div class="progress-bar-wrapper">
+            <div class="progress-text">
+                <span>Lesson Progress</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Learning Objectives -->
+        <div class="objectives-box">
+            <h2>Learning Objectives</h2>
+            <ul>
+                <li>Explain the photoelectric effect and calculate maximum kinetic energy, threshold frequency, and work function</li>
+                <li>Apply de Broglie's hypothesis to calculate matter wavelengths for particles</li>
+                <li>Describe pair production and pair annihilation, including energy-mass calculations</li>
+                <li>Explain the Bohr model and quantization of angular momentum in hydrogen</li>
+                <li>Interpret the wave function and its relationship to probability density</li>
+                <li>Apply Heisenberg's uncertainty principle to position-momentum and energy-time relationships</li>
+                <li>Describe quantum tunnelling and solve problems involving potential barriers</li>
+                <li>Analyze electron diffraction patterns and calculate wavelengths from interference data</li>
+            </ul>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-section">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Photoelectric Effect</div>
+                <div class="definition-text">The emission of electrons from a metal surface when electromagnetic radiation above a threshold frequency is incident upon it. Einstein's explanation: light consists of photons with energy \(E = hf\), where each photon can eject one electron if \(hf \geq \phi\) (work function).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Work Function (φ)</div>
+                <div class="definition-text">The minimum energy required to remove an electron from the surface of a material. Measured in joules (J) or electron volts (eV). \(\phi = hf_0\) where \(f_0\) is the threshold frequency.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">de Broglie Wavelength</div>
+                <div class="definition-text">The wavelength associated with any moving particle, given by \(\lambda = \frac{h}{p} = \frac{h}{mv}\), where \(h\) is Planck's constant, \(p\) is momentum, \(m\) is mass, and \(v\) is velocity. This establishes wave-particle duality for matter.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Wave Function (ψ)</div>
+                <div class="definition-text">A mathematical function that describes the quantum state of a particle. The square of its magnitude \(|\psi|^2\) gives the probability density of finding the particle at a particular location. It is the solution to the Schrödinger equation.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Heisenberg Uncertainty Principle</div>
+                <div class="definition-text">A fundamental limit on the precision with which certain pairs of physical properties can be simultaneously known. For position and momentum: \(\Delta x \Delta p \geq \frac{h}{4\pi}\). For energy and time: \(\Delta E \Delta t \geq \frac{h}{4\pi}\).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Quantum Tunnelling</div>
+                <div class="definition-text">A quantum mechanical phenomenon where a particle can pass through a potential barrier that it classically could not surmount. The probability depends on barrier width, height, and particle energy, described by transmission coefficient \(T\).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Pair Production</div>
+                <div class="definition-text">The creation of a particle and its antiparticle from energy (typically a photon), following \(E = 2m_0c^2\) minimum energy requirement. Example: photon → electron + positron. Requires minimum photon energy of 1.022 MeV.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Pair Annihilation</div>
+                <div class="definition-text">The process where a particle and its antiparticle collide and annihilate, converting their rest mass and kinetic energy into photons. For electron-positron annihilation at rest, two 0.511 MeV photons are produced.</div>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content-section">
+            <h2>Introduction: The Quantum Revolution</h2>
+            <p>Classical physics, developed through the 19th century, successfully described motion, forces, waves, and thermodynamics. However, by 1900, several experimental observations defied classical explanation: blackbody radiation spectra, the photoelectric effect, and atomic stability. These puzzles led to quantum physics, a revolutionary framework where energy is quantized, particles exhibit wave properties, and measurement fundamentally affects outcomes.</p>
+
+            <p>Topic E2 extends your SL foundation by exploring the mathematical and conceptual depth of quantum mechanics. You'll learn how Einstein explained the photoelectric effect with photons, how de Broglie unified particle and wave descriptions, how the Bohr model quantizes atomic energy levels, and how the wave function and uncertainty principle reveal the probabilistic nature of reality.</p>
+
+            <p><strong>Prerequisites:</strong> You should be comfortable with:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Wave properties (wavelength, frequency, interference, diffraction) from Topic C</li>
+                <li>Energy, momentum, and kinetic energy from Topics A and B</li>
+                <li>Atomic structure basics (nucleus, electrons, energy levels) from Topic E1</li>
+                <li>Electromagnetic spectrum and photon energy \(E = hf\) from SL content</li>
+            </ul>
+
+            <p><strong>Real-world significance:</strong> Quantum physics underpins modern technology including semiconductors, lasers, MRI scanners, electron microscopes, quantum computers, and photovoltaic cells. Understanding quantum mechanics is essential for nuclear physics, particle physics, and materials science.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>The Photoelectric Effect (E.2.1)</h2>
+
+            <h3>Classical Wave Prediction vs. Experimental Reality</h3>
+            <p>When light strikes a metal surface, electrons may be emitted—this is the photoelectric effect. Classical wave theory predicted:</p>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Emission should occur for any frequency if intensity is sufficient</li>
+                <li>Electron kinetic energy should increase with light intensity</li>
+                <li>There should be a time delay while electrons absorb enough energy</li>
+            </ol>
+
+            <p>Experiments (particularly by Lenard and Millikan) showed:</p>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>No emission occurs below a threshold frequency \(f_0\), regardless of intensity</li>
+                <li>Maximum electron kinetic energy depends only on frequency, not intensity</li>
+                <li>Emission is instantaneous (&lt; 10⁻⁹ s)</li>
+                <li>Intensity affects only the rate of emission (number of electrons per second)</li>
+            </ol>
+
+            <h3>Einstein's Photon Explanation (1905)</h3>
+            <p>Einstein proposed that light consists of discrete packets (photons), each with energy:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$E_{\text{photon}} = hf$$</p>
+
+            <p>where \(h = 6.63 \times 10^{-34}\) J·s is Planck's constant and \(f\) is frequency.</p>
+
+            <p>When a photon strikes the metal, it interacts with a single electron in an all-or-nothing process. If the photon energy exceeds the work function \(\phi\) (the binding energy of the electron to the metal), the electron is ejected with kinetic energy:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$E_k = hf - \phi$$</p>
+
+            <p>This is Einstein's photoelectric equation. The threshold frequency \(f_0\) occurs when \(E_k = 0\):</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$hf_0 = \phi \quad \Rightarrow \quad f_0 = \frac{\phi}{h}$$</p>
+
+            <p>Below this frequency, no individual photon has sufficient energy to liberate an electron.</p>
+
+            <h3>Stopping Potential</h3>
+            <p>In photoelectric experiments, a reverse potential difference \(V_s\) (stopping potential) is applied to prevent the most energetic electrons from reaching the collector. At the stopping potential:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$eV_s = E_{k,\text{max}} = hf - \phi$$</p>
+
+            <p>Plotting \(V_s\) versus \(f\) yields a straight line with slope \(h/e\) and x-intercept \(f_0\).</p>
+
+            <p><strong>Common Misconceptions:</strong></p>
+            <ul style="margin-left: 2rem;">
+                <li>Intensity does NOT affect electron energy, only emission rate</li>
+                <li>Each photon ejects at most one electron (one-to-one interaction)</li>
+                <li>Work function varies by material and surface condition</li>
+                <li>The equation gives maximum kinetic energy; electrons deeper in the metal emerge with less energy</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Matter Waves and de Broglie Wavelength (E.2.2)</h2>
+
+            <h3>Wave-Particle Duality for Matter</h3>
+            <p>In 1924, Louis de Broglie proposed that if waves (light) can behave as particles (photons), then particles should exhibit wave properties. He hypothesized that any particle with momentum \(p\) has an associated wavelength:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\lambda = \frac{h}{p} = \frac{h}{mv}$$</p>
+
+            <p>For non-relativistic particles, this is the de Broglie wavelength. For relativistic particles or photons, use \(p = E/c\).</p>
+
+            <h3>Electron Diffraction Evidence</h3>
+            <p>Davisson and Germer (1927) experimentally confirmed de Broglie's hypothesis by diffracting electrons from a nickel crystal. The electrons produced an interference pattern characteristic of waves, with spacing consistent with:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\lambda = \frac{h}{\sqrt{2m_e eV}}$$</p>
+
+            <p>for electrons accelerated through potential difference \(V\). This established that electrons, previously considered purely particles, exhibit wave behavior.</p>
+
+            <p><strong>Implications:</strong></p>
+            <ul style="margin-left: 2rem;">
+                <li>All matter has wave properties, but \(\lambda\) is typically observable only for microscopic particles</li>
+                <li>For macroscopic objects, \(\lambda\) is so small (due to large mass) that wave effects are negligible</li>
+                <li>Electron microscopes exploit electron wavelengths much shorter than visible light for superior resolution</li>
+            </ul>
+
+            <h3>Calculating de Broglie Wavelengths</h3>
+            <p>For a particle with kinetic energy \(E_k = \frac{1}{2}mv^2\):</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$p = \sqrt{2mE_k}$$</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\lambda = \frac{h}{\sqrt{2mE_k}}$$</p>
+
+            <p>For an electron accelerated through potential \(V\):</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$E_k = eV$$</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\lambda = \frac{h}{\sqrt{2m_e eV}} = \frac{1.23 \times 10^{-9}}{\sqrt{V}} \text{ m (with V in volts)}$$</p>
+
+            <p><strong>When is wave behavior observable?</strong></p>
+            <p>Wave effects (diffraction, interference) become significant when \(\lambda\) is comparable to the size of obstacles or apertures. For electrons with \(E_k \sim 100\) eV, \(\lambda \sim 0.1\) nm, comparable to atomic spacing in crystals—hence observable diffraction patterns.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Pair Production and Annihilation (E.2.3)</h2>
+
+            <h3>Mass-Energy Equivalence in Quantum Processes</h3>
+            <p>Einstein's \(E = mc^2\) predicts that energy can convert to mass and vice versa. In quantum physics, this occurs through pair production and pair annihilation.</p>
+
+            <h3>Pair Production</h3>
+            <p>A high-energy photon can spontaneously convert into a particle-antiparticle pair, typically an electron (\(e^-\)) and positron (\(e^+\)):</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\gamma \rightarrow e^- + e^+$$</p>
+
+            <p>Conservation of energy requires:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$E_{\gamma} = 2m_e c^2 + E_{k,e^-} + E_{k,e^+}$$</p>
+
+            <p>The minimum (threshold) photon energy occurs when both particles are created at rest:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$E_{\gamma,\text{min}} = 2m_e c^2 = 2 \times 0.511 \text{ MeV} = 1.022 \text{ MeV}$$</p>
+
+            <p>This corresponds to a photon frequency:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$f_{\text{min}} = \frac{2m_e c^2}{h} = 2.47 \times 10^{20} \text{ Hz}$$</p>
+
+            <p>Pair production cannot occur in vacuum alone due to momentum conservation—it requires a nearby nucleus to absorb recoil momentum.</p>
+
+            <h3>Pair Annihilation</h3>
+            <p>When a particle meets its antiparticle, they annihilate, converting their mass and kinetic energy into photons:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$e^- + e^+ \rightarrow 2\gamma$$</p>
+
+            <p>For an electron-positron pair at rest, two photons of equal energy are produced (to conserve momentum):</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$E_{\gamma} = m_e c^2 = 0.511 \text{ MeV each}$$</p>
+
+            <p>These photons travel in opposite directions. If the particles have kinetic energy, the total energy is shared among the photons, and their energies need not be equal.</p>
+
+            <p><strong>Applications:</strong></p>
+            <ul style="margin-left: 2rem;">
+                <li>Positron Emission Tomography (PET): Positrons from radioactive decay annihilate with electrons, producing detectable 511 keV photon pairs</li>
+                <li>Gamma-ray astronomy: Observing annihilation radiation from matter-antimatter interactions</li>
+                <li>Particle accelerators: Creating exotic particles through high-energy collisions</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Quantization of Angular Momentum: The Bohr Model (E.2.4)</h2>
+
+            <h3>Classical Instability of Atoms</h3>
+            <p>Rutherford's nuclear model placed electrons in orbits around the nucleus, but classical electromagnetism predicts that accelerating charges radiate energy. Orbiting electrons should spiral into the nucleus in ~10⁻¹¹ s, yet atoms are stable. Atomic spectra also show discrete lines, not continuous radiation.</p>
+
+            <h3>Bohr's Quantum Postulates (1913)</h3>
+            <p>Niels Bohr resolved this by proposing:</p>
+
+            <p><strong>1. Stationary states:</strong> Electrons occupy specific orbits with quantized angular momentum:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$L = n\frac{h}{2\pi} = n\hbar$$</p>
+            <p>where \(n = 1, 2, 3, \ldots\) is the principal quantum number and \(\hbar = h/(2\pi) = 1.055 \times 10^{-34}\) J·s.</p>
+
+            <p><strong>2. No radiation in stationary states:</strong> Electrons do not radiate while in these allowed orbits.</p>
+
+            <p><strong>3. Quantum jumps:</strong> Electrons transition between energy levels by absorbing or emitting photons:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$E_{\gamma} = E_i - E_f = hf$$</p>
+
+            <h3>Deriving Energy Levels for Hydrogen</h3>
+            <p>For an electron in orbit \(n\), balancing centripetal and electrostatic forces:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\frac{mv^2}{r} = \frac{ke^2}{r^2}$$</p>
+
+            <p>With quantized angular momentum \(L = mvr = n\hbar\):</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$r_n = \frac{n^2\hbar^2}{m_e ke^2} = n^2 a_0$$</p>
+
+            <p>where \(a_0 = 0.529 \times 10^{-10}\) m is the Bohr radius (ground state radius).</p>
+
+            <p>The total energy (kinetic + potential) is:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$E_n = -\frac{m_e k^2 e^4}{2\hbar^2 n^2} = -\frac{13.6 \text{ eV}}{n^2}$$</p>
+
+            <p>The negative sign indicates bound states. The ground state (\(n=1\)) has \(E_1 = -13.6\) eV.</p>
+
+            <h3>Spectral Lines</h3>
+            <p>Transitions between levels produce spectral lines:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\frac{1}{\lambda} = R_H \left(\frac{1}{n_f^2} - \frac{1}{n_i^2}\right)$$</p>
+
+            <p>where \(R_H = 1.097 \times 10^7\) m⁻¹ is the Rydberg constant. Series include:</p>
+            <ul style="margin-left: 2rem;">
+                <li>Lyman series: \(n_f = 1\) (UV)</li>
+                <li>Balmer series: \(n_f = 2\) (visible)</li>
+                <li>Paschen series: \(n_f = 3\) (IR)</li>
+            </ul>
+
+            <p><strong>Limitations of the Bohr Model:</strong></p>
+            <ul style="margin-left: 2rem;">
+                <li>Only works for hydrogen-like atoms (one electron)</li>
+                <li>Cannot explain fine structure, Zeeman effect, or chemical bonding</li>
+                <li>Ad hoc quantization rule; no justification from first principles</li>
+                <li>Replaced by quantum mechanics (Schrödinger equation), which provides wave function descriptions</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>The Wave Function (E.2.5)</h2>
+
+            <h3>From Particles to Probability Waves</h3>
+            <p>In quantum mechanics, particles are described not by definite positions and momenta, but by a wave function \(\psi(x,t)\), a complex-valued function that encodes all information about the system. The wave function is the solution to the Schrödinger equation.</p>
+
+            <h3>Born's Probability Interpretation</h3>
+            <p>Max Born (1926) proposed that \(|\psi(x,t)|^2\) represents the probability density of finding the particle at position \(x\) at time \(t\). Specifically:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$P(x) = |\psi(x)|^2$$</p>
+
+            <p>The probability of finding the particle in an interval \([x_1, x_2]\) is:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$P(x_1 < x < x_2) = \int_{x_1}^{x_2} |\psi(x)|^2 \, dx$$</p>
+
+            <h3>Normalization</h3>
+            <p>Since the particle must be somewhere, the total probability is:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\int_{-\infty}^{\infty} |\psi(x)|^2 \, dx = 1$$</p>
+            <p>This is the normalization condition.</p>
+
+            <p><strong>Physical Interpretation:</strong></p>
+            <ul style="margin-left: 2rem;">
+                <li>The wave function itself (\(\psi\)) is not directly observable—it's complex</li>
+                <li>Only \(|\psi|^2\) has physical meaning (probability density)</li>
+                <li>Before measurement, the particle exists in a superposition of states</li>
+                <li>Measurement "collapses" the wave function to a definite outcome</li>
+                <li>Repeated measurements on identically prepared systems yield a probability distribution matching \(|\psi|^2\)</li>
+            </ul>
+
+            <h3>Example: Particle in a Box</h3>
+            <p>For a particle confined to \(0 < x < L\) with infinite potential walls, the allowed wave functions are:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\psi_n(x) = \sqrt{\frac{2}{L}} \sin\left(\frac{n\pi x}{L}\right)$$</p>
+
+            <p>with energies:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$E_n = \frac{n^2 h^2}{8mL^2}$$</p>
+
+            <p>The probability density \(|\psi_n|^2\) shows nodes (zero probability) and antinodes (high probability) within the box.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Heisenberg's Uncertainty Principle (E.2.6)</h2>
+
+            <h3>Fundamental Limits on Measurement</h3>
+            <p>The uncertainty principle, discovered by Werner Heisenberg in 1927, states that certain pairs of physical quantities (complementary variables) cannot both be known with arbitrary precision simultaneously.</p>
+
+            <h3>Position-Momentum Uncertainty</h3>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\Delta x \Delta p \geq \frac{h}{4\pi} = \frac{\hbar}{2}$$</p>
+
+            <p>where:</p>
+            <ul style="margin-left: 2rem;">
+                <li>\(\Delta x\) is the uncertainty (standard deviation) in position</li>
+                <li>\(\Delta p\) is the uncertainty in momentum</li>
+                <li>\(\hbar = h/(2\pi) = 1.055 \times 10^{-34}\) J·s</li>
+            </ul>
+
+            <p>This is NOT due to experimental imperfection—it's a fundamental property of quantum systems. The more precisely you know position, the less precisely you can know momentum, and vice versa.</p>
+
+            <h3>Energy-Time Uncertainty</h3>
+            <p style="text-align: center; margin: 1.5rem 0;">$$\Delta E \Delta t \geq \frac{h}{4\pi} = \frac{\hbar}{2}$$</p>
+
+            <p>where:</p>
+            <ul style="margin-left: 2rem;">
+                <li>\(\Delta E\) is the uncertainty in energy</li>
+                <li>\(\Delta t\) is the time duration of the measurement or lifetime of the state</li>
+            </ul>
+
+            <p>This relation allows virtual particles to exist briefly, violating energy conservation for time \(\Delta t \sim \hbar/(\Delta E)\).</p>
+
+            <h3>Physical Origin</h3>
+            <p>The uncertainty principle arises from wave-particle duality:</p>
+            <ul style="margin-left: 2rem;">
+                <li>A well-localized wave packet (small \(\Delta x\)) requires many frequency components, giving large momentum spread (\(\Delta p\))</li>
+                <li>A pure sine wave (definite momentum, \(\Delta p = 0\)) extends over all space (\(\Delta x = \infty\))</li>
+            </ul>
+
+            <h3>Implications</h3>
+            <p><strong>1. Ground state energy:</strong> Particles cannot have zero energy in bound states. In an infinite well of width \(L\), \(\Delta x \sim L\), so \(\Delta p \geq \hbar/(2L)\), giving minimum kinetic energy \(E_{\text{min}} \sim \hbar^2/(2mL^2)\).</p>
+
+            <p><strong>2. Atomic stability:</strong> Electrons cannot spiral into the nucleus. If confined to nuclear dimensions (\(\Delta x \sim 10^{-15}\) m), \(\Delta p\) would be enormous, giving kinetic energy far exceeding typical binding energies.</p>
+
+            <p><strong>3. Spectral line width:</strong> Excited atomic states with lifetime \(\tau\) have energy uncertainty \(\Delta E \sim \hbar/(2\tau)\), producing natural line broadening \(\Delta f \sim 1/(2\pi\tau)\).</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Quantum Tunnelling (E.2.7)</h2>
+
+            <h3>Classical Forbidden, Quantum Allowed</h3>
+            <p>Classically, a particle with energy \(E\) cannot pass through a potential barrier of height \(V_0 > E\)—it simply doesn't have enough energy. Quantum mechanically, the wave function penetrates into and sometimes through the barrier. This is quantum tunnelling.</p>
+
+            <h3>Wave Function in a Barrier</h3>
+            <p>Consider a particle with energy \(E\) encountering a rectangular potential barrier (height \(V_0\), width \(a\)):</p>
+
+            <ul style="margin-left: 2rem;">
+                <li><strong>Region I</strong> (\(x < 0\)): \(\psi_I = A e^{ikx} + B e^{-ikx}\) (incident + reflected waves, \(k = \sqrt{2mE}/\hbar\))</li>
+                <li><strong>Region II</strong> (barrier, \(0 < x < a\)): \(\psi_{II} = C e^{\kappa x} + D e^{-\kappa x}\) (decaying exponentials, \(\kappa = \sqrt{2m(V_0-E)}/\hbar\))</li>
+                <li><strong>Region III</strong> (\(x > a\)): \(\psi_{III} = F e^{ikx}\) (transmitted wave)</li>
+            </ul>
+
+            <p>Inside the barrier, the wave function decays exponentially but does not vanish. If the barrier is thin enough, \(\psi\) has non-zero amplitude on the far side, allowing transmission.</p>
+
+            <h3>Transmission Coefficient</h3>
+            <p>The probability of tunnelling through the barrier is:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$T \approx e^{-2\kappa a} = \exp\left(-\frac{2a}{\hbar}\sqrt{2m(V_0-E)}\right)$$</p>
+
+            <p>for \(V_0 \gg E\) and thick barriers. This shows:</p>
+            <ul style="margin-left: 2rem;">
+                <li>\(T\) decreases exponentially with barrier width \(a\)</li>
+                <li>\(T\) decreases with barrier height \((V_0 - E)\)</li>
+                <li>\(T\) increases for lighter particles (smaller \(m\))</li>
+            </ul>
+
+            <h3>Applications and Examples</h3>
+
+            <p><strong>1. Alpha decay:</strong> Alpha particles tunnel through the Coulomb barrier of the nucleus. The barrier width depends on nuclear radius and height depends on Coulomb repulsion. Tunnelling probability determines decay half-life.</p>
+
+            <p><strong>2. Scanning Tunnelling Microscope (STM):</strong> A sharp metal tip is brought near a conducting surface. Electrons tunnel across the gap (typically ~1 nm). Tunnelling current is extremely sensitive to tip-surface distance:</p>
+            <p style="text-align: center; margin: 1.5rem 0;">$$I \propto e^{-2\kappa d}$$</p>
+            <p>By scanning the tip and maintaining constant current, atomic-resolution surface images are obtained.</p>
+
+            <p><strong>3. Tunnel diodes:</strong> Semiconductor devices exploiting quantum tunnelling for ultrafast switching.</p>
+
+            <p><strong>4. Nuclear fusion:</strong> Protons in the Sun's core tunnel through the Coulomb barrier to fuse, despite having kinetic energies far below the classical barrier height (~1 MeV vs ~10 keV thermal energy).</p>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="problem-container">
+            <h2>Practice Problems</h2>
+
+            <div class="problem-item">
+                <div class="problem-question">
+                    <strong>Problem 1 (Photoelectric Effect):</strong> Light of wavelength 400 nm is incident on a potassium surface with work function 2.24 eV. (a) Calculate the maximum kinetic energy of emitted electrons in eV. (b) Determine the stopping potential. (c) Find the threshold wavelength for potassium. (\(h = 6.63 \times 10^{-34}\) J·s, \(c = 3.00 \times 10^8\) m/s, \(e = 1.60 \times 10^{-19}\) C)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution-content" id="solution-1">
+                    <p><strong>(a) Maximum kinetic energy:</strong><br>
+                    First, find photon energy: \(E = hf = \frac{hc}{\lambda} = \frac{(6.63 \times 10^{-34})(3.00 \times 10^8)}{400 \times 10^{-9}} = 4.97 \times 10^{-19}\) J</p>
+                    <p>Convert to eV: \(E = \frac{4.97 \times 10^{-19}}{1.60 \times 10^{-19}} = 3.11\) eV</p>
+                    <p>Using Einstein's equation: \(E_k = hf - \phi = 3.11 - 2.24 = \mathbf{0.87 \text{ eV}}\)</p>
+
+                    <p><strong>(b) Stopping potential:</strong><br>
+                    \(eV_s = E_k \Rightarrow V_s = \mathbf{0.87 \text{ V}}\)</p>
+
+                    <p><strong>(c) Threshold wavelength:</strong><br>
+                    \(\phi = hf_0 = \frac{hc}{\lambda_0}\)<br>
+                    \(\lambda_0 = \frac{hc}{\phi} = \frac{(6.63 \times 10^{-34})(3.00 \times 10^8)}{2.24 \times 1.60 \times 10^{-19}} = 5.55 \times 10^{-7}\) m = <strong>555 nm</strong></p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-question">
+                    <strong>Problem 2 (de Broglie Wavelength):</strong> An electron is accelerated from rest through a potential difference of 150 V. (a) Calculate its de Broglie wavelength. (b) Compare this to the wavelength of a proton accelerated through the same potential. (\(m_e = 9.11 \times 10^{-31}\) kg, \(m_p = 1.67 \times 10^{-27}\) kg, \(e = 1.60 \times 10^{-19}\) C, \(h = 6.63 \times 10^{-34}\) J·s)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution-content" id="solution-2">
+                    <p><strong>(a) Electron wavelength:</strong><br>
+                    Using the formula: \(\lambda = \frac{1.23 \times 10^{-9}}{\sqrt{V}} = \frac{1.23 \times 10^{-9}}{\sqrt{150}} = 1.00 \times 10^{-10}\) m = <strong>0.100 nm</strong></p>
+
+                    <p><strong>(b) Proton wavelength:</strong><br>
+                    Same kinetic energy, but \(m_p = 1836 m_e\)<br>
+                    \(p = \sqrt{2m_p E_k} = \sqrt{1836} \times p_e = 42.8 \times p_e\)<br>
+                    \(\lambda_p = \frac{h}{p_p} = \frac{\lambda_e}{42.8} = \frac{1.00 \times 10^{-10}}{42.8} = 2.34 \times 10^{-12}\) m = <strong>0.00234 nm</strong></p>
+                    <p>The proton's wavelength is much shorter due to its larger mass.</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-question">
+                    <strong>Problem 3 (Pair Production):</strong> A gamma-ray photon with energy 2.50 MeV undergoes pair production near a heavy nucleus. (a) Is pair production possible? (b) If so, calculate the total kinetic energy of the electron-positron pair created. (c) If the particles share this kinetic energy equally, find the speed of each particle. (\(m_e c^2 = 0.511\) MeV)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution-content" id="solution-3">
+                    <p><strong>(a) Possibility check:</strong><br>
+                    Minimum energy for pair production: \(E_{\text{min}} = 2m_e c^2 = 2(0.511) = 1.022\) MeV<br>
+                    Since \(E_{\gamma} = 2.50\) MeV \(> 1.022\) MeV, pair production <strong>is possible</strong>.</p>
+
+                    <p><strong>(b) Total kinetic energy:</strong><br>
+                    By energy conservation: \(E_{\gamma} = 2m_e c^2 + E_k^{\text{total}}\)<br>
+                    \(E_k^{\text{total}} = 2.50 - 1.022 = \mathbf{1.48 \text{ MeV}}\)</p>
+
+                    <p><strong>(c) Speed of each particle:</strong><br>
+                    Each particle gets: \(E_k = 1.478/2 = 0.739\) MeV<br>
+                    Total energy of each: \(E_{\text{total}} = 0.739 + 0.511 = 1.250\) MeV<br>
+                    Using \(E = \gamma m_e c^2\): \(\gamma = 1.250/0.511 = 2.446\)<br>
+                    \(v = c\sqrt{1-1/\gamma^2} = 0.913c = \mathbf{2.74 \times 10^8 \text{ m/s}}\)</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-question">
+                    <strong>Problem 4 (Bohr Model):</strong> A hydrogen atom is in the \(n = 4\) state. (a) Calculate the orbital radius. (b) Find the electron's speed. (c) Determine the energy of the photon emitted when the electron transitions to the \(n = 2\) state. (d) Identify which spectral series this transition belongs to. (\(a_0 = 0.529 \times 10^{-10}\) m, \(E_1 = -13.6\) eV)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution-content" id="solution-4">
+                    <p><strong>(a) Orbital radius:</strong><br>
+                    \(r_n = n^2 a_0 = 4^2 (0.529 \times 10^{-10}) = 16(0.529 \times 10^{-10}) = 8.46 \times 10^{-10}\) m = <strong>0.846 nm</strong></p>
+
+                    <p><strong>(b) Electron speed:</strong><br>
+                    \(v = \frac{\hbar}{n m_e a_0} = \frac{v_1}{4}\) where \(v_1 = 2.19 \times 10^6\) m/s<br>
+                    \(v_4 = 5.48 \times 10^5\) m/s</p>
+
+                    <p><strong>(c) Photon energy:</strong><br>
+                    \(E_4 = \frac{-13.6}{16} = -0.85\) eV<br>
+                    \(E_2 = \frac{-13.6}{4} = -3.40\) eV<br>
+                    \(E_{\gamma} = E_4 - E_2 = -0.85 - (-3.40) = \mathbf{2.55 \text{ eV}}\)<br>
+                    This corresponds to \(\lambda = 486\) nm (blue-green light)</p>
+
+                    <p><strong>(d) Spectral series:</strong><br>
+                    Since \(n_f = 2\), this belongs to the <strong>Balmer series</strong> (visible light, H-β line).</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-question">
+                    <strong>Problem 5 (Uncertainty Principle):</strong> An electron is confined to a region of width \(\Delta x = 0.10\) nm (approximately atomic size). (a) Estimate the minimum uncertainty in its momentum. (b) Estimate the minimum kinetic energy. (c) Explain why this prevents the electron from falling into the nucleus. (\(\hbar = 1.055 \times 10^{-34}\) J·s, \(m_e = 9.11 \times 10^{-31}\) kg)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution-content" id="solution-5">
+                    <p><strong>(a) Momentum uncertainty:</strong><br>
+                    Using the uncertainty principle: \(\Delta x \Delta p \geq \frac{\hbar}{2}\)<br>
+                    \(\Delta p \geq \frac{\hbar}{2\Delta x} = \frac{1.055 \times 10^{-34}}{2(0.10 \times 10^{-9})} = \mathbf{5.28 \times 10^{-25} \text{ kg·m/s}}\)</p>
+
+                    <p><strong>(b) Minimum kinetic energy:</strong><br>
+                    \(E_k \sim \frac{(\Delta p)^2}{2m_e} = \frac{(5.28 \times 10^{-25})^2}{2(9.11 \times 10^{-31})} = 1.53 \times 10^{-19}\) J ≈ <strong>0.96 eV</strong></p>
+
+                    <p><strong>(c) Nuclear collapse prevention:</strong><br>
+                    If the electron were at the nucleus (\(\Delta x \sim 10^{-15}\) m):<br>
+                    \(\Delta p \geq \frac{1.055 \times 10^{-34}}{2(10^{-15})} = 5.28 \times 10^{-20}\) kg·m/s<br>
+                    \(E_k \sim 1.53 \times 10^{-9}\) J ≈ 10,000 MeV</p>
+                    <p>This kinetic energy vastly exceeds typical atomic binding energies (~10 eV). The electron cannot be confined to nuclear dimensions because the required kinetic energy would far exceed the electrostatic attraction. Thus, <strong>the uncertainty principle enforces atomic size and stability</strong>.</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-question">
+                    <strong>Problem 6 (Quantum Tunnelling):</strong> An electron with energy \(E = 5.0\) eV approaches a rectangular potential barrier of height \(V_0 = 10.0\) eV and width \(a = 0.50\) nm. (a) Calculate the decay constant \(\kappa\) inside the barrier. (b) Estimate the transmission coefficient. (c) If \(10^{12}\) electrons per second strike the barrier, approximately how many tunnel through per second? (\(m_e = 9.11 \times 10^{-31}\) kg, \(\hbar = 1.055 \times 10^{-34}\) J·s, \(e = 1.60 \times 10^{-19}\) C)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+                <div class="solution-content" id="solution-6">
+                    <p><strong>(a) Decay constant:</strong><br>
+                    \(\kappa = \frac{\sqrt{2m_e(V_0-E)}}{\hbar}\)<br>
+                    \(V_0 - E = 5.0\) eV \(= 8.0 \times 10^{-19}\) J<br>
+                    \(\kappa = \frac{\sqrt{2(9.11 \times 10^{-31})(8.0 \times 10^{-19})}}{1.055 \times 10^{-34}} = \mathbf{1.14 \times 10^{10} \text{ m}^{-1}}\)</p>
+
+                    <p><strong>(b) Transmission coefficient:</strong><br>
+                    \(T \approx e^{-2\kappa a} = \exp[-2(1.14 \times 10^{10})(0.50 \times 10^{-9})]\)<br>
+                    \(T = e^{-11.4} = \mathbf{1.1 \times 10^{-5}}\) or <strong>0.0011%</strong></p>
+
+                    <p><strong>(c) Tunnelling rate:</strong><br>
+                    Number tunnelling = (incident rate) × \(T\) = \((10^{12})(1.1 \times 10^{-5}) = \mathbf{1.1 \times 10^7 \text{ electrons/s}}\)<br>
+                    Approximately <strong>11 million electrons per second</strong> tunnel through, despite having insufficient classical energy.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="tips-container">
+            <h2>Exam Tips</h2>
+            <div class="tip-item">
+                <strong>Photoelectric effect:</strong> Remember that intensity affects the RATE of emission (number of electrons/s), while frequency affects electron ENERGY. Sketch \(V_s\) vs \(f\) graphs showing the threshold frequency and slope \(h/e\).
+            </div>
+            <div class="tip-item">
+                <strong>de Broglie wavelength:</strong> Always check if the particle is relativistic (compare kinetic energy to rest mass energy). For electrons, use the handy formula \(\lambda = 1.23\) nm/\(\sqrt{V}\)(volts) when accelerated from rest. For other particles, work from first principles.
+            </div>
+            <div class="tip-item">
+                <strong>Pair production/annihilation:</strong> Always check energy conservation AND momentum conservation. Pair production requires a nearby nucleus for momentum conservation—it cannot occur in empty space. In annihilation, two photons (not one) are produced for the same reason.
+            </div>
+            <div class="tip-item">
+                <strong>Bohr model:</strong> Know the key results by heart: ground state energy \(E_1 = -13.6\) eV, Bohr radius \(a_0 = 0.529\) Å, and the scaling laws (\(r_n \propto n^2\), \(E_n \propto 1/n^2\)). Be able to identify spectral series (Lyman, Balmer, Paschen) by the final state.
+            </div>
+            <div class="tip-item">
+                <strong>Wave function:</strong> Remember that \(\psi\) itself is not observable—only \(|\psi|^2\) has physical meaning as probability density. When finding probabilities, you must integrate \(|\psi|^2\) over the region of interest. Don't forget normalization (total probability = 1).
+            </div>
+            <div class="tip-item">
+                <strong>Uncertainty principle:</strong> The most common error is using = instead of ≥. The relation gives a LOWER BOUND, not an exact value. Use it for order-of-magnitude estimates in conceptual problems (atomic size, ground state energy). Don't confuse it with measurement error.
+            </div>
+            <div class="tip-item">
+                <strong>Quantum tunnelling:</strong> Transmission probability decreases exponentially with barrier width and height. Even tiny changes in width cause huge changes in transmission. Always express \(T\) in exponential form when comparing tunnelling probabilities.
+            </div>
+            <div class="tip-item">
+                <strong>Units and conversions:</strong> Master eV ↔ joules (1 eV = 1.60×10⁻¹⁹ J), energy ↔ wavelength (\(\lambda\)(nm) = 1240/\(E\)(eV)), and momentum ↔ wavelength. These conversions appear in nearly every quantum physics problem.
+            </div>
+            <div class="tip-item">
+                <strong>Problem-solving strategy:</strong> (1) Identify which quantum principle applies, (2) list given values and convert units, (3) choose the appropriate equation, (4) solve algebraically before substituting, (5) check if your answer is physically reasonable (orders of magnitude, units, signs).
+            </div>
+            <div class="tip-item">
+                <strong>Common mark losses:</strong> Not showing working, incorrect unit conversions, using approximate values when exact answers are required, not reading whether the question asks for wavelength or frequency, forgetting to square the wave function when finding probability, mixing up threshold frequency and incident frequency.
+            </div>
+        </div>
+    </div>
+
+    <!-- Lesson Navigation Footer -->
+    <div class="lesson-nav">
+        <div class="lesson-nav-content">
+            <button class="nav-button" onclick="previousLesson()">← Previous Lesson</button>
+            <span>E2: Quantum Physics (HL)</span>
+            <button class="nav-button" onclick="nextLesson()">Next Lesson →</button>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChatbot()" title="Ask a question">💬</button>
+    </div>
+
+    <script>
+        // Progress Tracking
+        let sectionsViewed = new Set();
+        const totalSections = document.querySelectorAll('.content-section, .problem-item').length;
+
+        function updateProgress() {
+            const progress = (sectionsViewed.size / totalSections) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-percent').textContent = Math.round(progress) + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('e2_progress', progress);
+        }
+
+        // Intersection Observer for tracking viewed sections
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id || entry.target.className + '_' + Array.from(entry.target.parentNode.children).indexOf(entry.target);
+                    sectionsViewed.add(id);
+                    updateProgress();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe all content sections and problem items
+        document.querySelectorAll('.content-section, .problem-item').forEach((section, index) => {
+            if (!section.id) section.id = 'section_' + index;
+            observer.observe(section);
+        });
+
+        // Load saved progress
+        window.addEventListener('load', () => {
+            const savedProgress = localStorage.getItem('e2_progress');
+            if (savedProgress) {
+                document.getElementById('progress-fill').style.width = savedProgress + '%';
+                document.getElementById('progress-percent').textContent = Math.round(savedProgress) + '%';
+            }
+        });
+
+        // Toggle solution visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = solution.previousElementSibling;
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('active');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Navigation functions
+        function previousLesson() {
+            alert('Navigate to previous lesson: E1 - Nuclear Physics');
+            // In production, this would navigate to the actual previous lesson
+            // window.location.href = 'e1_nuclear_physics_hl.html';
+        }
+
+        function nextLesson() {
+            alert('Navigate to next lesson: E3 - Wave Phenomena (HL)');
+            // In production, this would navigate to the actual next lesson
+            // window.location.href = 'e3_wave_phenomena_hl.html';
+        }
+
+        // Chatbot function
+        function openChatbot() {
+            alert('Chatbot feature: Ask questions about quantum physics!\n\nIn production, this would open an AI-powered chatbot to help you understand the concepts.');
+            // In production, this would open a chatbot interface
+            // For now, it's a placeholder
+        }
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // MathJax configuration
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            }
+        };
+    </script>
+</body>
+</html>

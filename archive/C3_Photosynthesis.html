@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C3: Photosynthesis - IB Biology HL | Fluapi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Lesson Header */
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-title {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .lesson-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Learning Objectives */
+        .objectives-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .objectives-section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .objectives-list {
+            list-style: none;
+        }
+
+        .objectives-list li {
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Definition Boxes */
+        .definitions-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .definitions-section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .content-section strong {
+            color: #667eea;
+        }
+
+        /* Practice Problems */
+        .practice-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .practice-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-box {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .problem-header {
+            background: #f8f9fa;
+            padding: 1rem 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-question {
+            padding: 1.5rem;
+            background: white;
+        }
+
+        .solution-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .solution-toggle:hover {
+            background: #764ba2;
+        }
+
+        .solution-content {
+            display: none;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .solution-content.show {
+            display: block;
+        }
+
+        .solution-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Exam Tips */
+        .exam-tips-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .exam-tips-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        .tip-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .tip-box:before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-window {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            flex-direction: column;
+        }
+
+        .chatbot-window.show {
+            display: flex;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chatbot-message {
+            padding: 0.8rem;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+
+        .chatbot-message.bot {
+            background: #f0f0f0;
+            align-self: flex-start;
+        }
+
+        .chatbot-message.user {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+
+        .chatbot-input button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .lesson-title {
+                font-size: 1.8rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .chatbot-window {
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">Fluapi</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="lessons.html">Lessons</a></li>
+                <li><a href="practice.html">Practice</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Progress Tracking -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-header">
+                <span>Lesson Progress</span>
+                <span id="progress-percentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1 class="lesson-title">C3: Photosynthesis - A Complete Guide for IB Biology HL</h1>
+            <div class="lesson-meta">
+                <span>📚 Syllabus Code: C3</span>
+                <span>🎓 Level: HL</span>
+                <span>⏱️ Estimated Time: 3-4 hours</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="objectives-section">
+            <h2>Learning Objectives</h2>
+            <ul class="objectives-list">
+                <li>Explain the structure of chloroplasts in relation to their function in photosynthesis</li>
+                <li>Describe the light-dependent reactions including photophosphorylation and photolysis of water</li>
+                <li>Analyze the role of photosystems I and II in the generation of ATP and reduced NADP</li>
+                <li>Explain the light-independent reactions (Calvin cycle) and the role of RuBisCO</li>
+                <li>Evaluate the effects of limiting factors on the rate of photosynthesis</li>
+                <li>Distinguish between action spectra and absorption spectra for photosynthetic pigments</li>
+                <li>Apply chromatography principles to separate and identify photosynthetic pigments</li>
+                <li>Calculate and interpret data related to photosynthesis rates and limiting factors</li>
+                <li>Connect photosynthesis to global carbon cycling and ecosystem energy flow</li>
+                <li>Design and evaluate experiments investigating factors affecting photosynthesis</li>
+            </ul>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="definitions-section">
+            <h2>Key Definitions</h2>
+            <div class="definition-box">
+                <div class="definition-term">Photosynthesis</div>
+                <div class="definition-text">The process by which light energy is converted to chemical energy in the form of organic compounds, using carbon dioxide and water. Overall equation: 6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Chloroplast</div>
+                <div class="definition-text">A specialized organelle in plant cells and algae where photosynthesis occurs, containing thylakoid membranes organized into grana and surrounded by stroma</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Thylakoid</div>
+                <div class="definition-text">A flattened membrane-bound compartment inside chloroplasts where the light-dependent reactions occur, containing photosystems and electron transport chains</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Stroma</div>
+                <div class="definition-text">The fluid-filled matrix surrounding the thylakoids in chloroplasts where the light-independent reactions (Calvin cycle) take place</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Photosystem</div>
+                <div class="definition-text">A complex of proteins and pigments in thylakoid membranes that captures light energy and drives electron transport. Two types: Photosystem I (P700) and Photosystem II (P680)</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Photophosphorylation</div>
+                <div class="definition-text">The synthesis of ATP using energy from light in the light-dependent reactions. Can be cyclic (only PSI) or non-cyclic (both PSI and PSII)</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Photolysis</div>
+                <div class="definition-text">The splitting of water molecules using light energy in PSII, producing electrons, protons, and oxygen gas: 2H₂O → 4H⁺ + 4e⁻ + O₂</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Calvin Cycle</div>
+                <div class="definition-text">The light-independent reactions of photosynthesis occurring in the stroma, where CO₂ is fixed into organic molecules using ATP and NADPH from the light-dependent reactions</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">RuBisCO</div>
+                <div class="definition-text">Ribulose bisphosphate carboxylase, the enzyme that catalyzes the first step of the Calvin cycle by fixing CO₂ to RuBP. The most abundant protein on Earth</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Limiting Factor</div>
+                <div class="definition-text">An environmental factor that restricts the rate of photosynthesis when it is in short supply, such as light intensity, CO₂ concentration, or temperature</div>
+            </div>
+        </div>
+
+        <!-- Content Section 1: Introduction to Photosynthesis -->
+        <div class="content-section" data-section="1">
+            <h2>Introduction to Photosynthesis</h2>
+            <p>Photosynthesis is the fundamental process that sustains nearly all life on Earth. It converts light energy from the sun into chemical energy stored in organic molecules, primarily glucose. This process occurs in chloroplasts of plant cells and algae, and in the cytoplasm of photosynthetic bacteria.</p>
+
+            <h3>Why Photosynthesis Matters:</h3>
+            <p>Photosynthesis is the primary source of all oxygen in Earth's atmosphere. Every breath you take depends on photosynthetic organisms. Additionally, photosynthesis forms the base of most food chains, converting light energy into chemical energy that heterotrophs can use.</p>
+
+            <h3>The Overall Equation:</h3>
+            <p>6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂</p>
+            <p>This deceptively simple equation masks two complex stages: the light-dependent reactions and the light-independent reactions (Calvin cycle). Understanding WHY these stages exist separately is key to mastering this topic.</p>
+
+            <h3>Prerequisites:</h3>
+            <p>Before diving into C3, ensure you understand:</p>
+            <ul>
+                <li>Cell structure, particularly membrane structure and function (Topic A2)</li>
+                <li>Enzyme function and factors affecting enzyme activity (Topic A1)</li>
+                <li>Basic biochemistry including ATP structure and function (Topic B1)</li>
+                <li>Oxidation and reduction reactions (electron transfer)</li>
+            </ul>
+
+            <h3>Historical Context:</h3>
+            <p>For decades, scientists debated where the oxygen in photosynthesis came from. Using isotope labeling experiments with ¹⁸O, they discovered that O₂ comes from water, not CO₂. This was crucial for understanding that water is split (photolysis) during the light-dependent reactions.</p>
+        </div>
+
+        <!-- Content Section 2: Structure of Chloroplasts -->
+        <div class="content-section" data-section="2">
+            <h2>Structure of Chloroplasts</h2>
+            <p>Chloroplast structure is intimately related to photosynthetic function. Understanding the architecture helps explain how the two stages of photosynthesis are organized.</p>
+
+            <h3>Envelope (Double Membrane):</h3>
+            <p>The outer and inner membranes control what enters and leaves the chloroplast. They are selectively permeable, allowing CO₂, water, and small molecules to pass while containing the specialized internal environment needed for photosynthesis.</p>
+
+            <h3>Stroma:</h3>
+            <p>The stroma is the fluid-filled matrix inside the chloroplast, analogous to the cytoplasm. It contains:</p>
+            <ul>
+                <li>Enzymes for the Calvin cycle, including RuBisCO</li>
+                <li>Starch granules (stored glucose)</li>
+                <li>Ribosomes (70S, like prokaryotic ribosomes)</li>
+                <li>Circular DNA</li>
+                <li>Lipid droplets</li>
+            </ul>
+            <p>The stroma has a pH of approximately 8 during photosynthesis. This relatively alkaline environment is optimal for Calvin cycle enzymes.</p>
+
+            <h3>Thylakoids and Grana:</h3>
+            <p>Thylakoids are flattened, disc-shaped membrane sacs that stack like coins to form grana (singular: granum). The thylakoid membrane contains:</p>
+            <ul>
+                <li>Photosystem II (PSII)</li>
+                <li>Cytochrome b6f complex</li>
+                <li>Photosystem I (PSI)</li>
+                <li>ATP synthase</li>
+                <li>Photosynthetic pigments (chlorophyll a, chlorophyll b, carotenoids)</li>
+            </ul>
+            <p>The space inside thylakoids is called the thylakoid lumen or thylakoid space. During the light-dependent reactions, protons accumulate here, creating a concentration gradient.</p>
+
+            <h3>Why This Structure?</h3>
+            <p>The separation of thylakoid membranes from stroma allows spatial separation of the two stages:</p>
+            <ol>
+                <li>Light-dependent reactions occur in/on thylakoid membranes where light can be captured</li>
+                <li>Light-independent reactions occur in the stroma where enzymes are dissolved</li>
+            </ol>
+            <p>The stacking of thylakoids into grana increases surface area for light capture while maintaining a compact structure. The thylakoid lumen provides a compartment where proton concentration can build up, essential for chemiosmosis.</p>
+
+            <h3>Surface Area Considerations:</h3>
+            <p>A typical chloroplast has 40-60 grana, each with 10-20 thylakoids. This creates enormous membrane surface area (analogous to cristae in mitochondria), maximizing the number of photosystems and ATP synthase complexes that can be embedded in the membrane.</p>
+        </div>
+
+        <!-- Content Section 3: Light-Dependent Reactions Overview -->
+        <div class="content-section" data-section="3">
+            <h2>Light-Dependent Reactions: Overview</h2>
+            <p>The light-dependent reactions convert light energy into chemical energy in the form of ATP and NADPH. These reactions occur in the thylakoid membranes and can only proceed when light is available.</p>
+
+            <h3>Key Concepts:</h3>
+            <ol>
+                <li><strong>Photons are absorbed by pigments:</strong> Chlorophyll and accessory pigments absorb specific wavelengths of light</li>
+                <li><strong>Electrons become excited:</strong> Light energy excites electrons to higher energy levels</li>
+                <li><strong>Electrons move through carriers:</strong> Excited electrons pass through an electron transport chain</li>
+                <li><strong>Energy is captured:</strong> As electrons move, their energy is used to pump protons and eventually make ATP</li>
+                <li><strong>Water is split:</strong> Water molecules are broken down to replace lost electrons, producing O₂ as a byproduct</li>
+                <li><strong>NADP is reduced:</strong> Final electron acceptor is NADP⁺, forming NADPH</li>
+            </ol>
+
+            <h3>The Two Photosystems:</h3>
+            <p>Photosynthesis uses two photosystems working in series:</p>
+            <ul>
+                <li><strong>Photosystem II (PSII):</strong> Absorbs light at 680 nm (P680). Site of water photolysis.</li>
+                <li><strong>Photosystem I (PSI):</strong> Absorbs light at 700 nm (P700). Reduces NADP⁺ to NADPH.</li>
+            </ul>
+            <p>WHY two photosystems? A single photosystem cannot provide enough energy to both split water AND reduce NADP⁺. Water molecules are very stable (high bond energy), requiring substantial energy input to break them apart. By using two photosystems in series (called the Z-scheme because of the shape of the energy diagram), photosynthesis can accumulate enough energy to drive both processes.</p>
+
+            <h3>Non-Cyclic Photophosphorylation (The Main Pathway):</h3>
+            <p>This is the standard light-dependent pathway producing both ATP and NADPH:</p>
+            <ol>
+                <li>Light excites P680 in PSII</li>
+                <li>Excited electrons leave PSII and move through electron transport chain</li>
+                <li>Electrons pass through cytochrome b6f complex (pumping H⁺ into thylakoid lumen)</li>
+                <li>Electrons reach P700 in PSI</li>
+                <li>Light excites P700</li>
+                <li>Excited electrons ultimately reduce NADP⁺ to NADPH</li>
+                <li>Electrons lost from P680 are replaced by water splitting</li>
+                <li>Proton gradient drives ATP synthesis via ATP synthase</li>
+            </ol>
+
+            <h3>Cyclic Photophosphorylation (Alternative Pathway):</h3>
+            <p>Sometimes, excited electrons from PSI return to the cytochrome b6f complex instead of reducing NADP⁺. This cyclic pathway:</p>
+            <ul>
+                <li>Produces additional ATP but no NADPH</li>
+                <li>Doesn't require PSII or water splitting</li>
+                <li>Doesn't produce O₂</li>
+            </ul>
+            <p>WHY would this occur? The Calvin cycle requires ATP and NADPH in a specific ratio (approximately 3:2). Non-cyclic photophosphorylation alone doesn't provide enough ATP. Cyclic photophosphorylation supplements ATP production to meet the Calvin cycle's demands.</p>
+        </div>
+
+        <!-- Content Section 4: Calvin Cycle -->
+        <div class="content-section" data-section="4">
+            <h2>Light-Independent Reactions: The Calvin Cycle</h2>
+            <p>The Calvin cycle occurs in the stroma and uses ATP and NADPH from the light-dependent reactions to fix CO₂ into organic molecules. While called "light-independent," these reactions still require the products of the light-dependent stage.</p>
+
+            <h3>Three Stages of the Calvin Cycle:</h3>
+
+            <h3>1. Carbon Fixation (Carboxylation):</h3>
+            <p>CO₂ combines with ribulose bisphosphate (RuBP), a 5-carbon sugar, catalyzed by the enzyme RuBisCO:</p>
+            <p><strong>CO₂ + RuBP (5C) → 2 × GP (3C)</strong></p>
+            <p>RuBisCO (ribulose-1,5-bisphosphate carboxylase/oxygenase) is the most abundant protein on Earth, comprising ~50% of leaf protein. WHY so much? RuBisCO is a slow enzyme, processing only 3-10 CO₂ molecules per second. Plants compensate by making enormous quantities.</p>
+            <p>The immediate product is an unstable 6-carbon intermediate that immediately splits into two molecules of glycerate 3-phosphate (GP, also called 3-phosphoglycerate or PGA).</p>
+
+            <h3>2. Reduction:</h3>
+            <p>GP is reduced to glyceraldehyde 3-phosphate (G3P, also called triose phosphate or TP) using ATP and NADPH:</p>
+            <p><strong>Step 1:</strong> GP + ATP → 1,3-bisphosphoglycerate + ADP</p>
+            <p><strong>Step 2:</strong> 1,3-bisphosphoglycerate + NADPH → G3P + NADP⁺ + Pi</p>
+            <p>Each GP requires one ATP and one NADPH to be reduced to G3P. This is where the energy from light-dependent reactions is invested into organic molecules.</p>
+
+            <h3>3. Regeneration of RuBP:</h3>
+            <p>Most G3P molecules (5 out of every 6) are used to regenerate RuBP, requiring additional ATP:</p>
+            <p><strong>5 × G3P (3C) + 3 ATP → 3 × RuBP (5C) + 3 ADP</strong></p>
+            <p>This regeneration involves a complex series of reactions interconverting 3-, 4-, 5-, 6-, and 7-carbon sugars.</p>
+
+            <h3>Complete Cycle Summary:</h3>
+            <p>To produce one molecule of glucose (6C), the cycle must turn 6 times:</p>
+            <p><strong>6 CO₂ + 18 ATP + 12 NADPH → C₆H₁₂O₆ + 18 ADP + 18 Pi + 12 NADP⁺</strong></p>
+
+            <h3>Why These Numbers?</h3>
+            <ul>
+                <li>6 turns fix 6 CO₂</li>
+                <li>Each turn produces 2 GP (12 total)</li>
+                <li>12 GP are reduced to 12 G3P using 12 ATP + 12 NADPH</li>
+                <li>2 G3P exit to make glucose</li>
+                <li>10 G3P regenerate 6 RuBP using 6 ATP</li>
+                <li>Total: 18 ATP + 12 NADPH per glucose</li>
+            </ul>
+
+            <h3>Fate of G3P:</h3>
+            <p>G3P that exits the cycle can be used to synthesize:</p>
+            <ul>
+                <li>Glucose and other hexoses</li>
+                <li>Starch (glucose storage polymer)</li>
+                <li>Sucrose (transport sugar)</li>
+                <li>Lipids (glycerol backbone)</li>
+                <li>Amino acids (carbon skeleton)</li>
+            </ul>
+
+            <h3>Common Misconceptions:</h3>
+            <ol>
+                <li>The Calvin cycle does NOT produce glucose directly; it produces G3P, which is then converted to glucose</li>
+                <li>RuBP is regenerated, not consumed; it acts as a CO₂ acceptor that's recycled</li>
+                <li>The cycle doesn't require light directly but depends on ATP and NADPH from light-dependent reactions, so it stops quickly in darkness when ATP/NADPH are depleted</li>
+            </ol>
+        </div>
+
+        <!-- Content Section 5: Limiting Factors -->
+        <div class="content-section" data-section="5">
+            <h2>Limiting Factors</h2>
+            <p>The rate of photosynthesis is controlled by whichever factor is in shortest supply - the limiting factor. Understanding limiting factors is essential for both ecology and agriculture.</p>
+
+            <h3>Light Intensity:</h3>
+            <p><strong>At low light intensities:</strong> Light is the limiting factor. The rate increases linearly with light intensity because more photons excite more electrons, driving more ATP and NADPH production.</p>
+            <p><strong>At high light intensities:</strong> Light is no longer limiting. The rate plateaus because the Calvin cycle enzymes or CO₂ availability becomes the limiting factor. Further increasing light intensity doesn't increase the rate and may even damage photosystems (photoinhibition).</p>
+            <p><strong>Mathematical relationship</strong> at low intensities: Rate ∝ Light intensity</p>
+
+            <h3>Carbon Dioxide Concentration:</h3>
+            <p><strong>At low CO₂:</strong> CO₂ is the limiting factor. Rate increases with CO₂ because RuBisCO has more substrate.</p>
+            <p><strong>At high CO₂:</strong> CO₂ is no longer limiting. Another factor (usually light or temperature) becomes limiting.</p>
+            <p>Normal atmospheric CO₂ is 0.04% (400 ppm). Greenhouses often enrich CO₂ to 0.1% (1000 ppm) to increase crop yield when other factors (light, temperature) are optimized.</p>
+            <p><strong>Why does the rate eventually plateau?</strong> At very high CO₂, all RuBisCO active sites are saturated (Michaelis-Menten kinetics). Additional CO₂ cannot increase the rate because the enzyme is working at maximum velocity (Vmax).</p>
+
+            <h3>Temperature:</h3>
+            <p>Temperature affects photosynthesis through two opposing effects:</p>
+            <p><strong>Positive effect:</strong> Higher temperatures increase enzyme kinetic energy, speeding up Calvin cycle reactions (Q₁₀ effect)</p>
+            <p><strong>Negative effects:</strong></p>
+            <ol>
+                <li>Very high temperatures denature enzymes</li>
+                <li>Higher temperatures increase photorespiration (O₂ solubility decreases less than CO₂ solubility)</li>
+                <li>High temperatures may cause stomatal closure (water stress), limiting CO₂ entry</li>
+            </ol>
+            <p><strong>Optimum temperature:</strong> Typically 25-35°C for C₃ plants, 30-40°C for C₄ plants</p>
+            <p><strong>Why Different Optima?</strong> C₄ plants experience less photorespiration at high temperatures because they concentrate CO₂ around RuBisCO, so they can function efficiently at higher temperatures.</p>
+
+            <h3>Interaction Between Limiting Factors:</h3>
+            <p>Limiting factors interact. For example:</p>
+            <ul>
+                <li>Increasing CO₂ has little effect at low light intensity</li>
+                <li>Increasing light has little effect at low CO₂</li>
+                <li>The limiting factor depends on environmental conditions</li>
+            </ul>
+            <p>This explains why greenhouses control multiple factors simultaneously:</p>
+            <ul>
+                <li>Supplemental lighting (winter)</li>
+                <li>CO₂ enrichment</li>
+                <li>Temperature control</li>
+                <li>Irrigation (indirect - keeps stomata open for CO₂ uptake)</li>
+            </ul>
+
+            <h3>Compensation Point:</h3>
+            <p>The compensation point is the light intensity where photosynthesis rate equals respiration rate - no net gas exchange. Below this point, the plant consumes more glucose (respiration) than it produces (photosynthesis).</p>
+            <p>At dawn and dusk, plants operate near their compensation point. This is why plants in low-light environments (forest understory) have adaptations to lower their compensation point.</p>
+        </div>
+
+        <!-- Content Section 6: Photosynthetic Pigments -->
+        <div class="content-section" data-section="6">
+            <h2>Photosynthetic Pigments</h2>
+            <p>Photosynthetic organisms contain multiple pigments that absorb different wavelengths of light.</p>
+
+            <h3>Types of Pigments:</h3>
+
+            <h3>1. Chlorophyll a:</h3>
+            <ul>
+                <li>Primary photosynthetic pigment</li>
+                <li>Present in all photosynthetic organisms</li>
+                <li>Absorbs red (660-680 nm) and blue-violet (430-450 nm) light</li>
+                <li>Reflects green light (hence green color of plants)</li>
+                <li>Located in reaction centers of both photosystems</li>
+            </ul>
+
+            <h3>2. Chlorophyll b:</h3>
+            <ul>
+                <li>Accessory pigment</li>
+                <li>Absorbs slightly different wavelengths than chlorophyll a (640 nm, 450 nm)</li>
+                <li>Broadens the spectrum of light that can be used</li>
+                <li>Present in plants and green algae</li>
+                <li>Transfers energy to chlorophyll a</li>
+            </ul>
+
+            <h3>3. Carotenoids:</h3>
+            <ul>
+                <li>Accessory pigments (carotenes and xanthophylls)</li>
+                <li>Absorb blue-green light (450-550 nm)</li>
+                <li>Appear yellow, orange, or red</li>
+                <li>Functions:
+                    <ul>
+                        <li>Absorb wavelengths not absorbed by chlorophyll</li>
+                        <li>Protect chlorophyll from photooxidation</li>
+                        <li>Visible in autumn when chlorophyll breaks down</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Why Multiple Pigments?</h3>
+            <p>No single pigment efficiently absorbs all wavelengths. Having multiple pigments with different absorption spectra allows plants to capture more of the available light energy. This is particularly important in aquatic environments where different wavelengths penetrate to different depths.</p>
+
+            <h3>Absorption Spectrum vs Action Spectrum:</h3>
+            <p>These are often confused:</p>
+            <p><strong>Absorption spectrum:</strong> Graph showing which wavelengths a pigment absorbs</p>
+            <ul>
+                <li>Measured by passing light through extracted pigment</li>
+                <li>Shows peaks where absorption is highest</li>
+            </ul>
+            <p><strong>Action spectrum:</strong> Graph showing which wavelengths are most effective for photosynthesis</p>
+            <ul>
+                <li>Measured by determining photosynthesis rate at each wavelength</li>
+                <li>Reflects the combined effect of all pigments</li>
+            </ul>
+            <p>The action spectrum for photosynthesis closely matches the absorption spectrum of chlorophyll a, but is broader due to contribution of accessory pigments. Notably, green light (500-550 nm) shows some photosynthetic activity despite being poorly absorbed by chlorophyll - this is due to accessory pigment contribution.</p>
+
+            <h3>Separating Pigments: Chromatography:</h3>
+            <p>Chromatography separates pigments based on their solubility in a mobile phase (solvent) and their affinity for a stationary phase (paper or silica gel).</p>
+            <p><strong>Rf value calculation:</strong></p>
+            <p>Rf = distance moved by pigment / distance moved by solvent front</p>
+            <p>Different pigments have characteristic Rf values:</p>
+            <ul>
+                <li>Carotene (orange): Rf ≈ 0.95 (most soluble, travels farthest)</li>
+                <li>Pheophytin (gray): Rf ≈ 0.83</li>
+                <li>Xanthophyll (yellow): Rf ≈ 0.71</li>
+                <li>Chlorophyll a (blue-green): Rf ≈ 0.65</li>
+                <li>Chlorophyll b (green): Rf ≈ 0.45 (least soluble)</li>
+            </ul>
+            <p><strong>Why Different Rf Values?</strong> Molecules with higher polarity interact more strongly with the polar stationary phase (paper) and move more slowly. Less polar molecules interact more with the nonpolar mobile phase (solvent) and move faster. Carotene is least polar (hydrocarbon), while chlorophylls contain polar groups that slow their movement.</p>
+        </div>
+
+        <!-- Practice Problems Section -->
+        <div class="practice-section">
+            <h2>Practice Problems</h2>
+
+            <div class="problem-box">
+                <div class="problem-header">
+                    <span>Problem 1</span>
+                    <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p><strong>Question:</strong> A chloroplast is actively photosynthesizing. The pH in the thylakoid lumen is measured at 5.0, while the stroma pH is 8.0. Explain why this pH difference exists and how it is used to generate ATP. Calculate the proton concentration difference between these compartments.</p>
+                </div>
+                <div class="solution-content" id="solution-1">
+                    <div class="solution-label">Solution:</div>
+                    <p>pH difference = 3 units. Using pH = -log[H⁺]: Lumen [H⁺] = 10⁻⁵ M = 0.00001 M. Stroma [H⁺] = 10⁻⁸ M = 0.00000001 M. Concentration ratio = 10⁻⁵/10⁻⁸ = 1000:1 or 1000-fold difference.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>The pH difference exists because: (1) Photolysis of water in the lumen releases H⁺ (2H₂O → 4H⁺ + 4e⁻ + O₂), (2) The cytochrome b6f complex pumps H⁺ from stroma to lumen using energy from electron transport, (3) NADPH formation in the stroma removes H⁺. This creates both a concentration gradient and electrical gradient (electrochemical gradient). ATP synthase allows H⁺ to flow down this gradient from lumen to stroma, and this flow drives the rotation of ATP synthase, catalyzing ATP synthesis from ADP + Pi. The proton-motive force (gradient) stores energy temporarily before conversion to ATP, similar to charging a battery.</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <div class="problem-header">
+                    <span>Problem 2</span>
+                    <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p><strong>Question:</strong> A student investigates the effect of light intensity on photosynthesis using Elodea. She places a lamp 10 cm from the plant and counts 45 bubbles per minute. She then moves the lamp to 20 cm and counts 12 bubbles per minute. Do these results support the inverse square law? Explain your reasoning with calculations.</p>
+                </div>
+                <div class="solution-content" id="solution-2">
+                    <div class="solution-label">Solution:</div>
+                    <p>At 10 cm: 45 bubbles/min. At 20 cm distance (2× farther), inverse square law predicts intensity = 1/(2²) = 1/4 of original, so expected rate = 45/4 = 11.25 bubbles/min. Observed rate = 12 bubbles/min. Percentage difference = |12-11.25|/11.25 × 100% = 6.7%. Results support inverse square law within experimental error.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>The inverse square law states intensity ∝ 1/d², so doubling distance reduces intensity to 1/4. At low light intensities where light is limiting, photosynthesis rate is directly proportional to light intensity, so we expect 1/4 the rate. The observed value (12) is very close to predicted (11.25), with only 6.7% difference, which is reasonable given experimental uncertainties (bubble size variation, counting errors, temperature changes). This supports the inverse square law. NOTE: This relationship only holds when light is the limiting factor; at high intensities, doubling distance might not halve the rate because another factor becomes limiting.</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <div class="problem-header">
+                    <span>Problem 3</span>
+                    <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p><strong>Question:</strong> Explain why photorespiration is more problematic for plants on hot, dry days compared to cool, humid days. What cellular changes occur that increase the likelihood of photorespiration?</p>
+                </div>
+                <div class="solution-content" id="solution-3">
+                    <div class="solution-label">Solution:</div>
+                    <p>On hot, dry days: (1) Stomata close to conserve water, (2) CO₂ inside leaf is depleted by Calvin cycle, (3) O₂ accumulates from light-dependent reactions, (4) High temperature decreases CO₂ solubility more than O₂ solubility, further increasing O₂:CO₂ ratio, (5) RuBisCO increasingly catalyzes oxygenase reaction instead of carboxylase reaction.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>Photorespiration occurs when RuBisCO binds O₂ instead of CO₂. The ratio of these two reactions depends on the relative concentrations of O₂ and CO₂ near RuBisCO. On hot, dry days, plants face a dilemma: opening stomata allows CO₂ entry but causes water loss. Closing stomata conserves water but prevents CO₂ entry. When stomata close, photosynthesis continues to consume CO₂ (Calvin cycle) and produce O₂ (light-dependent reactions), so the O₂:CO₂ ratio increases dramatically inside the leaf. Additionally, higher temperatures affect gas solubility - CO₂ solubility decreases more steeply with temperature than O₂ solubility. This creates conditions favoring RuBisCO's oxygenase activity, leading to phosphoglycolate production instead of productive carbon fixation. The result is wasted energy and carbon loss, reducing photosynthetic efficiency by up to 50%. C₄ and CAM plants have evolved mechanisms to avoid this problem in hot, dry environments.</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <div class="problem-header">
+                    <span>Problem 4</span>
+                    <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p><strong>Question:</strong> The Calvin cycle requires 18 ATP and 12 NADPH to produce one glucose molecule. However, non-cyclic photophosphorylation produces ATP and NADPH in approximately a 1:1 ratio. Explain how the chloroplast solves this imbalance.</p>
+                </div>
+                <div class="solution-content" id="solution-4">
+                    <div class="solution-label">Solution:</div>
+                    <p>The Calvin cycle requires an ATP:NADPH ratio of 3:2 (18:12 = 3:2), but non-cyclic photophosphorylation produces approximately 1:1. The chloroplast uses cyclic photophosphorylation to produce additional ATP without producing NADPH. In cyclic photophosphorylation, excited electrons from PSI return to the cytochrome b6f complex instead of reducing NADP⁺, allowing additional H⁺ pumping and ATP synthesis while using only PSI.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This is an excellent example of metabolic regulation. Non-cyclic photophosphorylation alone cannot meet the Calvin cycle's energy demands. Let's examine the math: If 12 NADPH are produced, approximately 12 ATP are also produced by non-cyclic pathways. But 18 ATP are needed, creating a deficit of 6 ATP. Cyclic photophosphorylation fills this gap. When the NADPH:NADP⁺ ratio is high (lots of NADPH available) but the ATP:ADP ratio is low (ATP depleted), electrons from ferredoxin (downstream of PSI) are redirected back to the cytochrome b6f complex instead of reducing NADP⁺. This allows H⁺ pumping and ATP synthesis without producing more NADPH. This feedback mechanism ensures the correct ratio of products for the Calvin cycle. It's also why PSII (which participates only in non-cyclic) operates less frequently than PSI (which participates in both pathways) - PSI must work "overtime" in cyclic mode to generate sufficient ATP.</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <div class="problem-header">
+                    <span>Problem 5</span>
+                    <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                </div>
+                <div class="problem-question">
+                    <p><strong>Question:</strong> A plant is exposed to light of 550 nm wavelength (green light) only. Despite chlorophyll reflecting green light, the plant shows some photosynthetic activity. Explain this observation.</p>
+                </div>
+                <div class="solution-content" id="solution-5">
+                    <div class="solution-label">Solution:</div>
+                    <p>The plant shows photosynthetic activity because accessory pigments (particularly carotenoids) absorb light in the 450-550 nm range, including green light. These accessory pigments transfer absorbed energy to chlorophyll a in the reaction centers through resonance energy transfer, allowing photosynthesis to proceed even when chlorophyll a and b do not directly absorb the available wavelength.</p>
+                    <div class="solution-label">Explanation:</div>
+                    <p>This question tests understanding of why plants contain multiple pigments. While chlorophyll a and b absorb primarily red and blue light, carotenoids have different absorption spectra, with peaks in the blue-green region (450-550 nm). When carotenoids absorb green light, the energy is transferred from molecule to molecule through the antenna complex until it reaches the reaction center chlorophyll a. This explains why the action spectrum (which wavelengths are effective for photosynthesis) is broader than the absorption spectrum of chlorophyll a alone. However, photosynthesis under green light only would be much less efficient than under red or blue light, which is why most plants appear green - they reflect the wavelengths they use least efficiently. Underwater plants at different depths show adaptations with different pigment compositions, as different wavelengths penetrate to different depths in water.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Tips Section -->
+        <div class="exam-tips-section">
+            <h2>Exam Tips</h2>
+            <div class="tip-box">Remember the Z-scheme diagram shape - it shows energy levels of electrons through both photosystems. Being able to sketch this from memory and label key components (PSII, PSI, cytochrome complex, water photolysis, NADPH formation) is crucial for 6-mark questions.</div>
+            <div class="tip-box">Don't confuse the location of the two stages: light-dependent reactions occur in/on thylakoid membranes, light-independent reactions (Calvin cycle) occur in the stroma. IB frequently tests whether you know WHERE things happen, not just WHAT happens.</div>
+            <div class="tip-box">For calculations involving limiting factors and light intensity, remember the inverse square law: intensity ∝ 1/d². If distance doubles, intensity becomes 1/4. This comes up regularly in Paper 2 and Paper 3.</div>
+            <div class="tip-box">When explaining limiting factors, always state which factor is limiting AND explain why changing it affects the rate at the molecular level. For example, 'increasing CO₂ concentration increases the rate because RuBisCO has more substrate available, increasing the rate of carbon fixation in the Calvin cycle.' Generic answers lose marks.</div>
+            <div class="tip-box">RuBisCO questions are popular at HL: know that it can catalyze two reactions (carboxylase with CO₂, oxygenase with O₂), understand why photorespiration occurs, and be able to explain conditions that favor photorespiration (hot, dry, low CO₂, high O₂).</div>
+            <div class="tip-box">For chromatography questions, memorize the order of pigments (from top to bottom: carotene, xanthophyll, chlorophyll a, chlorophyll b) and be able to calculate Rf values: Rf = distance moved by pigment / distance moved by solvent front. Show your working.</div>
+            <div class="tip-box">The stoichiometry matters: 18 ATP + 12 NADPH per glucose (or 3 ATP + 2 NADPH per CO₂ fixed). If a question asks about energy requirements, you need these numbers. Also know that cyclic photophosphorylation produces the 'extra' ATP needed.</div>
+            <div class="tip-box">For graphs of rate vs. factor (light, CO₂, temperature), be able to explain the shape: linear increase at low values (factor is limiting), plateau at high values (another factor becomes limiting), and for temperature, a decline at very high values (enzyme denaturation).</div>
+            <div class="tip-box">Distinguish between absorption spectra and action spectra: absorption shows what wavelengths a pigment absorbs (measured on extracted pigment), action shows what wavelengths are most effective for photosynthesis (measured on living plant). The action spectrum is broader than chlorophyll a absorption due to accessory pigments.</div>
+            <div class="tip-box">Common errors to avoid: (1) saying O₂ comes from CO₂ (it comes from water), (2) confusing PSI and PSII order (electrons flow PSII first, then PSI), (3) forgetting that light-independent reactions still need products from light-dependent reactions, so they stop quickly in darkness, (4) stating 'chloroplasts contain chlorophyll' without specifying they contain MULTIPLE pigments.</div>
+        </div>
+
+        <!-- Lesson Footer Navigation -->
+        <div class="lesson-footer">
+            <button class="nav-button" onclick="previousLesson()">← Previous Lesson</button>
+            <button class="nav-button" onclick="markComplete()">Mark as Complete</button>
+            <button class="nav-button" onclick="nextLesson()">Next Lesson →</button>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="toggleChatbot()">💬</button>
+        <div class="chatbot-window" id="chatbot-window">
+            <div class="chatbot-header">
+                <span>Study Assistant</span>
+                <button class="chatbot-close" onclick="toggleChatbot()">×</button>
+            </div>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="chatbot-message bot">
+                    Hi! I'm your study assistant. Ask me anything about photosynthesis!
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbot-input-field" placeholder="Type your question..." onkeypress="handleChatKeyPress(event)">
+                <button onclick="sendChatMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- PLACEHOLDER_FOR_FOOTER -->
+
+    <script>
+        // Progress Tracking
+        let totalSections = document.querySelectorAll('.content-section').length;
+        let completedSections = new Set();
+
+        // Track scroll progress
+        window.addEventListener('scroll', updateProgress);
+
+        function updateProgress() {
+            const sections = document.querySelectorAll('.content-section');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+
+            // Calculate overall progress percentage
+            const scrollPercentage = (scrolled / documentHeight) * 100;
+            document.getElementById('progress-fill').style.width = scrollPercentage + '%';
+            document.getElementById('progress-percentage').textContent = Math.round(scrollPercentage) + '%';
+
+            // Track which sections have been viewed
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < windowHeight * 0.75 && rect.bottom > 0) {
+                    completedSections.add(index);
+                }
+            });
+
+            // Save progress to localStorage
+            localStorage.setItem('C3_progress', JSON.stringify({
+                completedSections: Array.from(completedSections),
+                scrollPercentage: scrollPercentage
+            }));
+        }
+
+        // Load saved progress
+        window.addEventListener('load', () => {
+            const savedProgress = localStorage.getItem('C3_progress');
+            if (savedProgress) {
+                const data = JSON.parse(savedProgress);
+                completedSections = new Set(data.completedSections);
+            }
+        });
+
+        // Toggle solution visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = event.target;
+
+            if (solution.classList.contains('show')) {
+                solution.classList.remove('show');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('show');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Navigation functions
+        function previousLesson() {
+            // Navigate to previous lesson
+            window.location.href = 'lessons.html';
+        }
+
+        function nextLesson() {
+            // Navigate to next lesson
+            window.location.href = 'C4_NextLesson.html';
+        }
+
+        function markComplete() {
+            localStorage.setItem('C3_completed', 'true');
+            alert('Lesson marked as complete! Great work!');
+            // You can add more functionality here like updating a database
+        }
+
+        // Chatbot functionality
+        function toggleChatbot() {
+            const chatbotWindow = document.getElementById('chatbot-window');
+            chatbotWindow.classList.toggle('show');
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function sendChatMessage() {
+            const inputField = document.getElementById('chatbot-input-field');
+            const message = inputField.value.trim();
+
+            if (message === '') return;
+
+            // Add user message to chat
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chatbot-message user';
+            userMessage.textContent = message;
+            messagesContainer.appendChild(userMessage);
+
+            // Clear input field
+            inputField.value = '';
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Simulate bot response (in a real application, this would connect to an AI backend)
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'chatbot-message bot';
+                botMessage.textContent = getBotResponse(message);
+                messagesContainer.appendChild(botMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 1000);
+        }
+
+        function getBotResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+
+            // Simple response logic (in production, this would use AI)
+            if (lowerMessage.includes('rubisco')) {
+                return 'RuBisCO is the enzyme that catalyzes the first step of the Calvin cycle. It can bind both CO₂ (carboxylase activity) and O₂ (oxygenase activity, leading to photorespiration). It\'s the most abundant protein on Earth!';
+            } else if (lowerMessage.includes('calvin cycle') || lowerMessage.includes('calvin')) {
+                return 'The Calvin cycle occurs in the stroma and has three stages: carbon fixation, reduction, and regeneration of RuBP. It requires 18 ATP and 12 NADPH to produce one glucose molecule.';
+            } else if (lowerMessage.includes('photosystem') || lowerMessage.includes('psii') || lowerMessage.includes('psi')) {
+                return 'Photosystems are complexes that capture light energy. PSII (P680) splits water and starts electron transport, while PSI (P700) reduces NADP⁺ to NADPH. Electrons flow PSII → PSI in non-cyclic photophosphorylation.';
+            } else if (lowerMessage.includes('limiting factor')) {
+                return 'Limiting factors restrict photosynthesis rate. The main ones are light intensity, CO₂ concentration, and temperature. The rate is controlled by whichever factor is in shortest supply.';
+            } else if (lowerMessage.includes('atp') || lowerMessage.includes('nadph')) {
+                return 'ATP and NADPH are produced during the light-dependent reactions and used in the Calvin cycle. The ratio needed is 3 ATP:2 NADPH. Cyclic photophosphorylation produces extra ATP to meet this requirement.';
+            } else if (lowerMessage.includes('chlorophyll') || lowerMessage.includes('pigment')) {
+                return 'Chlorophyll a is the primary photosynthetic pigment, absorbing red and blue light. Chlorophyll b and carotenoids are accessory pigments that broaden the absorption spectrum and protect against photooxidation.';
+            } else if (lowerMessage.includes('photorespiration')) {
+                return 'Photorespiration occurs when RuBisCO binds O₂ instead of CO₂. It\'s more problematic on hot, dry days when stomata close, CO₂ levels drop, and O₂ accumulates. It reduces photosynthetic efficiency by 25-50%.';
+            } else if (lowerMessage.includes('help') || lowerMessage.includes('what can you')) {
+                return 'I can help you with questions about photosynthesis topics like: RuBisCO, Calvin cycle, photosystems, limiting factors, ATP/NADPH, chlorophyll, photorespiration, and more. Just ask!';
+            } else {
+                return 'That\'s a great question! I\'d recommend reviewing the relevant section above. You can also ask me specific questions about RuBisCO, the Calvin cycle, photosystems, limiting factors, or other photosynthesis topics.';
+            }
+        }
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.querySelectorAll('.content-section, .definitions-section, .practice-section, .exam-tips-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(section);
+        });
+
+        // Print functionality
+        function printLesson() {
+            window.print();
+        }
+
+        // Bookmark functionality
+        function bookmarkLesson() {
+            const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+            if (!bookmarks.includes('C3')) {
+                bookmarks.push('C3');
+                localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+                alert('Lesson bookmarked!');
+            } else {
+                alert('This lesson is already bookmarked.');
+            }
+        }
+    </script>
+</body>
+</html>

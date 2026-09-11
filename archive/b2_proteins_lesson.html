@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2: Proteins - Structure, Function, and Enzymatic Catalysis | Biology HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-menu a:hover {
+            opacity: 0.8;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar-bg {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Lesson Header */
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-title {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .lesson-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .content-card h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .content-card h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 1rem;
+            font-size: 1.2rem;
+        }
+
+        .content-card p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives-list li {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        /* Definition Box */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #333;
+        }
+
+        /* Practice Problem */
+        .practice-problem {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .problem-header {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            transition: background 0.3s;
+        }
+
+        .problem-header:hover {
+            background: #eef0ff;
+        }
+
+        .problem-number {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .problem-question {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .problem-toggle {
+            color: #667eea;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .problem-toggle.active {
+            transform: rotate(180deg);
+        }
+
+        .problem-solution {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .problem-solution.active {
+            padding: 1.5rem;
+            max-height: 2000px;
+        }
+
+        .solution-label {
+            color: #28a745;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .explanation-label {
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Exam Tips */
+        .exam-tip {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .exam-tip::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .lesson-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .lesson-footer {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Section Toggle */
+        .section-content {
+            margin-top: 1rem;
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .scroll-top.visible {
+            display: flex;
+        }
+
+        .scroll-top:hover {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">Fluapi Biology</div>
+            <ul class="navbar-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#lessons">Lessons</a></li>
+                <li><a href="#practice">Practice</a></li>
+                <li><a href="#profile">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-text">
+                <span>Lesson Progress</span>
+                <span id="progress-percentage">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1 class="lesson-title">B2: Proteins - Structure, Function, and Enzymatic Catalysis</h1>
+            <div class="lesson-meta">
+                <span>📚 Subject: Biology</span>
+                <span>🎓 Level: HL (includes SL foundations)</span>
+                <span>📖 Syllabus Code: B2</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="content-card">
+            <h2>Learning Objectives</h2>
+            <ul class="objectives-list">
+                <li>B2.1.1: Explain the generalised structure of amino acids and how they form the monomers of polypeptides</li>
+                <li>B2.1.2: Describe the condensation reactions that form peptide bonds between amino acids</li>
+                <li>B2.1.3: Explain how amino acid sequences determine the three-dimensional conformation of a protein</li>
+                <li>B2.2.1: Describe the four levels of protein structure: primary, secondary, tertiary, and quaternary</li>
+                <li>B2.2.2: Explain how hydrogen bonds, ionic bonds, disulfide bridges, and hydrophobic interactions stabilize protein structure</li>
+                <li>B2.2.3: Relate protein structure to function using specific examples</li>
+                <li>B2.2.4: Explain denaturation and its effects on protein structure and function</li>
+                <li>B2.2.5: Analyze the relationship between genes, polypeptides, and proteins</li>
+                <li>B2.3.1: Describe enzymes as biological catalysts that lower activation energy</li>
+                <li>B2.3.2: Explain enzyme specificity using the induced-fit model</li>
+                <li>B2.3.3: Interpret graphs of enzyme activity vs. temperature, pH, and substrate concentration</li>
+                <li>B2.3.4: Explain enzyme inhibition: competitive, non-competitive, and allosteric</li>
+                <li>B2.3.5 (HL): Analyze enzyme kinetics using Michaelis-Menten graphs and calculate reaction rates</li>
+            </ul>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-card">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Amino Acid</div>
+                <div class="definition-text">The monomer unit of proteins, consisting of a central carbon atom bonded to an amino group (-NH₂), a carboxyl group (-COOH), a hydrogen atom, and a variable R group (side chain)</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Peptide Bond</div>
+                <div class="definition-text">A covalent bond formed between the carboxyl group of one amino acid and the amino group of another through a condensation reaction, with the elimination of water</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Primary Structure</div>
+                <div class="definition-text">The linear sequence of amino acids in a polypeptide chain, determined by the gene encoding the protein</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Secondary Structure</div>
+                <div class="definition-text">Regular, repeating structures within proteins stabilized by hydrogen bonds between backbone atoms, including α-helices and β-pleated sheets</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Tertiary Structure</div>
+                <div class="definition-text">The overall three-dimensional shape of a single polypeptide chain, stabilized by interactions between R groups including hydrogen bonds, ionic bonds, disulfide bridges, and hydrophobic interactions</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Quaternary Structure</div>
+                <div class="definition-text">The arrangement of multiple polypeptide chains (subunits) in a protein complex, held together by the same types of bonds as tertiary structure</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Denaturation</div>
+                <div class="definition-text">The loss of a protein's three-dimensional structure due to disruption of bonds maintaining secondary, tertiary, and quaternary structure, typically caused by heat, pH changes, or chemical agents</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Enzyme</div>
+                <div class="definition-text">A biological catalyst, typically a protein, that increases the rate of a chemical reaction by lowering the activation energy without being consumed in the process</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Active Site</div>
+                <div class="definition-text">The specific region of an enzyme where substrate molecules bind and catalysis occurs, with a shape complementary to the substrate</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Activation Energy (Ea)</div>
+                <div class="definition-text">The minimum energy required for reactants to undergo a chemical reaction; enzymes function by lowering this energy barrier</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Induced-Fit Model</div>
+                <div class="definition-text">The current model of enzyme-substrate interaction where the enzyme's active site changes shape slightly upon substrate binding to achieve optimal catalytic configuration</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Competitive Inhibition</div>
+                <div class="definition-text">A form of enzyme inhibition where the inhibitor competes with the substrate for binding to the active site due to structural similarity</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Non-competitive Inhibition</div>
+                <div class="definition-text">A form of enzyme inhibition where the inhibitor binds to a site other than the active site (allosteric site), changing the enzyme's shape and reducing its activity</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Vmax</div>
+                <div class="definition-text">The maximum rate of an enzyme-catalyzed reaction when all active sites are saturated with substrate</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Km (Michaelis Constant)</div>
+                <div class="definition-text">The substrate concentration at which an enzyme operates at half its maximum velocity (Vmax/2); a measure of enzyme-substrate affinity</div>
+            </div>
+        </div>
+
+        <!-- Content Sections - PLACEHOLDER -->
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scroll-top">↑</button>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="alert('Chatbot feature coming soon!')">💬</button>
+    </div>
+
+    <script>
+        // Progress tracking
+        let sectionsRead = new Set();
+        const totalSections = document.querySelectorAll('.content-card').length;
+
+        function updateProgress() {
+            const progress = (sectionsRead.size / totalSections) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('progress-percentage').textContent = Math.round(progress) + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('b2_progress', JSON.stringify({
+                sectionsRead: Array.from(sectionsRead),
+                percentage: progress
+            }));
+        }
+
+        // Load saved progress
+        const savedProgress = localStorage.getItem('b2_progress');
+        if (savedProgress) {
+            const data = JSON.parse(savedProgress);
+            sectionsRead = new Set(data.sectionsRead);
+            updateProgress();
+        }
+
+        // Track section visibility
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id || entry.target.textContent.substring(0, 20);
+                    sectionsRead.add(sectionId);
+                    updateProgress();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe all content cards
+        document.querySelectorAll('.content-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Practice problem toggle
+        function toggleProblem(element) {
+            const solution = element.nextElementSibling;
+            const toggle = element.querySelector('.problem-toggle');
+
+            solution.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scroll-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

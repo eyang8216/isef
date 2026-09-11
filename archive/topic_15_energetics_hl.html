@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 15: Energetics/Thermochemistry (Higher Level) - IB Chemistry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .navbar-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .lesson-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .lesson-header h1 {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f7fafc;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Section Styles */
+        .content-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .content-section h2 {
+            font-size: 1.75rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .content-section h3 {
+            font-size: 1.25rem;
+            color: #4a5568;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives-list li {
+            padding: 0.75rem 0 0.75rem 2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .problem-header {
+            background: #f7fafc;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .problem-header:hover {
+            background: #edf2f7;
+        }
+
+        .problem-number {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1rem;
+        }
+
+        .problem-question {
+            padding: 1.5rem;
+            color: #2d3748;
+            line-height: 1.8;
+        }
+
+        .problem-solution {
+            padding: 1.5rem;
+            background: #f7fafc;
+            border-top: 2px solid #e2e8f0;
+            display: none;
+        }
+
+        .problem-solution.active {
+            display: block;
+        }
+
+        .solution-label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .problem-explanation {
+            background: #fff5e6;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+
+        .explanation-label {
+            font-weight: 600;
+            color: #f59e0b;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Exam Tips */
+        .exam-tip {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .exam-tip:before {
+            content: "💡 Exam Tip: ";
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        /* Toggle Button */
+        .toggle-icon {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .toggle-icon.active {
+            transform: rotate(180deg);
+        }
+
+        /* Buttons */
+        .button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .button-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .button-secondary:hover {
+            background: #f7fafc;
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+            z-index: 999;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar h1 {
+                font-size: 1.2rem;
+            }
+
+            .lesson-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .content-section h2 {
+                font-size: 1.4rem;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+            }
+
+            .chatbot-widget {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>Topic 15: Energetics/Thermochemistry (HL)</h1>
+            <span class="navbar-badge">Higher Level</span>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-wrapper">
+            <div class="progress-label">
+                <span>Lesson Progress</span>
+                <span id="progress-percentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Lesson Header -->
+        <div class="content-card">
+            <div class="lesson-header">
+                <h1>Topic 15: Energetics/Thermochemistry (Higher Level)</h1>
+                <div class="lesson-meta">
+                    <span class="meta-badge">📚 IB Chemistry HL</span>
+                    <span class="meta-badge">⏱️ Extended Study</span>
+                    <span class="meta-badge">🎯 Syllabus Code: 15</span>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="content-section">
+                <h2>Introduction and Prerequisites</h2>
+                <p>Topic 15 represents the Higher Level extension of energetics, building upon the foundational concepts from Topic 5. Before diving into HL content, ensure you're confident with: standard enthalpy changes (formation, combustion, neutralization), Hess's Law, bond enthalpies, calorimetry calculations, and the concept that enthalpy change alone doesn't determine spontaneity.</p>
+                <p>This topic introduces three transformative concepts that explain WHY reactions occur: Born-Haber cycles (connecting ionic compound formation to experimental data), entropy (the driving force toward disorder), and Gibbs free energy (the ultimate predictor of spontaneity). These tools allow chemists to predict whether reactions will occur, design industrial processes, and understand phenomena from dissolving salts to protein folding.</p>
+                <p>The mathematical rigor increases significantly at HL. You'll manipulate multi-step energy cycles, calculate entropy changes from absolute entropies, and use the Gibbs equation to predict temperature-dependent spontaneity. This topic frequently appears in Paper 2 (structured questions worth 8-12 marks) and Paper 3 (data-based questions).</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Born-Haber Cycles</h2>
+                <p>Born-Haber cycles are applications of Hess's Law specifically designed to analyze the energetics of ionic compound formation. They connect the lattice enthalpy (a quantity impossible to measure directly) to a series of measurable enthalpy changes.</p>
+
+                <h3>Understanding Lattice Enthalpy</h3>
+                <p>Lattice enthalpy (ΔH_latt) is defined as the enthalpy change when one mole of an ionic solid is formed from its gaseous ions under standard conditions. For sodium chloride: Na⁺(g) + Cl⁻(g) → NaCl(s). This process is always exothermic (negative ΔH) because strong electrostatic attractions form between oppositely charged ions.</p>
+                <p>Two equivalent definitions exist:</p>
+                <ul>
+                    <li><strong>Lattice formation enthalpy</strong>: gaseous ions → solid lattice (exothermic, negative)</li>
+                    <li><strong>Lattice dissociation enthalpy</strong>: solid lattice → gaseous ions (endothermic, positive)</li>
+                </ul>
+                <p>IB typically uses lattice formation enthalpy. Always check the direction specified in exam questions.</p>
+
+                <h3>Constructing a Born-Haber Cycle</h3>
+                <p>For a generic ionic compound MX, the cycle connects:</p>
+                <ol>
+                    <li>Standard enthalpy of formation: M(s) + ½X₂(g) → MX(s) [ΔH_f°]</li>
+                    <li>Atomization of metal: M(s) → M(g) [ΔH_at°, always positive]</li>
+                    <li>First ionization energy: M(g) → M⁺(g) + e⁻ [IE₁, always positive]</li>
+                    <li>Bond dissociation of non-metal: ½X₂(g) → X(g) [½ΔH_bond, always positive]</li>
+                    <li>Electron affinity: X(g) + e⁻ → X⁻(g) [EA₁, usually negative]</li>
+                    <li>Lattice formation: M⁺(g) + X⁻(g) → MX(s) [ΔH_latt, always negative]</li>
+                </ol>
+                <p>By Hess's Law: ΔH_f° = ΔH_at° + IE₁ + ½ΔH_bond + EA₁ + ΔH_latt</p>
+
+                <h3>Worked Example: Calculating Lattice Enthalpy of NaCl</h3>
+                <p><strong>Given data:</strong></p>
+                <ul>
+                    <li>ΔH_f°[NaCl(s)] = -411 kJ mol⁻¹</li>
+                    <li>ΔH_at°[Na(s)] = +107 kJ mol⁻¹</li>
+                    <li>IE₁[Na(g)] = +496 kJ mol⁻¹</li>
+                    <li>ΔH_bond[Cl₂(g)] = +242 kJ mol⁻¹</li>
+                    <li>EA₁[Cl(g)] = -349 kJ mol⁻¹</li>
+                </ul>
+                <p>Find ΔH_latt[NaCl(s)].</p>
+                <p><strong>Solution:</strong><br>
+                ΔH_f° = ΔH_at°[Na] + IE₁[Na] + ½ΔH_bond[Cl₂] + EA₁[Cl] + ΔH_latt[NaCl]<br>
+                -411 = +107 + 496 + ½(242) + (-349) + ΔH_latt<br>
+                -411 = +107 + 496 + 121 - 349 + ΔH_latt<br>
+                -411 = +375 + ΔH_latt<br>
+                ΔH_latt = -411 - 375 = -786 kJ mol⁻¹</p>
+                <p>The large negative value confirms strong ionic bonding in NaCl.</p>
+
+                <h3>Factors Affecting Lattice Enthalpy</h3>
+                <p>Lattice enthalpy magnitude depends on:</p>
+                <ol>
+                    <li><strong>Ionic charge</strong>: Higher charges → stronger electrostatic attraction → more negative ΔH_latt. MgO (Mg²⁺, O²⁻) has ΔH_latt ≈ -3850 kJ mol⁻¹, while NaCl (Na⁺, Cl⁻) has ΔH_latt ≈ -786 kJ mol⁻¹.</li>
+                    <li><strong>Ionic radius</strong>: Smaller ions → closer approach → stronger attraction → more negative ΔH_latt. LiF (small ions) has more negative ΔH_latt than CsI (large ions).</li>
+                </ol>
+                <p>This explains why MgO has an extremely high melting point (2852°C) compared to NaCl (801°C).</p>
+
+                <h3>Applications: Solubility Predictions</h3>
+                <p>Born-Haber cycles extend to dissolution processes. The enthalpy of solution (ΔH_sol) relates to lattice enthalpy and hydration enthalpies:</p>
+                <p>ΔH_sol = -ΔH_latt (dissociation) + ΔH_hyd(cation) + ΔH_hyd(anion)</p>
+                <p>For NaCl:<br>
+                ΔH_sol ≈ +786 + (-406) + (-364) = +16 kJ mol⁻¹ (slightly endothermic)</p>
+                <p>Despite the endothermic dissolution, NaCl dissolves readily because entropy increases when the ordered lattice breaks apart (covered next section).</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Entropy and the Second Law of Thermodynamics</h2>
+
+                <h3>Understanding Entropy from First Principles</h3>
+                <p>Entropy (S) is a quantitative measure of disorder or the number of ways energy can be distributed in a system. Ludwig Boltzmann's equation connects microscopic and macroscopic descriptions: S = k_B ln(W), where W is the number of microstates (arrangements) and k_B is Boltzmann's constant.</p>
+                <p>At the molecular level, higher entropy means:</p>
+                <ul>
+                    <li>More possible arrangements of particles</li>
+                    <li>Greater energy dispersal</li>
+                    <li>More randomness in molecular positions and velocities</li>
+                </ul>
+                <p>Standard molar entropy (S°) is measured in J K⁻¹ mol⁻¹. Unlike enthalpy, absolute entropy values can be determined using the Third Law of Thermodynamics: a perfect crystal at 0 K has S = 0.</p>
+
+                <h3>Predicting Entropy Changes Qualitatively</h3>
+                <p>ΔS is positive (entropy increases) when:</p>
+                <ol>
+                    <li><strong>Phase changes toward greater freedom</strong>: solid → liquid → gas. Melting ice: ΔS > 0.</li>
+                    <li><strong>Increase in number of gas molecules</strong>: 2H₂O₂(l) → 2H₂O(l) + O₂(g), ΔS > 0</li>
+                    <li><strong>Dissolving</strong>: Ionic solid → aqueous ions (usually ΔS > 0, though exceptions exist)</li>
+                    <li><strong>Temperature increase</strong>: More kinetic energy → more microstates</li>
+                    <li><strong>Mixing</strong>: Two substances → mixture (irreversible increase)</li>
+                </ol>
+                <p>ΔS is negative (entropy decreases) when:</p>
+                <ul>
+                    <li>Gas molecules are consumed: N₂(g) + 3H₂(g) → 2NH₃(g), ΔS < 0 (4 mol gas → 2 mol gas)</li>
+                    <li>Freezing or condensation occurs</li>
+                    <li>Dissolved ions form precipitates: Ag⁺(aq) + Cl⁻(aq) → AgCl(s), ΔS < 0</li>
+                </ul>
+
+                <h3>Calculating Entropy Changes Quantitatively</h3>
+                <p>For a reaction: ΔS° = ΣS°(products) - ΣS°(reactants)</p>
+                <p>Crucial difference from enthalpy: use absolute S° values directly, not ΔH_f° values.</p>
+
+                <h3>Worked Example: Calculating ΔS° for Combustion</h3>
+                <p>CH₄(g) + 2O₂(g) → CO₂(g) + 2H₂O(l)</p>
+                <p><strong>Given S° values (J K⁻¹ mol⁻¹):</strong></p>
+                <ul>
+                    <li>S°[CH₄(g)] = 186</li>
+                    <li>S°[O₂(g)] = 205</li>
+                    <li>S°[CO₂(g)] = 214</li>
+                    <li>S°[H₂O(l)] = 70</li>
+                </ul>
+                <p>Calculate ΔS°.</p>
+                <p><strong>Solution:</strong><br>
+                ΔS° = [S°(CO₂) + 2×S°(H₂O)] - [S°(CH₄) + 2×S°(O₂)]<br>
+                ΔS° = [214 + 2(70)] - [186 + 2(205)]<br>
+                ΔS° = [214 + 140] - [186 + 410]<br>
+                ΔS° = 354 - 596 = -242 J K⁻¹ mol⁻¹</p>
+                <p>The negative value makes sense: 3 moles of gas reactants produce only 1 mole of gas product (2 water molecules are liquid). Despite liberating energy, combustion decreases system entropy.</p>
+
+                <h3>The Second Law and Surroundings</h3>
+                <p>The Second Law states: the total entropy of the universe (system + surroundings) must increase for spontaneous processes: ΔS_total = ΔS_system + ΔS_surroundings > 0.</p>
+                <p>For the methane combustion above, ΔS_system < 0, yet the reaction is spontaneous. Why? The highly exothermic reaction (ΔH° ≈ -890 kJ mol⁻¹) releases heat to surroundings, increasing ΔS_surroundings substantially. The surroundings' entropy increase dominates.</p>
+                <p>ΔS_surroundings = -ΔH_system / T</p>
+                <p>At 298 K: ΔS_surroundings = -(-890,000 J) / 298 K = +2987 J K⁻¹ mol⁻¹</p>
+                <p>ΔS_total = -242 + 2987 = +2745 J K⁻¹ mol⁻¹ > 0 ✓ Spontaneous!</p>
+                <p>This cumbersome two-step calculation motivates Gibbs free energy, which combines both effects.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Gibbs Free Energy and Spontaneity</h2>
+
+                <h3>The Gibbs Free Energy Equation</h3>
+                <p>J. Willard Gibbs unified enthalpy and entropy into a single function that predicts spontaneity considering only system properties:</p>
+                <p><strong>ΔG° = ΔH° - TΔS°</strong></p>
+                <p>Where:</p>
+                <ul>
+                    <li>ΔG° = standard Gibbs free energy change (kJ mol⁻¹)</li>
+                    <li>ΔH° = standard enthalpy change (kJ mol⁻¹)</li>
+                    <li>T = temperature (K, always positive)</li>
+                    <li>ΔS° = standard entropy change (kJ K⁻¹ mol⁻¹ or J K⁻¹ mol⁻¹)</li>
+                </ul>
+                <p><strong>Unit consistency is critical</strong>: Convert ΔS° from J K⁻¹ mol⁻¹ to kJ K⁻¹ mol⁻¹ by dividing by 1000.</p>
+
+                <h3>Interpreting ΔG°</h3>
+                <ul>
+                    <li>ΔG° < 0: Reaction is spontaneous (thermodynamically favorable)</li>
+                    <li>ΔG° = 0: System is at equilibrium</li>
+                    <li>ΔG° > 0: Reaction is non-spontaneous (reverse reaction is spontaneous)</li>
+                </ul>
+                <p>Important: "Spontaneous" means thermodynamically favorable, NOT necessarily fast. Diamond → graphite has ΔG° < 0 but occurs imperceptibly slowly (kinetic barrier).</p>
+
+                <h3>Worked Example: Calculating ΔG° from ΔH° and ΔS°</h3>
+                <p>For the Haber process at 298 K:<br>
+                N₂(g) + 3H₂(g) → 2NH₃(g)<br>
+                ΔH° = -92.4 kJ mol⁻¹<br>
+                ΔS° = -198.3 J K⁻¹ mol⁻¹</p>
+                <p>Is the reaction spontaneous at 298 K?</p>
+                <p><strong>Solution:</strong><br>
+                First convert ΔS°: -198.3 J K⁻¹ mol⁻¹ = -0.1983 kJ K⁻¹ mol⁻¹<br>
+                ΔG° = ΔH° - TΔS°<br>
+                ΔG° = -92.4 - (298)(-0.1983)<br>
+                ΔG° = -92.4 + 59.1<br>
+                ΔG° = -33.3 kJ mol⁻¹</p>
+                <p>Since ΔG° < 0, the reaction is spontaneous at 298 K.</p>
+
+                <h3>Temperature Dependence of Spontaneity</h3>
+                <p>The Gibbs equation reveals that temperature can change whether a reaction is spontaneous. Four scenarios exist:</p>
+                <ol>
+                    <li><strong>ΔH° < 0, ΔS° > 0</strong>: ΔG° always negative (spontaneous at all temperatures)<br>Example: 2H₂O₂(l) → 2H₂O(l) + O₂(g)</li>
+                    <li><strong>ΔH° > 0, ΔS° < 0</strong>: ΔG° always positive (non-spontaneous at all temperatures)<br>Example: 3O₂(g) → 2O₃(g)</li>
+                    <li><strong>ΔH° < 0, ΔS° < 0</strong>: ΔG° negative at low T, positive at high T (entropy-disfavored)<br>Example: N₂(g) + 3H₂(g) → 2NH₃(g) — industrial Haber process uses lower temperatures</li>
+                    <li><strong>ΔH° > 0, ΔS° > 0</strong>: ΔG° positive at low T, negative at high T (entropy-driven)<br>Example: CaCO₃(s) → CaO(s) + CO₂(g) — limestone decomposition requires heating</li>
+                </ol>
+
+                <h3>Calculating Transition Temperature</h3>
+                <p>At the temperature where ΔG° = 0, the reaction is at equilibrium:<br>
+                0 = ΔH° - TΔS°<br>
+                T = ΔH° / ΔS°</p>
+
+                <h3>Worked Example: Thermal Decomposition of Calcium Carbonate</h3>
+                <p>CaCO₃(s) → CaO(s) + CO₂(g)<br>
+                ΔH° = +178 kJ mol⁻¹<br>
+                ΔS° = +160.5 J K⁻¹ mol⁻¹</p>
+                <p>At what temperature does this become spontaneous?</p>
+                <p><strong>Solution:</strong><br>
+                Convert ΔS°: 160.5 J K⁻¹ mol⁻¹ = 0.1605 kJ K⁻¹ mol⁻¹<br>
+                T = ΔH° / ΔS° = 178 / 0.1605 = 1109 K (836°C)</p>
+                <p>Below 1109 K: ΔG° > 0 (non-spontaneous)<br>
+                Above 1109 K: ΔG° < 0 (spontaneous)</p>
+                <p>This explains why limestone kilns operate above 850°C.</p>
+
+                <h3>Calculating ΔG° from Standard Free Energies of Formation</h3>
+                <p>Alternatively: ΔG° = ΣΔG_f°(products) - ΣΔG_f°(reactants)</p>
+                <p>This method parallels Hess's Law calculations for enthalpy. By definition, ΔG_f° = 0 for elements in their standard states.</p>
+
+                <h3>Worked Example: Using ΔG_f° Values</h3>
+                <p>2NO(g) + O₂(g) → 2NO₂(g)</p>
+                <p><strong>Given ΔG_f° values (kJ mol⁻¹):</strong></p>
+                <ul>
+                    <li>ΔG_f°[NO(g)] = +86.6</li>
+                    <li>ΔG_f°[O₂(g)] = 0 (element)</li>
+                    <li>ΔG_f°[NO₂(g)] = +51.3</li>
+                </ul>
+                <p><strong>Solution:</strong><br>
+                ΔG° = [2×ΔG_f°(NO₂)] - [2×ΔG_f°(NO) + ΔG_f°(O₂)]<br>
+                ΔG° = [2(51.3)] - [2(86.6) + 0]<br>
+                ΔG° = 102.6 - 173.2 = -70.6 kJ mol⁻¹</p>
+                <p>Spontaneous formation of NO₂ (contributing to photochemical smog).</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Relationship Between ΔG° and Equilibrium</h2>
+
+                <h3>Connecting Thermodynamics and Equilibrium</h3>
+                <p>The Gibbs free energy relates directly to the equilibrium constant (K):</p>
+                <p><strong>ΔG° = -RT ln(K)</strong></p>
+                <p>Where:</p>
+                <ul>
+                    <li>R = 8.314 J K⁻¹ mol⁻¹ (gas constant)</li>
+                    <li>T = temperature (K)</li>
+                    <li>K = equilibrium constant (K_c for concentration, K_p for pressure)</li>
+                </ul>
+                <p>Rearranging: K = e^(-ΔG°/RT)</p>
+
+                <h3>Interpreting the Relationship</h3>
+                <ul>
+                    <li>ΔG° << 0 (large negative): K >> 1, products strongly favored at equilibrium</li>
+                    <li>ΔG° = 0: K = 1, equal amounts of reactants and products</li>
+                    <li>ΔG° >> 0 (large positive): K << 1, reactants strongly favored at equilibrium</li>
+                </ul>
+                <p>At 298 K, a ΔG° of approximately -6 kJ mol⁻¹ corresponds to K ≈ 10.</p>
+
+                <h3>Worked Example: Calculating K from ΔG°</h3>
+                <p>For the reaction H₂(g) + I₂(g) → 2HI(g) at 298 K:<br>
+                ΔG° = +2.6 kJ mol⁻¹</p>
+                <p>Calculate K_p.</p>
+                <p><strong>Solution:</strong><br>
+                Convert ΔG° to J: 2.6 kJ mol⁻¹ = 2600 J mol⁻¹<br>
+                ΔG° = -RT ln(K)<br>
+                2600 = -(8.314)(298) ln(K)<br>
+                2600 = -2477.6 ln(K)<br>
+                ln(K) = -1.049<br>
+                K = e^(-1.049) = 0.35</p>
+                <p>Since K < 1, reactants are favored (but not overwhelmingly—significant product forms).</p>
+
+                <h3>Non-Standard Conditions: The Reaction Quotient</h3>
+                <p>Under non-standard conditions:</p>
+                <p><strong>ΔG = ΔG° + RT ln(Q)</strong></p>
+                <p>Where Q is the reaction quotient. When Q = K (at equilibrium), ΔG = 0, confirming the earlier relationship.</p>
+                <p>This equation predicts:</p>
+                <ul>
+                    <li>If Q < K: ΔG < 0, reaction proceeds forward</li>
+                    <li>If Q > K: ΔG > 0, reaction proceeds backward</li>
+                    <li>If Q = K: ΔG = 0, system at equilibrium</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Real-World Applications</h2>
+
+                <h3>Industrial Chemistry: The Haber Process Optimization</h3>
+                <p>N₂(g) + 3H₂(g) ⇌ 2NH₃(g), ΔH° = -92 kJ mol⁻¹, ΔS° = -198 J K⁻¹ mol⁻¹</p>
+                <p>The negative ΔS° means high temperatures make ΔG° less negative (reduces yield). However, low temperatures make the reaction prohibitively slow. Industrial plants compromise at 400-450°C with iron catalysts and 200 atm pressure, balancing thermodynamics (low T preferred) and kinetics (high T needed).</p>
+
+                <h3>Biological Systems: ATP Hydrolysis</h3>
+                <p>ATP + H₂O → ADP + P_i, ΔG° = -30.5 kJ mol⁻¹</p>
+                <p>This large negative ΔG° makes ATP the universal energy currency. Coupling ATP hydrolysis to otherwise non-spontaneous reactions (protein synthesis, muscle contraction, active transport) allows life processes to proceed. The actual ΔG in cells (not ΔG°) is typically -50 to -65 kJ mol⁻¹ due to cellular concentrations.</p>
+
+                <h3>Materials Science: Battery Design</h3>
+                <p>In lithium-ion batteries, the cell potential (E°) relates to Gibbs free energy:<br>
+                ΔG° = -nFE°</p>
+                <p>Where n = electrons transferred, F = Faraday constant (96485 C mol⁻¹). Engineers maximize negative ΔG° to increase voltage and energy density.</p>
+
+                <h3>Environmental Chemistry: Carbon Capture</h3>
+                <p>CaO(s) + CO₂(g) → CaCO₃(s), ΔH° = -178 kJ mol⁻¹, ΔS° = -160.5 J K⁻¹ mol⁻¹</p>
+                <p>This reaction captures CO₂ spontaneously at room temperature (ΔG° < 0). However, regenerating CaO requires heating above 836°C (reverse reaction becomes spontaneous), making the process energy-intensive. Research focuses on materials with lower regeneration temperatures.</p>
+
+                <h3>Metallurgy: Metal Extraction</h3>
+                <p>Extracting aluminum requires overcoming:<br>
+                Al₂O₃(l) → 2Al(l) + 3/2O₂(g), ΔG° = +1520 kJ mol⁻¹ at 1000 K</p>
+                <p>The highly positive ΔG° necessitates electrolysis (supplying electrical energy to drive the non-spontaneous process). This explains aluminum's high energy cost (~15 kWh/kg) and the importance of recycling (95% energy savings).</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Common Misconceptions and Exam Traps</h2>
+
+                <p><strong>Misconception 1: Exothermic reactions are always spontaneous</strong><br>
+                Counter-example: 3O₂(g) → 2O₃(g) is endothermic but has ΔG° > 0 at room temperature. Spontaneity depends on BOTH enthalpy and entropy via ΔG°.</p>
+
+                <p><strong>Misconception 2: Spontaneous means fast</strong><br>
+                Diamond → graphite has ΔG° < 0 (spontaneous) but doesn't occur at observable rates due to enormous activation energy. Thermodynamics predicts direction and equilibrium position; kinetics determines rate.</p>
+
+                <p><strong>Misconception 3: Entropy always increases in spontaneous processes</strong><br>
+                System entropy can decrease if surroundings entropy increases more. Example: Water freezing at -5°C has ΔS_system < 0, but ΔS_surroundings > |ΔS_system|, making ΔS_total > 0.</p>
+
+                <p><strong>Misconception 4: Using ΔH_f° instead of S° for entropy calculations</strong><br>
+                For entropy: ΔS° = ΣS°(products) - ΣS°(reactants) — use ABSOLUTE entropy values.<br>
+                For enthalpy: ΔH° = ΣΔH_f°(products) - ΣΔH_f°(reactants) — use formation enthalpies.<br>
+                Mixing these causes calculation errors.</p>
+
+                <p><strong>Misconception 5: Forgetting unit conversions in ΔG° = ΔH° - TΔS°</strong><br>
+                ΔH° is typically in kJ mol⁻¹, but ΔS° is in J K⁻¹ mol⁻¹. Always convert ΔS° to kJ K⁻¹ mol⁻¹ (divide by 1000) before substituting.</p>
+
+                <p><strong>Misconception 6: Lattice enthalpy direction confusion</strong><br>
+                Check whether the question defines lattice enthalpy as formation (gaseous ions → solid, negative) or dissociation (solid → gaseous ions, positive). The Born-Haber cycle arrangement differs.</p>
+
+                <p><strong>Misconception 7: Temperature in Celsius vs. Kelvin</strong><br>
+                ALWAYS use Kelvin in the Gibbs equation. T must be absolute temperature. Convert: K = °C + 273.15.</p>
+
+                <p><strong>Misconception 8: Sign errors in Born-Haber cycles</strong><br>
+                Ionization energies and atomization enthalpies are always positive (energy input). Electron affinities are usually negative (energy released), but second electron affinities are positive. Track signs carefully.</p>
+            </div>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-card">
+            <h2>Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Lattice Enthalpy (Formation)</div>
+                <div class="definition-text">The enthalpy change when one mole of an ionic compound is formed from its gaseous ions under standard conditions. Always exothermic (negative). Example: Na⁺(g) + Cl⁻(g) → NaCl(s), ΔH_latt = -786 kJ mol⁻¹</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Born-Haber Cycle</div>
+                <div class="definition-text">A thermochemical cycle applying Hess's Law to relate the lattice enthalpy of an ionic compound to other measurable enthalpy changes including atomization, ionization energy, bond dissociation, and electron affinity</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Entropy (S)</div>
+                <div class="definition-text">A quantitative measure of the disorder or number of ways energy can be distributed in a system. Standard molar entropy (S°) has units of J K⁻¹ mol⁻¹. Unlike enthalpy, absolute values can be determined (Third Law: S = 0 for perfect crystals at 0 K)</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Second Law of Thermodynamics</div>
+                <div class="definition-text">For any spontaneous process, the total entropy change of the universe (system + surroundings) must be positive: ΔS_total = ΔS_system + ΔS_surroundings > 0</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Gibbs Free Energy (G)</div>
+                <div class="definition-text">A state function that combines enthalpy and entropy to predict spontaneity: ΔG° = ΔH° - TΔS°. When ΔG° < 0, the reaction is spontaneous; ΔG° = 0 indicates equilibrium; ΔG° > 0 means non-spontaneous</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Standard Free Energy of Formation (ΔG_f°)</div>
+                <div class="definition-text">The Gibbs free energy change when one mole of a compound is formed from its elements in their standard states. By definition, ΔG_f° = 0 for elements in standard states</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Spontaneous Process</div>
+                <div class="definition-text">A process that is thermodynamically favorable (ΔG < 0) and can proceed without continuous external energy input. Note: spontaneous does NOT mean fast—kinetic barriers may still exist</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Enthalpy of Atomization</div>
+                <div class="definition-text">The enthalpy change when one mole of gaseous atoms is formed from an element in its standard state. Always positive (endothermic). Example: Na(s) → Na(g), ΔH_at° = +107 kJ mol⁻¹</div>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="content-card">
+            <h2>Learning Objectives</h2>
+            <ul class="objectives-list">
+                <li>15.1.1: Construct Born-Haber cycles for ionic compounds from enthalpy of formation, ionization energy, electron affinity, enthalpy of atomization, and bond enthalpy data</li>
+                <li>15.1.2: Calculate lattice enthalpy using Born-Haber cycles and explain factors affecting lattice enthalpy magnitude (ionic charge and radius)</li>
+                <li>15.1.3: Explain the relationship between lattice enthalpy, enthalpy of hydration, and enthalpy of solution</li>
+                <li>15.2.1: Define and calculate standard entropy change (ΔS°) for reactions using absolute entropy values</li>
+                <li>15.2.2: Predict the sign of entropy change qualitatively based on states of matter, number of particles, and molecular complexity</li>
+                <li>15.2.3: State and apply the Second Law of Thermodynamics: total entropy of the universe increases for spontaneous processes</li>
+                <li>15.2.4: Calculate entropy change of surroundings using ΔS_surroundings = -ΔH_system/T</li>
+                <li>15.3.1: Calculate standard Gibbs free energy change using ΔG° = ΔH° - TΔS° and interpret its sign for spontaneity</li>
+                <li>15.3.2: Calculate ΔG° from standard free energies of formation: ΔG° = ΣΔG_f°(products) - ΣΔG_f°(reactants)</li>
+                <li>15.3.3: Predict how temperature affects spontaneity based on signs of ΔH° and ΔS°, and calculate transition temperatures</li>
+                <li>15.3.4: Relate Gibbs free energy to the equilibrium constant using ΔG° = -RT ln(K)</li>
+                <li>15.3.5: Apply the equation ΔG = ΔG° + RT ln(Q) to predict reaction direction under non-standard conditions</li>
+            </ul>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="content-card">
+            <h2>Practice Problems</h2>
+
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleSolution(1)">
+                    <span class="problem-number">Problem 1</span>
+                    <span class="toggle-icon" id="toggle-1">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>Magnesium oxide has a lattice enthalpy of -3850 kJ mol⁻¹, while sodium chloride has a lattice enthalpy of -786 kJ mol⁻¹. Using your knowledge of ionic bonding and lattice enthalpy, explain why magnesium oxide has a significantly more exothermic (more negative) lattice enthalpy than sodium chloride. [3 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution-1">
+                    <span class="solution-label">Solution:</span>
+                    <p>MgO has a much more negative lattice enthalpy than NaCl due to two factors:</p>
+                    <p>1. <strong>Ionic charge:</strong> Mg²⁺ and O²⁻ have charges of ±2, while Na⁺ and Cl⁻ have charges of ±1. Electrostatic attraction is proportional to the product of charges (q₁ × q₂), so MgO experiences 4 times stronger attraction than NaCl.</p>
+                    <p>2. <strong>Ionic size:</strong> Mg²⁺ (radius ~72 pm) and O²⁻ (radius ~140 pm) are smaller than Na⁺ (radius ~102 pm) and Cl⁻ (radius ~181 pm). Smaller ions can approach more closely, increasing electrostatic attraction (inversely proportional to distance).</p>
+                    <p>Both factors contribute to significantly stronger ionic bonding in MgO, resulting in much more energy released when the lattice forms.</p>
+                    <div class="problem-explanation">
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This question tests understanding of the factors affecting lattice enthalpy. IB examiners expect explicit reference to electrostatic attraction and quantitative comparison (±2 vs ±1 charges). Simply stating 'stronger bonding' without explaining WHY is insufficient for full marks.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleSolution(2)">
+                    <span class="problem-number">Problem 2</span>
+                    <span class="toggle-icon" id="toggle-2">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>Use the following data to construct a Born-Haber cycle and calculate the lattice enthalpy of potassium chloride, KCl(s):</p>
+                    <ul>
+                        <li>ΔH_f°[KCl(s)] = -436 kJ mol⁻¹</li>
+                        <li>ΔH_at°[K(s)] = +89 kJ mol⁻¹</li>
+                        <li>IE₁[K(g)] = +419 kJ mol⁻¹</li>
+                        <li>ΔH_bond[Cl₂(g)] = +242 kJ mol⁻¹</li>
+                        <li>EA₁[Cl(g)] = -349 kJ mol⁻¹</li>
+                    </ul>
+                    <p>Show all working clearly. [5 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution-2">
+                    <span class="solution-label">Solution:</span>
+                    <p><strong>Step 1:</strong> Write the equation for lattice enthalpy formation:<br>
+                    K⁺(g) + Cl⁻(g) → KCl(s), ΔH_latt = ?</p>
+                    <p><strong>Step 2:</strong> Apply Hess's Law for the Born-Haber cycle:<br>
+                    ΔH_f°[KCl] = ΔH_at°[K] + IE₁[K] + ½ΔH_bond[Cl₂] + EA₁[Cl] + ΔH_latt[KCl]</p>
+                    <p><strong>Step 3:</strong> Substitute values:<br>
+                    -436 = (+89) + (+419) + ½(+242) + (-349) + ΔH_latt<br>
+                    -436 = +89 + 419 + 121 - 349 + ΔH_latt<br>
+                    -436 = +280 + ΔH_latt</p>
+                    <p><strong>Step 4:</strong> Solve for ΔH_latt:<br>
+                    ΔH_latt = -436 - 280 = -716 kJ mol⁻¹</p>
+                    <p>The lattice enthalpy of KCl is <strong>-716 kJ mol⁻¹</strong>.</p>
+                    <div class="problem-explanation">
+                        <div class="explanation-label">Explanation:</div>
+                        <p>Common errors: forgetting to halve the Cl₂ bond enthalpy (only ½ mole of Cl₂ needed), sign errors (especially for electron affinity), and missing units. Always write out the full equation before substituting to track signs correctly.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleSolution(3)">
+                    <span class="problem-number">Problem 3</span>
+                    <span class="toggle-icon" id="toggle-3">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>Consider the reaction: 2SO₂(g) + O₂(g) → 2SO₃(g)</p>
+                    <p>Given the following standard entropy values (J K⁻¹ mol⁻¹):</p>
+                    <ul>
+                        <li>S°[SO₂(g)] = 248</li>
+                        <li>S°[O₂(g)] = 205</li>
+                        <li>S°[SO₃(g)] = 257</li>
+                    </ul>
+                    <p>(a) Calculate the standard entropy change (ΔS°) for this reaction. [2 marks]</p>
+                    <p>(b) Explain the sign of ΔS° in terms of the number of gaseous molecules. [2 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution-3">
+                    <span class="solution-label">Solution:</span>
+                    <p><strong>(a) Calculation of ΔS°:</strong><br>
+                    ΔS° = ΣS°(products) - ΣS°(reactants)<br>
+                    ΔS° = [2 × S°(SO₃)] - [2 × S°(SO₂) + S°(O₂)]<br>
+                    ΔS° = [2 × 257] - [2 × 248 + 205]<br>
+                    ΔS° = 514 - [496 + 205]<br>
+                    ΔS° = 514 - 701 = <strong>-187 J K⁻¹ mol⁻¹</strong></p>
+                    <p><strong>(b) Explanation:</strong><br>
+                    The entropy change is negative because the number of gaseous molecules decreases during the reaction. The reactants consist of 3 moles of gas (2 SO₂ + 1 O₂), while the products consist of only 2 moles of gas (2 SO₃). Fewer molecules means fewer possible arrangements and less disorder, resulting in a decrease in entropy (ΔS° < 0).</p>
+                    <div class="problem-explanation">
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This tests the crucial distinction between entropy and enthalpy calculations. For entropy, use absolute S° values directly. The negative entropy change is typical for reactions where gas molecules combine, which is important context for understanding industrial equilibrium reactions like SO₃ production.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleSolution(4)">
+                    <span class="problem-number">Problem 4</span>
+                    <span class="toggle-icon" id="toggle-4">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>The decomposition of ammonium chloride is represented by:<br>
+                    NH₄Cl(s) → NH₃(g) + HCl(g)</p>
+                    <p>At 298 K: ΔH° = +176 kJ mol⁻¹ and ΔS° = +285 J K⁻¹ mol⁻¹</p>
+                    <p>(a) Calculate ΔG° at 298 K and determine whether the decomposition is spontaneous at this temperature. [3 marks]</p>
+                    <p>(b) Calculate the temperature at which this decomposition becomes spontaneous. [2 marks]</p>
+                    <p>(c) Explain in terms of ΔH° and ΔS° why heating NH₄Cl causes it to decompose. [2 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution-4">
+                    <span class="solution-label">Solution:</span>
+                    <p><strong>(a) Calculate ΔG° at 298 K:</strong><br>
+                    First convert ΔS°: 285 J K⁻¹ mol⁻¹ = 0.285 kJ K⁻¹ mol⁻¹</p>
+                    <p>ΔG° = ΔH° - TΔS°<br>
+                    ΔG° = +176 - (298)(0.285)<br>
+                    ΔG° = +176 - 84.9<br>
+                    ΔG° = <strong>+91.1 kJ mol⁻¹</strong></p>
+                    <p>Since ΔG° > 0, the decomposition is <strong>NOT spontaneous</strong> at 298 K (room temperature).</p>
+                    <p><strong>(b) Calculate transition temperature:</strong><br>
+                    At equilibrium, ΔG° = 0:<br>
+                    0 = ΔH° - TΔS°<br>
+                    T = ΔH°/ΔS° = 176/0.285 = <strong>617 K (344°C)</strong></p>
+                    <p>The decomposition becomes spontaneous above 617 K.</p>
+                    <p><strong>(c) Explanation:</strong><br>
+                    The decomposition is endothermic (ΔH° > 0) and entropy-driven (ΔS° > 0, solid → gases). At low temperatures, the positive ΔH° term dominates, making ΔG° positive. As temperature increases, the -TΔS° term becomes more negative and eventually overcomes the positive ΔH°, making ΔG° negative. The entropy gain from forming two gaseous products from a solid drives the decomposition at high temperatures.</p>
+                    <div class="problem-explanation">
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This is a classic entropy-driven reaction, demonstrating the fourth scenario (ΔH° > 0, ΔS° > 0). Understanding why this is non-spontaneous at room temperature but spontaneous when heated is crucial for explaining phenomena like thermal decomposition reactions in IB exams.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleSolution(5)">
+                    <span class="problem-number">Problem 5</span>
+                    <span class="toggle-icon" id="toggle-5">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>For the Haber process at 298 K: N₂(g) + 3H₂(g) ⇌ 2NH₃(g)<br>
+                    ΔG° = -33.3 kJ mol⁻¹</p>
+                    <p>(a) Calculate the equilibrium constant K_p at 298 K using the relationship ΔG° = -RT ln(K). [R = 8.314 J K⁻¹ mol⁻¹] [3 marks]</p>
+                    <p>(b) State what the magnitude of K indicates about the position of equilibrium. [1 mark]</p>
+                    <p>(c) Despite the favorable thermodynamics at 298 K, industrial plants operate at 400-450°C. Suggest why a higher temperature is used even though it decreases the equilibrium yield. [2 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution-5">
+                    <span class="solution-label">Solution:</span>
+                    <p><strong>(a) Calculate K_p:</strong><br>
+                    Convert ΔG° to J: -33.3 kJ mol⁻¹ = -33,300 J mol⁻¹</p>
+                    <p>ΔG° = -RT ln(K)<br>
+                    -33,300 = -(8.314)(298) ln(K_p)<br>
+                    -33,300 = -2477.6 ln(K_p)<br>
+                    ln(K_p) = -33,300 / -2477.6 = 13.44<br>
+                    K_p = e^(13.44) = <strong>6.8 × 10⁵</strong></p>
+                    <p><strong>(b)</strong> The very large K_p value (>> 1) indicates that at equilibrium at 298 K, products (NH₃) are strongly favored over reactants. The position of equilibrium lies far to the right.</p>
+                    <p><strong>(c)</strong> Although lower temperatures favor product formation thermodynamically (larger K), the reaction rate at 298 K is extremely slow due to the high activation energy of breaking the N≡N triple bond. Higher temperatures increase the rate of reaction to economically viable levels, and catalysts (iron) are used to further increase the rate. Industrial processes must balance thermodynamic yield (favors low T) with kinetic feasibility (favors high T).</p>
+                    <div class="problem-explanation">
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This question bridges thermodynamics (Topic 15) and kinetics (Topic 16), a common IB approach. Understanding that ΔG° predicts equilibrium position but NOT rate is essential. The Haber process is a textbook example of optimizing industrial conditions by compromising between thermodynamic and kinetic factors.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleSolution(6)">
+                    <span class="problem-number">Problem 6</span>
+                    <span class="toggle-icon" id="toggle-6">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>Magnesium chloride, MgCl₂, is formed from magnesium and chlorine. The enthalpy of formation is -641 kJ mol⁻¹.</p>
+                    <p>(a) Write the equation representing the formation of MgCl₂ from its gaseous ions (lattice formation). [1 mark]</p>
+                    <p>(b) Use the data below to calculate the lattice enthalpy of MgCl₂:</p>
+                    <ul>
+                        <li>ΔH_f°[MgCl₂(s)] = -641 kJ mol⁻¹</li>
+                        <li>ΔH_at°[Mg(s)] = +148 kJ mol⁻¹</li>
+                        <li>IE₁[Mg(g)] = +738 kJ mol⁻¹</li>
+                        <li>IE₂[Mg⁺(g)] = +1451 kJ mol⁻¹</li>
+                        <li>ΔH_bond[Cl₂(g)] = +242 kJ mol⁻¹</li>
+                        <li>EA₁[Cl(g)] = -349 kJ mol⁻¹</li>
+                    </ul>
+                    <p>[5 marks]</p>
+                    <p>(c) The lattice enthalpy of NaCl is -786 kJ mol⁻¹. Suggest why the lattice enthalpy of MgCl₂ is more negative (more exothermic) than that of NaCl. [2 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution-6">
+                    <span class="solution-label">Solution:</span>
+                    <p><strong>(a)</strong> Mg²⁺(g) + 2Cl⁻(g) → MgCl₂(s)</p>
+                    <p><strong>(b) Born-Haber cycle equation:</strong><br>
+                    ΔH_f° = ΔH_at°[Mg] + IE₁[Mg] + IE₂[Mg] + ΔH_bond[Cl₂] + 2×EA₁[Cl] + ΔH_latt[MgCl₂]</p>
+                    <p>Note: We need 2 Cl atoms, so we use the full bond enthalpy and multiply EA by 2.</p>
+                    <p>Substitute values:<br>
+                    -641 = +148 + 738 + 1451 + 242 + 2(-349) + ΔH_latt<br>
+                    -641 = +148 + 738 + 1451 + 242 - 698 + ΔH_latt<br>
+                    -641 = +1881 + ΔH_latt<br>
+                    ΔH_latt = -641 - 1881 = <strong>-2522 kJ mol⁻¹</strong></p>
+                    <p><strong>(c)</strong> MgCl₂ has a more negative lattice enthalpy than NaCl because Mg²⁺ has a +2 charge compared to Na⁺'s +1 charge. The higher charge on the magnesium cation creates stronger electrostatic attraction with the chloride anions. Additionally, Mg²⁺ (radius ~72 pm) is smaller than Na⁺ (radius ~102 pm), allowing closer approach and stronger attraction. Both factors contribute to more negative lattice enthalpy.</p>
+                    <div class="problem-explanation">
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This demonstrates a more complex Born-Haber cycle requiring two ionization energies (Mg → Mg²⁺) and two electron affinities (2 Cl atoms). Note that the second ionization energy (IE₂) is much larger than IE₁—removing an electron from a positive ion requires more energy. The comparison with NaCl reinforces understanding of lattice enthalpy trends.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleSolution(7)">
+                    <span class="problem-number">Problem 7</span>
+                    <span class="toggle-icon" id="toggle-7">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>The combustion of glucose is represented by:<br>
+                    C₆H₁₂O₆(s) + 6O₂(g) → 6CO₂(g) + 6H₂O(l)</p>
+                    <p>Given:</p>
+                    <ul>
+                        <li>ΔH° = -2808 kJ mol⁻¹</li>
+                        <li>ΔS° = -210 J K⁻¹ mol⁻¹</li>
+                    </ul>
+                    <p>(a) Explain why ΔS° is negative despite this being a spontaneous biological process. [2 marks]</p>
+                    <p>(b) Calculate ΔG° at 310 K (body temperature) and explain why the reaction is spontaneous despite negative entropy change. [3 marks]</p>
+                    <p>(c) Calculate ΔS_surroundings and ΔS_total at 310 K, and verify that the Second Law of Thermodynamics is obeyed. [3 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution-7">
+                    <span class="solution-label">Solution:</span>
+                    <p><strong>(a)</strong> ΔS° is negative because the reaction produces 6 moles of liquid water instead of gaseous water. Although 6 moles of CO₂ gas are produced, the entropy decrease from converting gaseous O₂ to liquid H₂O dominates. Liquids have much lower entropy than gases due to restricted molecular motion. Additionally, glucose dissolves in cellular water, so the initial state has higher entropy than the solid state implies.</p>
+                    <p><strong>(b) Calculate ΔG°:</strong><br>
+                    Convert ΔS°: -210 J K⁻¹ mol⁻¹ = -0.210 kJ K⁻¹ mol⁻¹</p>
+                    <p>ΔG° = ΔH° - TΔS°<br>
+                    ΔG° = -2808 - (310)(-0.210)<br>
+                    ΔG° = -2808 + 65.1<br>
+                    ΔG° = <strong>-2742.9 kJ mol⁻¹</strong></p>
+                    <p>The reaction is highly spontaneous (large negative ΔG°) because the reaction is extremely exothermic. The magnitude of the negative ΔH° term far exceeds the positive TΔS° term, making ΔG° highly negative despite unfavorable entropy change.</p>
+                    <p><strong>(c) Calculate entropy changes:</strong><br>
+                    ΔS_surroundings = -ΔH_system / T = -(-2808 kJ mol⁻¹) / 310 K<br>
+                    ΔS_surroundings = +2808 / 310 = +9.06 kJ K⁻¹ mol⁻¹ = <strong>+9060 J K⁻¹ mol⁻¹</strong></p>
+                    <p>ΔS_total = ΔS_system + ΔS_surroundings<br>
+                    ΔS_total = -210 + 9060 = <strong>+8850 J K⁻¹ mol⁻¹</strong></p>
+                    <p>Since ΔS_total > 0, the Second Law is obeyed. The massive entropy increase in the surroundings (due to heat release) far exceeds the entropy decrease in the system, making the total entropy change positive and the process spontaneous.</p>
+                    <div class="problem-explanation">
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This problem demonstrates that system entropy can decrease in spontaneous processes if compensated by surroundings entropy increase. The huge exothermicity of glucose combustion (why it's our primary fuel) releases heat that increases surroundings disorder dramatically. This is crucial for understanding biological energetics.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-header" onclick="toggleSolution(8)">
+                    <span class="problem-number">Problem 8</span>
+                    <span class="toggle-icon" id="toggle-8">▼</span>
+                </div>
+                <div class="problem-question">
+                    <p>Data analysis question: The table shows thermodynamic data for two possible reactions for producing hydrogen gas:</p>
+                    <p><strong>Reaction A:</strong> CH₄(g) + H₂O(g) → CO(g) + 3H₂(g)<br>
+                    ΔH° = +206 kJ mol⁻¹, ΔS° = +216 J K⁻¹ mol⁻¹</p>
+                    <p><strong>Reaction B:</strong> CH₄(g) + 2H₂O(g) → CO₂(g) + 4H₂(g)<br>
+                    ΔH° = +165 kJ mol⁻¹, ΔS° = +170 J K⁻¹ mol⁻¹</p>
+                    <p>(a) Calculate ΔG° for both reactions at 1000 K. [4 marks]</p>
+                    <p>(b) Compare the spontaneity of both reactions at 1000 K. [1 mark]</p>
+                    <p>(c) Using your understanding of the temperature dependence of spontaneity, explain why industrial hydrogen production from methane operates at high temperatures (>800°C). [3 marks]</p>
+                    <p>(d) Suggest one advantage of Reaction B over Reaction A from an environmental perspective. [1 mark]</p>
+                </div>
+                <div class="problem-solution" id="solution-8">
+                    <span class="solution-label">Solution:</span>
+                    <p><strong>(a) Calculate ΔG° for both reactions:</strong></p>
+                    <p><strong>Reaction A:</strong><br>
+                    Convert ΔS°: 216 J K⁻¹ mol⁻¹ = 0.216 kJ K⁻¹ mol⁻¹<br>
+                    ΔG° = ΔH° - TΔS°<br>
+                    ΔG° = +206 - (1000)(0.216)<br>
+                    ΔG° = +206 - 216<br>
+                    ΔG° = <strong>-10 kJ mol⁻¹</strong></p>
+                    <p><strong>Reaction B:</strong><br>
+                    Convert ΔS°: 170 J K⁻¹ mol⁻¹ = 0.170 kJ K⁻¹ mol⁻¹<br>
+                    ΔG° = ΔH° - TΔS°<br>
+                    ΔG° = +165 - (1000)(0.170)<br>
+                    ΔG° = +165 - 170<br>
+                    ΔG° = <strong>-5 kJ mol⁻¹</strong></p>
+                    <p><strong>(b)</strong> At 1000 K, both reactions are spontaneous (ΔG° < 0). Reaction A is slightly more spontaneous with a more negative ΔG° value (-10 vs -5 kJ mol⁻¹), though both are marginal.</p>
+                    <p><strong>(c)</strong> Both reactions are endothermic (ΔH° > 0) with positive entropy changes (ΔS° > 0). This means they are entropy-driven reactions that are non-spontaneous at low temperatures but become spontaneous at high temperatures. At room temperature (298 K), both would have positive ΔG° values:</p>
+                    <p>Reaction A at 298 K: ΔG° = +206 - (298)(0.216) = +142 kJ mol⁻¹ (non-spontaneous)<br>
+                    Reaction B at 298 K: ΔG° = +165 - (298)(0.170) = +114 kJ mol⁻¹ (non-spontaneous)</p>
+                    <p>High operating temperatures make the -TΔS° term large enough to overcome the positive ΔH° term, making ΔG° negative and the reactions spontaneous. Industrial processes use temperatures above 800°C (1073 K) to ensure favorable thermodynamics and reasonable reaction rates.</p>
+                    <p><strong>(d)</strong> Reaction B produces CO₂ instead of CO (carbon monoxide). Since CO is a toxic gas and CO₂ is less harmful, Reaction B is environmentally and industrially safer.</p>
+                    <div class="problem-explanation">
+                        <div class="explanation-label">Explanation:</div>
+                        <p>This data-based question integrates multiple concepts: temperature-dependent spontaneity, industrial applications, and environmental chemistry. It demonstrates that industrial conditions are chosen based on thermodynamic constraints. The steam reforming of methane is the primary industrial source of hydrogen gas globally, making this highly relevant real-world chemistry.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="content-card">
+            <h2>Exam Tips</h2>
+
+            <div class="exam-tip">
+                In Born-Haber cycle calculations, draw the energy level diagram with products and reactants clearly labeled. This visual aid prevents sign errors and helps identify the missing enthalpy value.
+            </div>
+
+            <div class="exam-tip">
+                Always check the definition of lattice enthalpy given in the question—formation (negative) vs dissociation (positive). IB typically uses formation, but data booklet questions may vary.
+            </div>
+
+            <div class="exam-tip">
+                When calculating ΔG° from ΔH° and ΔS°, the most common error is unit inconsistency. Convert ΔS° from J K⁻¹ mol⁻¹ to kJ K⁻¹ mol⁻¹ by dividing by 1000 BEFORE substituting into the equation.
+            </div>
+
+            <div class="exam-tip">
+                For entropy change calculations, remember: ΔS° uses absolute S° values directly, NOT ΔS_f° values (which don't exist). This differs from enthalpy calculations.
+            </div>
+
+            <div class="exam-tip">
+                When predicting spontaneity temperature dependence, create a quick reference table: ΔH° < 0 & ΔS° > 0 → always spontaneous; ΔH° > 0 & ΔS° < 0 → never spontaneous; mixed signs → temperature-dependent.
+            </div>
+
+            <div class="exam-tip">
+                In Paper 2 questions worth 8+ marks, showing ALL working is essential. Even if your final answer is incorrect, you can earn method marks for correct equation setup and unit conversions.
+            </div>
+
+            <div class="exam-tip">
+                For transition temperature calculations (ΔG° = 0), remember T = ΔH°/ΔS°. Ensure both values use consistent units (both in kJ or both in J) before dividing.
+            </div>
+
+            <div class="exam-tip">
+                When using ΔG° = -RT ln(K), R = 8.314 J K⁻¹ mol⁻¹ (NOT kJ). If ΔG° is given in kJ, convert to J by multiplying by 1000 before substituting.
+            </div>
+
+            <div class="exam-tip">
+                Electron affinity values: first EA is usually negative (exothermic), but second EA is always positive (energy required to add an electron to a negative ion). This catches many students in Born-Haber cycles for compounds like MgO.
+            </div>
+
+            <div class="exam-tip">
+                In data-based questions (Paper 3), lattice enthalpy magnitudes correlate with melting points. Higher (more negative) lattice enthalpy → stronger ionic bonding → higher melting point. Use this to check if calculated values are reasonable.
+            </div>
+
+            <div class="exam-tip">
+                When asked to 'explain' spontaneity, don't just calculate ΔG°. State that ΔG° < 0 indicates a spontaneous reaction, then interpret the relative contributions of ΔH° and TΔS° terms to demonstrate understanding.
+            </div>
+
+            <div class="exam-tip">
+                For entropy predictions, count gaseous molecules on each side. Increase in gas moles almost always means ΔS° > 0. Also consider: solid → liquid/gas is positive; dissolution usually positive; formation of complex molecules from simple ones is negative.
+            </div>
+        </div>
+
+        <!-- Footer Navigation -->
+        <div class="lesson-footer">
+            <div class="footer-nav">
+                <button class="button button-secondary" onclick="window.history.back()">← Previous Topic</button>
+                <button class="button" onclick="markComplete()">Mark as Complete</button>
+                <button class="button button-secondary" onclick="window.location.href='#'">Next Topic →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="openChat()" title="Ask a question">
+        <span class="chatbot-icon">💬</span>
+    </div>
+
+    <script>
+        // Progress tracking
+        let progressPercentage = 0;
+        const totalSections = 8; // Number of main content sections
+
+        function updateProgress() {
+            const sections = document.querySelectorAll('.content-section');
+            let visibleSections = 0;
+
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.5) {
+                    visibleSections++;
+                }
+            });
+
+            progressPercentage = Math.min(100, Math.round((visibleSections / totalSections) * 100));
+            document.getElementById('progress-fill').style.width = progressPercentage + '%';
+            document.getElementById('progress-percentage').textContent = progressPercentage + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('topic15_progress', progressPercentage);
+        }
+
+        // Load saved progress
+        window.addEventListener('load', () => {
+            const savedProgress = localStorage.getItem('topic15_progress');
+            if (savedProgress) {
+                progressPercentage = parseInt(savedProgress);
+                document.getElementById('progress-fill').style.width = progressPercentage + '%';
+                document.getElementById('progress-percentage').textContent = progressPercentage + '%';
+            }
+        });
+
+        // Update progress on scroll
+        window.addEventListener('scroll', () => {
+            updateProgress();
+        });
+
+        // Toggle solution visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const toggle = document.getElementById('toggle-' + problemNumber);
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                toggle.classList.remove('active');
+            } else {
+                solution.classList.add('active');
+                toggle.classList.add('active');
+            }
+        }
+
+        // Mark lesson as complete
+        function markComplete() {
+            progressPercentage = 100;
+            document.getElementById('progress-fill').style.width = '100%';
+            document.getElementById('progress-percentage').textContent = '100%';
+            localStorage.setItem('topic15_progress', 100);
+            localStorage.setItem('topic15_completed', 'true');
+
+            alert('Congratulations! You have completed Topic 15: Energetics/Thermochemistry (HL)');
+        }
+
+        // Open chatbot
+        function openChat() {
+            alert('Chatbot feature coming soon! This will allow you to ask questions about energetics and thermochemistry.');
+            // In a real implementation, this would open a chat interface
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initial progress update
+        setTimeout(updateProgress, 500);
+    </script>
+</body>
+</html>
+</body>
+</html>

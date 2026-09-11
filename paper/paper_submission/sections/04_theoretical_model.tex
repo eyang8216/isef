@@ -1,0 +1,369 @@
+\section{Theoretical Model and Derivations}
+
+This section gives the mathematical foundation of the solver. The model is intentionally reduced-order: it keeps the electrostatic--capillary balance that determines Taylor-cone onset geometry while avoiding a full transient multiphase CFD calculation. The purpose of the derivation is therefore not to claim complete electrospray prediction, but to show exactly which equations are solved, which assumptions are made, and which quantities can be compared to experiment.
+
+\subsection{Geometry, Coordinates, and Main Assumptions}
+
+The gas and liquid domains are treated in cylindrical coordinates $(r,\theta,z)$ with $r\ge 0$. The first model assumes axisymmetry, so all fields are independent of $\theta$. The electric potential is $\ph(r,z)$ and the electric field is
+\begin{equation}
+    \mathbf{E}=-\nabla\ph.
+\end{equation}
+In cylindrical coordinates under axisymmetry,
+\begin{equation}
+    \mathbf{E}=E_r\mathbf{e}_r+E_z\mathbf{e}_z,
+    \qquad
+    E_r=-\frac{\partial\ph}{\partial r},
+    \qquad
+    E_z=-\frac{\partial\ph}{\partial z}.
+\end{equation}
+The liquid--gas interface is represented as a graph
+\begin{equation}
+    r=R(z),
+\end{equation}
+which is adequate for onset-level Taylor-cone shapes before overturning, breakup, or strongly non-axisymmetric dynamics. The conducting-liquid approximation treats the liquid as an equipotential boundary in the first model. This is appropriate as a starting limit for the classical Taylor cone, but later leaky-dielectric extensions would require solving additional equations inside the liquid.
+
+\subsection{Axisymmetric Laplace and Poisson Equations}
+
+Electrostatics obeys Gauss's law,
+\begin{equation}
+    \nabla\cdot\mathbf{D}=\rho_e,
+\end{equation}
+where $\mathbf{D}=\epszero \mathbf{E}$ in the gas domain and $\rho_e$ is the gas-domain charge density. Since $\mathbf{E}=-\nabla\ph$,
+\begin{equation}
+    \nabla\cdot(-\epszero\nabla\ph)=\rho_e.
+\end{equation}
+For constant gas permittivity, this becomes Poisson's equation,
+\begin{equation}
+    \nabla^2\ph=-\frac{\rho_e}{\epszero}.
+\end{equation}
+The charge-free case $\rho_e=0$ reduces to Laplace's equation,
+\begin{equation}
+    \nabla^2\ph=0.
+\end{equation}
+For an axisymmetric scalar field, the Laplacian is
+\begin{equation}
+\nabla^2 \ph = \frac{1}{r}\frac{\partial}{\partial r}\left(r\frac{\partial \ph}{\partial r}\right)+\frac{\partial^2 \ph}{\partial z^2}.
+\label{eq:axisymmetric_laplacian_full}
+\end{equation}
+Thus the actual PDE solved by the numerical core is
+\begin{equation}
+    \frac{1}{r}\frac{\partial}{\partial r}\left(r\frac{\partial\ph}{\partial r}\right)
+    +\frac{\partial^2\ph}{\partial z^2}
+    =-\frac{\rho_e(r,z)}{\epszero}.
+\label{eq:axisymmetric_poisson_full}
+\end{equation}
+
+\subsection{Boundary Conditions}
+
+The simplified electrostatic problem is closed by boundary conditions representing the powered liquid/conductor, grounded electrode, symmetry axis, and artificial outer boundary:
+\begin{align}
+    \ph &= V_0 &&\text{on powered conductor or ideal liquid surface},\\
+    \ph &= 0 &&\text{on grounded extractor electrode},\\
+    \frac{\partial \ph}{\partial r} &=0 &&\text{on the axis } r=0,\\
+    \ph &= \ph_{\infty}\quad\text{or}\quad \frac{\partial\ph}{\partial n}=0
+    &&\text{on far computational boundaries}.
+\end{align}
+The axis condition is not optional: it is required because the potential must remain finite and smooth as $r\rightarrow 0$. Far-boundary conditions are numerical approximations, so their effect should be checked by moving the boundary outward or comparing alternative boundary choices.
+
+\subsection{Finite-Difference Discretization}
+
+Let the grid nodes be
+\begin{equation}
+    r_i=i\Delta r,\qquad z_j=z_{\min}+j\Delta z,
+\end{equation}
+where $i=0,\ldots,n_r-1$ and $j=0,\ldots,n_z-1$. Denote $\ph_{i,j}\approx \ph(r_i,z_j)$. Expanding Eq.~\eqref{eq:axisymmetric_laplacian_full},
+\begin{equation}
+    \nabla^2\ph = \frac{\partial^2\ph}{\partial r^2}+\frac{1}{r}\frac{\partial\ph}{\partial r}+\frac{\partial^2\ph}{\partial z^2}.
+\end{equation}
+For interior nodes with $r_i>0$, the solver uses centered finite differences:
+\begin{align}
+\frac{\partial^2\ph}{\partial r^2} &\approx
+\frac{\ph_{i+1,j}-2\ph_{i,j}+\ph_{i-1,j}}{\Delta r^2},\\
+\frac{\partial\ph}{\partial r} &\approx
+\frac{\ph_{i+1,j}-\ph_{i-1,j}}{2\Delta r},\\
+\frac{\partial^2\ph}{\partial z^2} &\approx
+\frac{\ph_{i,j+1}-2\ph_{i,j}+\ph_{i,j-1}}{\Delta z^2}.
+\end{align}
+Therefore the discrete operator at $r_i>0$ is
+\begin{align}
+(\nabla_h^2\ph)_{i,j}
+&=
+\frac{\ph_{i+1,j}-2\ph_{i,j}+\ph_{i-1,j}}{\Delta r^2}
++\frac{1}{r_i}\frac{\ph_{i+1,j}-\ph_{i-1,j}}{2\Delta r}
++\frac{\ph_{i,j+1}-2\ph_{i,j}+\ph_{i,j-1}}{\Delta z^2}.\label{eq:interior_stencil}
+\end{align}
+This equation produces a sparse matrix because each row couples only to the node itself and its nearest neighbors.
+
+At the axis $r=0$, Eq.~\eqref{eq:axisymmetric_laplacian_full} appears singular, but smooth axisymmetric functions satisfy $\partial_r\ph(0,z)=0$. Using the limiting identity
+\begin{align}
+    \lim_{r\to0}\left(\frac{\partial^2\ph}{\partial r^2}
+    +\frac{1}{r}\frac{\partial\ph}{\partial r}\right)
+    &=2\frac{\partial^2\ph}{\partial r^2}\bigg|_{r=0}.
+\end{align}
+with a reflected ghost value $\ph_{-1,j}=\ph_{1,j}$ gives the regularized axis stencil
+\begin{equation}
+(\nabla_h^2\ph)_{0,j}
+=
+\frac{4(\ph_{1,j}-\ph_{0,j})}{\Delta r^2}
++\frac{\ph_{0,j+1}-2\ph_{0,j}+\ph_{0,j-1}}{\Delta z^2}.
+\label{eq:axis_stencil}
+\end{equation}
+This stencil is one of the key numerical details tested by the solver.
+
+\subsection{Classical Taylor-Cone Derivation}
+
+The Taylor-cone benchmark comes from the ideal limit of a perfectly conducting liquid in a charge-free gas. Near the apex, spherical coordinates $(\rho,\vartheta)$ are convenient, where $\rho$ is distance from the apex and $\vartheta$ is measured from the axis. Axisymmetric Laplace's equation is
+\begin{equation}
+\frac{1}{\rho^2}\frac{\partial}{\partial\rho}\left(\rho^2\frac{\partial\ph}{\partial\rho}\right)
++
+\frac{1}{\rho^2\sin\vartheta}\frac{\partial}{\partial\vartheta}
+\left(\sin\vartheta\frac{\partial\ph}{\partial\vartheta}\right)=0.
+\end{equation}
+Seek separated solutions of the form
+\begin{equation}
+    \ph(\rho,\vartheta)=A\rho^\nu F(\vartheta).
+\end{equation}
+Substitution gives the angular equation
+\begin{equation}
+\frac{1}{\sin\vartheta}\frac{d}{d\vartheta}
+\left(\sin\vartheta\frac{dF}{d\vartheta}\right)
++\nu(\nu+1)F=0.
+\end{equation}
+With $\mu=\cos\vartheta$, this becomes Legendre's equation,
+\begin{equation}
+\frac{d}{d\mu}\left[(1-\mu^2)\frac{dF}{d\mu}\right]+\nu(\nu+1)F=0,
+\end{equation}
+so the regular axisymmetric solution is
+\begin{equation}
+    F(\vartheta)=P_\nu(\cos\vartheta).
+\end{equation}
+Thus
+\begin{equation}
+    \ph(\rho,\vartheta)=A\rho^\nu P_\nu(\cos\vartheta).
+\label{eq:taylor_separated_full}
+\end{equation}
+
+The electric field magnitude scales as
+\begin{equation}
+    E\sim |\nabla\ph|\sim \rho^{\nu-1}.
+\end{equation}
+Maxwell pressure therefore scales as
+\begin{equation}
+    p_E\sim \epszero E^2\sim \rho^{2\nu-2}.
+\end{equation}
+For a cone, the characteristic capillary pressure scales as
+\begin{equation}
+    p_\gamma\sim \frac{\gamma}{\rho}.
+\end{equation}
+A self-similar conical equilibrium requires these two stress scales to match:
+\begin{equation}
+    2\nu-2=-1.
+\end{equation}
+Therefore
+\begin{equation}
+    \nu=\frac{1}{2}.
+\end{equation}
+The potential near a Taylor cone must consequently scale as
+\begin{equation}
+    \ph(\rho,\vartheta)=A\rho^{1/2}P_{1/2}(\cos\vartheta).
+\end{equation}
+
+A perfect conductor is an equipotential. If the conical surface lies at $\vartheta=\vartheta_0$ and the cone potential is chosen as the reference value, the angular factor must vanish on the cone:
+\begin{equation}
+    P_{1/2}(\cos\vartheta_0)=0.
+\label{eq:taylor_root_full}
+\end{equation}
+The physically relevant root is
+\begin{equation}
+    \vartheta_0\approx 130.7^\circ.
+\end{equation}
+The semi-vertical half-angle measured inside the liquid cone is therefore
+\begin{equation}
+    \alpha_T=180^\circ-\vartheta_0\approx 49.3^\circ.
+\end{equation}
+This is the central analytical benchmark used by the code. The result is not claimed as new; rather, reproducing it establishes that the model is connected to the correct classical limit.
+
+\subsection{Apex Singularity and Physical Regularization}
+
+Because $\nu=1/2$, the ideal Taylor electric field behaves as
+\begin{equation}
+    E\sim \rho^{-1/2}.
+\end{equation}
+Thus the ideal mathematical solution predicts
+\begin{equation}
+    E\rightarrow\infty \qquad \text{as}\qquad \rho\rightarrow0.
+\end{equation}
+This singularity is useful theoretically because it explains why the apex is the dominant high-field region, but it cannot persist physically. Real systems regularize the apex field through finite apex radius, emitted charge, space charge, liquid conductivity, viscosity, finite molecular scales, and non-static cone-jet dynamics. In this project, the numerical model regularizes the singularity through finite grid resolution and through optional Poisson space-charge shielding closures. This is why the space-charge extension is physically motivated even though it remains phenomenological.
+
+\subsection{Maxwell Stress and Electric Pressure}
+
+The electrostatic Maxwell stress tensor in a medium of permittivity $\varepsilon$ is
+\begin{equation}
+    \mathbf{T}_E=\varepsilon\left(\mathbf{E}\otimes\mathbf{E}-\frac{1}{2}E^2\mathbf{I}\right).
+\end{equation}
+The normal electric traction on an interface with unit normal $\mathbf{n}$ is
+\begin{equation}
+    \mathbf{n}\cdot\mathbf{T}_E\mathbf{n}
+    =\varepsilon\left[(\mathbf{E}\cdot\mathbf{n})^2-\frac{1}{2}E^2\right].
+\end{equation}
+For an ideal conductor at equilibrium, the electric field inside the liquid is zero and the gas-side tangential electric field vanishes at the conducting surface. Therefore $E=E_n$ on the gas side, and the electric normal pressure pulling on the interface reduces to
+\begin{equation}
+    p_E=\frac{\epszero}{2}E_n^2.
+\label{eq:maxwell_pressure_full}
+\end{equation}
+This equation is the source of the important voltage scaling: since $E\propto V_0$ for a linear Laplace problem, $p_E\propto V_0^2$.
+
+\subsection{Interface Normal and Curvature}
+
+For an interface represented by $r=R(z)$, define the implicit level-set function
+\begin{equation}
+    F(r,z)=r-R(z).
+\end{equation}
+A unit normal pointing toward increasing $r$ is
+\begin{equation}
+    \mathbf{n}=\frac{\nabla F}{|\nabla F|}
+    =\frac{(1,-R_z)}{\sqrt{1+R_z^2}}.
+\end{equation}
+The normal electric field sampled at the interface is
+\begin{equation}
+    E_n=\mathbf{E}\cdot\mathbf{n}
+    =\frac{E_r-R_zE_z}{\sqrt{1+R_z^2}}.
+\end{equation}
+Here $E_n$ represents the magnitude of the normal electric field component evaluated on the gas side of the interface. Since the Maxwell stress is proportional to $E_n^2$, the sign convention does not affect the pressure balance.
+The axisymmetric curvature of the surface of revolution is
+\begin{equation}
+\kappa = \frac{1}{R\sqrt{1+R_z^2}} - \frac{R_{zz}}{(1+R_z^2)^{3/2}}.
+\label{eq:curvature_full}
+\end{equation}
+The first term is the azimuthal curvature generated by rotating the curve about the axis, and the second term is the meridional curvature of the curve in the $(r,z)$ plane. This is the \emph{sum} of the two principal curvatures, $\kappa=\kappa_1+\kappa_2$, not the mean curvature $(\kappa_1+\kappa_2)/2$. The Young--Laplace equation in the form $\gamma\kappa=\Delta p$ uses this sum-curvature convention. This expression is used directly in the residual computation.
+
+\subsection{Young--Laplace--Maxwell Residual}
+
+For a static conducting liquid interface, capillary pressure balances a constant pressure offset and electric pressure:
+\begin{equation}
+    \gamma\kappa = \Delta p + \frac{\epszero}{2}E_n^2.
+\label{eq:ylm_balance_full}
+\end{equation}
+Rearranging gives the pointwise residual
+\begin{equation}
+    \resid(z)=\gamma\kappa(z)-\Delta p-\frac{\epszero}{2}E_n(z)^2.
+\label{eq:residual_full}
+\end{equation}
+A perfect solution of the reduced static model would satisfy $\resid(z)=0$ along the entire interface. In practice, the solver evaluates a candidate interface and reports the RMS residual
+\begin{equation}
+    \resid_{\mathrm{RMS}}
+    =\left(\frac{1}{N}\sum_{m=1}^{N}\resid(z_m)^2\right)^{1/2}.
+\end{equation}
+Since $\Delta p$ is an unknown constant pressure offset, the implementation removes its mean contribution by choosing
+\begin{equation}
+    \Delta p = \frac{1}{N}\sum_{m=1}^{N}\left(\gamma\kappa(z_m)-\frac{\epszero}{2}E_n(z_m)^2\right).
+\end{equation}
+This makes the residual measure shape-dependent imbalance rather than an arbitrary constant pressure offset. The residual is therefore a diagnostic of physical balance, not merely a numerical iteration error.
+
+\subsection{Reduced Shape Optimization}
+
+A free-boundary problem would solve simultaneously for the interface shape and the electric field. The current solver uses a lower-dimensional approximation: the interface is restricted to an analytic cone-family shape with a small number of shape parameters, such as half-angle and apex radius. The optimizer minimizes an objective of the form
+\begin{equation}
+    J(\mathbf{a})=\resid_{\mathrm{RMS}}(\mathbf{a})+\lambda\,P(\mathbf{a}),
+\end{equation}
+where $\mathbf{a}$ denotes shape parameters and $P$ penalizes invalid or off-grid geometries if needed. This formulation keeps the problem computationally light and interpretable. Its limitation is that grid-mask boundary representation can shift the optimized angle away from the ideal Taylor value, which is why the optimized-angle error is treated as a known numerical limitation.
+
+\subsection{Effective Space-Charge Shielding}
+
+Poisson's equation requires a closure for $\rho_e$. The project uses a hierarchy of effective closures rather than claiming a complete microscopic emission model. The Gaussian closure is
+\begin{equation}
+\rhoe(r,z)=\rho_0\exp\left[-\frac{(r-r_a)^2+(z-z_a)^2}{2\ell^2}\right],
+\label{eq:gaussian_full}
+\end{equation}
+where $(r_a,z_a)$ is the charge-cloud center and $\ell$ is the cloud width. This closure is useful for controlled numerical experiments because the location, sign, and magnitude of charge are explicit.
+
+The threshold closure activates charge only in high-field regions:
+\begin{equation}
+\rhoe = \rho_{\max}\left[1-\exp\left(-\frac{\Emag-E_c}{E_s}\right)\right]_+,
+\label{eq:threshold_full}
+\end{equation}
+where $E_c$ is a critical field scale, $E_s$ controls smoothness, and $\rho_{\max}$ is a saturation density. The notation $[x]_+=\max(x,0)$ ensures that nodes with $\Emag<E_c$ produce zero effective charge.
+
+Because $\rho_e$ depends on $\mathbf{E}$ and $\mathbf{E}$ depends on $\ph$, the threshold model is nonlinear. The solver uses fixed-point iteration:
+\begin{align}
+    \nabla^2\ph^{(k+1)}&=-\rho_e^{(k)}/\epszero,\\
+    \mathbf{E}^{(k+1)}&=-\nabla\ph^{(k+1)},\\
+    \widetilde{\rho}_e^{(k+1)}&=F(|\mathbf{E}^{(k+1)}|),\\
+    \rho_e^{(k+1)}&=(1-\omega)\rho_e^{(k)}+\omega\widetilde{\rho}_e^{(k+1)},
+\end{align}
+where $0<\omega\le1$ is an under-relaxation parameter. The iteration stops when the relative change in $\rho_e$ is below a prescribed tolerance or when a maximum iteration count is reached.
+
+\subsection{Shielding Metric}
+
+To quantify field reduction, the solver compares a space-charge solution against a charge-free Laplace reference. A local region-of-interest metric is
+\begin{equation}
+    S_E=1-\frac{\max_{\Omega_{\mathrm{ROI}}}|\mathbf{E}_{\mathrm{shielded}}|}
+    {\max_{\Omega_{\mathrm{ROI}}}|\mathbf{E}_{\mathrm{Laplace}}|}.
+\end{equation}
+A positive value means the peak field in the chosen apex-local region is reduced relative to the Laplace case. A negative value indicates either field enhancement, sign sensitivity, or that the chosen region is dominated by boundary artifacts. The region of interest is important because global peak fields may occur at electrode corners or artificial computational boundaries rather than at the cone apex.
+
+\subsection{Nondimensional Interpretation}
+
+Let $L$ be a characteristic length scale and $V_0$ the applied voltage scale. Define
+\begin{equation}
+    \hat r=\frac{r}{L},\qquad
+    \hat z=\frac{z}{L},\qquad
+    \hat\ph=\frac{\ph}{V_0}.
+\end{equation}
+The electric field scale is
+\begin{equation}
+    E_0=\frac{V_0}{L}.
+\end{equation}
+The electric pressure scale is
+\begin{equation}
+    p_{E,0}=\epszero\frac{V_0^2}{L^2},
+\end{equation}
+while the capillary pressure scale is
+\begin{equation}
+    p_{\gamma,0}=\frac{\gamma}{L}.
+\end{equation}
+Their ratio is the electric Bond number
+\begin{equation}
+    Bo_E=\frac{\epszero V_0^2}{\gamma L}.
+\end{equation}
+This dimensionless group expresses how strongly electric stress competes with surface tension. Increasing voltage raises $Bo_E$, while increasing surface tension lowers it. This relationship motivates experimental onset-voltage trends: larger surface tension or larger characteristic length scale generally requires higher voltage for comparable electric-capillary balance, although real electrospray onset also depends on conductivity, flow, electrode shape, and emission physics.
+
+A dimensionless charge density can be defined as
+\begin{equation}
+    \hat\rho_e=\frac{L^2\rho_e}{\epszero V_0},
+\end{equation}
+so the nondimensional Poisson equation becomes
+\begin{equation}
+    \hat\nabla^2\hat\ph=-\hat\rho_e.
+\end{equation}
+This scaling clarifies why space charge is important when $L^2\rho_e/(\epszero V_0)$ is not negligible.
+
+\subsection{Model-Based Onset Criterion}
+
+The physical experiment will define onset as the lowest applied voltage at which a stable Taylor-cone-like interface persists for a fixed observation window. A simulation cannot observe stability directly unless it includes time-dependent fluid dynamics, so the solver must use a reduced static criterion. The planned model-based onset estimate is the lowest applied voltage satisfying three conditions:
+\begin{enumerate}
+    \item the residual-minimizing interface is Taylor-cone-like and remains inside the computational geometry;
+    \item the half-angle lies in a physically plausible onset range near the classical Taylor-cone limit;
+    \item the RMS Young--Laplace--Maxwell residual falls below a pre-declared tolerance relative to the capillary pressure scale $\gamma/L$.
+\end{enumerate}
+Equivalently, an auxiliary pressure-balance criterion may be reported when the apex-region Maxwell pressure becomes comparable to the capillary pressure scale:
+\begin{equation}
+    \frac{\epszero E_{n,\mathrm{apex}}^2/2}{\gamma/L}=O(1).
+\end{equation}
+The exact threshold used for final comparison will be fixed before experimental data are analyzed. This prevents tuning the numerical onset criterion after seeing the measurements.
+
+\subsection{Summary of Theoretical Deliverables}
+
+The theoretical model produces the following measurable or computable quantities:
+\begin{itemize}
+    \item potential $\ph(r,z)$;
+    \item electric-field components $E_r$ and $E_z$;
+    \item electric-field magnitude $|\mathbf{E}|$;
+    \item Maxwell pressure $\epszero E_n^2/2$;
+    \item interface curvature $\kappa$;
+    \item Young--Laplace--Maxwell residual $\resid$;
+    \item residual-minimizing half-angle for a restricted interface family;
+    \item space-charge shielding metric $S_E$;
+    \item model-based onset-voltage estimate under a declared criterion.
+\end{itemize}
+These quantities directly connect the theory to the solver architecture and to the planned experimental comparison.

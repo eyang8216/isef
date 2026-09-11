@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Doppler Effect: Motion and Wave Frequency | Physics HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-title {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-badge {
+            background: #e6f3ff;
+            color: #0066cc;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .objectives-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .objectives-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .objectives-section ul {
+            list-style-position: inside;
+            color: #555;
+        }
+
+        .objectives-section li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #2d3748;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content-section h3 {
+            color: #4a5568;
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        .content-section ul, .content-section ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #4a5568;
+            line-height: 1.8;
+        }
+
+        /* Practice Problems */
+        .problem {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .problem:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .problem-number {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .problem-question {
+            color: #2d3748;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .solution-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        .solution-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .solution {
+            display: none;
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            border-left: 4px solid #48bb78;
+        }
+
+        .solution.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .solution-label {
+            color: #48bb78;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .solution pre {
+            background: white;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            color: #2d3748;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+
+        /* Exam Tips */
+        .exam-tips {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .exam-tips h3 {
+            color: #92400e;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .exam-tips ul {
+            list-style-position: inside;
+            color: #78350f;
+        }
+
+        .exam-tips li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 999;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .chatbot-icon {
+            color: white;
+            font-size: 1.75rem;
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            bottom: 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button.prev {
+            background: #e2e8f0;
+            color: #2d3748;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .navbar h1 {
+                font-size: 1.25rem;
+            }
+
+            .container {
+                padding: 0 1rem 3rem;
+            }
+
+            .lesson-title {
+                font-size: 1.5rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .chatbot-widget {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PLACEHOLDER_BODY -->
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1>Physics HL - Wave Phenomena</h1>
+            <span class="nav-badge">Syllabus C.5</span>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-label">
+                <span>Lesson Progress</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1 class="lesson-title">The Doppler Effect: Motion and Wave Frequency</h1>
+            <div class="lesson-meta">
+                <span class="meta-badge">Higher Level</span>
+                <span class="meta-badge">Syllabus Code: C.5</span>
+                <span class="meta-badge">Physics</span>
+            </div>
+            <div class="objectives-section">
+                <h3>Learning Objectives</h3>
+                <ul>
+                    <li>Explain the Doppler effect qualitatively and derive the relationships for frequency change when source and/or observer are moving</li>
+                    <li>Apply the Doppler equation for sound waves with moving sources and/or observers in various configurations</li>
+                    <li>Solve quantitative problems involving the Doppler effect for sound and electromagnetic waves</li>
+                    <li>Distinguish between classical and relativistic Doppler effects for electromagnetic radiation</li>
+                    <li>Analyze real-world applications including radar speed detection, medical ultrasound, and astronomical redshift</li>
+                    <li>Calculate the relativistic Doppler shift for electromagnetic waves at high velocities (HL extension)</li>
+                    <li>Interpret Doppler shift data from astronomical observations to determine velocity and direction of celestial objects</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-section">
+            <h2>Key Definitions</h2>
+            <div class="definition-box">
+                <div class="definition-term">Doppler Effect</div>
+                <div class="definition-text">The apparent change in frequency (and wavelength) of a wave observed when there is relative motion between the source of the wave and the observer. The frequency increases when source and observer approach each other, and decreases when they move apart.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Observed Frequency (f')</div>
+                <div class="definition-text">The frequency detected by an observer when there is relative motion between the source and observer. This differs from the source frequency f₀ due to the Doppler effect.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Redshift</div>
+                <div class="definition-text">The shift of electromagnetic radiation toward longer wavelengths (lower frequencies) when the source moves away from the observer. For astronomical objects, redshift indicates recession velocity and is denoted by z = Δλ/λ₀.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Blueshift</div>
+                <div class="definition-text">The shift of electromagnetic radiation toward shorter wavelengths (higher frequencies) when the source moves toward the observer.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Relativistic Doppler Effect</div>
+                <div class="definition-text">The Doppler shift for electromagnetic waves that includes time dilation effects from special relativity, significant when velocities approach the speed of light. The shift depends only on the relative velocity between source and observer.</div>
+            </div>
+        </div>
+
+        <!-- Content Section 1 -->
+        <div class="content-section" data-section="1">
+            <h2>Introduction and Physical Basis</h2>
+            <p>The Doppler effect is one of the most important wave phenomena in physics, with applications ranging from police radar guns to understanding the expansion of the universe. Named after Austrian physicist Christian Doppler who predicted it in 1842, this effect explains why an ambulance siren sounds higher-pitched as it approaches and lower-pitched as it recedes.</p>
+
+            <h3>Why Does the Doppler Effect Occur?</h3>
+            <p>The fundamental reason for the Doppler effect is that motion changes the rate at which wave crests reach an observer. Consider a stationary source emitting waves at frequency f₀ with period T₀ = 1/f₀. These waves travel through the medium at speed v (for sound) or through space at speed c (for light). The wavelength is λ₀ = v/f₀.</p>
+
+            <p>When the source moves toward an observer, it "chases" the wave crests it has already emitted. Each successive wave crest is emitted from a position closer to the observer, effectively compressing the wavelength. The observer receives wave crests more frequently, detecting a higher frequency. Conversely, when the source moves away, the wavelength stretches and the observed frequency decreases.</p>
+
+            <h3>Prerequisites:</h3>
+            <ul>
+                <li>Wave speed equation: v = fλ</li>
+                <li>Wave period and frequency: T = 1/f</li>
+                <li>Relative velocity concepts</li>
+                <li>For HL extension: special relativity basics (time dilation, Lorentz factor)</li>
+            </ul>
+        </div>
+
+        <!-- Content Section 2 -->
+        <div class="content-section" data-section="2">
+            <h2>The Doppler Effect for Sound: Moving Source</h2>
+            <p>Let's derive the Doppler equation systematically for a source moving toward a stationary observer.</p>
+
+            <h3>Derivation for Approaching Source:</h3>
+            <p>Consider a source emitting sound at frequency f₀, moving toward a stationary observer with velocity vₛ. The sound waves travel through air at speed v.</p>
+
+            <p>In time period T₀ = 1/f₀, the source emits one complete wave. During this time:</p>
+            <ul>
+                <li>The wave travels distance vT₀ through the air</li>
+                <li>The source moves distance vₛT₀ toward the observer</li>
+            </ul>
+
+            <p>The wavelength observed is the distance between successive crests:<br>
+            λ' = vT₀ - vₛT₀ = (v - vₛ)T₀ = (v - vₛ)/f₀</p>
+
+            <p>The wave still travels at speed v through the medium, so the observed frequency is:<br>
+            <strong>f' = v/λ' = v/((v - vₛ)/f₀) = v/(v - vₛ) × f₀</strong></p>
+
+            <p>This is the key equation for a source moving toward the observer. Notice that f' &gt; f₀ when vₛ &gt; 0 (approaching).</p>
+
+            <h3>For a Receding Source:</h3>
+            <p>By similar reasoning, when the source moves away with velocity vₛ:<br>
+            <strong>f' = v/(v + vₛ) × f₀</strong></p>
+
+            <p>Here f' &lt; f₀, giving the lower pitch we expect.</p>
+
+            <h3>General Form (Source Motion):</h3>
+            <p><strong>f' = v/(v ∓ vₛ) × f₀</strong></p>
+            <p>Use minus (−) when source approaches, plus (+) when source recedes.</p>
+        </div>
+
+        <!-- Content Section 3 -->
+        <div class="content-section" data-section="3">
+            <h2>The Doppler Effect for Sound: Moving Observer</h2>
+            <p>When the observer moves but the source is stationary, the analysis differs because the wavelength in the medium remains unchanged—only the rate at which the observer encounters wave crests changes.</p>
+
+            <h3>Derivation for Approaching Observer:</h3>
+            <p>A stationary source emits waves with wavelength λ₀ = v/f₀ traveling at speed v. If the observer moves toward the source with velocity v₀, the relative velocity between observer and wavefronts is (v + v₀).</p>
+
+            <p>The observer encounters wavefronts at rate:<br>
+            <strong>f' = (v + v₀)/λ₀ = (v + v₀)/(v/f₀) = (v + v₀)/v × f₀</strong></p>
+
+            <h3>For a Receding Observer:</h3>
+            <p>When the observer moves away from the source:<br>
+            <strong>f' = (v - v₀)/v × f₀</strong></p>
+
+            <h3>General Form (Observer Motion):</h3>
+            <p><strong>f' = (v ± v₀)/v × f₀</strong></p>
+            <p>Use plus (+) when observer approaches, minus (−) when observer recedes.</p>
+
+            <p><strong>Important Note:</strong> The Doppler effect is NOT symmetrical for sound waves. Moving the source produces a different frequency shift than moving the observer at the same speed, because sound requires a medium. This asymmetry disappears for electromagnetic waves in vacuum.</p>
+        </div>
+
+        <!-- Content Section 4 -->
+        <div class="content-section" data-section="4">
+            <h2>Combined Motion: General Doppler Equation for Sound</h2>
+            <p>When both source and observer move, we combine the effects:</p>
+
+            <p style="text-align: center; font-size: 1.2rem; font-weight: bold; background: #f0f4ff; padding: 1rem; border-radius: 6px; margin: 1.5rem 0;">
+                f' = (v ± v₀)/(v ∓ vₛ) × f₀
+            </p>
+
+            <h3>Sign Convention (Critical for IB Exams):</h3>
+            <ul>
+                <li>Top (numerator): + if observer moves toward source, − if away</li>
+                <li>Bottom (denominator): − if source moves toward observer, + if away</li>
+            </ul>
+
+            <p><strong>Memory Aid:</strong> "Toward equals together" — when motion is toward each other, the frequency increases. Choose signs that make f' &gt; f₀.</p>
+
+            <h3>Worked Example 1: Police Car Chase</h3>
+            <p>A police car with siren frequency 1200 Hz pursues a speeding car. The police car travels at 35 m/s and the speeding car at 25 m/s, both moving in the same direction. What frequency does the speeding driver hear? (Speed of sound v = 340 m/s)</p>
+
+            <p><strong>Solution:</strong><br>
+            From the speeding driver's perspective:<br>
+            • Source (police): vₛ = 35 m/s approaching<br>
+            • Observer (driver): v₀ = 25 m/s moving away from source</p>
+
+            <p>They're moving in the same direction, but police is catching up, so separation is decreasing.</p>
+
+            <p>f' = (v - v₀)/(v - vₛ) × f₀ = (340 - 25)/(340 - 35) × 1200<br>
+            f' = 315/305 × 1200 = 1239 Hz</p>
+
+            <p>The driver hears a higher pitch (1239 Hz) because the police car is gaining on them.</p>
+
+            <h3>Worked Example 2: Doppler and Wavelength</h3>
+            <p>A bat emits ultrasound at 40 kHz while flying at 8.0 m/s toward a wall. What wavelength do the reflected waves have when they return to the bat? (v = 340 m/s)</p>
+
+            <p><strong>Solution:</strong><br>
+            This is a two-stage process:</p>
+
+            <p><strong>Stage 1:</strong> Wall acts as stationary observer<br>
+            f_wall = v/(v - vₛ) × f₀ = 340/(340 - 8.0) × 40000 = 40964 Hz</p>
+
+            <p><strong>Stage 2:</strong> Wall acts as stationary source (reflecting at f_wall), bat is moving observer<br>
+            f_bat = (v + v₀)/v × f_wall = (340 + 8.0)/340 × 40964 = 41928 Hz</p>
+
+            <p>Wavelength detected by bat:<br>
+            λ = v/f_bat = 340/41928 = 8.11 × 10⁻³ m = 8.11 mm</p>
+        </div>
+
+        <!-- Content Section 5 -->
+        <div class="content-section" data-section="5">
+            <h2>The Doppler Effect for Electromagnetic Waves</h2>
+            <p>For electromagnetic waves (light, radio waves, etc.), the situation fundamentally differs from sound because:</p>
+            <ol>
+                <li>No medium exists—EM waves travel through vacuum</li>
+                <li>Special relativity applies—time dilation affects the observed frequency</li>
+                <li>Only relative velocity matters (no source/observer asymmetry)</li>
+            </ol>
+
+            <h3>Classical Approximation (Low Velocities):</h3>
+            <p>When v &lt;&lt; c, the Doppler shift for light approximately follows:</p>
+            <p><strong>Δf/f₀ = v/c</strong></p>
+            <p>or equivalently for wavelength:</p>
+            <p><strong>Δλ/λ₀ = v/c</strong></p>
+            <p>where v is the relative velocity (positive for recession, negative for approach).</p>
+
+            <h3>Relativistic Doppler Effect (HL):</h3>
+            <p>For accurate calculations at any speed, including time dilation:</p>
+
+            <p style="text-align: center; font-size: 1.2rem; font-weight: bold; background: #f0f4ff; padding: 1rem; border-radius: 6px; margin: 1.5rem 0;">
+                f' = f₀ × √[(1 - β)/(1 + β)]
+            </p>
+
+            <p>where β = v/c (positive for recession).</p>
+
+            <p>Alternatively, this can be written:<br>
+            f' = f₀/(γ(1 + β)) (for recession)<br>
+            f' = f₀γ/(1 - β) (for approach)</p>
+
+            <p>where γ = 1/√(1 − v²/c²) is the Lorentz factor.</p>
+
+            <h3>Astronomical Redshift Parameter:</h3>
+            <p>Astronomers define redshift z as:</p>
+            <p><strong>z = (λ_observed - λ_emitted)/λ_emitted = Δλ/λ₀</strong></p>
+
+            <p>For recession (z &gt; 0):<br>
+            <strong>z = √[(1 + β)/(1 - β)] - 1</strong></p>
+
+            <p>For small velocities (v &lt;&lt; c):<br>
+            <strong>z ≈ v/c</strong></p>
+
+            <h3>Worked Example 3: Galaxy Redshift</h3>
+            <p>A galaxy's hydrogen-alpha line (λ₀ = 656.3 nm) is observed at 661.8 nm. Calculate:<br>
+            a) The redshift z<br>
+            b) The recession velocity (assume v &lt;&lt; c)<br>
+            c) The recession velocity using the full relativistic formula</p>
+
+            <p><strong>Solution:</strong></p>
+
+            <p>a) z = (661.8 - 656.3)/656.3 = 5.5/656.3 = 0.00838</p>
+
+            <p>b) For v &lt;&lt; c:<br>
+            v = zc = 0.00838 × 3.00 × 10⁸ = 2.51 × 10⁶ m/s</p>
+
+            <p>c) Using full formula:<br>
+            z + 1 = √[(1 + β)/(1 - β)]<br>
+            1.00838 = √[(1 + β)/(1 - β)]<br>
+            (1.00838)² = (1 + β)/(1 - β)<br>
+            1.01683(1 - β) = 1 + β<br>
+            β = 0.00833<br>
+            v = 2.50 × 10⁶ m/s</p>
+
+            <p>The difference is negligible at this low velocity (0.83% of c).</p>
+        </div>
+
+        <!-- Content Section 6 -->
+        <div class="content-section" data-section="6">
+            <h2>Real-World Applications</h2>
+
+            <h3>1. Radar Speed Detection</h3>
+            <p>Police radar guns emit electromagnetic waves (typically X-band at 10.5 GHz or K-band at 24 GHz). The waves reflect off moving vehicles, undergoing a double Doppler shift. The device compares transmitted and received frequencies to calculate speed.</p>
+
+            <p>For a car moving at velocity v:<br>
+            <strong>Δf = 2v/c × f₀</strong></p>
+
+            <p>The factor of 2 arises because the Doppler shift occurs twice: once when waves reach the car, again when they reflect back.</p>
+
+            <h3>2. Medical Ultrasound Doppler</h3>
+            <p>Ultrasound devices measure blood flow velocity by analyzing the Doppler shift from moving red blood cells. Typical frequencies are 2-10 MHz. The shift provides information about:</p>
+            <ul>
+                <li>Blood flow speed and direction</li>
+                <li>Heart valve function</li>
+                <li>Fetal heart rate monitoring</li>
+            </ul>
+
+            <p>For blood flow at angle θ to the ultrasound beam:<br>
+            <strong>Δf = (2v cos θ)/c_tissue × f₀</strong></p>
+
+            <h3>3. Astronomical Spectroscopy</h3>
+            <p>The Doppler effect is fundamental to astronomy:</p>
+            <ul>
+                <li><strong>Stellar Radial Velocities:</strong> Measuring star motion toward/away from Earth</li>
+                <li><strong>Binary Star Systems:</strong> Detecting orbital motion from periodic Doppler shifts</li>
+                <li><strong>Exoplanet Detection:</strong> The "wobble" method detects planets from stellar motion</li>
+                <li><strong>Galactic Rotation Curves:</strong> Mapping how galaxies rotate</li>
+                <li><strong>Cosmological Redshift:</strong> Measuring universe expansion (note: cosmological redshift includes additional effects beyond special-relativistic Doppler)</li>
+            </ul>
+
+            <h3>4. Weather Radar</h3>
+            <p>Doppler weather radar detects precipitation motion, enabling:</p>
+            <ul>
+                <li>Storm tracking and velocity measurement</li>
+                <li>Tornado detection via characteristic rotation signatures</li>
+                <li>Wind shear identification near airports</li>
+            </ul>
+
+            <h3>5. Laser Cooling</h3>
+            <p>In atomic physics, the Doppler effect enables laser cooling. Atoms moving toward a laser beam see blue-shifted light. When the laser frequency is tuned just below an atomic transition, only atoms moving toward the laser absorb photons, experiencing a force that slows them down.</p>
+        </div>
+
+        <!-- Content Section 7 -->
+        <div class="content-section" data-section="7">
+            <h2>Common Misconceptions and IB Exam Tips</h2>
+
+            <h3>Common Misconceptions:</h3>
+
+            <ol>
+                <li>
+                    <strong>"The Doppler effect only occurs when source or observer moves"</strong><br>
+                    FALSE: It's relative motion that matters. Both can move, and what matters is their velocity relative to each other (and for sound, relative to the medium).
+                </li>
+
+                <li>
+                    <strong>"Moving source and moving observer give the same shift"</strong><br>
+                    FALSE for sound: A source moving at 20 m/s produces a different shift than an observer moving at 20 m/s, because sound has a medium.<br>
+                    TRUE for light: Only relative velocity matters for electromagnetic waves.
+                </li>
+
+                <li>
+                    <strong>"Doppler shift changes the wave speed"</strong><br>
+                    FALSE: The wave speed through the medium (sound) or through space (light) is unchanged. Only frequency and wavelength change (with f × λ = v remaining constant).
+                </li>
+
+                <li>
+                    <strong>"Higher frequency means higher intensity"</strong><br>
+                    FALSE: Doppler effect changes frequency but not the total energy arriving per second (power). Intensity depends on distance and source power.
+                </li>
+
+                <li>
+                    <strong>"Redshift always means moving away"</strong><br>
+                    Mostly TRUE, but cosmological redshift is more complex than simple recession velocity due to space expansion.
+                </li>
+            </ol>
+
+            <h3>IB Exam Tips:</h3>
+
+            <ol>
+                <li><strong>Sign Convention Mastery:</strong> Practice until sign selection is automatic. Draw a diagram showing motion direction and label whether separation is increasing or decreasing.</li>
+
+                <li><strong>Unit Consistency:</strong> Always convert to SI units before calculating. Common errors include mixing km/h with m/s or MHz with Hz.</li>
+
+                <li><strong>Multi-Stage Problems:</strong> For reflection problems (like bat echolocation), treat as two separate Doppler shifts. The wall/obstacle acts first as observer, then as source.</li>
+
+                <li><strong>Show Your Working:</strong> Even if you know the answer, IB marks are awarded for method. Write the equation, substitute values clearly, then calculate.</li>
+
+                <li><strong>Check Reasonableness:</strong> If approach produces f' &lt; f₀ or recession produces f' &gt; f₀, you've made a sign error. Always verify your answer makes physical sense.</li>
+
+                <li><strong>Wavelength vs. Frequency:</strong> Some questions give wavelength, others frequency. Remember λf = v always holds.</li>
+
+                <li><strong>Context Switching:</strong> Be prepared to switch between sound (v ≈ 340 m/s) and light (c = 3.00 × 10⁸ m/s) contexts within the same exam.</li>
+
+                <li><strong>Relativistic Regime:</strong> For HL, if v &gt; 0.1c (10% of light speed), you must use relativistic formulas for electromagnetic waves.</li>
+            </ol>
+        </div>
+
+        <!-- Exam Tips Box -->
+        <div class="exam-tips">
+            <h3>💡 Quick Exam Tips</h3>
+            <ul>
+                <li>Always draw a diagram showing the direction of motion for source and observer before selecting signs in the Doppler equation</li>
+                <li>Remember that for sound, moving source and moving observer are NOT equivalent—only relative velocity matters for electromagnetic waves</li>
+                <li>In multi-stage problems involving reflection (echoes, radar, sonar), treat each Doppler shift separately: incident wave first, then reflected wave</li>
+                <li>Convert all speeds to consistent units (typically m/s) before substituting into equations—many exam errors come from unit mismatches</li>
+                <li>Check your answer physically: approaching motion should give f' &gt; f₀ (higher pitch/blueshift), receding motion should give f' &lt; f₀ (lower pitch/redshift)</li>
+                <li>For electromagnetic Doppler problems at high speeds (v &gt; 0.1c), you must use the relativistic formula at HL level</li>
+                <li>When given wavelength instead of frequency, use λ = v/f to convert, being careful to use the correct wave speed (sound vs. light)</li>
+            </ul>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="content-section" data-section="8">
+            <h2>Practice Problems</h2>
+
+            <div class="problem">
+                <span class="problem-number">Problem 1</span>
+                <div class="problem-question">
+                    A train whistle emits sound at 500 Hz. The train approaches a stationary observer at 30 m/s. Calculate the frequency heard by the observer. (v_sound = 340 m/s)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution" id="solution-1">
+                    <div class="solution-label">Solution:</div>
+                    <pre>Source approaching, observer stationary:
+
+f' = v/(v - v�s ₛ) × f₀
+f' = 340/(340 - 30) × 500
+f' = 340/310 × 500
+f' = 548 Hz</pre>
+                    <p><strong>Explanation:</strong> Since only the source (train) moves toward a stationary observer, we use the moving source formula with vₛ in the denominator. The minus sign is used because the source approaches, making the denominator smaller and the frequency higher. The 48 Hz increase represents a noticeable pitch change.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <span class="problem-number">Problem 2</span>
+                <div class="problem-question">
+                    A stationary ambulance siren produces sound at 800 Hz. You drive toward it at 25 m/s. What frequency do you hear? (v_sound = 340 m/s)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution" id="solution-2">
+                    <div class="solution-label">Solution:</div>
+                    <pre>Observer approaching, source stationary:
+
+f' = (v + v₀) / v × f₀
+f' = (340 + 25)/340 × 800
+f' = 365/340 × 800
+f' = 859 Hz</pre>
+                    <p><strong>Explanation:</strong> With a stationary source and moving observer, we use the moving observer formula. The plus sign is used in the numerator because the observer approaches the source, increasing the rate at which wavefronts are encountered. This gives approximately a 59 Hz increase.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <span class="problem-number">Problem 3</span>
+                <div class="problem-question">
+                    Two cars approach each other on a highway. Car A sounds its horn (600 Hz) while traveling at 25 m/s. Car B travels toward Car A at 30 m/s. What frequency does Car B's driver hear? (v_sound = 340 m/s)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution" id="solution-3">
+                    <div class="solution-label">Solution:</div>
+                    <pre>Both moving toward each other:
+
+f' = (v + v₀)/(v - vₛ) × f₀
+f' = (340 + 30)/(340 - 25) × 600
+f' = 370/315 × 600
+f' = 705 Hz
+
+Alternative check:
+Percentage increase = (705-600)/600 × 100% = 17.5%</pre>
+                    <p><strong>Explanation:</strong> This combines both effects: Car A (source) approaching reduces the denominator, and Car B (observer) approaching increases the numerator. Both effects work together to maximize the frequency shift. The large 105 Hz increase reflects the significant relative velocity (55 m/s combined approach speed).</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <span class="problem-number">Problem 4</span>
+                <div class="problem-question">
+                    A fire truck siren operates at 1100 Hz. When the truck moves away from you at 20 m/s, what wavelength do the sound waves have when they reach you? (v_sound = 340 m/s)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution" id="solution-4">
+                    <div class="solution-label">Solution:</div>
+                    <pre>Step 1: Find observed frequency
+f' = v/(v + vₛ) × f₀
+f' = 340/(340 + 20) × 1100
+f' = 340/360 × 1100
+f' = 1039 Hz
+
+Step 2: Calculate wavelength
+λ = v/f' = 340/1039 = 0.327 m = 32.7 cm</pre>
+                    <p><strong>Explanation:</strong> First find the Doppler-shifted frequency (lower because the source recedes), then use the wave equation with the wave speed in the medium. Note that we use v = 340 m/s (not the source velocity) because the wavelength we observe is determined by how fast waves travel through the air, not how fast the source moves.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <span class="problem-number">Problem 5</span>
+                <div class="problem-question">
+                    A submarine sonar system emits pulses at 30 kHz while moving at 12 m/s toward a target submarine moving away at 8.0 m/s. What frequency reflects back to the first submarine? (v_sound_water = 1500 m/s)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution" id="solution-5">
+                    <div class="solution-label">Solution:</div>
+                    <pre>Stage 1: Target submarine receives
+f₁ = (v - v₀)/(v - vₛ) × f₀
+f₁ = (1500 - 8.0)/(1500 - 12) × 30000
+f₁ = 1492/1488 × 30000
+f₁ = 30081 Hz
+
+Stage 2: Reflected signal returns to first submarine
+f₂ = (v + v₀)/(v + vₛ) × f₁
+f₂ = (1500 + 12)/(1500 + 8.0) × 30081
+f₂ = 1512/1508 × 30081
+f₂ = 30161 Hz
+
+Total shift: Δf = 161 Hz (higher)</pre>
+                    <p><strong>Explanation:</strong> This is a challenging two-stage problem. In stage 1, the first submarine is the approaching source (vₛ = 12 m/s) and the target is the receding observer (v₀ = 8.0 m/s). In stage 2, the target acts as a receding source (vₛ = 8.0 m/s) reflecting the signal, and the first submarine is the approaching observer (v₀ = 12 m/s). The net effect is a higher frequency because the first submarine approaches faster than the target recedes.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <span class="problem-number">Problem 6</span>
+                <div class="problem-question">
+                    A spectral line from a star shows the following: Laboratory wavelength = 589.0 nm (sodium D-line), Observed wavelength = 589.7 nm. Determine: (a) whether the star is approaching or receding, (b) its radial velocity.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+                <div class="solution" id="solution-6">
+                    <div class="solution-label">Solution:</div>
+                    <pre>(a) λ_observed > λ_emitted → wavelength increased → REDSHIFT
+    → star is RECEDING
+
+(b) Calculate redshift parameter:
+z = Δλ/λ₀ = (589.7 - 589.0)/589.0 = 0.7/589.0 = 0.001188
+
+For v << c (which we can check afterward):
+v = zc = 0.001188 × 3.00 × 10⁸
+v = 3.56 × 10⁵ m/s = 356 km/s
+
+Check: v/c = 0.001188 = 0.12%, so non-relativistic formula is valid.
+
+The star recedes at 356 km/s (or 0.12% of light speed).</pre>
+                    <p><strong>Explanation:</strong> This is a typical astronomical spectroscopy problem. The wavelength increase indicates redshift (recession). The small z value (< 0.01) justifies using the non-relativistic approximation. For comparison, typical stellar radial velocities in the Milky Way range from tens to hundreds of km/s, so this result is physically reasonable.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <span class="problem-number">Problem 7</span>
+                <div class="problem-question">
+                    A spacecraft moves away from Earth at 0.60c. It emits radio waves at 2.0 GHz. What frequency does Earth receive? (HL - Relativistic)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(7)">Show Solution</button>
+                <div class="solution" id="solution-7">
+                    <div class="solution-label">Solution:</div>
+                    <pre>Use relativistic Doppler formula:
+β = v/c = 0.60
+
+f' = f₀ × √[(1 - β)/(1 + β)]
+f' = 2.0 × 10⁹ × √[(1 - 0.60)/(1 + 0.60)]
+f' = 2.0 × 10⁹ × √(0.40/1.60)
+f' = 2.0 × 10⁹ × √0.25
+f' = 2.0 × 10⁹ × 0.50
+f' = 1.0 GHz
+
+Comparison: Non-relativistic would give:
+f' ≈ f₀(1 - β) = 2.0 × 0.40 = 0.80 GHz
+Error = 20% (non-relativistic formula fails at high speeds)</pre>
+                    <p><strong>Explanation:</strong> At 0.60c, relativistic effects are significant and the non-relativistic approximation produces 20% error. The relativistic formula accounts for time dilation in addition to the classical Doppler effect. Note the dramatic frequency reduction to exactly half—this is a useful check since β = 0.60 gives √(0.4/1.6) = √(1/4) = 1/2.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <span class="problem-number">Problem 8</span>
+                <div class="problem-question">
+                    A cardiac ultrasound device operates at 5.0 MHz. Blood flows toward the transducer at 0.80 m/s. Calculate the Doppler frequency shift. (v_sound_tissue = 1540 m/s)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(8)">Show Solution</button>
+                <div class="solution" id="solution-8">
+                    <div class="solution-label">Solution:</div>
+                    <pre>For blood flow in ultrasound (low velocity, double shift):
+Δf = (2v_blood/v_sound) × f₀
+
+Δf = (2 × 0.80/1540) × 5.0 × 10⁶
+Δf = (1.60/1540) × 5.0 × 10⁶
+Δf = 0.001039 × 5.0 × 10⁶
+Δf = 5.19 × 10³ Hz = 5.2 kHz
+
+Received frequency = 5.0 MHz + 5.2 kHz = 5.0052 MHz</pre>
+                    <p><strong>Explanation:</strong> Medical ultrasound involves a double Doppler shift: waves travel to the moving blood cells, then reflect back. The factor of 2 comes from this round trip. The shift (5.2 kHz) is much smaller than the carrier frequency (5.0 MHz), but easily detectable electronically. This frequency shift is converted to velocity information displayed in color on the ultrasound screen.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <span class="problem-number">Problem 9</span>
+                <div class="problem-question">
+                    A police car (speed 40 m/s, siren 1000 Hz) chases a motorcycle (speed 35 m/s) in the same direction. (a) What frequency does the motorcyclist hear? (b) If the police car passes and moves ahead, what frequency is heard? (c) Calculate the frequency change. (v = 340 m/s)
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(9)">Show Solution</button>
+                <div class="solution" id="solution-9">
+                    <div class="solution-label">Solution:</div>
+                    <pre>(a) Before passing (police behind, both moving forward):
+Police approaching motorcycle from behind
+f' = (v - v₀)/(v - vₛ) × f₀
+f' = (340 - 35)/(340 - 40) × 1000
+f' = 305/300 × 1000 = 1017 Hz
+
+(b) After passing (police ahead, both moving forward):
+Police receding from motorcycle
+f'' = (v - v₀)/(v + vₛ) × f₀
+f'' = (340 - 35)/(340 + 40) × 1000
+f'' = 305/380 × 1000 = 803 Hz
+
+(c) Change in frequency:
+Δf = 1017 - 803 = 214 Hz
+This represents a dramatic drop in pitch as the police car passes.</pre>
+                    <p><strong>Explanation:</strong> This problem demonstrates the characteristic frequency drop when a source passes an observer. Before passing, the police car approaches (higher frequency). After passing, it recedes (lower frequency). Both are moving in the same direction, so we use (v - v₀) in the numerator throughout. The 214 Hz drop would be clearly audible. This is why emergency vehicle sirens sound distinctly different as they approach vs. recede.</p>
+                </div>
+            </div>
+
+            <div class="problem">
+                <span class="problem-number">Problem 10</span>
+                <div class="problem-question">
+                    Essay: Discuss how the Doppler effect is used to detect exoplanets orbiting distant stars. Your answer should include: the physical principle involved, why both star and planet move, how periodic Doppler shifts reveal planetary orbits, and at least one limitation of this detection method.
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution(10)">Show Solution</button>
+                <div class="solution" id="solution-10">
+                    <div class="solution-label">Essay Answer:</div>
+                    <p><strong>EXOPLANET DETECTION VIA RADIAL VELOCITY METHOD</strong></p>
+
+                    <p><strong>Physical Principle:</strong><br>
+                    The Doppler effect causes wavelength shifts in stellar absorption spectra when a star moves relative to Earth. As the star moves toward us, spectral lines blueshift; as it moves away, they redshift. By measuring these wavelength shifts with high precision (using cross-correlation with reference spectra), we determine the star's radial velocity—its velocity component along our line of sight.</p>
+
+                    <p><strong>Why Both Star and Planet Move:</strong><br>
+                    Although we often say a planet orbits a star, in reality both objects orbit their common center of mass (barycenter). For a star of mass M and planet of mass m separated by distance a, the star orbits at radius r_s = am/(M+m) from the barycenter. Even though r_s is small (for a Jupiter-mass planet orbiting a Sun-like star, r_s ≈ 0.005 AU), it produces detectable stellar motion. The star's orbital velocity is v_s = 2πr_s/P, where P is the orbital period.</p>
+
+                    <p><strong>Periodic Doppler Shifts:</strong><br>
+                    As the planet orbits, the star traces a small circle (or ellipse if orbital eccentricity ≠ 0). When the star moves toward Earth, spectral lines blueshift; when away, they redshift. This produces a sinusoidal radial velocity curve with period P equal to the planet's orbital period. The velocity amplitude K = v_s sin(i), where i is the orbital inclination, depends on the planet mass. From Kepler's laws and the velocity amplitude, we extract:<br>
+                    • Orbital period P (directly from the curve)<br>
+                    • Minimum planet mass m sin(i) (since we don't know inclination)<br>
+                    • Orbital radius a (via Kepler's third law)<br>
+                    • Orbital eccentricity e (from curve shape)</p>
+
+                    <p><strong>Limitations:</strong><br>
+                    1. We measure only m sin(i), not true mass—edge-on orbits (i=90°) give true mass, but face-on orbits (i=0°) are invisible<br>
+                    2. Method favors massive planets close to stars ("hot Jupiters") because they produce larger stellar velocities—Earth-mass planets produce tiny signals<br>
+                    3. Requires long monitoring: a Jupiter analog (P=12 years) needs decades of observations<br>
+                    4. Stellar activity (spots, pulsations) can mimic or mask planetary signals<br>
+                    5. Requires bright stars with sharp spectral lines for precise velocity measurements</p>
+
+                    <p>Despite limitations, this method has discovered thousands of exoplanets and remains crucial for measuring planetary masses.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="openChatbot()">
+        <div class="chatbot-icon">💬</div>
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="lesson-footer">
+        <div class="footer-content">
+            <button class="nav-button prev" onclick="previousLesson()">
+                ← Previous Lesson
+            </button>
+            <span style="color: #666; font-size: 0.9rem;">Lesson C.5 - The Doppler Effect</span>
+            <button class="nav-button next" onclick="nextLesson()">
+                Next Lesson →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Tracking
+        let totalSections = 8;
+        let completedSections = new Set();
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem('doppler_effect_progress');
+            if (saved) {
+                completedSections = new Set(JSON.parse(saved));
+                updateProgressBar();
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            localStorage.setItem('doppler_effect_progress', JSON.stringify([...completedSections]));
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = (completedSections.size / totalSections) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = Math.round(progress) + '%';
+        }
+
+        // Mark section as viewed
+        function markSectionViewed(sectionNum) {
+            completedSections.add(sectionNum);
+            saveProgress();
+            updateProgressBar();
+        }
+
+        // Intersection Observer for automatic progress tracking
+        function setupProgressTracking() {
+            const sections = document.querySAll('[data-section]');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionNum = parseInt(entry.target.getAttribute('data-section'));
+                        markSectionViewed(sectionNum);
+                    }
+                });
+            }, {
+                threshold: 0.5 // Section must be 50% visible
+            });
+
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // Toggle solution visibility
+        function toggleSolution(problemNum) {
+            const solution = document.getElementById('solution-' + problemNum);
+            const button = event.target;
+
+            if (solution.classList.contains('show')) {
+                solution.classList.remove('show');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('show');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Chatbot widget
+        function openChatbot() {
+            alert('Chatbot feature coming soon! This will provide AI-powered help with physics concepts and problem-solving.');
+        }
+
+        // Navigation
+        function previousLesson() {
+            alert('Navigate to the previous lesson in your physics course.');
+            // In a real implementation, this would navigate to the previous lesson page
+        }
+
+        function nextLesson() {
+            alert('Navigate to the next lesson in your physics course.');
+            // In a real implementation, this would navigate to the next lesson page
+        }
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+            setupProgressTracking();
+
+            // Add animation to elements on scroll
+            const animateOnScroll = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.content-section, .problem').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                animateOnScroll.observe(el);
+            });
+
+            // Add print functionality
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                    e.preventDefault();
+                    window.print();
+                }
+            });
+
+            console.log('✨ Doppler Effect Lesson Loaded Successfully');
+            console.log('Progress:', completedSections.size + '/' + totalSections + ' sections completed');
+        });
+
+        // Reset progress (for testing/development)
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset your progress?')) {
+                localStorage.removeItem('doppler_effect_progress');
+                completedSections.clear();
+                updateProgressBar();
+                alert('Progress reset successfully!');
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Press 'r' to reset progress (hidden feature)
+            if (e.key === 'r' && e.shiftKey && e.ctrlKey) {
+                resetProgress();
+            }
+        });
+    </script>
+</body>
+</html>

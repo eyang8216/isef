@@ -1,0 +1,231 @@
+<!-- Introduction -->
+<div class="content-section">
+    <h2>Introduction to Electric and Magnetic Fields</h2>
+    <p>Electric and magnetic fields represent two fundamental aspects of electromagnetic force, one of the four fundamental forces of nature. While historically treated separately, Maxwell's equations unified them into electromagnetism, showing they are two aspects of the same phenomenon. This topic builds on your understanding of forces and energy from mechanics, applying similar principles to charged particles.</p>
+
+    <p><strong>Why This Matters:</strong> Understanding electric and magnetic fields is essential for:</p>
+    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+        <li>Modern technology (motors, generators, transformers, particle accelerators)</li>
+        <li>Medical imaging (MRI scanners use strong magnetic fields)</li>
+        <li>Energy generation and transmission</li>
+        <li>Fundamental physics research (particle physics, plasma physics)</li>
+    </ul>
+
+    <p><strong>Prerequisites:</strong> Before starting D2, you should be comfortable with:</p>
+    <ul style="margin-left: 2rem;">
+        <li>Vector addition and resolution (Topic 1)</li>
+        <li>Newton's laws and circular motion (Topics 2.1-2.3)</li>
+        <li>Work, energy, and power (Topic 2.4)</li>
+        <li>Electric charge and current (Topic 5)</li>
+    </ul>
+
+    <p>The mathematical demand increases at HL level with more complex problem-solving involving combined fields and calculus-based concepts.</p>
+</div>
+
+<!-- D2.1 Electric Fields Fundamentals -->
+<div class="content-section">
+    <h2>D2.1: Electric Fields - Fundamentals</h2>
+
+    <p><strong>Field Concept:</strong> A field is a region of space where a force is experienced. Electric fields exist around any charged object and exert forces on other charges within the field.</p>
+
+    <h3>Electric Field Strength</h3>
+    <p>Electric field strength \(E\) at a point is defined as the force per unit positive charge:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$E = \frac{F}{q}$$</p>
+    <p>where \(F\) is the force (N) and \(q\) is the test charge (C). Units: N C⁻¹ or V m⁻¹ (these are equivalent).</p>
+    <p>Rearranging: \(F = qE\)</p>
+    <p>This tells us the force experienced by any charge \(q\) placed in field \(E\). If \(q\) is negative, the force is opposite to the field direction.</p>
+
+    <p><strong>Key Insight:</strong> Electric field is a property of the space around charges, independent of any test charge. We define it using a test charge, but once defined, the field exists whether or not a charge is present to experience it.</p>
+
+    <h3>Uniform Electric Fields</h3>
+    <p>Between two parallel charged plates, the field is approximately uniform (constant magnitude and direction) except near the edges. For plates separated by distance \(d\) with potential difference \(V\):</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$E = \frac{V}{d}$$</p>
+    <p>This shows the alternative unit: V m⁻¹. The field points from positive to negative plate.</p>
+
+    <h3>Radial Electric Fields</h3>
+    <p>For a point charge \(Q\) (or spherically symmetric charge distribution), the field at distance \(r\) is:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$E = \frac{kQ}{r^2}$$</p>
+    <p>where \(k = 8.99 \times 10^9\) N m² C⁻² (or \(k = \frac{1}{4\pi\epsilon_0}\) where \(\epsilon_0\) is permittivity of free space).</p>
+    <p>Field lines radiate outward from positive charges, inward toward negative charges. The field strength decreases with the inverse square of distance - double the distance, quarter the field strength.</p>
+
+    <div style="background: #fee2e2; border-left: 4px solid var(--danger-color); padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+        <strong>Common Misconception:</strong> Students often confuse the field created BY a charge with the force ON a charge. \(E = kQ/r^2\) gives the field created by charge \(Q\). To find force on another charge \(q\) at that location, use \(F = qE\).
+    </div>
+</div>
+
+<!-- D2.1 Electric Potential -->
+<div class="content-section">
+    <h2>D2.1: Electric Potential and Potential Energy</h2>
+
+    <h3>Electric Potential</h3>
+    <p>Electric potential \(V\) at a point is the work done per unit charge in bringing a small positive test charge from infinity to that point:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$V = \frac{W}{q}$$</p>
+    <p>Units: joules per coulomb = volts (V). Potential is a scalar quantity (no direction).</p>
+    <p>For a point charge \(Q\):</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$V = \frac{kQ}{r}$$</p>
+    <p>Note: This decreases as \(1/r\), not \(1/r^2\). Potential falls off more slowly than field strength.</p>
+
+    <h3>Relationship Between Field and Potential</h3>
+    <p>In a uniform field:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$E = -\frac{\Delta V}{\Delta d}$$</p>
+    <p>The negative sign indicates field points from high to low potential (downhill). Think of potential like gravitational height - objects naturally fall to lower potential.</p>
+
+    <h3>Work and Energy in Electric Fields</h3>
+    <p>Work done moving charge \(q\) through potential difference \(\Delta V\):</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$W = q\Delta V$$</p>
+    <p>For a charge moving in a uniform field over distance \(d\) parallel to the field:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$W = Fd = qEd = q\Delta V$$</p>
+
+    <p><strong>Energy Conservation:</strong> For a particle accelerated from rest through potential difference \(V\):</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$qV = \frac{1}{2}mv^2$$</p>
+    <p>This fundamental equation links field quantities to motion - essential for many IB problems.</p>
+
+    <h3>Equipotential Surfaces</h3>
+    <p>Equipotential surfaces connect points of equal potential. Key properties:</p>
+    <ul style="margin-left: 2rem;">
+        <li>No work is done moving along an equipotential (since \(W = q\Delta V\) and \(\Delta V = 0\))</li>
+        <li>Always perpendicular to field lines</li>
+        <li>For parallel plates: flat planes parallel to the plates</li>
+        <li>For point charges: spherical surfaces centered on the charge</li>
+        <li>Closer spacing indicates stronger field (steeper potential gradient)</li>
+    </ul>
+</div>
+
+<!-- D2.1 Motion in Electric Fields -->
+<div class="content-section">
+    <h2>D2.1: Motion of Charged Particles in Electric Fields</h2>
+
+    <h3>Acceleration in Uniform Fields</h3>
+    <p>When a charged particle enters a uniform electric field, it experiences constant force \(F = qE\), giving constant acceleration:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$a = \frac{F}{m} = \frac{qE}{m}$$</p>
+    <p>This is analogous to projectile motion in a gravitational field:</p>
+    <ul style="margin-left: 2rem;">
+        <li>If the particle enters perpendicular to the field, it follows a parabolic path</li>
+        <li>If parallel to the field, it undergoes uniform acceleration (like free fall)</li>
+    </ul>
+
+    <p><strong>Method for solving problems:</strong></p>
+    <ol style="margin-left: 2rem;">
+        <li>Identify initial conditions (velocity, position, field strength)</li>
+        <li>Calculate force: \(F = qE\)</li>
+        <li>Calculate acceleration: \(a = F/m\)</li>
+        <li>Apply kinematic equations (SUVAT)</li>
+        <li>Consider components separately for 2D motion</li>
+    </ol>
+</div>
+
+<!-- D2.2 Magnetic Fields Fundamentals -->
+<div class="content-section">
+    <h2>D2.2: Magnetic Fields - Fundamentals</h2>
+
+    <h3>Magnetic Flux Density</h3>
+    <p>Magnetic flux density \(B\) (often called magnetic field strength) is defined through the force on a current-carrying conductor:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$F = BIL\sin\theta$$</p>
+    <p>where \(I\) is current (A), \(L\) is length of conductor in field (m), and \(\theta\) is angle between field and current direction.</p>
+    <p>Units: tesla (T) = N A⁻¹ m⁻¹ = Wb m⁻²</p>
+    <p>For perpendicular orientation (\(\theta = 90°\)): \(F = BIL\)</p>
+
+    <h3>Force on a Moving Charge</h3>
+    <p>Since current is moving charge, we can express force on a single charge:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$F = qvB\sin\theta$$</p>
+    <p>For perpendicular motion (\(\theta = 90°\)):</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$F = qvB$$</p>
+
+    <p><strong>Direction:</strong> Use Fleming's left-hand rule (motor rule):</p>
+    <ul style="margin-left: 2rem;">
+        <li>First finger: Field direction (N to S)</li>
+        <li>Second finger: Current direction (conventional, positive to negative)</li>
+        <li>Thumb: Force direction</li>
+    </ul>
+
+    <div style="background: #fee2e2; border-left: 4px solid var(--danger-color); padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+        <strong>Common Misconception:</strong> Magnetic force does no work. Why? Force is always perpendicular to velocity (\(F \perp v\)), so \(W = Fd\cos 90° = 0\). Magnetic fields change direction of motion but not speed.
+    </div>
+</div>
+
+<!-- D2.2 Motion in Magnetic Fields -->
+<div class="content-section">
+    <h2>D2.2: Motion of Charged Particles in Magnetic Fields</h2>
+
+    <h3>Circular Motion in Uniform Fields</h3>
+    <p>When a charged particle enters a uniform magnetic field perpendicular to its velocity, it follows a circular path. The magnetic force provides centripetal force:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$qvB = \frac{mv^2}{r}$$</p>
+    <p>Solving for radius:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$r = \frac{mv}{qB}$$</p>
+    <p>This is the <strong>radius of curvature</strong> - larger for faster or heavier particles, smaller for stronger fields or higher charge.</p>
+
+    <p>Period of circular motion:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$T = \frac{2\pi r}{v} = \frac{2\pi m}{qB}$$</p>
+    <p><strong>Key Insight:</strong> Period is independent of velocity. Faster particles travel in larger circles but complete them in the same time.</p>
+
+    <h3>Velocity Selector (HL)</h3>
+    <p>Combining perpendicular electric and magnetic fields creates a velocity selector - only particles with specific velocity pass straight through.</p>
+    <p>For a particle to travel undeflected:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$qE = qvB$$</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$v = \frac{E}{B}$$</p>
+
+    <h3>Hall Effect (HL)</h3>
+    <p>When current flows through a conductor in a magnetic field, charge carriers experience a sideways force, creating a voltage across the conductor perpendicular to both current and field.</p>
+    <p><strong>Hall Voltage:</strong></p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$V_H = \frac{BI}{ntq}$$</p>
+    <p>where \(n\) is charge carrier density, \(t\) is conductor thickness.</p>
+</div>
+
+<!-- D2.3 Electromagnetic Induction -->
+<div class="content-section">
+    <h2>D2.3: Electromagnetic Induction - Faraday's Law</h2>
+
+    <h3>Magnetic Flux</h3>
+    <p>Magnetic flux \(\Phi\) through a surface measures the 'amount' of magnetic field passing through:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$\Phi = BA\cos\theta$$</p>
+    <p>where \(A\) is area (m²), \(\theta\) is angle between field and normal to surface. Units: weber (Wb) = T m²</p>
+
+    <h3>Faraday's Law of Electromagnetic Induction</h3>
+    <p>The magnitude of induced EMF equals the rate of change of flux linkage:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$\varepsilon = -N\frac{\Delta\Phi}{\Delta t}$$</p>
+    <p>The negative sign (from Lenz's law) indicates opposition to the change.</p>
+
+    <p><strong>Three Ways to Change Flux:</strong></p>
+    <ol style="margin-left: 2rem;">
+        <li>Change \(B\) (varying magnetic field strength)</li>
+        <li>Change \(A\) (varying area in field)</li>
+        <li>Change \(\theta\) (rotating coil in field)</li>
+    </ol>
+
+    <h3>Lenz's Law</h3>
+    <p>The direction of induced current opposes the change in flux that caused it.</p>
+    <p><strong>Method for applying Lenz's law:</strong></p>
+    <ol style="margin-left: 2rem;">
+        <li>Identify the flux change (increasing/decreasing, which direction)</li>
+        <li>Determine what field the induced current must create to oppose this change</li>
+        <li>Use right-hand grip rule to find current direction for that field</li>
+    </ol>
+</div>
+
+<!-- D2.3 Motional EMF and Applications -->
+<div class="content-section">
+    <h2>D2.3: Motional EMF and Applications</h2>
+
+    <h3>Motional EMF</h3>
+    <p>When a straight conductor of length \(L\) moves perpendicular to a magnetic field \(B\) with velocity \(v\), an EMF is induced:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$\varepsilon = BLv$$</p>
+
+    <h3>AC Generator Principle</h3>
+    <p>A rotating coil in a magnetic field generates alternating EMF:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$\varepsilon = NAB\omega\sin(\omega t)$$</p>
+    <p>Peak EMF: \(\varepsilon_0 = NAB\omega\)</p>
+
+    <h3>Transformers (with HL Extensions)</h3>
+    <p><strong>Ideal Transformer Equations:</strong></p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$\frac{V_s}{V_p} = \frac{N_s}{N_p}$$</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$\frac{I_s}{I_p} = \frac{N_p}{N_s}$$</p>
+    <p>where subscripts \(p\) = primary, \(s\) = secondary.</p>
+
+    <p><strong>Power Conservation:</strong> \(P_{in} = P_{out}\) for ideal transformer:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$V_pI_p = V_sI_s$$</p>
+
+    <p><strong>Real Transformers (HL):</strong></p>
+    <p>Efficiency:</p>
+    <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0;">$$\eta = \frac{P_{out}}{P_{in}} \times 100\%$$</p>
+    <p>Energy losses include resistance losses, eddy current losses, hysteresis losses, and flux leakage. Typical efficiency: 95-99%.</p>
+</div>

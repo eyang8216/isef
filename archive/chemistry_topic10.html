@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 10: Organic Chemistry - IB Chemistry HL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            padding: 30px 40px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percentage {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* Main Content */
+        .content {
+            padding: 40px;
+        }
+
+        .lesson-header {
+            margin-bottom: 30px;
+        }
+
+        .lesson-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #555;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .section ul, .section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        /* Definition Boxes */
+        .definitions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .definition-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .definition-term {
+            font-weight: 700;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .definition-text {
+            color: #555;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .objectives-list h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .objectives-list ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .objectives-list li {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .objectives-list li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .objectives-list li.completed {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        /* Practice Problems */
+        .problem {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+        }
+
+        .problem:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .problem-number {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .problem-question {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .solution-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .solution-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .solution-content {
+            display: none;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .solution-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .solution-content h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .solution-content p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        /* Exam Tips */
+        .exam-tips {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .exam-tips h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .exam-tips ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .exam-tips li {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            border-left: 4px solid #f39c12;
+            color: #333;
+        }
+
+        .exam-tips li::before {
+            content: "💡 ";
+            margin-right: 8px;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .chatbot-widget::before {
+            content: "💬";
+            font-size: 28px;
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-button.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .nav-button.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .navbar-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .lesson-title {
+                font-size: 28px;
+            }
+
+            .definitions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lesson-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .chatbot-widget {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            z-index: 1001;
+            transition: width 0.1s;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-brand">Fluapi Learning</div>
+            <div class="navbar-links">
+                <a href="#objectives">Objectives</a>
+                <a href="#definitions">Definitions</a>
+                <a href="#content">Content</a>
+                <a href="#practice">Practice</a>
+                <a href="#tips">Tips</a>
+            </div>
+        </nav>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-title">Lesson Progress</span>
+                <span class="progress-percentage" id="progressText">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Lesson Header -->
+            <div class="lesson-header">
+                <h1 class="lesson-title">Topic 10: Organic Chemistry</h1>
+                <div class="lesson-meta">
+                    <span class="meta-badge">IB Chemistry HL - Topic 10 (2024-2025)</span>
+                    <span class="meta-badge">SL+HL</span>
+                </div>
+            </div>
+
+            <!-- Learning Objectives -->
+            <div id="objectives" class="objectives-list">
+                <h3>Learning Objectives</h3>
+                <ul id="objectivesList">
+                    <li data-objective="1">10.1.1: Deduce structural formulas for compounds containing up to six carbon atoms with functional groups including alcohols, aldehydes, ketones, carboxylic acids, and halides</li>
+                    <li data-objective="2">10.1.2: Apply IUPAC rules for nomenclature of organic compounds up to C6 including branched and substituted compounds</li>
+                    <li data-objective="3">10.1.3: Describe and interpret different types of structural formulas: full, condensed, and skeletal</li>
+                    <li data-objective="4">10.1.4: Identify functional groups and explain their characteristic properties</li>
+                    <li data-objective="5">10.2.1: Describe reactions of alkanes including combustion and free radical substitution with halogens</li>
+                    <li data-objective="6">10.2.2: Describe reactions of alkenes including addition reactions with hydrogen, halogens, hydrogen halides, and water</li>
+                    <li data-objective="7">10.2.3: Distinguish between alkanes and alkenes using chemical tests</li>
+                    <li data-objective="8">10.2.4: Outline addition polymerization of alkenes</li>
+                    <li data-objective="9">10.2.5: Describe reactions of alcohols including combustion, oxidation, and substitution</li>
+                    <li data-objective="10">10.2.6: Describe nucleophilic substitution reactions of halogenoalkanes</li>
+                    <li data-objective="11">10.3.1 (HL): Explain SN1 and SN2 nucleophilic substitution mechanisms</li>
+                    <li data-objective="12">10.3.2 (HL): Explain electrophilic addition mechanisms for alkenes</li>
+                    <li data-objective="13">10.3.3 (HL): Explain electrophilic substitution mechanisms for benzene</li>
+                    <li data-objective="14">10.3.4 (HL): Describe and explain E1 and E2 elimination mechanisms</li>
+                    <li data-objective="15">10.4.1 (HL): Deduce multi-step synthetic pathways between organic compounds</li>
+                    <li data-objective="16">10.4.2 (HL): Apply retrosynthetic analysis principles</li>
+                    <li data-objective="17">10.5.1 (HL): Identify and explain structural isomerism and stereoisomerism</li>
+                    <li data-objective="18">10.5.2 (HL): Apply Cahn-Ingold-Prelog priority rules to assign R/S configurations</li>
+                    <li data-objective="19">10.5.3 (HL): Apply E-Z nomenclature system to geometric isomers</li>
+                    <li data-objective="20">10.5.4 (HL): Explain optical activity and properties of enantiomers</li>
+                </ul>
+            </div>
+
+            <!-- Key Definitions -->
+            <div id="definitions">
+                <h2>Key Definitions</h2>
+                <div class="definitions-grid">
+                    <div class="definition-box">
+                        <div class="definition-term">Homologous series</div>
+                        <div class="definition-text">A family of organic compounds with the same functional group and general formula, where successive members differ by CH2. Members show a gradual change in physical properties and similar chemical properties.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Functional group</div>
+                        <div class="definition-text">An atom or group of atoms responsible for the characteristic chemical reactions of a compound. Examples include hydroxyl (-OH), carbonyl (C=O), carboxyl (-COOH), and amino (-NH2).</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Structural isomers</div>
+                        <div class="definition-text">Compounds with the same molecular formula but different structural arrangements of atoms. Types include chain isomers, position isomers, and functional group isomers.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Stereoisomers</div>
+                        <div class="definition-text">Compounds with the same structural formula but different spatial arrangements of atoms. Include geometric (cis-trans, E-Z) and optical (enantiomers) isomers.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Chiral center</div>
+                        <div class="definition-text">A carbon atom bonded to four different groups, resulting in non-superimposable mirror images (enantiomers). Also called an asymmetric carbon or stereocenter.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Enantiomers</div>
+                        <div class="definition-text">Non-superimposable mirror image stereoisomers that rotate plane-polarized light in opposite directions. Have identical physical properties except optical activity.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Nucleophile</div>
+                        <div class="definition-text">An electron-rich species with a lone pair or negative charge that is attracted to electron-deficient centers. Examples include OH-, CN-, NH3, and H2O.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Electrophile</div>
+                        <div class="definition-text">An electron-deficient species that accepts electron pairs. Examples include H+, Br+, NO2+, and carbocations.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Free radical</div>
+                        <div class="definition-text">A highly reactive species with an unpaired electron, formed by homolytic fission. Involved in chain reactions such as halogenation of alkanes.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Markovnikov's rule</div>
+                        <div class="definition-text">In addition reactions to unsymmetrical alkenes, the hydrogen atom adds to the carbon with more hydrogen atoms already attached, and the other group adds to the carbon with fewer hydrogens.</div>
+                    </div>
+                    <div class="definition-box">
+                        <div class="definition-term">Retrosynthetic analysis</div>
+                        <div class="definition-text">A problem-solving technique for planning organic synthesis by working backwards from the target molecule to identify suitable starting materials and reaction sequences.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div id="content">
+                <div class="section">
+                    <h2>10.1 Fundamentals of Organic Chemistry</h2>
+                    <p>Organic chemistry is the study of carbon-containing compounds. Carbon's unique ability to form four covalent bonds and catenate (form chains) creates millions of possible organic molecules.</p>
+
+                    <h3>Structural Formulas</h3>
+                    <p>Three main ways to represent organic molecules:</p>
+                    <ol>
+                        <li><strong>Full structural formula:</strong> Shows all atoms and bonds explicitly. For ethanol: H-C-C-O-H with all H atoms shown.</li>
+                        <li><strong>Condensed structural formula:</strong> Groups atoms together for efficiency. Ethanol: CH3CH2OH or C2H5OH.</li>
+                        <li><strong>Skeletal formula:</strong> Shows only carbon skeleton and functional groups. Each vertex/end represents a carbon atom; hydrogen atoms on carbon are implied. This is the most efficient representation and preferred in IB exams.</li>
+                    </ol>
+
+                    <h3>IUPAC Nomenclature System</h3>
+                    <p>Systematic naming follows these steps:</p>
+                    <ol>
+                        <li><strong>Identify the longest carbon chain</strong> (parent chain) - this determines the root name (meth-, eth-, prop-, but-, pent-, hex-)</li>
+                        <li><strong>Identify the functional group</strong> - this determines the suffix and numbering direction</li>
+                        <li><strong>Number the chain</strong> from the end giving functional groups the lowest numbers</li>
+                        <li><strong>Name and number substituents</strong> (branches) - use prefixes di-, tri-, tetra- for multiple identical groups</li>
+                        <li><strong>Assemble the name:</strong> substituents alphabetically + parent chain + functional group suffix</li>
+                    </ol>
+
+                    <p><strong>Priority order of functional groups</strong> (highest to lowest):<br>
+                    Carboxylic acid (-COOH) &gt; Aldehyde (-CHO) &gt; Ketone (C=O) &gt; Alcohol (-OH) &gt; Alkene (C=C) &gt; Alkane (C-C)</p>
+
+                    <p><strong>Example:</strong> CH3CH(CH3)CH2CH2OH</p>
+                    <ul>
+                        <li>Longest chain: 4 carbons (butanol)</li>
+                        <li>Functional group: alcohol (-OH) on carbon 1</li>
+                        <li>Substituent: methyl on carbon 3</li>
+                        <li>Name: 3-methylbutan-1-ol</li>
+                    </ul>
+
+                    <h3>Common Functional Groups</h3>
+                    <ul>
+                        <li><strong>Alkanes</strong> (C-C): suffix -ane, saturated hydrocarbons</li>
+                        <li><strong>Alkenes</strong> (C=C): suffix -ene, unsaturated with double bonds</li>
+                        <li><strong>Alcohols</strong> (-OH): suffix -ol, hydroxyl group</li>
+                        <li><strong>Aldehydes</strong> (-CHO): suffix -al, carbonyl at chain end</li>
+                        <li><strong>Ketones</strong> (C=O): suffix -one, carbonyl within chain</li>
+                        <li><strong>Carboxylic acids</strong> (-COOH): suffix -oic acid, carboxyl group</li>
+                        <li><strong>Halogenoalkanes</strong> (C-X): prefix halo- (chloro-, bromo-, iodo-)</li>
+                        <li><strong>Amines</strong> (-NH2): suffix -amine or prefix amino-</li>
+                    </ul>
+
+                    <p><strong>Why this matters:</strong> Functional groups determine reactivity. The same functional group in different molecules undergoes similar reactions, allowing prediction of chemical behavior.</p>
+                </div>
+
+                <div class="section">
+                    <h2>10.2 Functional Group Chemistry</h2>
+
+                    <h3>10.2.1 Alkanes</h3>
+                    <p>Alkanes are saturated hydrocarbons with only single C-C and C-H bonds. General formula: \(C_nH_{2n+2}\)</p>
+
+                    <p><strong>Reactions of Alkanes:</strong></p>
+
+                    <p><strong>1. Complete combustion</strong> (excess oxygen):</p>
+                    <p>$$C_nH_{2n+2} + \frac{3n+1}{2}O_2 \rightarrow nCO_2 + (n+1)H_2O$$</p>
+                    <p>Example: \(C_3H_8 + 5O_2 \rightarrow 3CO_2 + 4H_2O\) (exothermic, \(\Delta H\) negative)</p>
+
+                    <p><strong>2. Incomplete combustion</strong> (limited oxygen):<br>
+                    Produces CO and/or C (soot): \(2C_3H_8 + 7O_2 \rightarrow 6CO + 8H_2O\)</p>
+
+                    <p><strong>3. Free radical substitution</strong> with halogens (UV light required):</p>
+                    <p><strong>Initiation:</strong> \(Cl_2 \xrightarrow{UV} 2Cl\cdot\) (homolytic fission)</p>
+                    <p><strong>Propagation:</strong><br>
+                    \(CH_4 + Cl\cdot \rightarrow \cdot CH_3 + HCl\)<br>
+                    \(\cdot CH_3 + Cl_2 \rightarrow CH_3Cl + Cl\cdot\)</p>
+                    <p><strong>Termination:</strong> \(Cl\cdot + Cl\cdot \rightarrow Cl_2\) (or other radical combinations)</p>
+
+                    <p>This mechanism explains why alkanes are relatively unreactive - the C-H and C-C bonds are strong and non-polar.</p>
+
+                    <h3>10.2.2 Alkenes</h3>
+                    <p>Alkenes contain C=C double bonds. General formula: \(C_nH_{2n}\)</p>
+                    <p>The double bond consists of one sigma bond and one pi bond. The pi bond is weaker and more reactive, making alkenes much more reactive than alkanes.</p>
+
+                    <p><strong>Reactions of Alkenes:</strong></p>
+
+                    <p><strong>1. Hydrogenation</strong> (addition of H2):</p>
+                    <p>$$C_2H_4 + H_2 \xrightarrow{Ni, 150°C} C_2H_6$$</p>
+                    <p>Converts alkenes to alkanes; used in margarine production.</p>
+
+                    <p><strong>2. Halogenation</strong> (addition of Br2 or Cl2):</p>
+                    <p>$$C_2H_4 + Br_2 \rightarrow CH_2BrCH_2Br$$</p>
+                    <p>This is a <strong>test for unsaturation:</strong> bromine water (orange-brown) decolorizes when alkene is present.</p>
+
+                    <p><strong>3. Hydrohalogenation</strong> (addition of HX):</p>
+                    <p>$$C_2H_4 + HBr \rightarrow CH_3CH_2Br$$</p>
+                    <p>For unsymmetrical alkenes, follows <strong>Markovnikov's rule:</strong></p>
+                    <p>$$CH_3CH=CH_2 + HBr \rightarrow CH_3CHBrCH_3$$ (major product, not \(CH_3CH_2CH_2Br\))</p>
+
+                    <p><strong>4. Hydration</strong> (addition of H2O):</p>
+                    <p>$$C_2H_4 + H_2O \xrightarrow{H_3PO_4, 300°C, 60 atm} CH_3CH_2OH$$</p>
+                    <p>Produces alcohols; industrially important.</p>
+
+                    <p><strong>5. Addition polymerization:</strong></p>
+                    <p>$$nCH_2=CH_2 \rightarrow (-CH_2-CH_2-)_n$$</p>
+                    <p>Produces polymers like polyethylene, polypropylene, PVC.</p>
+
+                    <h3>10.2.3 Distinguishing Alkanes and Alkenes</h3>
+                    <p><strong>Test:</strong> Add bromine water</p>
+                    <ul>
+                        <li><strong>Alkene:</strong> Orange-brown color disappears (addition reaction)</li>
+                        <li><strong>Alkane:</strong> No change (no reaction without UV light)</li>
+                    </ul>
+
+                    <h3>10.2.4 Alcohols</h3>
+                    <p>Alcohols contain the hydroxyl functional group (-OH). Classification:</p>
+                    <ul>
+                        <li><strong>Primary (1°):</strong> -OH on carbon bonded to one other carbon</li>
+                        <li><strong>Secondary (2°):</strong> -OH on carbon bonded to two other carbons</li>
+                        <li><strong>Tertiary (3°):</strong> -OH on carbon bonded to three other carbons</li>
+                    </ul>
+
+                    <p><strong>Reactions of Alcohols:</strong></p>
+
+                    <p><strong>1. Combustion:</strong></p>
+                    <p>$$C_2H_5OH + 3O_2 \rightarrow 2CO_2 + 3H_2O$$</p>
+                    <p>Basis for use as fuel (ethanol in gasoline).</p>
+
+                    <p><strong>2. Oxidation</strong> (using acidified dichromate, \(K_2Cr_2O_7/H^+\)):</p>
+
+                    <p><strong>Primary alcohols:</strong></p>
+                    <p>$$RCH_2OH \xrightarrow{[O]} RCHO \xrightarrow{[O]} RCOOH$$</p>
+                    <p>Alcohol → Aldehyde → Carboxylic acid</p>
+                    <p>Example: \(CH_3CH_2OH \rightarrow CH_3CHO \rightarrow CH_3COOH\)</p>
+                    <p>To isolate aldehyde: distill immediately (aldehydes have lower boiling points)<br>
+                    To produce carboxylic acid: use excess oxidizing agent and reflux</p>
+
+                    <p><strong>Secondary alcohols:</strong></p>
+                    <p>$$R_2CHOH \xrightarrow{[O]} R_2CO$$</p>
+                    <p>Alcohol → Ketone (cannot be further oxidized)</p>
+
+                    <p><strong>Tertiary alcohols:</strong> Resistant to oxidation (no H on C-OH)</p>
+
+                    <p><strong>Color change:</strong> Orange dichromate → Green \(Cr^{3+}\) (oxidation occurred)</p>
+
+                    <p><strong>3. Substitution to form halogenoalkanes:</strong></p>
+                    <p>$$CH_3CH_2OH + HBr \rightarrow CH_3CH_2Br + H_2O$$</p>
+                    <p>Or using \(PCl_5\): \(CH_3CH_2OH + PCl_5 \rightarrow CH_3CH_2Cl + POCl_3 + HCl\)</p>
+
+                    <h3>10.2.5 Halogenoalkanes</h3>
+                    <p>Contain C-X bonds (X = F, Cl, Br, I). The C-X bond is polar (\(C^{\delta+}-X^{\delta-}\)) making the carbon susceptible to nucleophilic attack.</p>
+
+                    <p><strong>Nucleophilic substitution reactions:</strong></p>
+
+                    <p><strong>1. Hydrolysis</strong> (with aqueous OH-):</p>
+                    <p>$$CH_3CH_2Br + OH^- \rightarrow CH_3CH_2OH + Br^-$$</p>
+                    <p>Halogenoalkane → Alcohol</p>
+
+                    <p><strong>2. Reaction with cyanide</strong> (CN-):</p>
+                    <p>$$CH_3Br + CN^- \rightarrow CH_3CN + Br^-$$</p>
+                    <p>Increases carbon chain length by one.</p>
+
+                    <p><strong>3. Reaction with ammonia</strong> (NH3):</p>
+                    <p>$$CH_3Br + 2NH_3 \rightarrow CH_3NH_2 + NH_4Br$$</p>
+                    <p>Produces primary amines.</p>
+
+                    <p>The mechanism involves nucleophilic attack on the \(\delta+\) carbon.</p>
+                </div>
+
+                <div class="section">
+                    <h2>10.3 Reaction Mechanisms (HL)</h2>
+                    <p>Understanding mechanisms explains HOW reactions occur at the molecular level, showing bond breaking/forming and electron movement.</p>
+
+                    <p><strong>Curly arrows:</strong> Show movement of electron pairs</p>
+                    <ul>
+                        <li>Full arrow: movement of electron pair</li>
+                        <li>Half arrow: movement of single electron (radicals)</li>
+                    </ul>
+
+                    <h3>10.3.1 Nucleophilic Substitution Mechanisms</h3>
+
+                    <p><strong>SN2 Mechanism</strong> (Substitution, Nucleophilic, Bimolecular):</p>
+                    <ul>
+                        <li><strong>One-step mechanism</strong> with transition state</li>
+                        <li>Nucleophile attacks from opposite side to leaving group (<strong>backside attack</strong>)</li>
+                        <li>Results in <strong>inversion of configuration</strong> (Walden inversion)</li>
+                        <li>Rate depends on both [substrate] and [nucleophile]: Rate = k[RX][Nu-]</li>
+                        <li><strong>Favored by:</strong> primary halogenoalkanes, strong nucleophiles, polar aprotic solvents</li>
+                    </ul>
+
+                    <p><strong>SN1 Mechanism</strong> (Substitution, Nucleophilic, Unimolecular):</p>
+                    <ul>
+                        <li><strong>Two-step mechanism</strong> with carbocation intermediate</li>
+                        <li>Step 1 (slow): Leaving group departs, forming carbocation</li>
+                        <li>Step 2 (fast): Nucleophile attacks carbocation</li>
+                        <li>Rate depends only on [substrate]: Rate = k[RX]</li>
+                        <li>Results in <strong>racemization</strong> (both enantiomers formed from chiral starting material)</li>
+                        <li><strong>Favored by:</strong> tertiary halogenoalkanes (stable carbocations), weak nucleophiles, polar protic solvents</li>
+                    </ul>
+
+                    <p><strong>Carbocation stability:</strong> 3° &gt; 2° &gt; 1° &gt; methyl (due to hyperconjugation and inductive effects)</p>
+
+                    <h3>10.3.2 Electrophilic Addition to Alkenes</h3>
+                    <p>The pi electrons in C=C act as nucleophile, attacking electrophiles.</p>
+
+                    <p><strong>Addition of HBr</strong> (explains Markovnikov's rule):</p>
+                    <p>Step 1: Pi electrons attack H+ → forms more stable carbocation<br>
+                    Step 2: Br- attacks carbocation → product</p>
+
+                    <h3>10.3.3 Electrophilic Substitution of Benzene</h3>
+                    <p>Benzene is unusually stable due to delocalized pi electron system (aromaticity). Undergoes substitution rather than addition to preserve aromatic stability.</p>
+
+                    <p><strong>Nitration</strong> (forming nitrobenzene):</p>
+                    <p>Generating electrophile: \(HNO_3 + H_2SO_4 \rightarrow NO_2^+ + HSO_4^- + H_2O\)</p>
+                    <p>Overall: \(C_6H_6 + HNO_3 \xrightarrow{H_2SO_4} C_6H_5NO_2 + H_2O\)</p>
+
+                    <h3>10.3.4 Elimination Reactions</h3>
+                    <p>Compete with substitution reactions of halogenoalkanes, producing alkenes.</p>
+
+                    <p><strong>E2 Mechanism</strong> (Elimination, Bimolecular):</p>
+                    <ul>
+                        <li><strong>One-step concerted mechanism</strong></li>
+                        <li>Base abstracts proton while C-X bond breaks simultaneously</li>
+                        <li>Rate = k[RX][Base]</li>
+                        <li><strong>Favored by:</strong> strong bases, higher temperatures</li>
+                    </ul>
+
+                    <p><strong>E1 Mechanism</strong> (Elimination, Unimolecular):</p>
+                    <ul>
+                        <li><strong>Two-step mechanism</strong> via carbocation</li>
+                        <li>Step 1: Leaving group departs → carbocation</li>
+                        <li>Step 2: Base removes proton from adjacent carbon → alkene</li>
+                        <li>Rate = k[RX]</li>
+                        <li><strong>Favored by:</strong> tertiary substrates, weak bases, higher temperatures</li>
+                    </ul>
+
+                    <p><strong>Zaitsev's rule:</strong> Major product is the more substituted (more stable) alkene.</p>
+                </div>
+
+                <div class="section">
+                    <h2>10.4 Synthetic Routes (HL)</h2>
+                    <p>Organic synthesis involves converting one compound into another through reaction sequences.</p>
+
+                    <h3>Key Functional Group Interconversions:</h3>
+                    <ol>
+                        <li><strong>Alkene → Alkane:</strong> Hydrogenation (H2, Ni catalyst)</li>
+                        <li><strong>Alkene → Dihaloalkane:</strong> Addition of X2</li>
+                        <li><strong>Alkene → Halogenoalkane:</strong> Addition of HX (Markovnikov)</li>
+                        <li><strong>Alkene → Alcohol:</strong> Hydration (H2O, H3PO4)</li>
+                        <li><strong>Halogenoalkane → Alcohol:</strong> Nucleophilic substitution (OH-, heat)</li>
+                        <li><strong>Halogenoalkane → Amine:</strong> Reaction with NH3</li>
+                        <li><strong>Halogenoalkane → Nitrile:</strong> Reaction with CN- (increases carbon chain)</li>
+                        <li><strong>Halogenoalkane → Alkene:</strong> Elimination (strong base, heat)</li>
+                        <li><strong>Alcohol → Halogenoalkane:</strong> Reaction with HX or PCl5</li>
+                        <li><strong>Primary alcohol → Aldehyde:</strong> Oxidation with immediate distillation</li>
+                        <li><strong>Primary alcohol → Carboxylic acid:</strong> Oxidation with reflux</li>
+                        <li><strong>Secondary alcohol → Ketone:</strong> Oxidation</li>
+                        <li><strong>Aldehyde → Carboxylic acid:</strong> Oxidation</li>
+                        <li><strong>Aldehyde → Primary alcohol:</strong> Reduction (LiAlH4 or NaBH4)</li>
+                        <li><strong>Ketone → Secondary alcohol:</strong> Reduction</li>
+                    </ol>
+
+                    <h3>Multi-Step Synthesis Strategy:</h3>
+                    <ol>
+                        <li>Identify functional groups in starting material and target</li>
+                        <li>Determine required transformations</li>
+                        <li>Consider carbon chain length changes</li>
+                        <li>Plan reaction sequence</li>
+                        <li>Consider protecting groups if necessary</li>
+                    </ol>
+
+                    <h3>Retrosynthetic Analysis:</h3>
+                    <p>Work backwards from target molecule:</p>
+                    <ol>
+                        <li>Identify key bonds to disconnect</li>
+                        <li>Choose disconnections that simplify structure</li>
+                        <li>Ensure synthons correspond to available reagents</li>
+                        <li>Write forward synthesis</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h2>10.5 Stereochemistry (HL)</h2>
+                    <p>Stereochemistry studies the 3D arrangement of atoms in molecules.</p>
+
+                    <h3>10.5.1 Types of Isomerism</h3>
+
+                    <p><strong>Structural Isomers</strong> (same molecular formula, different connectivity):</p>
+                    <ol>
+                        <li><strong>Chain isomers:</strong> Different carbon skeleton arrangements</li>
+                        <li><strong>Position isomers:</strong> Functional group at different positions</li>
+                        <li><strong>Functional group isomers:</strong> Different functional groups</li>
+                    </ol>
+
+                    <p><strong>Stereoisomers</strong> (same structural formula, different spatial arrangement):</p>
+                    <ol>
+                        <li><strong>Geometric isomers (E-Z isomers):</strong> Require restricted rotation (C=C double bond or ring)</li>
+                        <li><strong>Optical isomers (enantiomers):</strong> Require chiral center (carbon with 4 different groups)</li>
+                    </ol>
+
+                    <h3>10.5.2 Cahn-Ingold-Prelog (CIP) Priority Rules</h3>
+                    <p>Used to assign R/S configuration to chiral centers:</p>
+                    <ol>
+                        <li><strong>Assign priorities</strong> (1-4) to groups bonded to chiral center based on atomic number</li>
+                        <li><strong>Orient molecule</strong> with lowest priority (4) pointing away</li>
+                        <li><strong>Trace path</strong> from 1 → 2 → 3:
+                            <ul>
+                                <li>Clockwise = <strong>(R)</strong> (rectus, right)</li>
+                                <li>Counterclockwise = <strong>(S)</strong> (sinister, left)</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>10.5.3 E-Z Nomenclature</h3>
+                    <p>For geometric isomers, CIP rules determine E vs Z:</p>
+                    <ul>
+                        <li>Same side = <strong>(Z)</strong> (zusammen, together)</li>
+                        <li>Opposite sides = <strong>(E)</strong> (entgegen, opposite)</li>
+                    </ul>
+
+                    <h3>10.5.4 Optical Activity</h3>
+                    <p><strong>Optical activity:</strong> Ability to rotate plane of polarized light</p>
+                    <ul>
+                        <li><strong>Dextrorotatory (+):</strong> Rotates clockwise</li>
+                        <li><strong>Levorotatory (-):</strong> Rotates counterclockwise</li>
+                    </ul>
+
+                    <p><strong>Enantiomer properties:</strong></p>
+                    <ul>
+                        <li>Identical physical properties (bp, mp, density, solubility)</li>
+                        <li>Identical chemical properties in achiral environments</li>
+                        <li><strong>Different:</strong> optical activity (equal magnitude, opposite direction)</li>
+                        <li><strong>Different:</strong> biological activity (enzymes are chiral)</li>
+                    </ul>
+
+                    <p><strong>Racemic mixture:</strong> 50:50 mixture of enantiomers, optically inactive (rotations cancel)</p>
+                </div>
+
+                <div class="section">
+                    <h2>Real-World Applications</h2>
+                    <p><strong>Pharmaceutical Industry:</strong> Stereochemistry is critical in drug development. Ibuprofen's (S)-enantiomer is the active pain reliever; the (R)-form is inactive.</p>
+
+                    <p><strong>Polymer Industry:</strong> Addition polymerization of alkenes produces materials used daily: polyethylene, polypropylene, polystyrene, and PVC.</p>
+
+                    <p><strong>Petroleum Industry:</strong> Free radical substitution and catalytic cracking convert alkanes from crude oil into useful products.</p>
+
+                    <p><strong>Biofuels:</strong> Ethanol production from fermentation and its combustion properties make it a renewable fuel additive.</p>
+
+                    <p><strong>Green Chemistry:</strong> Retrosynthetic analysis helps design efficient syntheses with fewer steps, reducing waste and energy consumption.</p>
+                </div>
+
+                <div class="section">
+                    <h2>Common Misconceptions</h2>
+                    <ol>
+                        <li><strong>All molecules with chiral centers are optically active</strong> - FALSE. Meso compounds have chiral centers but are optically inactive due to internal symmetry.</li>
+                        <li><strong>Tertiary carbocations are more reactive than primary</strong> - Misleading. They're more STABLE, not more reactive.</li>
+                        <li><strong>Alkanes don't react at all</strong> - FALSE. They undergo combustion and free radical substitution.</li>
+                        <li><strong>Markovnikov's rule is just memorization</strong> - FALSE. It's explained by carbocation stability.</li>
+                        <li><strong>E and Z are the same as trans and cis</strong> - Not quite. E-Z is more general based on CIP priorities.</li>
+                        <li><strong>SN1 produces one enantiomer</strong> - FALSE. Produces racemic mixture due to planar carbocation.</li>
+                        <li><strong>All oxidation reactions use oxygen</strong> - FALSE. Oxidation means increasing oxygen OR decreasing hydrogen content.</li>
+                        <li><strong>Geometric isomers occur only with C=C bonds</strong> - FALSE. Also occur in cyclic compounds.</li>
+                        <li><strong>Primary alcohols always give aldehydes when oxidized</strong> - Only with immediate distillation; otherwise form carboxylic acids.</li>
+                        <li><strong>Enantiomers have different chemical properties</strong> - Mostly FALSE. They react identically with achiral reagents.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Practice Problems -->
+            <div id="practice">
+                <h2>Practice Problems</h2>
+
+                <div class="problem">
+                    <div class="problem-number">Problem 1</div>
+                    <div class="problem-question">Name the following compound using IUPAC nomenclature: CH3CH2CH(CH3)CH2CH(Cl)CH3</div>
+                    <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                    <div class="solution-content" id="solution1">
+                        <h4>Solution:</h4>
+                        <p>Step 1: Identify longest chain = 6 carbons (hexane)<br>
+                        Step 2: Identify functional group = Cl (chloro-), highest priority determines numbering<br>
+                        Step 3: Number from end nearest to Cl: positions 2 (Cl) and 4 (CH3)<br>
+                        Step 4: Alphabetical order: chloro before methyl</p>
+                        <p><strong>Answer: 2-chloro-4-methylhexane</strong></p>
+                        <h4>Explanation:</h4>
+                        <p>The chloro group takes priority in numbering over methyl substituents. Always number to give functional groups the lowest numbers, then list substituents alphabetically regardless of position numbers.</p>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <div class="problem-number">Problem 2</div>
+                    <div class="problem-question">Compound X has molecular formula C4H10O. It can be oxidized to give compound Y, which gives a positive Tollens' test. Identify X and Y, and write the oxidation equation.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                    <div class="solution-content" id="solution2">
+                        <h4>Solution:</h4>
+                        <p>Step 1: Tollens' test positive → Y is an aldehyde (not ketone)<br>
+                        Step 2: Aldehyde from oxidation → X is a primary alcohol<br>
+                        Step 3: C4H10O primary alcohol = butan-1-ol: CH3CH2CH2CH2OH<br>
+                        Step 4: Oxidation product Y = butanal: CH3CH2CH2CHO<br>
+                        Step 5: Equation: CH3CH2CH2CH2OH + [O] → CH3CH2CH2CHO + H2O</p>
+                        <p><strong>Answer: X = butan-1-ol, Y = butanal</strong></p>
+                        <h4>Explanation:</h4>
+                        <p>Tollens' reagent (silver mirror test) distinguishes aldehydes from ketones - only aldehydes give positive result. Working backwards, since aldehydes come from oxidizing primary alcohols, we can deduce X. Butan-2-ol would give a ketone (butan-2-one), which wouldn't pass Tollens' test.</p>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <div class="problem-number">Problem 3</div>
+                    <div class="problem-question">Draw the mechanism for the SN2 reaction between bromoethane and hydroxide ion. Show the stereochemistry if the starting material were (R)-2-bromobutane instead.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                    <div class="solution-content" id="solution3">
+                        <h4>Solution:</h4>
+                        <p><strong>For bromoethane (CH3CH2Br + OH-):</strong><br>
+                        Step 1: Draw OH- approaching from opposite side to Br<br>
+                        Step 2: Show transition state: [HO---CH2CH3---Br]- with partial bonds<br>
+                        Step 3: Products: CH3CH2OH + Br-<br>
+                        Curly arrow from O lone pair to carbon, curly arrow from C-Br bond to Br</p>
+                        <p><strong>For (R)-2-bromobutane:</strong><br>
+                        - SN2 occurs with backside attack<br>
+                        - Results in inversion of configuration (Walden inversion)<br>
+                        - Product: (S)-butan-2-ol</p>
+                        <p><strong>Stereochemistry: (R) → (S) due to backside attack</strong></p>
+                        <h4>Explanation:</h4>
+                        <p>SN2 is one-step with transition state where nucleophile attacks from side opposite to leaving group. This backside attack causes inversion of stereochemistry. If you start with R configuration, you end with S configuration (and vice versa).</p>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <div class="problem-number">Problem 4</div>
+                    <div class="problem-question">Explain why but-2-ene can exist as geometric isomers but but-1-ene cannot.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                    <div class="solution-content" id="solution4">
+                        <h4>Solution:</h4>
+                        <p><strong>But-2-ene:</strong> CH3CH=CHCH3<br>
+                        - Double bond between C2 and C3<br>
+                        - C2 has: H and CH3 groups<br>
+                        - C3 has: H and CH3 groups<br>
+                        - Different groups on each carbon of double bond<br>
+                        - Can have E-isomer (CH3 groups opposite) and Z-isomer (CH3 groups same side)</p>
+                        <p><strong>But-1-ene:</strong> CH2=CHCH2CH3<br>
+                        - Double bond between C1 and C2<br>
+                        - C1 has: two H atoms (identical groups)<br>
+                        - Even though rotation is restricted, having two identical groups means no geometric isomers possible</p>
+                        <p><strong>Requirements for geometric isomerism:</strong><br>
+                        1. Restricted rotation (double bond or ring)<br>
+                        2. Each carbon of double bond must have two different groups</p>
+                        <h4>Explanation:</h4>
+                        <p>Students often think restricted rotation alone is sufficient, but you need different groups on each carbon. When one carbon has two identical groups, geometric isomerism is impossible.</p>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <div class="problem-number">Problem 5</div>
+                    <div class="problem-question">A compound with formula C5H12 is reacted with chlorine in the presence of UV light. Three monochloro isomers are formed. Identify the original compound and explain your reasoning.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                    <div class="solution-content" id="solution5">
+                        <h4>Solution:</h4>
+                        <p>Step 1: C5H12 is an alkane (saturated hydrocarbon)<br>
+                        Step 2: Possible isomers: pentane, 2-methylbutane, 2,2-dimethylpropane</p>
+                        <p>Step 3: Count possible monochloro products:</p>
+                        <p><strong>Pentane (CH3CH2CH2CH2CH3):</strong><br>
+                        - Cl at C1: CH2ClCH2CH2CH2CH3 (also same as C5 by symmetry)<br>
+                        - Cl at C2: CH3CHClCH2CH2CH3 (also same as C4)<br>
+                        - Cl at C3: CH3CH2CHClCH2CH3<br>
+                        = 3 different monochloro products ✓</p>
+                        <p>2-methylbutane would give 4 products<br>
+                        2,2-dimethylpropane would give 1 product</p>
+                        <p><strong>Answer: The original compound is pentane (CH3CH2CH2CH2CH3)</strong></p>
+                        <h4>Explanation:</h4>
+                        <p>Free radical substitution can occur at any C-H bond, but symmetrical positions give the same product. Pentane has a plane of symmetry, making C1=C5 and C2=C4 equivalent. This gives exactly three distinct products.</p>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <div class="problem-number">Problem 6</div>
+                    <div class="problem-question">Design a synthesis of propanone starting from propene. Show all steps, reagents, and conditions.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+                    <div class="solution-content" id="solution6">
+                        <h4>Solution:</h4>
+                        <p><strong>Target:</strong> Propanone (CH3COCH3) - a ketone<br>
+                        <strong>Starting material:</strong> Propene (CH3CH=CH2)</p>
+                        <p><strong>Analysis:</strong> Ketones come from oxidizing secondary alcohols. Need to convert propene to secondary alcohol first.</p>
+                        <p><strong>Step 1: Hydration of propene</strong><br>
+                        CH3CH=CH2 + H2O → CH3CH(OH)CH3<br>
+                        Reagents: H3PO4 catalyst, 300°C, 60 atm<br>
+                        Product: Propan-2-ol (secondary alcohol)<br>
+                        Note: Follows Markovnikov's rule - OH adds to more substituted carbon</p>
+                        <p><strong>Step 2: Oxidation of propan-2-ol</strong><br>
+                        CH3CH(OH)CH3 + [O] → CH3COCH3 + H2O<br>
+                        Reagents: Acidified potassium dichromate (K2Cr2O7/H+)<br>
+                        Conditions: Heat under reflux<br>
+                        Observation: Orange dichromate → green Cr3+<br>
+                        Product: Propanone</p>
+                        <p><strong>Overall: Propene → Propan-2-ol → Propanone</strong></p>
+                        <h4>Explanation:</h4>
+                        <p>This synthesis tests understanding of alkene reactions and alcohol oxidation. Key points: (1) Markovnikov addition gives secondary alcohol not primary, (2) Secondary alcohols oxidize to ketones and cannot be further oxidized.</p>
+                    </div>
+                </div>
+
+                <div class="problem">
+                    <div class="problem-number">Problem 7</div>
+                    <div class="problem-question">A student performs a test to distinguish between hexane and hex-1-ene by adding bromine water to each. Explain what would be observed and the chemistry behind it.</div>
+                    <button class="solution-toggle" onclick="toggleSolution(7)">Show Solution</button>
+                    <div class="solution-content" id="solution7">
+                        <h4>Solution:</h4>
+                        <p><strong>Test:</strong> Add bromine water (Br2(aq)) to samples of both hydrocarbons</p>
+                        <p><strong>Observations:</strong><br>
+                        Hexane (C6H14): Orange-brown color persists (no visible change)<br>
+                        Hex-1-ene (C6H12): Orange-brown color disappears/decolorizes rapidly</p>
+                        <p><strong>Chemistry behind observations:</strong></p>
+                        <p><strong>Hexane (alkane):</strong><br>
+                        - Only single C-C and C-H bonds (saturated)<br>
+                        - Strong, non-polar bonds<br>
+                        - Br2 does not react at room temperature without UV light<br>
+                        - No reaction occurs, bromine remains in solution (orange-brown)</p>
+                        <p><strong>Hex-1-ene (alkene):</strong><br>
+                        - Contains C=C double bond (unsaturated)<br>
+                        - Pi bond is weaker and more reactive<br>
+                        - Br2 undergoes electrophilic addition across double bond<br>
+                        - Reaction: CH2=CHCH2CH2CH2CH3 + Br2 → CH2BrCHBrCH2CH2CH2CH3<br>
+                        - Bromine consumed, so color disappears<br>
+                        - Product is 1,2-dibromohexane (colorless)</p>
+                        <p><strong>Conclusion:</strong> Bromine water test distinguishes saturated from unsaturated hydrocarbons. Decolorization indicates C=C present.</p>
+                        <h4>Explanation:</h4>
+                        <p>This is a standard practical test in IB Chemistry. The key is explaining WHY the reaction occurs with alkenes but not alkanes - it's about the reactivity of the pi bond vs sigma bonds.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exam Tips -->
+            <div id="tips" class="exam-tips">
+                <h3>Exam Tips</h3>
+                <ul>
+                    <li>Master skeletal formulas - most IB exam questions use them. Practice converting between full, condensed, and skeletal representations.</li>
+                    <li>When naming compounds, always identify the functional group first as it determines numbering direction. Number to give functional groups lowest numbers, not substituents.</li>
+                    <li>For mechanism questions, show ALL curly arrows, lone pairs, and charges. Half-marks are often lost for incomplete mechanisms even if the overall idea is correct.</li>
+                    <li>Distinguish between SN1 and SN2 by substrate: 1° favors SN2, 3° favors SN1, 2° gives mixtures. Temperature and nucleophile strength also matter.</li>
+                    <li>In oxidation questions, state the reagent (acidified K2Cr2O7 or KMnO4) and conditions (distill for aldehyde, reflux for carboxylic acid). Color change observations earn marks.</li>
+                    <li>For isomerism questions, always check for geometric isomers (restricted rotation + different groups on each carbon) and optical isomers (chiral center = 4 different groups).</li>
+                    <li>Markovnikov's rule: explain it using carbocation stability, don't just memorize. More stable carbocation forms → determines regioselectivity.</li>
+                    <li>In synthesis questions, show all steps with reagents and conditions. Don't skip steps - each transformation must be chemically valid.</li>
+                    <li>When asked to compare compounds, make direct comparisons. Don't just describe each one separately - explicitly state how they differ.</li>
+                    <li>Learn the priority order of functional groups for nomenclature: COOH > CHO > C=O > OH > C=C. This determines the suffix and numbering.</li>
+                    <li>For stereochemistry, practice drawing 3D structures with wedges (out of plane) and dashes (into plane). Essential for showing R/S configurations clearly.</li>
+                    <li>Bromine water test: know what it tests for (unsaturation), what is observed (decolorization), and write the equation for the addition reaction.</li>
+                    <li>In elimination vs substitution questions, always mention temperature - this is often the deciding factor and earns easy marks.</li>
+                    <li>When using Cahn-Ingold-Prelog rules, work systematically. If you can't decide priority at first atom, move to second atoms outward. Show your working.</li>
+                    <li>For optical isomers, remember: enantiomers have opposite optical rotation but otherwise identical properties. Different biological activity is the key consequence.</li>
+                    <li>Polymerization: show repeating unit in brackets with 'n' subscript. Make sure the bonds correctly show continuation of the chain.</li>
+                    <li>Common error: writing aldehyde oxidation as separate reaction. Remember primary alcohols can go directly to carboxylic acids with excess oxidizer and reflux.</li>
+                    <li>Zaitsev's rule in elimination: more substituted alkene is more stable and thus major product. Explain using hyperconjugation if asked.</li>
+                    <li>For benzene reactions, always mention the catalyst (AlCl3, FeBr3, or H2SO4) - these are essential and marks are lost if omitted.</li>
+                    <li>In Data-Based Questions, read uncertainties carefully and quote answers to appropriate significant figures based on the data precision.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Chatbot Widget -->
+        <div class="chatbot-widget" onclick="openChatbot()"></div>
+
+        <!-- Footer Navigation -->
+        <div class="lesson-footer">
+            <a href="#" class="nav-button" onclick="alert('Previous lesson not configured')">← Previous Lesson</a>
+            <span>Topic 10: Organic Chemistry</span>
+            <a href="#" class="nav-button" onclick="alert('Next lesson not configured')">Next Lesson →</a>
+        </div>
+    </div>
+
+    <script>
+        // Progress Tracking
+        let completedObjectives = new Set();
+        const totalObjectives = 20;
+
+        function updateProgress() {
+            const percentage = Math.round((completedObjectives.size / totalObjectives) * 100);
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+
+            // Save to localStorage
+            localStorage.setItem('chemistry_topic10_progress', JSON.stringify(Array.from(completedObjectives)));
+        }
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('chemistry_topic10_progress');
+            if (saved) {
+                completedObjectives = new Set(JSON.parse(saved));
+                completedObjectives.forEach(id => {
+                    const li = document.querySelector(`li[data-objective="${id}"]`);
+                    if (li) li.classList.add('completed');
+                });
+                updateProgress();
+            }
+        }
+
+        // Toggle objective completion
+        document.getElementById('objectivesList').addEventListener('click', function(e) {
+            if (e.target.tagName === 'LI') {
+                const objectiveId = e.target.getAttribute('data-objective');
+
+                if (completedObjectives.has(objectiveId)) {
+                    completedObjectives.delete(objectiveId);
+                    e.target.classList.remove('completed');
+                } else {
+                    completedObjectives.add(objectiveId);
+                    e.target.classList.add('completed');
+                }
+
+                updateProgress();
+            }
+        });
+
+        // Toggle solution visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution' + problemNumber);
+            const button = solution.previousElementSibling;
+
+            if (solution.classList.contains('show')) {
+                solution.classList.remove('show');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('show');
+                button.textContent = 'Hide Solution';
+            }
+        }
+
+        // Scroll progress indicator
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Chatbot functionality
+        function openChatbot() {
+            alert('Chatbot functionality would open here. This would connect to your AI tutoring system.');
+            // In production, this would open a chat interface
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+
+            // Add animation to definition boxes on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.definition-box, .problem').forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        // Add fadeInUp animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Print functionality
+        function printLesson() {
+            window.print();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + P for print
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                printLesson();
+            }
+
+            // Ctrl/Cmd + H to toggle all solutions
+            if ((e.ctrlKey || e.metaKey) && e.key === 'h') {
+                e.preventDefault();
+                document.querySelectorAll('.solution-content').forEach((solution, index) => {
+                    toggleSolution(index + 1);
+                });
+            }
+        });
+
+        // Add helpful console message
+        console.log('%cFluapi Learning Platform', 'font-size: 20px; color: #667eea; font-weight: bold;');
+        console.log('%cKeyboard Shortcuts:', 'font-size: 14px; font-weight: bold; margin-top: 10px;');
+        console.log('Ctrl/Cmd + P: Print lesson');
+        console.log('Ctrl/Cmd + H: Toggle all solutions');
+        console.log('%cClick on learning objectives to mark them as complete!', 'color: #28a745; font-weight: bold;');
+    </script>
+</body>
+</html>
+</body>
+</html>

@@ -1,0 +1,130 @@
+{
+  "schema": "isef-taylor-cone/classic-run",
+  "schema_version": 1,
+  "kind": "classic_solver_run",
+  "timestamp": "2026-08-20T00:26:55.672117+00:00",
+  "parameters": {
+    "V0": 2500.0,
+    "gamma": 0.022,
+    "electrode_spacing": 0.01,
+    "nozzle_radius": 0.01,
+    "nr": 41,
+    "nz": 71,
+    "space_charge_model": "none",
+    "rho0": null,
+    "ell": null,
+    "apex_r": null,
+    "apex_z": null,
+    "E_c": null,
+    "E_s": null,
+    "rho_max": null,
+    "relaxation": 0.5,
+    "sc_tolerance": 1e-08,
+    "sc_max_iterations": 50,
+    "interface_half_angle_deg": 49.3,
+    "interface_n_points": 41
+  },
+  "outputs": {
+    "half_angle_deg": 49.29999999999999,
+    "peak_field_V_m": 341710.21566240484,
+    "rms_residual_Pa": 1593.1666350332537,
+    "shielding_metric_SE": null,
+    "runtime_s": 0.06154183400212787,
+    "converged": true,
+    "iterations": 1
+  },
+  "grid": {
+    "nr": 41,
+    "nz": 71,
+    "r_min": 0.0,
+    "r_max": 0.01,
+    "z_min": 0.0,
+    "z_max": 0.01
+  },
+  "fields": {
+    "phi": {
+      "name": "phi",
+      "shape": [
+        41,
+        71
+      ],
+      "size": 2911,
+      "min": 0.0,
+      "max": 2500.0,
+      "mean": 825.2866862435316,
+      "std": 734.8694977758463,
+      "rms": 1105.048095447503,
+      "nan_count": 0
+    },
+    "Er": {
+      "name": "Er",
+      "shape": [
+        41,
+        71
+      ],
+      "size": 2911,
+      "min": -0.0,
+      "max": 6432823.471188554,
+      "mean": 107260.12427117869,
+      "std": 258819.62822198035,
+      "rms": 280164.8340024723,
+      "nan_count": 0
+    },
+    "Ez": {
+      "name": "Ez",
+      "shape": [
+        41,
+        71
+      ],
+      "size": 2911,
+      "min": -17500000.0,
+      "max": -0.0,
+      "mean": -255798.75548062738,
+      "std": 439835.96404275636,
+      "rms": 508811.0440731988,
+      "nan_count": 0
+    },
+    "E_mag": {
+      "name": "E_mag",
+      "shape": [
+        41,
+        71
+      ],
+      "size": 2911,
+      "min": 0.0,
+      "max": 17500000.0,
+      "mean": 305267.43062546453,
+      "std": 494158.68765187025,
+      "rms": 580845.0850119088,
+      "nan_count": 0
+    },
+    "rho_e": {
+      "name": "rho_e",
+      "shape": [
+        41,
+        71
+      ],
+      "size": 2911,
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "std": 0.0,
+      "rms": 0.0,
+      "nan_count": 0
+    }
+  },
+  "interface": {
+    "half_angle_deg": 49.29999999999999,
+    "n_points": 41,
+    "R_min": 1e-06,
+    "R_max": 0.009301858051415679,
+    "z_min": 0.001,
+    "z_max": 0.009000000000000001
+  },
+  "residual_profile": {
+    "n_points": 41,
+    "min_Pa": -184.25325360863718,
+    "max_Pa": 14160.073323237415,
+    "rms_Pa": 1593.1666350332537
+  }
+}

@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Harmonic Motion (SHM) - Physics HL C1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Learning Objectives */
+        .objectives-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .objectives-box h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .objectives-list {
+            list-style: none;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .objectives-list li {
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+
+        .content-section strong {
+            color: #667eea;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .problem {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .problem-question {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            transition: background 0.3s;
+        }
+
+        .problem-question:hover {
+            background: #e9ecef;
+        }
+
+        .problem-number {
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 1rem;
+            min-width: 80px;
+        }
+
+        .problem-text {
+            flex: 1;
+        }
+
+        .toggle-icon {
+            color: #667eea;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .problem-solution {
+            padding: 1.5rem;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: none;
+        }
+
+        .problem-solution.active {
+            display: block;
+        }
+
+        .problem.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Exam Tips */
+        .exam-tips {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .exam-tips h3 {
+            color: #ff9800;
+            margin-bottom: 1rem;
+        }
+
+        .tip-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tip-item:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button.prev {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-content {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .objectives-list li {
+                font-size: 0.9rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Section Visibility for Progress Tracking */
+        .section-marker {
+            height: 1px;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-title">
+                <i class="fas fa-wave-square"></i> Simple Harmonic Motion (SHM)
+            </div>
+            <div class="nav-badge">Physics HL - C1</div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar-wrapper">
+            <div class="progress-info">
+                <span>Lesson Progress</span>
+                <span id="progress-percentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Learning Objectives -->
+        <div class="objectives-box section-marker" data-section="objectives">
+            <h2><i class="fas fa-bullseye"></i> Learning Objectives</h2>
+            <ul class="objectives-list">
+                <li>C1.1: Define simple harmonic motion and identify examples of systems that execute SHM</li>
+                <li>C1.2: Describe and apply the defining equation of SHM: a = -ω²x</li>
+                <li>C1.3: Solve problems using displacement, velocity, and acceleration equations for SHM</li>
+                <li>C1.4: Sketch and interpret graphs showing the variation with time of displacement, velocity, and acceleration for SHM</li>
+                <li>C1.5: Apply energy conservation to simple harmonic oscillators, including expressions for kinetic energy, potential energy, and total energy</li>
+                <li>C1.6: Solve problems involving the time period of oscillation for mass-spring systems and simple pendulums</li>
+                <li>C1.7: Describe the effects of damping on oscillating systems</li>
+                <li>C1.8: Describe and explain forced oscillations and resonance, including graphical representations</li>
+            </ul>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-section section-marker" data-section="definitions">
+            <h2><i class="fas fa-book"></i> Key Definitions</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Simple Harmonic Motion (SHM)</div>
+                <div>An oscillatory motion where the acceleration of an object is directly proportional to its displacement from equilibrium and is always directed toward the equilibrium position: a = -ω²x</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Amplitude (A or x₀)</div>
+                <div>The maximum displacement from the equilibrium position, measured in meters. It represents the energy of the oscillation.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Period (T)</div>
+                <div>The time taken for one complete oscillation, measured in seconds. Related to angular frequency by T = 2π/ω</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Frequency (f)</div>
+                <div>The number of complete oscillations per unit time, measured in hertz (Hz). f = 1/T = ω/2π</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Angular frequency (ω)</div>
+                <div>The rate of change of phase of the oscillation, measured in rad s⁻¹. ω = 2πf = 2π/T. It relates acceleration to displacement in the defining equation.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Phase constant (φ₀)</div>
+                <div>The initial phase angle at t = 0, which determines the starting position and direction of motion of the oscillator.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Damping</div>
+                <div>The dissipation of energy from an oscillating system due to resistive forces, causing the amplitude to decrease exponentially over time.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Resonance</div>
+                <div>The phenomenon where a system oscillates with maximum amplitude when driven at its natural frequency, resulting in maximum energy transfer from the driving force to the system.</div>
+            </div>
+        </div>
+
+        <!-- Introduction Section -->
+        <div class="content-section section-marker" data-section="introduction">
+            <h2>Introduction: What Makes Motion 'Simple Harmonic'?</h2>
+            <p>Simple harmonic motion is one of the most fundamental patterns in physics, appearing in contexts from atomic vibrations to planetary orbits. Unlike uniform motion or constant acceleration, SHM represents a special type of periodic motion with unique mathematical properties.</p>
+
+            <p><strong>Why study SHM?</strong> Understanding SHM provides the foundation for analyzing waves, alternating current circuits, quantum mechanical systems, and countless engineering applications. The mathematical tools developed here—particularly the relationship between position, velocity, and acceleration—will reappear throughout your physics studies.</p>
+
+            <p><strong>Prerequisite knowledge:</strong> Before diving into SHM, you should be comfortable with:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Kinematics equations and calculus-based relationships (v = dx/dt, a = dv/dt)</li>
+                <li>Newton's second law (F = ma)</li>
+                <li>Conservation of energy</li>
+                <li>Trigonometric functions (sine, cosine) and their derivatives</li>
+                <li>Basic circular motion concepts (radians, angular velocity)</li>
+            </ul>
+
+            <p>The key insight is this: SHM occurs whenever a restoring force is proportional to displacement. This simple condition leads to remarkably rich behavior.</p>
+        </div>
+
+        <!-- Defining Equation Section -->
+        <div class="content-section section-marker" data-section="defining-equation">
+            <h2>The Defining Equation of SHM</h2>
+            <p><strong>The fundamental relationship:</strong> Simple harmonic motion is defined by the equation:</p>
+
+            <p style="text-align: center; font-size: 1.3rem; margin: 1.5rem 0; color: #667eea;">
+                $$a = -\omega^2 x$$
+            </p>
+
+            <p>where:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>\(a\) is the acceleration (m s⁻²)</li>
+                <li>\(x\) is the displacement from equilibrium (m)</li>
+                <li>\(\omega\) is the angular frequency (rad s⁻¹)</li>
+                <li>The negative sign indicates that acceleration always opposes displacement</li>
+            </ul>
+
+            <p><strong>Understanding the physics:</strong> This equation tells us three critical things:</p>
+
+            <p><strong>1. Proportionality:</strong> Acceleration is directly proportional to displacement. Pull the system twice as far from equilibrium, and the restoring acceleration doubles.</p>
+
+            <p><strong>2. Opposition:</strong> The negative sign means acceleration always points toward equilibrium. When displaced to the right (x > 0), acceleration points left (a < 0), and vice versa.</p>
+
+            <p><strong>3. No constant term:</strong> Pure SHM has no constant acceleration—only position-dependent acceleration. This is what makes the motion oscillatory rather than parabolic.</p>
+
+            <p><strong>Deriving from force:</strong> For a mass-spring system, Hooke's law gives us F = -kx. Combining with Newton's second law:</p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$ma = -kx$$
+                $$a = -\frac{k}{m}x$$
+            </p>
+
+            <p>Comparing with the defining equation, we identify \(\omega^2 = k/m\), so \(\omega = \sqrt{k/m}\).</p>
+
+            <p>This shows that stiffer springs (larger k) or lighter masses (smaller m) produce faster oscillations (larger ω).</p>
+        </div>
+
+        <!-- Mathematical Description Section -->
+        <div class="content-section section-marker" data-section="mathematical-description">
+            <h2>Mathematical Description: The Solution Equations</h2>
+            <p><strong>Position as a function of time:</strong> The defining equation \(a = -\omega^2 x\) is a second-order differential equation. Its general solution is:</p>
+
+            <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0; color: #667eea;">
+                $$x(t) = A\cos(\omega t + \phi_0)$$
+            </p>
+
+            <p>Alternatively (equally valid): \(x(t) = A\sin(\omega t + \phi_0)\)</p>
+
+            <p>where:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>\(A\) is the amplitude (maximum displacement)</li>
+                <li>\(\phi_0\) is the phase constant (determined by initial conditions)</li>
+            </ul>
+
+            <p><strong>Velocity and acceleration:</strong> Taking derivatives:</p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$v(t) = \frac{dx}{dt} = -A\omega\sin(\omega t + \phi_0)$$
+            </p>
+
+            <p>Alternatively: \(v(t) = A\omega\cos(\omega t + \phi_0 + \pi/2)\)</p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$a(t) = \frac{dv}{dt} = -A\omega^2\cos(\omega t + \phi_0) = -\omega^2 x$$
+            </p>
+
+            <p>The last step confirms our defining equation.</p>
+
+            <p><strong>Key observations:</strong></p>
+
+            <p><strong>1. Phase relationships:</strong> Velocity leads position by 90° (π/2 radians), and acceleration leads position by 180° (π radians). When displacement is maximum, velocity is zero and acceleration is maximum (in the opposite direction).</p>
+
+            <p><strong>2. Maximum values:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Maximum displacement: \(x_{max} = A\)</li>
+                <li>Maximum velocity: \(v_{max} = A\omega\) (at equilibrium, x = 0)</li>
+                <li>Maximum acceleration: \(a_{max} = A\omega^2\) (at maximum displacement)</li>
+            </ul>
+
+            <p><strong>3. Initial conditions:</strong> If at t = 0 the object is at maximum displacement (x = A, v = 0), then \(\phi_0 = 0\) and we use \(x(t) = A\cos(\omega t)\). If it starts at equilibrium moving in the positive direction (x = 0, v = +v_max), then \(\phi_0 = -\pi/2\) or we use \(x(t) = A\sin(\omega t)\).</p>
+
+            <p><strong>Period and frequency:</strong> The period T is the time for one complete oscillation:</p>
+
+            <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0; color: #667eea;">
+                $$T = \frac{2\pi}{\omega}$$
+            </p>
+
+            <p>Frequency is the reciprocal: \(f = 1/T = \omega/(2\pi)\)</p>
+
+            <p>For a mass-spring system: \(T = 2\pi\sqrt{m/k}\)</p>
+
+            <p>For a simple pendulum (small angles): \(T = 2\pi\sqrt{L/g}\)</p>
+
+            <p>Note that the period is independent of amplitude—a defining characteristic of SHM.</p>
+        </div>
+
+        <!-- Energy Section -->
+        <div class="content-section section-marker" data-section="energy">
+            <h2>Energy in Simple Harmonic Motion</h2>
+            <p><strong>Energy transformations:</strong> In SHM, energy continuously converts between kinetic and potential forms, with total mechanical energy remaining constant (in the absence of damping).</p>
+
+            <p><strong>Kinetic energy:</strong></p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$E_k = \frac{1}{2}mv^2 = \frac{1}{2}m A^2\omega^2\sin^2(\omega t + \phi_0)$$
+            </p>
+
+            <p>At equilibrium (x = 0), all energy is kinetic: \(E_k = \frac{1}{2}m A^2\omega^2\)</p>
+
+            <p><strong>Potential energy:</strong> For a spring:</p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$E_p = \frac{1}{2}kx^2 = \frac{1}{2}k A^2\cos^2(\omega t + \phi_0)$$
+            </p>
+
+            <p>At maximum displacement, all energy is potential: \(E_p = \frac{1}{2}k A^2\)</p>
+
+            <p><strong>Total energy:</strong> Using \(\omega^2 = k/m\) and \(\sin^2\theta + \cos^2\theta = 1\):</p>
+
+            <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0; color: #667eea;">
+                $$E_{total} = E_k + E_p = \frac{1}{2}k A^2 = \frac{1}{2}m\omega^2 A^2$$
+            </p>
+
+            <p>This is constant throughout the motion and proportional to the square of the amplitude.</p>
+
+            <p><strong>Alternative forms at any instant:</strong></p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$E_{total} = \frac{1}{2}mv^2 + \frac{1}{2}kx^2$$
+            </p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$E_{total} = \frac{1}{2}m v_{max}^2 = \frac{1}{2}k x_{max}^2$$
+            </p>
+
+            <p><strong>Finding velocity at any position:</strong> From energy conservation:</p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$\frac{1}{2}mv^2 + \frac{1}{2}kx^2 = \frac{1}{2}kA^2$$
+            </p>
+
+            <p>Solving for v: \(v = \pm\omega\sqrt{A^2 - x^2}\)</p>
+
+            <p>The ± sign indicates the object can be moving in either direction at position x.</p>
+
+            <p><strong>Energy graphs:</strong> When graphed against time, \(E_k\) and \(E_p\) are sinusoidal with twice the frequency of the position oscillation (because they depend on \(\sin^2\) and \(\cos^2\)). They oscillate out of phase such that their sum remains constant.</p>
+        </div>
+
+        <!-- Examples Section -->
+        <div class="content-section section-marker" data-section="examples">
+            <h2>Examples of SHM Systems</h2>
+
+            <h3>1. Mass-spring system (horizontal):</h3>
+            <p>This is the prototypical SHM system. A mass m attached to a spring with spring constant k executes SHM with:</p>
+
+            <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0; color: #667eea;">
+                $$\omega = \sqrt{\frac{k}{m}}, \quad T = 2\pi\sqrt{\frac{m}{k}}$$
+            </p>
+
+            <p>The equilibrium position is where the spring is at its natural length (for horizontal systems) or where the spring force balances weight (for vertical systems).</p>
+
+            <p><strong>Critical point for vertical springs:</strong> When a mass hangs from a vertical spring, it stretches to a new equilibrium position where \(kx_0 = mg\). Oscillations occur about this new equilibrium, and the period formula remains \(T = 2\pi\sqrt{m/k}\). The gravitational potential energy changes are accounted for by measuring displacement from the new equilibrium.</p>
+
+            <h3>2. Simple pendulum (small angles):</h3>
+            <p>A point mass m suspended by a massless string of length L executes SHM for small angles (typically < 10°). The restoring force component is \(F = -mg\sin\theta \approx -mg\theta\) for small θ.</p>
+
+            <p>Using arc length s = Lθ as the displacement:</p>
+
+            <p style="text-align: center; font-size: 1.2rem; margin: 1.5rem 0; color: #667eea;">
+                $$T = 2\pi\sqrt{\frac{L}{g}}$$
+            </p>
+
+            <p>Note: The period is independent of mass and amplitude (for small angles), depending only on length and gravitational field strength.</p>
+
+            <h3>3. Physical pendulum:</h3>
+            <p>Any rigid body pivoting about a point executes SHM for small angular displacements:</p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$T = 2\pi\sqrt{\frac{I}{mgd}}$$
+            </p>
+
+            <p>where I is the moment of inertia about the pivot point, m is the mass, and d is the distance from the pivot to the center of mass.</p>
+
+            <p><strong>When is motion NOT simple harmonic?</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Large-angle pendulum swings (sin θ ≠ θ)</li>
+                <li>Springs stretched beyond their elastic limit</li>
+                <li>Any system with friction or damping (motion decays)</li>
+                <li>Systems where the restoring force is not proportional to displacement (e.g., F ∝ x²)</li>
+            </ul>
+        </div>
+
+        <!-- Graphical Representations Section -->
+        <div class="content-section section-marker" data-section="graphs">
+            <h2>Graphical Representations</h2>
+
+            <p><strong>Position-time graph:</strong> x(t) = A cos(ωt) produces a cosine curve with:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Amplitude A (distance from centerline to peak)</li>
+                <li>Period T = 2π/ω (horizontal distance for one complete cycle)</li>
+                <li>Starting at maximum positive displacement if φ₀ = 0</li>
+            </ul>
+
+            <p><strong>Velocity-time graph:</strong> v(t) = -Aω sin(ωt) produces a sine curve:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Amplitude Aω (note: larger than position amplitude)</li>
+                <li>Same period T</li>
+                <li>Zero crossings coincide with position extrema</li>
+                <li>Maximum speed occurs when passing through equilibrium</li>
+            </ul>
+
+            <p><strong>Acceleration-time graph:</strong> a(t) = -Aω² cos(ωt) produces an inverted cosine:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Amplitude Aω² (even larger)</li>
+                <li>Same period T</li>
+                <li>Exactly out of phase with position (when x is maximum positive, a is maximum negative)</li>
+            </ul>
+
+            <p><strong>Phase relationships:</strong> The three graphs reveal the 90° phase shifts:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>v leads x by 90° (π/2 radians)</li>
+                <li>a leads v by 90° (π/2 radians)</li>
+                <li>a leads x by 180° (π radians)</li>
+            </ul>
+
+            <p><strong>Energy-position graphs:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>\(E_k\) vs x: Parabola opening downward, maximum at x = 0, zero at x = ±A</li>
+                <li>\(E_p\) vs x: Parabola opening upward, minimum (zero) at x = 0, maximum at x = ±A</li>
+                <li>\(E_{total}\) vs x: Horizontal line at \(\frac{1}{2}kA^2\)</li>
+            </ul>
+
+            <p><strong>Common IB exam question:</strong> Given one graph (usually position), sketch the others. Remember: velocity is steepest where position crosses equilibrium; acceleration mirrors position but inverted.</p>
+        </div>
+
+        <!-- Damping Section -->
+        <div class="content-section section-marker" data-section="damping">
+            <h2>Damping in Oscillatory Systems</h2>
+
+            <p><strong>Real-world oscillators:</strong> All real systems experience damping due to friction, air resistance, or internal energy dissipation. The amplitude decreases over time while the frequency remains approximately constant (for light damping).</p>
+
+            <p><strong>Types of damping:</strong></p>
+
+            <p><strong>1. Light (underdamping):</strong> The system oscillates with decreasing amplitude. The envelope of the oscillation decays exponentially: \(A(t) = A_0 e^{-bt}\) where b is the damping constant. This is the most common case in practice.</p>
+
+            <p><strong>2. Critical damping:</strong> The system returns to equilibrium as quickly as possible without overshooting. This is desirable in applications like car suspension systems and door closers.</p>
+
+            <p><strong>3. Heavy (overdamping):</strong> The system returns to equilibrium slowly without oscillating. The motion is sluggish.</p>
+
+            <p><strong>Mathematical description (light damping):</strong></p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$x(t) = A_0 e^{-bt}\cos(\omega' t + \phi_0)$$
+            </p>
+
+            <p>where \(\omega' < \omega\) is the damped frequency, slightly less than the natural frequency.</p>
+
+            <p><strong>Energy loss:</strong> In a damped oscillator, total mechanical energy decreases exponentially:</p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$E(t) = E_0 e^{-2bt}$$
+            </p>
+
+            <p>The energy is converted to thermal energy in the resistive medium.</p>
+
+            <p><strong>Quality factor (Q-factor):</strong> Describes how underdamped an oscillator is:</p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$Q = 2\pi\frac{\text{Energy stored}}{\text{Energy lost per cycle}}$$
+            </p>
+
+            <p>High Q means low damping (oscillations persist); low Q means high damping (oscillations die quickly). A tuning fork has Q ~ 1000; a car suspension has Q ~ 1.</p>
+        </div>
+
+        <!-- Resonance Section -->
+        <div class="content-section section-marker" data-section="resonance">
+            <h2>Forced Oscillations and Resonance</h2>
+
+            <p><strong>Driving force:</strong> When an external periodic force is applied to an oscillator, the system eventually oscillates at the driving frequency (not its natural frequency), with amplitude depending on the relationship between driving and natural frequencies.</p>
+
+            <p style="text-align: center; margin: 1rem 0;">
+                $$F_{driving} = F_0\cos(\omega_d t)$$
+            </p>
+
+            <p>where \(\omega_d\) is the driving angular frequency.</p>
+
+            <p><strong>Steady-state response:</strong> After transients die away, the amplitude of oscillation depends on:</p>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Driving frequency relative to natural frequency:</strong> Maximum amplitude occurs when \(\omega_d \approx \omega_0\) (the natural frequency)</li>
+                <li><strong>Damping:</strong> Lighter damping produces larger amplitude at resonance</li>
+                <li><strong>Driving force magnitude:</strong> Larger F₀ produces proportionally larger amplitude</li>
+            </ol>
+
+            <p><strong>Resonance:</strong> The dramatic increase in amplitude when the driving frequency matches the natural frequency. At resonance:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Energy transfer from driver to oscillator is maximized</li>
+                <li>Amplitude is limited only by damping</li>
+                <li>Phase difference between driving force and displacement is 90°</li>
+            </ul>
+
+            <p><strong>Resonance curve:</strong> A graph of steady-state amplitude vs driving frequency shows:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Peak at \(\omega_d = \omega_0\) (resonance)</li>
+                <li>Height of peak increases with decreasing damping (sharper resonance)</li>
+                <li>Width of peak (bandwidth) decreases with decreasing damping</li>
+                <li>For very light damping, the peak is tall and narrow; for heavy damping, the peak is broad and low</li>
+            </ul>
+
+            <p><strong>Applications and dangers:</strong></p>
+
+            <p><em>Beneficial:</em> Radio tuning (LC circuits), musical instruments (resonant cavities), MRI machines (nuclear magnetic resonance), microwave ovens (water molecule resonance)</p>
+
+            <p><em>Dangerous:</em> Bridge collapse (Tacoma Narrows, 1940—wind-induced resonance), building damage in earthquakes (if building natural frequency matches seismic wave frequency), machinery vibration</p>
+
+            <p><strong>Phase relationships:</strong> Below resonance, displacement is nearly in phase with driving force; above resonance, they are nearly 180° out of phase; exactly at resonance, they are 90° out of phase.</p>
+        </div>
+
+        <!-- Misconceptions Section -->
+        <div class="content-section section-marker" data-section="misconceptions">
+            <h2>Common Misconceptions and Exam Pitfalls</h2>
+
+            <div class="definition-box">
+                <div class="definition-term">Misconception 1: Maximum velocity occurs at maximum displacement</div>
+                <div><strong>Reality:</strong> Maximum velocity occurs at equilibrium (x = 0) where kinetic energy is maximum. At maximum displacement, velocity is instantaneously zero as the object reverses direction.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Misconception 2: The period depends on amplitude</div>
+                <div><strong>Reality:</strong> For true SHM, the period is amplitude-independent. This is called isochronism and is what makes pendulum clocks work. If period depends on amplitude, the motion is not simple harmonic (e.g., large-angle pendulum).</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Misconception 3: Energy graphs oscillate at the same frequency as position</div>
+                <div><strong>Reality:</strong> Energy-time graphs oscillate at twice the frequency because energy depends on x² or v². Both kinetic and potential energies complete two cycles for every one cycle of position.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Misconception 4: At resonance, the driving frequency equals the natural frequency exactly</div>
+                <div><strong>Reality:</strong> For damped oscillators, the resonance frequency is slightly below the natural frequency. The difference is negligible for light damping but becomes significant for heavy damping.</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Misconception 5: Adding mass to a pendulum changes its period</div>
+                <div><strong>Reality:</strong> For a simple pendulum, \(T = 2\pi\sqrt{L/g}\) is independent of mass. Both the restoring force and inertia scale with mass, so they cancel out. (This does NOT apply to mass-spring systems where \(T = 2\pi\sqrt{m/k}\) does depend on mass.)</div>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-term">Misconception 6: The restoring force in SHM is constant</div>
+                <div><strong>Reality:</strong> The restoring force is proportional to displacement: F = -kx. It's maximum at maximum displacement and zero at equilibrium. Constant force would produce constant acceleration and parabolic motion, not oscillation.</div>
+            </div>
+
+            <p><strong>Common calculation errors:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Confusing ω (angular frequency, rad s⁻¹) with f (frequency, Hz)</li>
+                <li>Forgetting to convert degrees to radians for pendulum calculations</li>
+                <li>Using the wrong formula: \(T = 2\pi\sqrt{m/k}\) for springs, \(T = 2\pi\sqrt{L/g}\) for pendulums</li>
+                <li>Forgetting the factor of 1/2 in energy equations</li>
+                <li>Missing the negative sign in a = -ω²x</li>
+            </ul>
+        </div>
+
+        <!-- Practice Problems Section -->
+        <div class="problem-container section-marker" data-section="practice">
+            <h2 style="color: #667eea; margin-bottom: 1.5rem;"><i class="fas fa-pencil-alt"></i> Practice Problems</h2>
+
+            <!-- Problem 1 -->
+            <div class="problem">
+                <div class="problem-question" onclick="toggleSolution(this)">
+                    <span class="problem-number">Problem 1</span>
+                    <span class="problem-text">A 0.50 kg mass attached to a spring oscillates horizontally with a period of 1.2 s and amplitude 8.0 cm. Calculate: (a) the spring constant k, (b) the maximum velocity, (c) the maximum acceleration, and (d) the total mechanical energy.</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="problem-solution">
+                    <p><strong>Solution:</strong></p>
+                    <p>(a) Using \(T = 2\pi\sqrt{m/k}\), solve for k:</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$k = \frac{4\pi^2 m}{T^2} = \frac{4\pi^2(0.50)}{(1.2)^2} = 13.7 \text{ N m}^{-1}$$
+                    </p>
+                    <p>(b) First find ω: \(\omega = 2\pi/T = 2\pi/1.2 = 5.24\) rad s⁻¹</p>
+                    <p>Maximum velocity: \(v_{max} = A\omega = (0.080)(5.24) = 0.42\) m s⁻¹</p>
+                    <p>(c) Maximum acceleration: \(a_{max} = A\omega^2 = (0.080)(5.24)^2 = 2.19\) m s⁻²</p>
+                    <p>(d) Total energy: \(E = \frac{1}{2}kA^2 = \frac{1}{2}(13.7)(0.080)^2 = 0.044\) J</p>
+                    <p>Alternatively: \(E = \frac{1}{2}m v_{max}^2 = \frac{1}{2}(0.50)(0.42)^2 = 0.044\) J ✓</p>
+                    <p><em>This problem tests fundamental SHM relationships. Notice how we can calculate energy using either the spring constant and amplitude or the mass and maximum velocity—they must give the same answer, providing a good check.</em></p>
+                </div>
+            </div>
+
+            <!-- Problem 2 -->
+            <div class="problem">
+                <div class="problem-question" onclick="toggleSolution(this)">
+                    <span class="problem-number">Problem 2</span>
+                    <span class="problem-text">A simple pendulum has a period of 2.0 s on Earth. (a) What is its length? (b) What would its period be on Mars where g = 3.7 m s⁻²? (c) Explain why the period is independent of the mass of the bob.</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="problem-solution">
+                    <p><strong>Solution:</strong></p>
+                    <p>(a) Using \(T = 2\pi\sqrt{L/g}\), solve for L:</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$L = \frac{gT^2}{4\pi^2} = \frac{(9.8)(2.0)^2}{4\pi^2} = 0.99 \text{ m}$$
+                    </p>
+                    <p>(b) On Mars with the same length:</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$T = 2\pi\sqrt{\frac{L}{g}} = 2\pi\sqrt{\frac{0.99}{3.7}} = 3.3 \text{ s}$$
+                    </p>
+                    <p>The period increases because weaker gravity provides a smaller restoring force.</p>
+                    <p>(c) The restoring force is \(F = mg\sin\theta \approx mg\theta\) and the acceleration is \(a = F/m = g\theta\). The mass cancels out, making the period independent of m. Both the restoring force and the inertia are proportional to mass, so their ratio (which determines the motion) is mass-independent.</p>
+                    <p><em>This problem illustrates how gravitational field strength affects pendulum period and tests understanding of why mass cancels out.</em></p>
+                </div>
+            </div>
+
+            <!-- Problem 3 -->
+            <div class="problem">
+                <div class="problem-question" onclick="toggleSolution(this)">
+                    <span class="problem-number">Problem 3</span>
+                    <span class="problem-text">An oscillator has the equation of motion x = 0.12cos(5.0t) where x is in meters and t is in seconds. Determine: (a) the amplitude, frequency, and period, (b) the displacement, velocity, and acceleration at t = 0.50 s, (c) the position(s) where speed is half its maximum value.</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="problem-solution">
+                    <p><strong>Solution:</strong></p>
+                    <p>(a) Comparing with \(x = A\cos(\omega t)\):</p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Amplitude: A = 0.12 m</li>
+                        <li>Angular frequency: ω = 5.0 rad s⁻¹</li>
+                        <li>Frequency: \(f = \omega/(2\pi) = 5.0/(2\pi) = 0.80\) Hz</li>
+                        <li>Period: \(T = 1/f = 1.25\) s</li>
+                    </ul>
+                    <p>(b) At t = 0.50 s:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Displacement: \(x = 0.12\cos(5.0 \times 0.50) = 0.12\cos(2.5) = -0.096\) m</li>
+                        <li>Velocity: \(v = -A\omega\sin(\omega t) = -(0.12)(5.0)\sin(2.5) = -0.36\) m s⁻¹</li>
+                        <li>Acceleration: \(a = -\omega^2 x = -(5.0)^2(-0.096) = 2.4\) m s⁻²</li>
+                    </ul>
+                    <p>(c) Maximum speed: \(v_{max} = A\omega = (0.12)(5.0) = 0.60\) m s⁻¹</p>
+                    <p>Half maximum: \(v = 0.30\) m s⁻¹</p>
+                    <p>Using \(v = \omega\sqrt{A^2 - x^2}\):</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$0.30 = 5.0\sqrt{0.12^2 - x^2}$$
+                        $$x = \pm 0.104 \text{ m}$$
+                    </p>
+                    <p>The speed is half maximum at x = ±10.4 cm (four positions in one cycle, twice on each side).</p>
+                </div>
+            </div>
+
+            <!-- Problem 4 -->
+            <div class="problem">
+                <div class="problem-question" onclick="toggleSolution(this)">
+                    <span class="problem-number">Problem 4</span>
+                    <span class="problem-text">A 200 g mass on a spring oscillates with amplitude 15 cm. At t = 0, it is at x = +15 cm and released from rest. (a) Write the equation for x(t). (b) Find the first three times when the kinetic energy equals the potential energy. (c) At what displacement is the kinetic energy three times the potential energy?</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="problem-solution">
+                    <p><strong>Solution:</strong></p>
+                    <p>(a) At t = 0: x = A = 0.15 m and v = 0, so we use \(x(t) = A\cos(\omega t)\):</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$x(t) = 0.15\cos(\omega t) \text{ m}$$
+                    </p>
+                    <p>(b) When \(E_k = E_p\), the object is at \(x = \pm A/\sqrt{2} = \pm 0.106\) m</p>
+                    <p>Using \(x(t) = 0.15\cos(\omega t) = 0.106\):</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$\cos(\omega t) = 0.707$$
+                        $$\omega t = \pm 0.785 \text{ rad}$$
+                    </p>
+                    <p>In terms of period T = 2π/ω: \(t_1 = T/8\), \(t_2 = 7T/8\), \(t_3 = 9T/8\)</p>
+                    <p>(c) When \(E_k = 3E_p\):</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$E_k + E_p = \frac{1}{2}kA^2$$
+                        $$3E_p + E_p = \frac{1}{2}kA^2$$
+                        $$x = \pm\frac{A}{2} = \pm 7.5 \text{ cm}$$
+                    </p>
+                </div>
+            </div>
+
+            <!-- Problem 5 -->
+            <div class="problem">
+                <div class="problem-question" onclick="toggleSolution(this)">
+                    <span class="problem-number">Problem 5</span>
+                    <span class="problem-text">A damped harmonic oscillator has its amplitude reduced to 37% of its initial value after 10 complete oscillations. The undamped period would be 0.80 s. (a) Calculate the damping constant b. (b) Estimate how many oscillations occur before the amplitude falls to 5% of its initial value.</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="problem-solution">
+                    <p><strong>Solution:</strong></p>
+                    <p>(a) The amplitude decay equation is \(A(t) = A_0 e^{-bt}\)</p>
+                    <p>After 10 oscillations: \(t = 10T = 10(0.80) = 8.0\) s</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$0.37A_0 = A_0 e^{-b(8.0)}$$
+                        $$\ln(0.37) = -8.0b$$
+                        $$b = 0.124 \text{ s}^{-1}$$
+                    </p>
+                    <p>(b) For amplitude to reach 5% of initial:</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$0.05 = e^{-bt}$$
+                        $$t = \frac{-\ln(0.05)}{0.124} = 24.2 \text{ s}$$
+                    </p>
+                    <p>Number of oscillations: \(n = t/T = 24.2/0.80 = 30\) oscillations</p>
+                </div>
+            </div>
+
+            <!-- Problem 6 -->
+            <div class="problem">
+                <div class="problem-question" onclick="toggleSolution(this)">
+                    <span class="problem-number">Problem 6</span>
+                    <span class="problem-text">A mass-spring system and a simple pendulum both have a period of 2.0 s on Earth. (a) Describe how their periods would change if both systems were taken to the Moon (g = 1.6 m s⁻²). (b) Each system is given twice the initial amplitude. Describe the effect on period and maximum speed for each system.</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="problem-solution">
+                    <p><strong>Solution:</strong></p>
+                    <p>(a) On the Moon:</p>
+                    <p><strong>Mass-spring:</strong> \(T = 2\pi\sqrt{m/k}\) does not depend on g, so <strong>period remains 2.0 s</strong>.</p>
+                    <p><strong>Pendulum:</strong> \(T = 2\pi\sqrt{L/g}\) depends on g, so:</p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$T_{Moon} = 2.0\sqrt{\frac{9.8}{1.6}} = 4.9 \text{ s}$$
+                    </p>
+                    <p>(b) Doubling amplitude:</p>
+                    <p>For both systems, true SHM has amplitude-independent period, so <strong>period remains 2.0 s</strong>.</p>
+                    <p>For maximum speed: \(v_{max} = A\omega = A(2\pi/T)\)</p>
+                    <p>If A doubles and T is constant, then <strong>maximum speed doubles</strong> for both systems.</p>
+                </div>
+            </div>
+
+            <!-- Problem 7 -->
+            <div class="problem">
+                <div class="problem-question" onclick="toggleSolution(this)">
+                    <span class="problem-number">Problem 7</span>
+                    <span class="problem-text">Extended response: A physics student claims that 'any oscillating system can be described by SHM equations.' Evaluate this claim by: (a) stating the conditions necessary for true SHM, (b) giving two examples that DO exhibit SHM, (c) giving two examples that do NOT exhibit true SHM.</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="problem-solution">
+                    <p><strong>Solution:</strong></p>
+                    <p>(a) <strong>Conditions for true SHM:</strong></p>
+                    <ol style="margin-left: 2rem;">
+                        <li>The restoring force must be directly proportional to displacement: F ∝ -x</li>
+                        <li>The force must always be directed toward the equilibrium position</li>
+                        <li>There must be no damping or external driving forces (for ideal SHM)</li>
+                        <li>The motion must be periodic with amplitude-independent period</li>
+                        <li>Mathematically: the acceleration must satisfy a = -ω²x</li>
+                    </ol>
+                    <p>(b) <strong>Examples that DO exhibit SHM:</strong></p>
+                    <p><strong>Example 1: Horizontal mass-spring system</strong><br>
+                    Hooke's law gives F = -kx (exactly), so a = -kx/m = -ω²x with ω = √(k/m). This satisfies the defining equation perfectly.</p>
+                    <p><strong>Example 2: Simple pendulum for small angles</strong><br>
+                    For small θ (< 10°), sin θ ≈ θ, so F ≈ -(mg/L)x. This gives a ∝ -x, satisfying SHM.</p>
+                    <p>(c) <strong>Examples that do NOT exhibit true SHM:</strong></p>
+                    <p><strong>Example 1: Large-angle pendulum</strong><br>
+                    For large angles, sin θ ≠ θ, so F = -mg sin θ is not proportional to x. The motion is still periodic but the period depends on amplitude.</p>
+                    <p><strong>Example 2: Mass on a spring beyond elastic limit</strong><br>
+                    If the spring is stretched so far that Hooke's law no longer applies, F ≠ -kx. The motion becomes non-harmonic.</p>
+                    <p><strong>Conclusion:</strong> The student's claim is oversimplified. While many oscillating systems approximate SHM under certain conditions, true SHM requires specific conditions that are rarely perfectly met in real systems.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Tips Section -->
+        <div class="exam-tips section-marker" data-section="exam-tips">
+            <h3><i class="fas fa-lightbulb"></i> Exam Tips</h3>
+            <div class="tip-item">Always start SHM problems by identifying whether it's a spring system (T = 2π√(m/k)) or pendulum (T = 2π√(L/g)). Students frequently confuse these formulas.</div>
+            <div class="tip-item">When given an equation like x = A cos(ωt), immediately identify: amplitude A, angular frequency ω, then calculate period T = 2π/ω and frequency f = ω/(2π).</div>
+            <div class="tip-item">For energy problems, remember that total energy E = ½kA² = ½mv_max² = ½mω²A². You can calculate energy using ANY of these forms—choose the one with known quantities.</div>
+            <div class="tip-item">Graphs are common on Paper 2. Practice sketching x-t, v-t, and a-t graphs. Remember: v is 90° ahead of x, a is 180° opposite to x.</div>
+            <div class="tip-item">In calculations, watch your units. Angular frequency ω is in rad s⁻¹, frequency f is in Hz. Converting between these incorrectly is a common mistake.</div>
+            <div class="tip-item">For phase constant problems, use initial conditions carefully. If starting at maximum displacement with v = 0, use x = A cos(ωt) with φ₀ = 0.</div>
+            <div class="tip-item">When asked to 'derive' or 'show that', write every step clearly. Start from F = -kx, apply Newton's second law, and show how you arrive at a = -ω²x.</div>
+            <div class="tip-item">For pendulum problems, remember the small angle approximation sin θ ≈ θ (in radians) is essential. Large angle pendulums do NOT exhibit SHM.</div>
+            <div class="tip-item">Energy-time graphs: E_k and E_p oscillate at TWICE the frequency of position because they depend on x² and v².</div>
+            <div class="tip-item">Resonance explanations should mention: driving frequency equals natural frequency, maximum amplitude occurs, maximum energy transfer, and damping limits the amplitude.</div>
+            <div class="tip-item">For data-based questions involving period and mass (springs) or period and length (pendulums), linearize by plotting T² vs m or T² vs L.</div>
+            <div class="tip-item">When stating the definition of SHM, you must include both 'acceleration proportional to displacement' AND 'directed toward equilibrium'. The negative sign in a = -ω²x is essential.</div>
+            <div class="tip-item">Maximum velocity occurs at equilibrium (x = 0), maximum acceleration occurs at maximum displacement (x = ±A). State this explicitly if asked to 'explain'.</div>
+            <div class="tip-item">For damping questions, distinguish between light (underdamped), critical, and heavy (overdamped) damping clearly.</div>
+            <div class="tip-item">Time management: If a problem seems to require extensive algebra, check if there's a shortcut using energy conservation or relationships like v_max = Aω.</div>
+        </div>
+
+    </div>
+
+    <!-- Lesson Footer Navigation -->
+    <footer class="lesson-footer">
+        <div class="footer-content">
+            <button class="nav-button prev" onclick="previousLesson()">
+                <i class="fas fa-arrow-left"></i> Previous Lesson
+            </button>
+            <div style="text-align: center;">
+                <p style="color: #666; margin-bottom: 0.5rem;">Lesson C1: Simple Harmonic Motion</p>
+                <p style="color: #999; font-size: 0.9rem;">Physics HL</p>
+            </div>
+            <button class="nav-button next" onclick="nextLesson()">
+                Next Lesson <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="alert('Chatbot feature - Connect to your AI assistant!')">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
+
+    <script>
+        // Progress Tracking
+        let sections = [];
+        let observedSections = new Set();
+
+        function initProgressTracking() {
+            sections = document.querySelectorAll('.section-marker');
+
+            const options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        observedSections.add(entry.target);
+                        updateProgress();
+                    }
+                });
+            }, options);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        function updateProgress() {
+            const totalSections = sections.length;
+            const viewedSections = observedSections.size;
+            const percentage = Math.round((viewedSections / totalSections) * 100);
+
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-percentage').textContent = percentage + '%';
+        }
+
+        // Toggle Problem Solutions
+        function toggleSolution(element) {
+            const problem = element.parentElement;
+            const solution = problem.querySelector('.problem-solution');
+
+            problem.classList.toggle('active');
+            solution.classList.toggle('active');
+        }
+
+        // Navigation Functions
+        function previousLesson() {
+            alert('Navigate to previous lesson - Connect to your lesson navigation system');
+        }
+
+        function nextLesson() {
+            alert('Navigate to next lesson - Connect to your lesson navigation system');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initProgressTracking();
+
+            // Trigger MathJax rendering
+            if (window.MathJax) {
+                MathJax.typesetPromise().catch((err) => console.log('MathJax error:', err));
+            }
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

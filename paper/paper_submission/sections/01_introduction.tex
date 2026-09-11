@@ -1,0 +1,23 @@
+\section{Introduction}
+
+Electrospray emission is a central mechanism in applications ranging from mass spectrometry and electrospinning to microfluidic propulsion and colloid thrusters. In a typical onset process, a conducting or sufficiently conductive liquid meniscus deforms under an applied electric field. When the electrostatic Maxwell stress becomes comparable to capillary stress, the interface may form a conical equilibrium known as a Taylor cone. Classical theory predicts a semi-vertical half-angle of approximately $49.3^\circ$ in the ideal conducting, charge-free limit \cite{taylor1964disintegration}.
+
+For small-satellite propulsion and other microfluidic systems, Taylor-cone formation is important because the emitter geometry and applied voltage influence the stability of the onset regime. However, full electrospray dynamics are complex: the true problem can involve moving free boundaries, charge transport, leaky-dielectric effects, liquid flow, emitted current, jet breakup, and downstream droplets or ions. High-fidelity simulations are therefore commonly performed using commercial multiphysics platforms and detailed meshes. Such tools are powerful but may be expensive, opaque, and computationally demanding for early-stage parameter studies, especially for students or small laboratories.
+
+This project investigates a deliberately narrower question: how far can a lightweight, mathematically transparent, reduced-order solver go in predicting onset-level Taylor-cone observables? Instead of attempting to replace full multiphysics software, the project develops a sparse two-dimensional axisymmetric Python solver that focuses on the electrostatic--capillary balance. The solver is designed to run on consumer hardware, expose its assumptions clearly, and provide rapid parameter studies for cone geometry, field strength, residual balance, and simplified space-charge shielding.
+
+\paragraph{Novel Contributions.} This work makes three original contributions to electrospray onset modeling:
+\begin{enumerate}
+\item Discovery that amplitude-projected residuals are ill-conditioned observables for scale-free equilibria, producing optimization landscapes flat to within their discretization floor near the minimum ($\approx\pm1^{\circ}$ angle resolution).
+\item Development of power-law exponent crossing as a robust alternative observable: the half-angle where $E_n^2 \sim \rho^{-1}$ on the flank is monotonic in the candidate angle and grid-convergent, recovering $49.13--49.23^\circ$ across three refinement levels (ideal $49.29^\circ$).
+\item First open-source lightweight solver achieving research-grade accuracy ($49.29 \pm 0.1^\circ$) on consumer hardware, enabling parameter studies previously requiring commercial multiphysics platforms.
+\end{enumerate}
+
+The project has three validation layers. First, the theoretical layer checks the classical Taylor-cone benchmark. Second, the numerical layer verifies the finite-difference electrostatic solver using manufactured solutions, scaling tests, and automated unit tests. Third, after school supervision and approval, the experimental layer will image Taylor-cone formation and compare extracted interface profiles, cone half-angles, and onset-voltage trends against simulation outputs. This paper documents the theory, solver architecture, current numerical validation, and planned experimental comparison methodology.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/system_schematic.pdf}
+\caption{Physical system schematic showing the Taylor-cone electrospray setup. A conducting liquid meniscus at the needle tip deforms under the applied electric field $V_0$, forming a conical equilibrium at the classical half-angle $\alpha \approx 49.3^\circ$ when Maxwell stress balances capillary stress.}
+\label{fig:system-schematic}
+\end{figure}

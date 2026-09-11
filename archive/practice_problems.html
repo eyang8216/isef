@@ -1,0 +1,270 @@
+<!-- Practice Problems Section -->
+<div class="content-section">
+    <h2>Practice Problems</h2>
+
+    <div class="problem-card">
+        <div class="problem-header">
+            <span class="problem-number">Problem 1</span>
+            <button class="toggle-solution" id="button-1" onclick="toggleSolution(1)">Show Solution</button>
+        </div>
+        <div class="problem-question">
+            A uniform electric field of magnitude 450 N C⁻¹ exists between two parallel plates separated by 3.0 cm. (a) Calculate the potential difference between the plates. (b) An electron is released from rest at the negative plate. Calculate its speed when it reaches the positive plate. (electron mass = 9.11 × 10⁻³¹ kg, charge = -1.60 × 10⁻¹⁹ C)
+        </div>
+        <div class="problem-solution" id="solution-1">
+            <strong>Solution:</strong><br>
+            (a) V = Ed = 450 × 0.030 = 13.5 V<br><br>
+            (b) Using energy conservation: qV = ½mv²<br>
+            v = √(2qV/m) = √(2 × 1.60 × 10⁻¹⁹ × 13.5 / 9.11 × 10⁻³¹)<br>
+            v = √(4.74 × 10¹²) = 2.18 × 10⁶ m s⁻¹<br><br>
+            <strong>Explanation:</strong> Part (a) uses the uniform field relationship E = V/d. Part (b) applies energy conservation - the electric potential energy is converted to kinetic energy. Note we use the magnitude of charge in the energy equation since we're calculating speed (magnitude of velocity).
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-header">
+            <span class="problem-number">Problem 2</span>
+            <button class="toggle-solution" id="button-2" onclick="toggleSolution(2)">Show Solution</button>
+        </div>
+        <div class="problem-question">
+            Two point charges, +4.0 μC and -2.0 μC, are separated by 0.60 m in a vacuum. (a) Calculate the electric field strength at the midpoint between them. (b) Calculate the electric potential at the midpoint. (k = 8.99 × 10⁹ N m² C⁻²)
+        </div>
+        <div class="problem-solution" id="solution-2">
+            <strong>Solution:</strong><br>
+            (a) At midpoint, distance from each charge: r = 0.30 m<br>
+            Field from +4.0 μC (pointing away): E₁ = kQ₁/r² = (8.99 × 10⁹ × 4.0 × 10⁻⁶)/(0.30)² = 4.0 × 10⁵ N C⁻¹ (to the right)<br>
+            Field from -2.0 μC (pointing toward): E₂ = kQ₂/r² = (8.99 × 10⁹ × 2.0 × 10⁻⁶)/(0.30)² = 2.0 × 10⁵ N C⁻¹ (to the right)<br>
+            Total field: E = E₁ + E₂ = 6.0 × 10⁵ N C⁻¹ (to the right, toward negative charge)<br><br>
+            (b) Potential is scalar, add algebraically:<br>
+            V = kQ₁/r + kQ₂/r = (8.99 × 10⁹/0.30) × (4.0 × 10⁻⁶ - 2.0 × 10⁻⁶)<br>
+            V = 3.0 × 10¹⁰ × 2.0 × 10⁻⁶ = 6.0 × 10⁴ V<br><br>
+            <strong>Explanation:</strong> This tests understanding of field (vector) vs potential (scalar). For the field, both contributions point in the same direction, so they add. For potential, we add algebraically considering signs.
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-header">
+            <span class="problem-number">Problem 3</span>
+            <button class="toggle-solution" id="button-3" onclick="toggleSolution(3)">Show Solution</button>
+        </div>
+        <div class="problem-question">
+            A proton (mass 1.67 × 10⁻²⁷ kg, charge +1.60 × 10⁻¹⁹ C) enters a uniform magnetic field of 0.50 T with velocity 2.0 × 10⁶ m s⁻¹ perpendicular to the field. (a) Calculate the radius of the circular path. (b) Calculate the period of revolution. (c) Explain why the kinetic energy of the proton remains constant.
+        </div>
+        <div class="problem-solution" id="solution-3">
+            <strong>Solution:</strong><br>
+            (a) Using qvB = mv²/r:<br>
+            r = mv/(qB) = (1.67 × 10⁻²⁷ × 2.0 × 10⁶)/(1.60 × 10⁻¹⁹ × 0.50)<br>
+            r = 3.34 × 10⁻²¹/8.0 × 10⁻²⁰ = 0.042 m = 4.2 cm<br><br>
+            (b) T = 2πm/(qB) = (2π × 1.67 × 10⁻²⁷)/(1.60 × 10⁻¹⁹ × 0.50)<br>
+            T = 1.05 × 10⁻²⁶/8.0 × 10⁻²⁰ = 1.31 × 10⁻⁷ s = 131 ns<br><br>
+            (c) The magnetic force is always perpendicular to the velocity (F ⊥ v). Since work = Fd cos θ and θ = 90°, no work is done by the magnetic force. Therefore, kinetic energy (½mv²) remains constant. The force changes direction but not speed.<br><br>
+            <strong>Explanation:</strong> This is a fundamental application of circular motion in magnetic fields. Note that the period is independent of velocity - this is the cyclotron principle.
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-header">
+            <span class="problem-number">Problem 4</span>
+            <button class="toggle-solution" id="button-4" onclick="toggleSolution(4)">Show Solution</button>
+        </div>
+        <div class="problem-question">
+            A rectangular coil of dimensions 5.0 cm × 8.0 cm with 200 turns is placed in a uniform magnetic field of 0.40 T. The coil is initially perpendicular to the field. (a) Calculate the initial magnetic flux through the coil. (b) The coil is rotated through 90° in 0.20 s. Calculate the average induced EMF. (c) State the direction of the induced current when the coil is rotated so the flux decreases.
+        </div>
+        <div class="problem-solution" id="solution-4">
+            <strong>Solution:</strong><br>
+            (a) Area A = 0.050 × 0.080 = 4.0 × 10⁻³ m²<br>
+            Initial flux (perpendicular): Φᵢ = BA = 0.40 × 4.0 × 10⁻³ = 1.6 × 10⁻³ Wb<br><br>
+            (b) After 90° rotation, coil is parallel to field: Φf = 0<br>
+            Change in flux linkage: NΔΦ = 200 × (0 - 1.6 × 10⁻³) = -0.32 Wb<br>
+            Average induced EMF: ε = -NΔΦ/Δt = -(-0.32)/0.20 = 1.6 V<br><br>
+            (c) By Lenz's law, the induced current creates a magnetic field to oppose the decrease in flux. Therefore, the induced current produces a field in the same direction as the original field through the coil.<br><br>
+            <strong>Explanation:</strong> Part (a) tests flux calculation with perpendicular orientation. Part (b) uses Faraday's law - note the final flux is zero when parallel to the field. Part (c) requires application of Lenz's law conceptually.
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-header">
+            <span class="problem-number">Problem 5</span>
+            <button class="toggle-solution" id="button-5" onclick="toggleSolution(5)">Show Solution</button>
+        </div>
+        <div class="problem-question">
+            A straight wire of length 0.25 m moves perpendicular to a uniform magnetic field of 0.80 T at a constant velocity of 4.0 m s⁻¹. (a) Calculate the induced EMF across the ends of the wire. (b) If the wire forms part of a closed circuit with total resistance 2.0 Ω, calculate the current induced. (c) Calculate the magnetic force on the wire due to this current. (d) Calculate the mechanical power required to maintain constant velocity.
+        </div>
+        <div class="problem-solution" id="solution-5">
+            <strong>Solution:</strong><br>
+            (a) ε = BLv = 0.80 × 0.25 × 4.0 = 0.80 V<br><br>
+            (b) I = ε/R = 0.80/2.0 = 0.40 A<br><br>
+            (c) F = BIL = 0.80 × 0.40 × 0.25 = 0.080 N<br>
+            Direction: By Lenz's law, this force opposes the motion.<br><br>
+            (d) P = Fv = 0.080 × 4.0 = 0.32 W<br>
+            Alternatively: P = ε²/R = (0.80)²/2.0 = 0.32 W ✓<br><br>
+            <strong>Explanation:</strong> This demonstrates energy conservation in electromagnetic induction. The mechanical power input equals the electrical power dissipated (I²R = 0.32 W). The magnetic force opposes motion - you must do work against it to maintain constant velocity.
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-header">
+            <span class="problem-number">Problem 6</span>
+            <button class="toggle-solution" id="button-6" onclick="toggleSolution(6)">Show Solution</button>
+        </div>
+        <div class="problem-question">
+            An ideal transformer is used to step down voltage from 240 V to 12 V to power a device that draws 3.0 A at 12 V. (a) Calculate the turns ratio Nₚ/Nₛ. (b) Calculate the current in the primary coil. (c) A real transformer with 92% efficiency delivers the same output. Calculate the input power required.
+        </div>
+        <div class="problem-solution" id="solution-6">
+            <strong>Solution:</strong><br>
+            (a) Nₚ/Nₛ = Vₚ/Vₛ = 240/12 = 20<br><br>
+            (b) For ideal transformer: VₚIₚ = VₛIₛ<br>
+            Iₚ = (VₛIₛ)/Vₚ = (12 × 3.0)/240 = 0.15 A<br><br>
+            (c) Output power: Pₒᵤₜ = VₛIₛ = 12 × 3.0 = 36 W<br>
+            Efficiency: η = Pₒᵤₜ/Pᵢₙ<br>
+            Pᵢₙ = Pₒᵤₜ/η = 36/0.92 = 39.1 W<br><br>
+            <strong>Explanation:</strong> This tests understanding of ideal vs real transformers. Note that for the ideal transformer, power is conserved exactly. For the real transformer, input power must be higher to account for losses.
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-header">
+            <span class="problem-number">Problem 7 (HL)</span>
+            <button class="toggle-solution" id="button-7" onclick="toggleSolution(7)">Show Solution</button>
+        </div>
+        <div class="problem-question">
+            A velocity selector uses perpendicular electric and magnetic fields. The electric field strength is 2.5 × 10⁴ V m⁻¹ and the magnetic flux density is 0.080 T. (a) Calculate the velocity of particles that pass straight through. (b) A proton (q = 1.60 × 10⁻¹⁹ C, m = 1.67 × 10⁻²⁷ kg) with this velocity then enters a region with magnetic field only (0.080 T). Calculate the radius of its circular path.
+        </div>
+        <div class="problem-solution" id="solution-7">
+            <strong>Solution:</strong><br>
+            (a) For undeflected motion: qE = qvB<br>
+            v = E/B = (2.5 × 10⁴)/(0.080) = 3.125 × 10⁵ m s⁻¹<br><br>
+            (b) r = mv/(qB) = (1.67 × 10⁻²⁷ × 3.125 × 10⁵)/(1.60 × 10⁻¹⁹ × 0.080)<br>
+            r = 5.22 × 10⁻²²/(1.28 × 10⁻²⁰) = 0.041 m = 4.1 cm<br><br>
+            <strong>Explanation:</strong> This is a typical HL problem combining velocity selection with mass spectrometry principles. Part (a) shows the selected velocity is independent of particle charge or mass - only field strengths matter.
+        </div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-header">
+            <span class="problem-number">Problem 8 (HL)</span>
+            <button class="toggle-solution" id="button-8" onclick="toggleSolution(8)">Show Solution</button>
+        </div>
+        <div class="problem-question">
+            A charged particle is accelerated from rest through a potential difference of 5000 V. It then enters a region where electric and magnetic fields are perpendicular to each other and to the particle's velocity. The electric field strength is 8.0 × 10³ N C⁻¹ and the magnetic flux density is 0.040 T. The particle travels undeflected. Calculate the charge-to-mass ratio (q/m) of the particle.
+        </div>
+        <div class="problem-solution" id="solution-8">
+            <strong>Solution:</strong><br>
+            Step 1: Find velocity from acceleration<br>
+            qV = ½mv²<br>
+            v² = 2qV/m<br>
+            v = √(2qV/m)<br><br>
+            Step 2: Apply velocity selector condition<br>
+            For undeflected: qE = qvB<br>
+            v = E/B = (8.0 × 10³)/(0.040) = 2.0 × 10⁵ m s⁻¹<br><br>
+            Step 3: Combine equations<br>
+            E/B = √(2qV/m)<br>
+            (E/B)² = 2qV/m<br>
+            q/m = (E/B)²/(2V) = (2.0 × 10⁵)²/(2 × 5000)<br>
+            q/m = 4.0 × 10¹⁰/(1.0 × 10⁴) = 4.0 × 10⁶ C kg⁻¹<br><br>
+            <strong>Explanation:</strong> This multi-step HL problem requires combining energy conservation with the velocity selector principle. The key insight is that the accelerating voltage determines velocity based on q/m ratio.
+        </div>
+    </div>
+</div>
+
+<!-- Exam Tips Section -->
+<div class="content-section">
+    <h2>Exam Tips</h2>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>Always draw a diagram for field problems - it helps visualize field directions, forces, and particle trajectories. Include clear labels for all vectors.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>When using F = qvB sin θ or similar equations, check whether the angle is 90° (perpendicular) - many exam questions involve perpendicular orientations where sin θ = 1.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>Remember that magnetic forces do NO work - this is a common conceptual question. The force is always perpendicular to velocity, so W = Fd cos 90° = 0.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>For Lenz's law problems, use a systematic method: (1) identify flux change direction, (2) determine opposing field needed, (3) apply right-hand rule for current direction. Don't skip steps.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>In transformer problems, watch the ratio carefully: voltage ratio = turns ratio, but current ratio is INVERTED. Many students mix these up.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>For combined field problems (HL), set up force balance equations carefully. If a particle is undeflected, all forces sum to zero: F_E + F_B = 0 (vector sum).</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>Energy conservation is powerful for electric field problems - often easier than using forces and kinematics. Use qΔV = ΔKE for particles accelerated through potential differences.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>When calculating flux Φ = BA cos θ, remember θ is the angle between field B and the normal to the area, NOT between B and the plane itself.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>For circular motion in magnetic fields, remember that period T = 2πm/(qB) is independent of velocity - this seems counterintuitive but is crucial for cyclotron operation.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>Check that your answers have sensible magnitudes. If you calculate an electron's radius as 3 meters or a magnetic field as 10^15 tesla, you've made an error.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>Units are often worth marks - write them clearly. For B, use tesla (T). For Φ, use weber (Wb). For E fields, use V m⁻¹ or N C⁻¹ (both are correct).</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>In data-based questions, always reference the data or graph explicitly: "From the graph, at t = 2.0 s, the velocity is 3.5 m s⁻¹..." Show you're using the data provided.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>For 'explain' questions about induction, mentioning both Faraday's law (changing flux induces EMF) AND Lenz's law (direction opposes change) typically earns full marks.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>Hall effect problems (HL) require careful identification of directions - sketch the forces on charge carriers to determine which side becomes positive/negative.</div>
+    </div>
+
+    <div class="exam-tip">
+        <i class="fas fa-lightbulb"></i>
+        <div>In mass spectrometer problems (HL), remember that only the m/q ratio is directly measured - you need additional information to separate mass from charge effects.</div>
+    </div>
+</div>
+
+<!-- Problem-Solving Strategies -->
+<div class="content-section">
+    <h2>Problem-Solving Strategies</h2>
+
+    <h3>General Approach for Field Problems</h3>
+    <ol style="margin-left: 2rem; margin-bottom: 1rem;">
+        <li><strong>Identify the field type and configuration</strong> - Uniform or radial? Electric, magnetic, or both? What creates the field?</li>
+        <li><strong>Choose the appropriate equations</strong> - For forces: F = qE or F = qvB sin θ; For energy: W = qΔV or qV = ½mv²; For circular motion: qvB = mv²/r</li>
+        <li><strong>Consider directions carefully</strong> - Electric field: direction of force on positive charge; Magnetic force: use Fleming's left-hand rule; Induced current: apply Lenz's law systematically</li>
+        <li><strong>Check units</strong> - Convert to SI units before calculating; Check final answer has sensible units and magnitude</li>
+    </ol>
+
+    <h3>Common Pitfalls</h3>
+    <ul style="margin-left: 2rem;">
+        <li><strong>Confusing field and force:</strong> Field exists independently; force depends on charge present</li>
+        <li><strong>Sign errors with charges:</strong> Negative charges experience force opposite to field direction</li>
+        <li><strong>Angle in magnetic force:</strong> F = qvB sin θ - perpendicular gives maximum force</li>
+        <li><strong>Work done by magnetic fields:</strong> Always zero - force perpendicular to displacement</li>
+        <li><strong>Direction of induced current:</strong> Don't just guess - apply Lenz's law systematically</li>
+        <li><strong>Transformer equations:</strong> Nₚ/Nₛ ratio appears differently in voltage and current equations</li>
+    </ul>
+</div>

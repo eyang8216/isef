@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic A3: Synthesis of Biological Molecules - Fluapi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4caf50;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 100px auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .lesson-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Definition Boxes */
+        .definitions-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .definition-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #555;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .objectives-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .objectives-list li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0.5rem;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            margin: 1.5rem 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .problem-question {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .problem-question:hover {
+            background: #e9ecef;
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-solution {
+            padding: 1.5rem;
+            background: white;
+            border-top: 2px solid #e0e0e0;
+            display: none;
+        }
+
+        .problem-solution.active {
+            display: block;
+        }
+
+        .solution-label {
+            color: #4caf50;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .explanation-label {
+            color: #764ba2;
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Exam Tips */
+        .tips-list {
+            background: linear-gradient(135deg, #ffeaa715 0%, #FBAB7E15 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #FBAB7E;
+        }
+
+        .tips-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tips-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .tips-list li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            z-index: 900;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-icon {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Navigation Footer */
+        .lesson-nav-footer {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button.prev {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .nav-button.next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .main-content {
+                margin-top: 140px;
+                padding: 0 1rem;
+            }
+
+            .lesson-title {
+                font-size: 1.8rem;
+            }
+
+            .lesson-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .chatbot-widget {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">Fluapi</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="lessons.html">Lessons</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1 class="lesson-title">Topic A3: Synthesis of Biological Molecules</h1>
+            <div class="lesson-meta">
+                <span>📚 Syllabus Code: A3</span>
+                <span>🎓 Level: Higher Level (HL)</span>
+                <span>⏱️ Subject: Biology</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="content-section">
+            <h2>Learning Objectives</h2>
+            <div class="objectives-list">
+                <ul>
+                    <li>Explain the formation of macromolecules through condensation reactions and their breakdown through hydrolysis</li>
+                    <li>Describe the synthesis of disaccharides and polysaccharides from monosaccharides</li>
+                    <li>Explain the formation of polypeptides from amino acids through peptide bond formation</li>
+                    <li>Describe the synthesis of nucleic acids (DNA and RNA) from nucleotides through phosphodiester bond formation</li>
+                    <li>Understand the role of ATP as the universal energy currency in cells</li>
+                    <li>Explain ATP synthesis through substrate-level and oxidative phosphorylation</li>
+                    <li>Analyze the energetics of anabolic and catabolic reactions</li>
+                    <li>Apply knowledge of condensation and hydrolysis to predict products of biochemical reactions</li>
+                    <li>Evaluate the significance of water as a byproduct in biosynthesis</li>
+                    <li>Understand the relationship between monomers and polymers in biological systems</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-section">
+            <h2>Key Definitions</h2>
+            <div class="definitions-grid">
+                <div class="definition-box">
+                    <div class="definition-term">Condensation reaction</div>
+                    <div class="definition-text">A chemical reaction in which two molecules combine to form a larger molecule with the elimination of a small molecule, typically water. This is the fundamental mechanism for building biological macromolecules from monomers.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Hydrolysis</div>
+                    <div class="definition-text">A chemical reaction in which water is used to break down a compound into smaller molecules. This process breaks covalent bonds between monomers in polymers, essentially the reverse of condensation.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Macromolecule</div>
+                    <div class="definition-text">A very large molecule composed of thousands of covalently bonded atoms, typically formed by polymerization of smaller subunits (monomers). The four major classes are carbohydrates, lipids, proteins, and nucleic acids.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Monomer</div>
+                    <div class="definition-text">A small molecular unit that can be joined with other identical or similar molecules to form a polymer through condensation reactions.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Polymer</div>
+                    <div class="definition-text">A large molecule made up of repeating subunits (monomers) joined by covalent bonds. Examples include polysaccharides, polypeptides, and nucleic acids.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Peptide bond</div>
+                    <div class="definition-text">A covalent bond formed between the carboxyl group of one amino acid and the amino group of another through a condensation reaction, linking amino acids together in polypeptides.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Glycosidic bond</div>
+                    <div class="definition-text">A covalent bond formed between two monosaccharides through a condensation reaction, joining carbohydrate units together in disaccharides and polysaccharides.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Phosphodiester bond</div>
+                    <div class="definition-text">A covalent bond linking nucleotides in DNA and RNA, formed between the phosphate group of one nucleotide and the sugar (deoxyribose or ribose) of another through condensation.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">ATP (Adenosine Triphosphate)</div>
+                    <div class="definition-text">The universal energy currency of cells, consisting of adenosine bound to three phosphate groups. Energy is released when the terminal phosphate bond is hydrolyzed.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Anabolic reaction</div>
+                    <div class="definition-text">A metabolic pathway that constructs complex molecules from simpler ones, requiring energy input. Synthesis of macromolecules are anabolic processes.</div>
+                </div>
+                <div class="definition-box">
+                    <div class="definition-term">Catabolic reaction</div>
+                    <div class="definition-text">A metabolic pathway that breaks down complex molecules into simpler ones, releasing energy. Hydrolysis reactions are typically catabolic.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content-section">
+            <h2>Introduction: Building the Molecules of Life</h2>
+            <p>Living organisms must continuously synthesize the complex molecules required for structure, function, and regulation. Topic A3 explores the fundamental chemical processes by which cells construct macromolecules from simple building blocks and break them down when needed. Understanding these synthesis reactions is essential because they underpin all biological processes—from DNA replication to protein synthesis to energy storage.</p>
+            <p>The key principle is remarkably elegant: despite the enormous diversity of biological molecules, almost all macromolecule synthesis follows the same basic mechanism—condensation reactions. Similarly, their breakdown follows the reverse process—hydrolysis. This universality reflects the common evolutionary origin of all life and provides a unifying framework for understanding biochemistry.</p>
+            <p>At the HL level, you must understand not just WHAT happens during synthesis, but WHY these reactions occur, the energetics involved, and how cells control these processes. This topic builds directly on your knowledge of molecular structure from Topics A1 and A2, and forms the foundation for understanding metabolism, DNA replication, and protein synthesis in later topics.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Condensation Reactions: The Universal Synthesis Mechanism</h2>
+            <p>Condensation reactions are the primary mechanism for synthesizing biological macromolecules. The process is conceptually simple but biochemically profound.</p>
+
+            <h3>The Condensation Mechanism</h3>
+            <p>In a condensation reaction, two molecules join together with the simultaneous removal of a water molecule. The hydroxyl group (-OH) from one molecule combines with a hydrogen atom (-H) from another molecule to form water (H₂O), while the two molecules become covalently bonded.</p>
+            <p><strong>General equation:</strong><br>Molecule A-OH + H-Molecule B → Molecule A-B + H₂O</p>
+            <p>This process is also called dehydration synthesis because water is removed (dehydration) while building (synthesis) a larger molecule.</p>
+
+            <h3>Why Condensation Matters</h3>
+            <p>Condensation reactions are endergonic—they require energy input. This makes biological sense: building complex, ordered structures from simple components decreases entropy locally and requires work. Cells couple condensation reactions to ATP hydrolysis or other energy-releasing processes to drive synthesis forward.</p>
+            <p>The removal of water serves multiple purposes:</p>
+            <ol>
+                <li>It drives the reaction forward by removing products</li>
+                <li>It creates a strong covalent bond between monomers</li>
+                <li>It allows the same basic mechanism to work for different molecule types</li>
+            </ol>
+
+            <h3>Specificity of Condensation</h3>
+            <p>While the general mechanism is universal, the specific bonds formed differ:</p>
+            <ul>
+                <li><strong>Glycosidic bonds</strong> link monosaccharides in carbohydrates</li>
+                <li><strong>Peptide bonds</strong> link amino acids in proteins</li>
+                <li><strong>Phosphodiester bonds</strong> link nucleotides in nucleic acids</li>
+                <li><strong>Ester bonds</strong> link fatty acids to glycerol in lipids</li>
+            </ul>
+            <p>Each type requires specific enzymes to catalyze the reaction and position reactants correctly. This specificity allows cells to control exactly which macromolecules are synthesized.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Hydrolysis Reactions: Breaking Down Macromolecules</h2>
+            <p>Hydrolysis is the reverse of condensation—water is used to break covalent bonds between monomers in polymers.</p>
+
+            <h3>The Hydrolysis Mechanism</h3>
+            <p>In hydrolysis, a water molecule is split (hydro = water, lysis = splitting), with the hydroxyl group (-OH) attaching to one monomer and the hydrogen atom (H) attaching to the other, breaking the bond between them.</p>
+            <p><strong>General equation:</strong><br>Molecule A-B + H₂O → Molecule A-OH + H-Molecule B</p>
+
+            <h3>When and Why Cells Use Hydrolysis</h3>
+            <p>Hydrolysis reactions are exergonic—they release energy. Cells hydrolyze macromolecules for several reasons:</p>
+            <ol>
+                <li><strong>Digestion:</strong> Breaking down food polymers into absorbable monomers</li>
+                <li><strong>Energy release:</strong> Catabolism of stored nutrients for ATP production</li>
+                <li><strong>Recycling:</strong> Breaking down damaged proteins or obsolete cellular components</li>
+                <li><strong>Regulation:</strong> Controlling molecule availability by releasing monomers from storage polymers</li>
+            </ol>
+
+            <h3>Enzyme Specificity in Hydrolysis</h3>
+            <p>Like synthesis, hydrolysis requires specific enzymes:</p>
+            <ul>
+                <li><strong>Carbohydrases</strong> (amylase, maltase, lactase) hydrolyze glycosidic bonds</li>
+                <li><strong>Proteases</strong> (pepsin, trypsin) hydrolyze peptide bonds</li>
+                <li><strong>Nucleases</strong> hydrolyze phosphodiester bonds</li>
+                <li><strong>Lipases</strong> hydrolyze ester bonds in lipids</li>
+            </ul>
+            <p>This specificity is critical for controlled digestion and metabolism.</p>
+
+            <h3>The Condensation-Hydrolysis Cycle</h3>
+            <p>Condensation and hydrolysis form a fundamental metabolic cycle. Organisms consume polymers (proteins, carbohydrates), hydrolyze them to monomers, then use condensation to build their own specific macromolecules. This cycle continues throughout life, with molecules constantly being synthesized and broken down in response to cellular needs.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Synthesis of Carbohydrates: From Monosaccharides to Polysaccharides</h2>
+            <p>Carbohydrate synthesis follows the condensation pattern, joining monosaccharides through glycosidic bonds.</p>
+
+            <h3>Disaccharide Formation</h3>
+            <p>When two monosaccharides undergo condensation, they form a disaccharide. The reaction occurs between hydroxyl groups on each sugar.</p>
+            <p><strong>Example: Maltose synthesis from glucose</strong></p>
+            <p>Two glucose molecules (C₆H₁₂O₆) react:<br>C₆H₁₂O₆ + C₆H₁₂O₆ → C₁₂H₂₂O₁₁ + H₂O</p>
+            <p>Note the molecular formula of maltose: it's not simply double glucose (which would be C₁₂H₂₄O₁₂) because one water molecule (H₂O) was removed.</p>
+            <p>The specific hydroxyl groups involved determine the bond type:</p>
+            <ul>
+                <li><strong>α-1,4-glycosidic bond:</strong> links carbon 1 of one glucose to carbon 4 of another (found in maltose and starch)</li>
+                <li><strong>β-1,4-glycosidic bond:</strong> same carbons but β configuration (found in cellulose)</li>
+                <li><strong>α-1,2-glycosidic bond:</strong> links carbon 1 to carbon 2 (found in sucrose)</li>
+            </ul>
+
+            <h3>Polysaccharide Synthesis</h3>
+            <p>Polysaccharides form through repeated condensation reactions, adding monosaccharides sequentially to a growing chain.</p>
+            <p><strong>Starch and Glycogen Synthesis:</strong></p>
+            <ul>
+                <li>Both are glucose polymers with α-1,4-glycosidic bonds in chains</li>
+                <li>Branching occurs via α-1,6-glycosidic bonds</li>
+                <li>Glycogen has more frequent branching than starch</li>
+                <li>Synthesis requires enzymes like glycogen synthase</li>
+                <li>Each addition removes one water molecule</li>
+            </ul>
+            <p><strong>Cellulose Synthesis:</strong></p>
+            <ul>
+                <li>Linear polymer of glucose with β-1,4-glycosidic bonds</li>
+                <li>The β configuration creates straight chains that form strong hydrogen-bonded sheets</li>
+                <li>Synthesized by cellulose synthase complexes in plant cell membranes</li>
+            </ul>
+
+            <h3>Biological Significance</h3>
+            <p>Carbohydrate synthesis serves multiple functions:</p>
+            <ul>
+                <li><strong>Energy storage:</strong> Starch (plants) and glycogen (animals) store glucose for later use</li>
+                <li><strong>Structural support:</strong> Cellulose provides rigidity in plant cell walls</li>
+                <li><strong>Cell recognition:</strong> Glycoproteins on cell surfaces enable cell-cell communication</li>
+            </ul>
+            <p>The reversibility (via hydrolysis) allows organisms to access stored energy when needed by breaking glycosidic bonds to release glucose.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Synthesis of Proteins: Polypeptide Formation</h2>
+            <p>Proteins are synthesized by linking amino acids through peptide bonds, a specific type of condensation reaction.</p>
+
+            <h3>Peptide Bond Formation</h3>
+            <p>A peptide bond forms between the carboxyl group (-COOH) of one amino acid and the amino group (-NH₂) of another.</p>
+            <p><strong>The reaction:</strong><br>Amino acid₁-COOH + H₂N-Amino acid₂ → Amino acid₁-CO-NH-Amino acid₂ + H₂O</p>
+            <p>The resulting -CO-NH- linkage is the peptide bond. The oxygen from the carboxyl group and two hydrogens (one from -COOH, one from -NH₂) form the water molecule released.</p>
+
+            <h3>Polypeptide Chain Growth</h3>
+            <p>Proteins are synthesized directionally:</p>
+            <ul>
+                <li>The <strong>N-terminus</strong> (free amino group) is the start</li>
+                <li>The <strong>C-terminus</strong> (free carboxyl group) is the end</li>
+                <li>Synthesis proceeds from N-terminus to C-terminus</li>
+            </ul>
+            <p>Each amino acid addition:</p>
+            <ol>
+                <li>Positions the incoming amino acid's amino group near the growing chain's carboxyl end</li>
+                <li>Forms a peptide bond via condensation</li>
+                <li>Releases one water molecule</li>
+                <li>Extends the chain by one residue</li>
+            </ol>
+            <p>For a protein with n amino acids, (n-1) peptide bonds form, releasing (n-1) water molecules.</p>
+
+            <h3>Ribosomal Synthesis</h3>
+            <p>In cells, peptide bond formation occurs in ribosomes:</p>
+            <ul>
+                <li>Transfer RNA (tRNA) delivers amino acids</li>
+                <li>Ribosomal RNA (rRNA) catalyzes peptide bond formation (acting as a ribozyme)</li>
+                <li>The reaction is coupled to GTP hydrolysis, providing energy</li>
+                <li>Messenger RNA (mRNA) provides the template specifying amino acid sequence</li>
+            </ul>
+            <p>This process (translation) will be covered in detail in Topic B3, but understanding the chemical condensation reaction is fundamental.</p>
+
+            <h3>Protein Hydrolysis</h3>
+            <p>Proteases hydrolyze peptide bonds during:</p>
+            <ul>
+                <li><strong>Digestion:</strong> Breaking dietary proteins into amino acids for absorption</li>
+                <li><strong>Protein turnover:</strong> Degrading damaged or unnecessary proteins</li>
+                <li><strong>Activation:</strong> Converting inactive zymogens to active enzymes</li>
+            </ul>
+            <p>Example: Pepsin in the stomach hydrolyzes peptide bonds, breaking proteins into smaller peptides for further digestion in the small intestine.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Synthesis of Nucleic Acids: DNA and RNA Formation</h2>
+            <p>Nucleic acids are polymers of nucleotides joined by phosphodiester bonds through condensation reactions.</p>
+
+            <h3>Nucleotide Structure Review</h3>
+            <p>Each nucleotide consists of:</p>
+            <ul>
+                <li>A pentose sugar (ribose in RNA, deoxyribose in DNA)</li>
+                <li>A phosphate group attached to the 5' carbon of the sugar</li>
+                <li>A nitrogenous base attached to the 1' carbon of the sugar</li>
+            </ul>
+
+            <h3>Phosphodiester Bond Formation</h3>
+            <p>A phosphodiester bond forms between the 3'-hydroxyl group (-OH) of one nucleotide's sugar and the 5'-phosphate group of another nucleotide.</p>
+            <p><strong>The reaction:</strong><br>Nucleotide₁-3'-OH + HO-5'-PO₄-Nucleotide₂ → Nucleotide₁-3'-O-PO₄-5'-Nucleotide₂ + H₂O</p>
+            <p>Actually, during synthesis, nucleotides are added as nucleoside triphosphates (like ATP, GTP, CTP, UTP for RNA or dATP, dGTP, dCTP, dTTP for DNA). When the bond forms, two phosphate groups are released as pyrophosphate (PPi), which is then hydrolyzed to provide energy:</p>
+            <p>Chain-3'-OH + Nucleoside triphosphate → Chain-3'-O-5'-Nucleotide + PPi</p>
+
+            <h3>DNA Synthesis</h3>
+            <p>DNA synthesis (replication) occurs with specific directionality:</p>
+            <ul>
+                <li>DNA polymerase adds nucleotides to the 3'-OH end of the growing strand</li>
+                <li>The new strand grows in the 5' to 3' direction</li>
+                <li>The template strand is read in the 3' to 5' direction</li>
+                <li>Energy comes from hydrolyzing the high-energy triphosphate bonds</li>
+            </ul>
+
+            <h3>RNA Synthesis</h3>
+            <p>RNA synthesis (transcription) follows similar principles:</p>
+            <ul>
+                <li>RNA polymerase catalyzes phosphodiester bond formation</li>
+                <li>Ribonucleoside triphosphates (ATP, GTP, CTP, UTP) are substrates</li>
+                <li>RNA grows 5' to 3' along a DNA template read 3' to 5'</li>
+            </ul>
+
+            <h3>Nucleic Acid Hydrolysis</h3>
+            <p>Nucleases hydrolyze phosphodiester bonds:</p>
+            <ul>
+                <li><strong>Exonucleases</strong> remove nucleotides from the ends of strands</li>
+                <li><strong>Endonucleases</strong> cleave within strands</li>
+                <li>Used in DNA repair, RNA processing, and nucleotide recycling</li>
+            </ul>
+
+            <h3>Biological Significance</h3>
+            <p>The phosphodiester backbone provides:</p>
+            <ul>
+                <li><strong>Stability:</strong> Strong covalent bonds protect genetic information</li>
+                <li><strong>Directionality:</strong> The 5'-3' orientation enables controlled replication and transcription</li>
+                <li><strong>Flexibility:</strong> The backbone allows DNA to coil and supercoil while maintaining base pairing</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>ATP: The Universal Energy Currency</h2>
+            <p>Adenosine triphosphate (ATP) is central to biosynthesis, providing the energy needed for endergonic condensation reactions.</p>
+
+            <h3>ATP Structure and Function</h3>
+            <p>ATP consists of:</p>
+            <ul>
+                <li><strong>Adenosine:</strong> adenine base + ribose sugar</li>
+                <li><strong>Three phosphate groups:</strong> linked by high-energy phosphoanhydride bonds</li>
+            </ul>
+            <p>The terminal phosphate bond is readily hydrolyzed:<br>ATP + H₂O → ADP + Pi + energy (approximately 30.5 kJ/mol)</p>
+            <p>This releases sufficient energy to drive most cellular processes, including macromolecule synthesis.</p>
+
+            <h3>Why ATP is the Universal Energy Currency</h3>
+            <p>ATP is ideal for cellular energy transfer because:</p>
+            <ol>
+                <li><strong>Intermediate energy:</strong> Not too high (would be wastefully exergonic) or too low (insufficient to drive reactions)</li>
+                <li><strong>Kinetic stability:</strong> Doesn't spontaneously hydrolyze without enzymes, allowing controlled energy release</li>
+                <li><strong>Versatility:</strong> Can phosphorylate diverse substrates, coupling to many reactions</li>
+                <li><strong>Rapid turnover:</strong> The average human recycles their body weight in ATP daily</li>
+            </ol>
+
+            <h3>Coupling ATP Hydrolysis to Biosynthesis</h3>
+            <p>Condensation reactions are endergonic (ΔG > 0) and won't proceed spontaneously. Cells couple them to ATP hydrolysis (ΔG < 0) to make the overall process exergonic.</p>
+            <p><strong>Example: Glutamine synthesis</strong></p>
+            <p>Uncoupled reactions:</p>
+            <ul>
+                <li>Glutamate + NH₃ → Glutamine (ΔG = +14 kJ/mol, unfavorable)</li>
+                <li>ATP → ADP + Pi (ΔG = -30.5 kJ/mol, favorable)</li>
+            </ul>
+            <p>Coupled reaction:</p>
+            <ul>
+                <li>Glutamate + NH₃ + ATP → Glutamine + ADP + Pi (ΔG = -16.5 kJ/mol, favorable overall)</li>
+            </ul>
+            <p>The enzyme glutamine synthetase couples these reactions, using ATP energy to drive glutamine synthesis.</p>
+
+            <h3>ATP Synthesis</h3>
+            <p>Cells regenerate ATP through:</p>
+            <p><strong>1. Substrate-level phosphorylation:</strong> Direct transfer of a phosphate group from a high-energy substrate to ADP</p>
+            <ul>
+                <li>Occurs in glycolysis and the Krebs cycle</li>
+                <li>Example: Phosphoenolpyruvate (PEP) + ADP → Pyruvate + ATP</li>
+            </ul>
+            <p><strong>2. Oxidative phosphorylation:</strong> ATP synthesis coupled to electron transport chain</p>
+            <ul>
+                <li>Occurs in mitochondria (or chloroplasts during photosynthesis)</li>
+                <li>Chemiosmosis: Proton gradient drives ATP synthase</li>
+                <li>Much more efficient: yields ~32-34 ATP per glucose vs. 2-4 from substrate-level</li>
+            </ul>
+            <p><strong>3. Photophosphorylation:</strong> Light-driven ATP synthesis in chloroplasts</p>
+            <ul>
+                <li>Light energy powers electron transport, creating a proton gradient</li>
+                <li>ATP synthase uses the gradient to phosphorylate ADP</li>
+            </ul>
+            <p>Understanding ATP synthesis is crucial for Topics B2 (metabolism) and C1 (cellular respiration), which you'll study later.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Anabolic vs. Catabolic Reactions: The Metabolic Balance</h2>
+            <p>Metabolism consists of two complementary types of pathways: anabolic (building) and catabolic (breaking down).</p>
+
+            <h3>Anabolic Reactions (Anabolism)</h3>
+            <p><strong>Characteristics:</strong></p>
+            <ul>
+                <li>Build complex molecules from simpler ones (biosynthesis)</li>
+                <li>Require energy input (endergonic, ΔG > 0)</li>
+                <li>Decrease entropy locally (create order)</li>
+                <li>Examples: protein synthesis, DNA replication, photosynthesis</li>
+            </ul>
+            <p><strong>Energy coupling:</strong> Anabolic reactions are driven by coupling to ATP hydrolysis or other exergonic processes. The energy from ATP hydrolysis compensates for the unfavorable thermodynamics of building complex molecules.</p>
+
+            <h3>Catabolic Reactions (Catabolism)</h3>
+            <p><strong>Characteristics:</strong></p>
+            <ul>
+                <li>Break down complex molecules into simpler ones</li>
+                <li>Release energy (exergonic, ΔG < 0)</li>
+                <li>Increase entropy (increase disorder)</li>
+                <li>Examples: cellular respiration, digestion, glycogen breakdown</li>
+            </ul>
+            <p><strong>Energy capture:</strong> Energy released during catabolism is captured in ATP, NADH, and FADH₂, which then power anabolic reactions.</p>
+
+            <h3>The Metabolic Balance</h3>
+            <p>Cells must balance anabolism and catabolism:</p>
+            <p><strong>During growth:</strong> Anabolism exceeds catabolism</p>
+            <ul>
+                <li>Net synthesis of proteins, nucleic acids, membranes</li>
+                <li>Requires abundant nutrients and energy</li>
+                <li>Typical in developing organisms or dividing cells</li>
+            </ul>
+            <p><strong>During starvation:</strong> Catabolism exceeds anabolism</p>
+            <ul>
+                <li>Net breakdown of stored reserves (glycogen, fat, eventually protein)</li>
+                <li>Releases energy and building blocks for essential functions</li>
+                <li>Maintains critical processes but causes weight loss</li>
+            </ul>
+            <p><strong>At equilibrium:</strong> Anabolism balances catabolism</p>
+            <ul>
+                <li>Steady-state: molecules synthesized at the same rate they're degraded</li>
+                <li>Typical in healthy adult organisms at stable weight</li>
+            </ul>
+
+            <h3>Energetic Efficiency</h3>
+            <p>The coupling of anabolism to catabolism is not 100% efficient:</p>
+            <ul>
+                <li>Some energy is always lost as heat (Second Law of Thermodynamics)</li>
+                <li>This heat loss maintains body temperature in endotherms</li>
+                <li>ATP acts as the energy intermediary, transferring energy from catabolic to anabolic pathways</li>
+            </ul>
+            <p><strong>Energy flow:</strong><br>Nutrients → (Catabolism) → ATP + heat → (Anabolism) → Macromolecules + heat</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Integration: Synthesis in Cellular Context</h2>
+            <p>Understanding individual synthesis reactions is essential, but HL students must also appreciate how these processes integrate in living cells.</p>
+
+            <h3>Compartmentalization of Synthesis</h3>
+            <p>Different macromolecules are synthesized in specific cellular locations:</p>
+            <p><strong>Proteins:</strong></p>
+            <ul>
+                <li>Free ribosomes: cytoplasmic proteins</li>
+                <li>Rough ER ribosomes: secreted or membrane proteins</li>
+                <li>Mitochondrial ribosomes: mitochondrial proteins</li>
+            </ul>
+            <p><strong>Nucleic acids:</strong></p>
+            <ul>
+                <li>Nucleus: DNA replication and RNA transcription</li>
+                <li>Mitochondria: mitochondrial DNA replication</li>
+                <li>Cytoplasm: RNA primers during DNA replication</li>
+            </ul>
+            <p><strong>Carbohydrates:</strong></p>
+            <ul>
+                <li>Cytoplasm: glycolysis intermediates</li>
+                <li>Chloroplasts: starch synthesis from photosynthesis products</li>
+                <li>Golgi apparatus: polysaccharide modification</li>
+            </ul>
+            <p><strong>Lipids:</strong></p>
+            <ul>
+                <li>Smooth ER: phospholipid and steroid synthesis</li>
+                <li>Cytoplasm: fatty acid synthesis</li>
+            </ul>
+            <p>This compartmentalization allows:</p>
+            <ul>
+                <li>Concentration of enzymes and substrates</li>
+                <li>Separation of conflicting pathways</li>
+                <li>Localized regulation</li>
+            </ul>
+
+            <h3>Regulation of Biosynthesis</h3>
+            <p>Cells tightly regulate when and how much synthesis occurs:</p>
+            <p><strong>Feedback inhibition:</strong> End products inhibit early enzymes in their synthesis pathway, preventing overproduction</p>
+            <p><strong>Allosteric regulation:</strong> Molecules bind to enzymes at sites other than the active site, modulating activity</p>
+            <p><strong>Hormonal control:</strong> Insulin promotes anabolism (protein and glycogen synthesis), while glucagon and cortisol promote catabolism</p>
+            <p><strong>Gene expression:</strong> Cells control which enzymes are synthesized, adjusting metabolic capacity to needs</p>
+
+            <h3>Common Misconceptions</h3>
+            <p><strong>Misconception 1:</strong> "Condensation and dehydration synthesis are different reactions."<br>
+            <strong>Reality:</strong> They're the same process—condensation reactions remove water (dehydration) while synthesizing (synthesis) larger molecules.</p>
+            <p><strong>Misconception 2:</strong> "All biological synthesis requires ATP directly."<br>
+            <strong>Reality:</strong> While most synthesis is ATP-dependent, some reactions use other energy sources (GTP in protein synthesis, light in photosynthesis, concentration gradients in some transport-coupled synthesis).</p>
+            <p><strong>Misconception 3:</strong> "Water is just a waste product of condensation."<br>
+            <strong>Reality:</strong> Water removal drives the reaction forward thermodynamically, and water availability can influence reaction rates. In hydrolysis, water is a reactant, not a waste product.</p>
+            <p><strong>Misconception 4:</strong> "Larger molecules always have molecular formulas that are multiples of their monomers."<br>
+            <strong>Reality:</strong> Due to water loss in condensation, polymer molecular formulas are less than the sum of monomers. For example, two C₆H₁₂O₆ molecules make C₁₂H₂₂O₁₁ (maltose), not C₁₂H₂₄O₁₂.</p>
+            <p><strong>Misconception 5:</strong> "Peptide bonds are weak because they can be hydrolyzed."<br>
+            <strong>Reality:</strong> Peptide bonds are strong covalent bonds. Hydrolysis requires enzymes or harsh conditions—proteins are kinetically stable even though hydrolysis is thermodynamically favorable.</p>
+
+            <h3>Real-World Applications</h3>
+            <p><strong>1. Lactose intolerance:</strong> Genetic or acquired deficiency in lactase (the enzyme that hydrolyzes lactose) prevents digestion of milk sugar, causing digestive discomfort.</p>
+            <p><strong>2. Diabetes management:</strong> Understanding carbohydrate synthesis and breakdown informs insulin therapy and dietary recommendations. Type 1 diabetics can't regulate glucose storage/release normally.</p>
+            <p><strong>3. Athletic performance:</strong> Glycogen synthesis and depletion affects endurance. Athletes "carb-load" to maximize glycogen stores before events, and "hit the wall" when glycogen depletes.</p>
+            <p><strong>4. Drug design:</strong> Many drugs target synthesis or hydrolysis enzymes. Protease inhibitors treat HIV by blocking viral protein processing. Statins inhibit cholesterol synthesis.</p>
+            <p><strong>5. Industrial applications:</strong> Understanding condensation/hydrolysis enables production of biodegradable plastics (polyesters), synthetic fibers (nylon via condensation polymerization), and controlled drug release (polymer coatings that hydrolyze over time).</p>
+            <p><strong>6. Nutrition and digestion:</strong> Knowledge of hydrolysis explains why we need digestive enzymes, why cooking denatures proteins (making them easier to hydrolyze), and why fiber (cellulose) passes through undigested (humans lack cellulase).</p>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="content-section">
+            <h2>Practice Problems</h2>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(1)">
+                    <div class="problem-number">Problem 1</div>
+                    <p>Two glucose molecules undergo a condensation reaction to form maltose. (a) Write a balanced chemical equation for this reaction including molecular formulas. (b) Identify the type of bond formed. (c) Explain why the molecular formula of maltose is not simply double that of glucose. [6 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution1">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) C₆H₁₂O₆ + C₆H₁₂O₆ → C₁₂H₂₂O₁₁ + H₂O</p>
+                    <p>(b) α-1,4-glycosidic bond (accept glycosidic bond)</p>
+                    <p>(c) During condensation, one water molecule (H₂O) is removed. If we simply doubled glucose (C₆H₁₂O₆), we would get C₁₂H₂₄O₁₂. However, the actual formula C₁₂H₂₂O₁₁ has two fewer hydrogens and one fewer oxygen, accounting for the H₂O lost in the reaction. This demonstrates that the molecular formula of a polymer formed by condensation is less than the sum of its monomers due to water elimination.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This question tests understanding of the chemical details of condensation reactions. Students must recognize that water removal changes the molecular formula. A common error is writing C₁₂H₂₄O₁₂ as the product, forgetting about water loss. The mark scheme rewards the balanced equation (2 marks), correct bond identification (1 mark), and clear explanation relating water loss to the formula (3 marks). This is a typical IB-style question requiring both recall and application.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(2)">
+                    <div class="problem-number">Problem 2</div>
+                    <p>A polypeptide chain contains 150 amino acids. (a) Calculate how many peptide bonds are present in this polypeptide. (b) Calculate how many water molecules were released during the synthesis of this polypeptide. (c) Explain why this polypeptide synthesis requires energy input from ATP. [5 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution2">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) 149 peptide bonds<br>
+                    Explanation: For n amino acids, there are (n-1) peptide bonds because bonds form BETWEEN amino acids, not within them. With 150 amino acids, bonds form at 149 positions.</p>
+                    <p>(b) 149 water molecules<br>
+                    Explanation: Each peptide bond formation is a condensation reaction releasing one H₂O molecule. Since 149 bonds form, 149 water molecules are released.</p>
+                    <p>(c) Peptide bond formation is a condensation reaction, which is endergonic (ΔG > 0). Building ordered, complex molecules from simpler ones decreases entropy locally and requires energy input. Cells couple ATP hydrolysis (exergonic, ΔG < 0) to peptide bond formation to make the overall process thermodynamically favorable. Specifically, GTP hydrolysis provides energy during ribosomal protein synthesis.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This question tests mathematical application and energetic understanding. Part (a) and (b) require recognizing the (n-1) relationship—a common exam feature. Part (c) assesses understanding of reaction energetics and energy coupling. Students should mention that condensation is endergonic and explain WHY (decreasing entropy, building complexity). Full marks require connecting this to ATP/GTP hydrolysis. Simply stating "it needs energy" without explanation would receive minimal credit.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(3)">
+                    <div class="problem-number">Problem 3</div>
+                    <p>The diagram shows the formation of a phosphodiester bond between two nucleotides. [Diagram would show two nucleotides with 3'-OH and 5'-phosphate groups highlighted] (a) State the name of this type of reaction. (b) Identify which two functional groups are directly involved in bond formation. (c) Describe what happens to these groups during the reaction. (d) Explain the significance of the 5' to 3' directionality in DNA synthesis. [7 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution3">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) Condensation reaction (accept dehydration synthesis)</p>
+                    <p>(b) 3'-hydroxyl group (-OH) on one nucleotide and 5'-phosphate group on the other nucleotide</p>
+                    <p>(c) The oxygen from the 3'-OH group and a hydrogen from the phosphate group combine to form water (H₂O), which is released. The 3'-oxygen forms a covalent bond with the phosphorus of the phosphate group, creating the phosphodiester linkage that joins the two nucleotides.</p>
+                    <p>(d) The 5' to 3' directionality is significant because DNA polymerase can only add nucleotides to the 3'-OH end of a growing strand. This means DNA synthesis always proceeds in the 5' to 3' direction. This directionality is essential for accurate replication because it allows proofreading mechanisms to work effectively. It also explains why one strand (leading strand) is synthesized continuously while the other (lagging strand) must be synthesized in fragments, as the template strands run antiparallel.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This is a data-based question typical of IB exams, requiring students to interpret a diagram and apply their knowledge. Part (a) tests terminology (1 mark). Part (b) tests specific knowledge of functional groups (1 mark). Part (c) assesses mechanistic understanding of the condensation process (2 marks). Part (d) is an HL-level extension requiring students to connect chemical directionality to biological processes like DNA replication (3 marks). Strong answers would mention both the chemical constraint and its biological consequences.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(4)">
+                    <div class="problem-number">Problem 4</div>
+                    <p>Explain the relationship between condensation and hydrolysis reactions in the context of carbohydrate metabolism in the human body. Include specific examples. [6 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution4">
+                    <div class="solution-label">Solution:</div>
+                    <p>Condensation and hydrolysis are reverse reactions that form a cycle in carbohydrate metabolism.</p>
+                    <p>Hydrolysis breaks down dietary carbohydrates: During digestion, enzymes like amylase hydrolyze starch (a polysaccharide) by adding water molecules to break glycosidic bonds, producing maltose and then glucose. For example, maltose + H₂O → glucose + glucose. This provides absorbable monosaccharides for energy and biosynthesis.</p>
+                    <p>Condensation builds storage carbohydrates: After absorption, excess glucose is stored as glycogen through condensation reactions. Multiple glucose molecules join via α-1,4-glycosidic bonds (and α-1,6-bonds at branches), with each bond releasing one H₂O molecule. The enzyme glycogen synthase catalyzes this process.</p>
+                    <p>Metabolic cycling: When blood glucose drops, glycogen is hydrolyzed back to glucose through glycogenolysis, releasing glucose for cellular respiration. This cycle allows the body to buffer blood glucose levels, storing excess during feeding and releasing it during fasting.</p>
+                    <p>This demonstrates how condensation (anabolic) and hydrolysis (catabolic) reactions are complementary processes that maintain metabolic homeostasis.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This essay-style question tests higher-order thinking—integration and application. The mark scheme rewards: (1) stating the reverse relationship (1 mark), (2) explaining hydrolysis with a specific example (2 marks), (3) explaining condensation with a specific example (2 marks), and (4) connecting to metabolic function/homeostasis (1 mark). Weak answers might only describe the reactions without connecting them to a metabolic cycle. Strong answers would use correct terminology (glycosidic bonds, enzymes, glycogen) and explain the physiological significance.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(5)">
+                    <div class="problem-number">Problem 5</div>
+                    <p>ATP is described as the universal energy currency of cells. (a) Describe the structure of ATP. (b) Explain why ATP hydrolysis releases energy. (c) Outline how ATP hydrolysis is coupled to endergonic reactions, using a specific example. [8 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution5">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) ATP consists of three components:<br>
+                    - Adenosine: adenine (a nitrogenous base) bonded to ribose (a pentose sugar)<br>
+                    - Three phosphate groups attached to the 5' carbon of ribose<br>
+                    - The phosphate groups are linked by phosphoanhydride bonds, particularly the terminal bond which is readily hydrolyzed</p>
+                    <p>(b) ATP hydrolysis (ATP + H₂O → ADP + Pi) releases approximately 30.5 kJ/mol because:<br>
+                    - The phosphoanhydride bonds in ATP are high-energy bonds due to electrostatic repulsion between negatively charged phosphate groups<br>
+                    - Hydrolysis relieves this electrostatic strain<br>
+                    - The products (ADP and Pi) are more stable than ATP due to increased resonance stabilization<br>
+                    - The reaction increases entropy (one molecule becomes two)<br>
+                    These factors make the reaction exergonic (ΔG < 0)</p>
+                    <p>(c) Endergonic reactions (ΔG > 0) won't proceed spontaneously. Cells couple them to ATP hydrolysis to make the overall process favorable.</p>
+                    <p>Example: Glutamine synthesis<br>
+                    - Uncoupled: Glutamate + NH₃ → Glutamine (ΔG = +14 kJ/mol, unfavorable)<br>
+                    - ATP hydrolysis: ATP → ADP + Pi (ΔG = -30.5 kJ/mol, favorable)<br>
+                    - Coupled: Glutamate + NH₃ + ATP → Glutamine + ADP + Pi (ΔG = -16.5 kJ/mol, favorable)</p>
+                    <p>The enzyme glutamine synthetase couples these reactions by using ATP to phosphorylate glutamate first (forming an activated intermediate), which then reacts with ammonia. The energy from ATP hydrolysis drives the unfavorable glutamine synthesis, making the overall process thermodynamically favorable.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This question addresses a central concept in biosynthesis. Part (a) tests structural knowledge (2 marks—components and bonds). Part (b) tests understanding of chemical energetics (3 marks—multiple reasons for energy release). Part (c) is the most challenging, requiring students to explain energy coupling with a specific example (3 marks—mechanism and calculation). Common errors include vague statements like "ATP provides energy" without explaining HOW or WHY. Strong answers use specific ΔG values and explain the coupled reaction mechanism. This is HL-level content requiring both chemical and biological understanding.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(6)">
+                    <div class="problem-number">Problem 6</div>
+                    <p>Compare and contrast the synthesis of polysaccharides and polypeptides. [6 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution6">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>Similarities:</strong></p>
+                    <ul>
+                        <li>Both are synthesized through condensation reactions that remove water</li>
+                        <li>Both involve forming covalent bonds between monomers (glycosidic bonds for polysaccharides, peptide bonds for polypeptides)</li>
+                        <li>Both are anabolic processes requiring energy input</li>
+                        <li>Both can be reversed through hydrolysis reactions</li>
+                        <li>Both require specific enzymes to catalyze bond formation</li>
+                    </ul>
+                    <p><strong>Differences:</strong></p>
+                    <ul>
+                        <li>Monomers: Polysaccharides are made from monosaccharides (e.g., glucose), while polypeptides are made from amino acids (20 different types)</li>
+                        <li>Bond type: Polysaccharides form glycosidic bonds (between hydroxyl groups), while polypeptides form peptide bonds (between carboxyl and amino groups)</li>
+                        <li>Diversity: Polysaccharides typically use one or few monomer types with variation in bonding patterns, while polypeptides use 20 different amino acids in specific sequences, generating enormous diversity</li>
+                        <li>Information content: Polypeptide sequence is determined by genetic information (mRNA), while polysaccharide synthesis is not directly genetically encoded</li>
+                        <li>Synthesis location: Polypeptides are synthesized by ribosomes, while polysaccharides are synthesized by various enzymes in different locations (e.g., glycogen synthase in cytoplasm, cellulose synthase in cell membrane)</li>
+                        <li>Function: Polysaccharides primarily serve structural or storage roles, while polypeptides have diverse functions (enzymes, signaling, structure, transport)</li>
+                    </ul>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This compare-and-contrast question is common in IB exams. The mark scheme would award points for valid comparisons (similarities) and contrasts (differences). Students should aim for approximately equal coverage of both. A strong answer would organize points clearly (perhaps using bullet points or a table format) and use specific examples. Weak answers might only list differences without identifying similarities, or might be too vague (e.g., "they're both polymers" without elaboration). This question tests both knowledge recall and the ability to synthesize information across different macromolecule types—a key HL skill.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(7)">
+                    <div class="problem-number">Problem 7</div>
+                    <p>A student investigated the effect of temperature on the rate of starch hydrolysis by amylase. The table shows the results. [Table showing time taken for complete hydrolysis at different temperatures: 20°C - 12 min, 30°C - 6 min, 40°C - 3 min, 50°C - 5 min, 60°C - 15 min] (a) Describe the effect of temperature on the rate of starch hydrolysis. (b) Calculate the rate of reaction at 40°C in min⁻¹. (c) Explain the results observed at 50°C and 60°C. (d) Predict what would happen to the maltose product if the solution was heated to 100°C with acid instead of enzyme. [7 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution7">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) As temperature increases from 20°C to 40°C, the rate of starch hydrolysis increases (time decreases from 12 to 3 minutes). The rate is maximum at 40°C. Above 40°C, the rate decreases, with much slower hydrolysis at 50°C and 60°C.</p>
+                    <p>(b) Rate = 1/time = 1/3 min = 0.33 min⁻¹ (accept 0.33 or 1/3)</p>
+                    <p>(c) At 50°C and 60°C, the amylase enzyme begins to denature. The increased thermal energy disrupts the weak bonds (hydrogen bonds, ionic interactions) maintaining the enzyme's tertiary structure. This changes the active site shape, reducing enzyme-substrate complementarity and decreasing catalytic efficiency. At 60°C, denaturation is more severe, explaining the much slower rate (15 min). The enzyme hasn't completely lost all activity but is significantly impaired.</p>
+                    <p>(d) Heating maltose to 100°C with acid would cause further hydrolysis of maltose into glucose monomers. The high temperature and acidic conditions provide sufficient activation energy to break glycosidic bonds without requiring enzyme catalysis. Unlike enzyme-catalyzed hydrolysis, acid hydrolysis is non-specific and would eventually break down all glycosidic bonds. However, the reaction would be much slower than enzyme-catalyzed hydrolysis at optimal temperature, and some glucose might undergo caramelization or degradation at such high temperatures.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This data-based question integrates knowledge of hydrolysis with enzyme kinetics. Part (a) tests data description (2 marks—should describe the trend with reference to specific data). Part (b) tests calculation skills (1 mark—straightforward if students remember rate = 1/time). Part (c) tests understanding of enzyme structure and function (2 marks—must explain denaturation and link to results). Part (d) is a prediction requiring application of hydrolysis knowledge to new context (2 marks—acid hydrolysis vs. enzyme hydrolysis). This question type is very common in IB Paper 2, combining data analysis with conceptual understanding.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(8)">
+                    <div class="problem-number">Problem 8</div>
+                    <p>Distinguish between substrate-level phosphorylation and oxidative phosphorylation as mechanisms of ATP synthesis. [4 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution8">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>Substrate-level phosphorylation:</strong></p>
+                    <ul>
+                        <li>Direct transfer of a phosphate group from a high-energy substrate molecule to ADP</li>
+                        <li>Occurs in the cytoplasm during glycolysis and in the mitochondrial matrix during the Krebs cycle</li>
+                        <li>Does not require oxygen or an electron transport chain</li>
+                        <li>Produces relatively small amounts of ATP (e.g., 2 ATP per glucose in glycolysis)</li>
+                        <li>Example: Phosphoenolpyruvate (PEP) donates phosphate to ADP forming ATP and pyruvate</li>
+                    </ul>
+                    <p><strong>Oxidative phosphorylation:</strong></p>
+                    <ul>
+                        <li>Indirect ATP synthesis coupled to electron transport and oxygen reduction</li>
+                        <li>Occurs in the inner mitochondrial membrane</li>
+                        <li>Requires oxygen as the final electron acceptor</li>
+                        <li>Produces much larger amounts of ATP (approximately 32-34 ATP per glucose)</li>
+                        <li>Mechanism: electrons from NADH and FADH₂ pass through the electron transport chain, pumping protons to create a gradient; ATP synthase uses this gradient to phosphorylate ADP (chemiosmosis)</li>
+                    </ul>
+                    <p><strong>Key distinction:</strong> Substrate-level is a direct enzymatic transfer, while oxidative phosphorylation uses a proton gradient as an intermediary energy store.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This question tests understanding of two major ATP synthesis mechanisms covered in Topic A3 and elaborated in later topics. The mark scheme would award points for correctly distinguishing key features: mechanism (direct vs. indirect), location, oxygen requirement, and yield. A strong answer would clearly separate the two processes and use specific examples. This is HL content that requires understanding not just what happens but how the mechanisms differ fundamentally. Weak answers might confuse the two or fail to explain the underlying mechanisms.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(9)">
+                    <div class="problem-number">Problem 9</div>
+                    <p>A tripeptide is hydrolyzed completely. (a) State how many amino acids are produced. (b) State how many water molecules are required. (c) Draw a simple diagram showing one dipeptide before and after hydrolysis, labeling the peptide bond and the water molecule involved. [5 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution9">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) 3 amino acids are produced<br>
+                    Explanation: A tripeptide consists of 3 amino acids joined by peptide bonds. Complete hydrolysis separates all amino acids.</p>
+                    <p>(b) 2 water molecules are required<br>
+                    Explanation: A tripeptide has 2 peptide bonds (n amino acids have n-1 bonds). Each peptide bond requires one water molecule for hydrolysis.</p>
+                    <p>(c) [Diagram would show:]</p>
+                    <p><strong>Before hydrolysis:</strong><br>
+                    H₂N-CHR₁-CO-NH-CHR₂-COOH<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;peptide bond</p>
+                    <p><strong>After hydrolysis:</strong><br>
+                    H₂N-CHR₁-COOH + H₂N-CHR₂-COOH<br>
+                    (Two separate amino acids)</p>
+                    <p><strong>With water molecule shown:</strong><br>
+                    H₂N-CHR₁-CO-NH-CHR₂-COOH + H₂O → H₂N-CHR₁-COOH + H₂N-CHR₂-COOH</p>
+                    <p>Labels required:<br>
+                    - Peptide bond (the -CO-NH- linkage in the dipeptide)<br>
+                    - Water molecule (H₂O)<br>
+                    - The breaking of the peptide bond with -OH attaching to one amino acid and -H to the other</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This question combines calculation with visual representation. Parts (a) and (b) test understanding of the quantitative relationship between amino acids and bonds (1 mark each). Part (c) tests the ability to represent hydrolysis visually (3 marks—correct structure before, correct structure after, proper labeling). Common errors include miscounting bonds or incorrectly showing where the water components attach. The diagram doesn't need to show full structural formulas—simplified representations with R groups are acceptable if the peptide bond and its hydrolysis are clear. This type of question appears frequently in IB exams.</p>
+                </div>
+            </div>
+
+            <div class="problem-container">
+                <div class="problem-question" onclick="toggleSolution(10)">
+                    <div class="problem-number">Problem 10</div>
+                    <p>Explain why cells use condensation reactions to store energy in the form of glycogen or starch rather than storing free glucose molecules. [4 marks]</p>
+                </div>
+                <div class="problem-solution" id="solution10">
+                    <div class="solution-label">Solution:</div>
+                    <p>Cells use condensation to synthesize glycogen/starch for several important reasons:</p>
+                    <p><strong>1. Osmotic considerations:</strong> Free glucose molecules are osmotically active—1000 glucose molecules would create osmotic pressure 1000 times greater than a single glycogen molecule containing 1000 glucose units. High concentrations of free glucose would draw water into cells, potentially causing swelling and lysis. Polymerizing glucose into glycogen minimizes osmotic effects while storing the same amount of glucose.</p>
+                    <p><strong>2. Space efficiency:</strong> Glycogen/starch molecules are compact, branched structures that occupy much less space than equivalent amounts of dispersed glucose molecules. This allows cells to store large energy reserves without excessive volume requirements.</p>
+                    <p><strong>3. Solubility:</strong> Glycogen is less soluble than glucose, forming granules that don't dissolve in the cytoplasm. This prevents the storage molecule from interfering with other cellular processes and allows localized storage.</p>
+                    <p><strong>4. Regulated mobilization:</strong> Glycogen/starch can be hydrolyzed rapidly when needed (many chain ends for simultaneous enzyme action, especially at branch points) but won't spontaneously break down. This provides controlled access to glucose for energy. Free glucose would be immediately metabolized or require active transport to prevent loss.</p>
+                    <p>Therefore, condensation into polymers provides an efficient, osmotically safe, and regulatable form of energy storage.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This is a higher-order question requiring students to apply their understanding of condensation reactions to biological function. It tests not just knowing that condensation occurs, but understanding WHY evolution favored this mechanism. The mark scheme would award points for valid biological advantages, particularly the osmotic argument (which is the most critical reason), space efficiency, and regulated access. Strong answers would explain mechanisms, not just state facts. This question type assesses HL-level analytical thinking—connecting chemical processes to biological advantages.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="content-section">
+            <h2>Exam Tips</h2>
+            <div class="tips-list">
+                <ul>
+                    <li>In condensation vs. hydrolysis questions, always account for water. A common error is forgetting to subtract H₂O when calculating polymer formulas or molecular masses.</li>
+                    <li>For polymer calculations, remember the (n-1) rule: n monomers create (n-1) bonds and release (n-1) water molecules. This applies to all biological polymers.</li>
+                    <li>When describing condensation reactions, specify WHICH functional groups are involved (e.g., -OH and -H for general case, or carboxyl and amino groups for peptide bonds). Generic answers lose marks.</li>
+                    <li>IB examiners expect you to distinguish between different bond types (glycosidic vs. peptide vs. phosphodiester). Don't just write 'covalent bond'—be specific.</li>
+                    <li>In energy questions, explain mechanisms with Gibbs free energy (ΔG). State whether reactions are endergonic or exergonic and WHY, not just that they require or release energy.</li>
+                    <li>For ATP coupling questions, show how unfavorable reactions (ΔG > 0) become favorable when coupled to ATP hydrolysis. Calculate the overall ΔG when values are given.</li>
+                    <li>When comparing biological molecules or processes, structure your answer clearly: state similarities first, then differences. Aim for equal coverage of both.</li>
+                    <li>In data-based questions about enzyme-catalyzed synthesis or hydrolysis, always relate changes in rate to enzyme structure (active site, denaturation, optimal conditions).</li>
+                    <li>Draw clear, labeled diagrams when asked. For condensation/hydrolysis, show the bond being formed or broken, the water molecule, and the relevant functional groups.</li>
+                    <li>Common HL extensions include: energetics of reactions, regulation of synthesis pathways, and connecting molecular processes to cellular/organismal function. Practice making these higher-level connections.</li>
+                    <li>When explaining why ATP is the energy currency, mention both thermodynamic properties (intermediate ΔG, negative but not too negative) and kinetic stability (doesn't spontaneously hydrolyze).</li>
+                    <li>For directional synthesis (DNA 5'-3', protein N-terminus to C-terminus), explain both the chemical reason (where bonds can form) and biological significance (enables proofreading, determines which strand is leading vs. lagging).</li>
+                    <li>In application questions, use specific examples with proper terminology. Instead of 'sugar molecules join,' write 'glucose monomers form α-1,4-glycosidic bonds through condensation.'</li>
+                    <li>Remember that hydrolysis is NOT spontaneous in cells despite being exergonic—it requires enzymes. Explain that thermodynamic favorability (ΔG < 0) doesn't mean a reaction occurs rapidly; kinetic barriers require catalysis.</li>
+                    <li>Practice writing balanced chemical equations for condensation reactions with molecular formulas. Check that atoms balance on both sides and don't forget the water product.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Lesson Navigation Footer -->
+        <div class="lesson-nav-footer">
+            <a href="topic_a2.html" class="nav-button prev">← Previous: Topic A2</a>
+            <a href="lessons.html" class="nav-button">Back to Lessons</a>
+            <a href="topic_a4.html" class="nav-button next">Next: Topic A4 →</a>
+        </div>
+
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="openChatbot()">
+        <div class="chatbot-icon">💬</div>
+    </div>
+
+    <script>
+        // Progress tracking based on scroll
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Toggle solution visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution' + problemNumber);
+            solution.classList.toggle('active');
+        }
+
+        // Open chatbot (placeholder function)
+        function openChatbot() {
+            alert('Chatbot feature coming soon! This will connect you with an AI tutor to help with any questions about this topic.');
+        }
+
+        // Track completion and save progress
+        window.addEventListener('load', function() {
+            // Mark lesson as visited
+            let visitedLessons = JSON.parse(localStorage.getItem('visitedLessons') || '[]');
+            if (!visitedLessons.includes('A3')) {
+                visitedLessons.push('A3');
+                localStorage.setItem('visitedLessons', JSON.stringify(visitedLessons));
+            }
+
+            // Check if user scrolled to bottom
+            let scrolledToBottom = false;
+            window.addEventListener('scroll', function() {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                    if (!scrolledToBottom) {
+                        scrolledToBottom = true;
+                        let completedLessons = JSON.parse(localStorage.getItem('completedLessons') || '[]');
+                        if (!completedLessons.includes('A3')) {
+                            completedLessons.push('A3');
+                            localStorage.setItem('completedLessons', JSON.stringify(completedLessons));
+                            console.log('Lesson A3 marked as complete!');
+                        }
+                    }
+                }
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll for content sections
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
+
+        // Problem interaction tracking
+        const problems = document.querySelectorAll('.problem-question');
+        problems.forEach((problem, index) => {
+            problem.addEventListener('click', function() {
+                let attemptedProblems = JSON.parse(localStorage.getItem('attemptedProblems_A3') || '[]');
+                if (!attemptedProblems.includes(index + 1)) {
+                    attemptedProblems.push(index + 1);
+                    localStorage.setItem('attemptedProblems_A3', JSON.stringify(attemptedProblems));
+                }
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Press 'P' to go to previous lesson
+            if (e.key === 'p' || e.key === 'P') {
+                if (!e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
+                    window.location.href = 'topic_a2.html';
+                }
+            }
+            // Press 'N' to go to next lesson
+            if (e.key === 'n' || e.key === 'N') {
+                if (!e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
+                    window.location.href = 'topic_a4.html';
+                }
+            }
+            // Press 'H' to go home
+            if (e.key === 'h' || e.key === 'H') {
+                if (!e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
+                    window.location.href = 'lessons.html';
+                }
+            }
+        });
+
+        // Print functionality
+        function printLesson() {
+            window.print();
+        }
+
+        // Add print button to navbar (optional enhancement)
+        window.addEventListener('load', function() {
+            const navbar = document.querySelector('.navbar-content ul');
+            if (navbar) {
+                const printLi = document.createElement('li');
+                const printLink = document.createElement('a');
+                printLink.href = '#';
+                printLink.textContent = 'Print';
+                printLink.onclick = function(e) {
+                    e.preventDefault();
+                    printLesson();
+                };
+                printLi.appendChild(printLink);
+                navbar.appendChild(printLi);
+            }
+        });
+    </script>
+
+</body>
+</html>

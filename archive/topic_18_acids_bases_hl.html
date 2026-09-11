@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 18: Acids and Bases (HL) - IB Chemistry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .navbar-nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-nav a:hover {
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            padding: 1.5rem 2rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .progress-bar-container {
+            background: #e9ecef;
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-align: right;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-content {
+            color: #333;
+        }
+
+        .learning-objectives {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .learning-objectives h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .learning-objectives ul {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+
+        .learning-objectives li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        .practice-problem {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .problem-header {
+            background: #667eea;
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .problem-header:hover {
+            background: #5568d3;
+        }
+
+        .problem-question {
+            padding: 1.5rem;
+            background: #f8f9fa;
+        }
+
+        .problem-solution {
+            padding: 1.5rem;
+            background: #e7f5ff;
+            border-top: 2px solid #dee2e6;
+            display: none;
+        }
+
+        .problem-solution.active {
+            display: block;
+        }
+
+        .problem-explanation {
+            padding: 1.5rem;
+            background: #fff3cd;
+            border-top: 2px solid #dee2e6;
+            display: none;
+        }
+
+        .problem-explanation.active {
+            display: block;
+        }
+
+        .exam-tips {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+        }
+
+        .exam-tips h3 {
+            color: #997404;
+            margin-bottom: 1rem;
+        }
+
+        .exam-tips ul {
+            list-style-position: inside;
+        }
+
+        .exam-tips li {
+            margin-bottom: 0.8rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .chatbot-icon {
+            width: 30px;
+            height: 30px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .footer-nav {
+            background: #f8f9fa;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #dee2e6;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar-nav {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">IB Chemistry HL</div>
+        <ul class="navbar-nav">
+            <li><a href="#learning-objectives">Objectives</a></li>
+            <li><a href="#content">Content</a></li>
+            <li><a href="#practice">Practice</a></li>
+            <li><a href="#tips">Exam Tips</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Topic 18: Acids and Bases (HL)</h1>
+            <p class="subtitle">Syllabus Code: 18 | Level: Higher Level</p>
+        </div>
+
+        <!-- Progress Tracker -->
+        <div class="progress-container">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Progress: 0%</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Learning Objectives Section -->
+            <div class="section" id="learning-objectives">
+                <h2>Learning Objectives</h2>
+                <div class="learning-objectives">
+                    <ul>
+                        <li>Define Lewis acids and bases and identify them in chemical reactions</li>
+                        <li>Explain the role of coordinate bonds in Lewis acid-base reactions</li>
+                        <li>Calculate pH values for strong and weak acids and bases using Ka and Kb expressions</li>
+                        <li>Perform buffer calculations using the Henderson-Hasselbalch equation</li>
+                        <li>Interpret pH curves for strong-strong, strong-weak, weak-strong, and weak-weak acid-base titrations</li>
+                        <li>Identify buffer regions and equivalence points on pH curves</li>
+                        <li>Calculate pKa values from half-equivalence points on titration curves</li>
+                        <li>Select appropriate indicators for acid-base titrations based on pH ranges</li>
+                        <li>Apply the relationship between Ka, Kb, and Kw for conjugate acid-base pairs</li>
+                        <li>Solve problems involving polyprotic acids and their successive ionizations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Key Definitions -->
+            <div class="section" id="definitions">
+                <h2>Key Definitions</h2>
+
+                <div class="definition-box">
+                    <div class="definition-term">Lewis Acid</div>
+                    <div class="definition-content">An electron pair acceptor. A species with an empty orbital that can accept a lone pair of electrons to form a coordinate (dative covalent) bond.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Lewis Base</div>
+                    <div class="definition-content">An electron pair donor. A species with at least one lone pair of electrons that can be donated to form a coordinate bond.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Buffer Solution</div>
+                    <div class="definition-content">A solution that resists changes in pH when small amounts of acid or base are added. Consists of a weak acid and its conjugate base (or weak base and its conjugate acid) in appreciable concentrations.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Equivalence Point</div>
+                    <div class="definition-content">The point in a titration where the number of moles of acid equals the number of moles of base (for monoprotic species). The stoichiometric point of complete neutralization.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Half-Equivalence Point</div>
+                    <div class="definition-content">The point in a weak acid or weak base titration where exactly half of the acid (or base) has been neutralized. At this point, pH = pKa (or pOH = pKb).</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">pKa</div>
+                    <div class="definition-content">The negative logarithm of the acid dissociation constant: pKa = -log(Ka). A measure of acid strength; lower pKa indicates a stronger acid.</div>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-term">Polyprotic Acid</div>
+                    <div class="definition-content">An acid capable of donating more than one proton per molecule. Each proton has its own Ka value (Ka1, Ka2, etc.), with Ka1 > Ka2 > Ka3.</div>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="section" id="content">
+                <h2>18.1 Lewis Acids and Bases</h2>
+                <p>While the Brønsted-Lowry definition (Topic 8) focuses on proton transfer, the Lewis definition provides a broader framework that encompasses reactions that don't involve protons at all.</p>
+
+                <h3>The Lewis Definition: Electron Pair Transfer</h3>
+                <p>Gilbert N. Lewis proposed a more general definition in 1923:</p>
+                <ul>
+                    <li><strong>Lewis acid</strong>: electron pair acceptor (electrophile)</li>
+                    <li><strong>Lewis base</strong>: electron pair donor (nucleophile)</li>
+                </ul>
+                <p>This definition is more general because ALL Brønsted-Lowry acids and bases are also Lewis acids and bases, but NOT all Lewis acids and bases are Brønsted-Lowry species.</p>
+
+                <h3>Why Lewis Acids Accept Electron Pairs</h3>
+                <p>Lewis acids typically have:</p>
+                <ol>
+                    <li>An incomplete octet (e.g., BF₃, AlCl₃)</li>
+                    <li>A vacant orbital available for bonding</li>
+                    <li>High positive charge density (metal cations like Fe³⁺, Cu²⁺)</li>
+                </ol>
+
+                <h3>Example: BF₃ and NH₃</h3>
+                <p>Boron trifluoride (BF₃) is a classic Lewis acid:</p>
+                <ul>
+                    <li>Boron has only 6 electrons in its valence shell (incomplete octet)</li>
+                    <li>The empty p orbital can accept an electron pair</li>
+                    <li>Ammonia (NH₃) has a lone pair on nitrogen</li>
+                </ul>
+                <p><strong>Reaction:</strong> BF₃ + NH₃ → F₃B←NH₃</p>
+                <p>The arrow (←) represents a coordinate (dative covalent) bond where both electrons come from the nitrogen atom. After formation, this bond is indistinguishable from other B-N bonds.</p>
+
+                <h3>Metal Cations as Lewis Acids</h3>
+                <p>Transition metal ions form complex ions by accepting electron pairs from ligands:</p>
+                <p>[Fe(H₂O)₆]³⁺: The Fe³⁺ ion (Lewis acid) accepts six lone pairs from water molecules (Lewis bases)</p>
+                <p>The high charge density of metal cations creates a strong attraction for electron pairs. This explains:</p>
+                <ul>
+                    <li>Complex ion formation</li>
+                    <li>Coordination chemistry</li>
+                    <li>Catalytic activity of metal ions</li>
+                </ul>
+
+                <h3>Hydration of Metal Ions</h3>
+                <p>When metal salts dissolve in water, the metal cations undergo Lewis acid-base reactions:</p>
+                <p>Al³⁺(aq) + 6H₂O(l) → [Al(H₂O)₆]³⁺(aq)</p>
+                <p>Here, Al³⁺ is the Lewis acid and H₂O is the Lewis base. The coordinated water molecules become more acidic due to the polarizing effect of the metal ion:</p>
+                <p>[Al(H₂O)₆]³⁺(aq) + H₂O(l) ⇌ [Al(H₂O)₅OH]²⁺(aq) + H₃O⁺(aq)</p>
+                <p>This explains why solutions of Al³⁺, Fe³⁺, and other highly charged cations are acidic.</p>
+
+                <h3>Common Lewis Acid-Base Reactions</h3>
+                <ol>
+                    <li><strong>Adduct formation:</strong> CO + BH₃ → H₃B←CO (both C and O have lone pairs; CO donates through C)</li>
+                    <li><strong>Ligand substitution:</strong> [Cu(H₂O)₆]²⁺ + 4NH₃ → [Cu(NH₃)₄(H₂O)₂]²⁺ + 4H₂O</li>
+                    <li><strong>Friedel-Crafts reactions:</strong> AlCl₃ acts as a Lewis acid catalyst in organic chemistry</li>
+                </ol>
+
+                <h3>Distinguishing Brønsted-Lowry and Lewis</h3>
+                <p>All Brønsted-Lowry reactions are Lewis reactions:</p>
+                <ul>
+                    <li>HCl + H₂O → H₃O⁺ + Cl⁻</li>
+                    <li><strong>Brønsted:</strong> HCl donates H⁺, H₂O accepts H⁺</li>
+                    <li><strong>Lewis:</strong> H⁺ (Lewis acid) accepts electron pair from H₂O (Lewis base)</li>
+                </ul>
+                <p>But some Lewis reactions involve no protons:</p>
+                <ul>
+                    <li>BF₃ + F⁻ → BF₄⁻ (purely Lewis acid-base)</li>
+                    <li>Ag⁺ + 2NH₃ → [Ag(NH₃)₂]⁺ (complex ion formation)</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>18.2 Calculations Involving Acids and Bases</h2>
+                <p>This section extends Topic 8 calculations to more complex scenarios involving weak acids, weak bases, and buffer solutions.</p>
+
+                <h3>Review: Ka and Kb Expressions</h3>
+                <p>For a weak acid HA:<br>
+                HA(aq) + H₂O(l) ⇌ H₃O⁺(aq) + A⁻(aq)<br>
+                <strong>Ka = [H₃O⁺][A⁻] / [HA]</strong></p>
+
+                <p>For a weak base B:<br>
+                B(aq) + H₂O(l) ⇌ BH⁺(aq) + OH⁻(aq)<br>
+                <strong>Kb = [BH⁺][OH⁻] / [B]</strong></p>
+
+                <h3>The Ka × Kb Relationship</h3>
+                <p>For any conjugate acid-base pair at 25°C:</p>
+                <p><strong>Ka × Kb = Kw = 1.0 × 10⁻¹⁴</strong></p>
+                <p>This relationship is derived from adding the ionization reactions:<br>
+                HA ⇌ H⁺ + A⁻  (Ka)<br>
+                A⁻ + H₂O ⇌ HA + OH⁻  (Kb)<br>
+                Net: H₂O ⇌ H⁺ + OH⁻  (Kw)</p>
+                <p>Therefore: <strong>pKa + pKb = pKw = 14.00</strong> (at 25°C)</p>
+
+                <h3>Buffer Solutions: The Henderson-Hasselbalch Equation</h3>
+                <p>A buffer resists pH change because it contains both:</p>
+                <ol>
+                    <li>An acid (to neutralize added base)</li>
+                    <li>A base (to neutralize added acid)</li>
+                </ol>
+                <p>For an acidic buffer (weak acid + conjugate base):<br>
+                <strong>pH = pKa + log([A⁻]/[HA])</strong></p>
+                <p>For a basic buffer (weak base + conjugate acid):<br>
+                <strong>pOH = pKb + log([BH⁺]/[B])</strong></p>
+
+                <h3>Why Buffers Work</h3>
+                <p>Consider an acetic acid/acetate buffer:</p>
+                <ul>
+                    <li>CH₃COOH (weak acid) present in large amount</li>
+                    <li>CH₃COO⁻ (conjugate base) present in large amount</li>
+                </ul>
+                <p>When small amount of H⁺ is added:<br>
+                CH₃COO⁻ + H⁺ → CH₃COOH (base consumes the acid)</p>
+                <p>When small amount of OH⁻ is added:<br>
+                CH₃COOH + OH⁻ → CH₃COO⁻ + H₂O (acid consumes the base)</p>
+                <p>In both cases, the ratio [A⁻]/[HA] changes only slightly, so pH changes only slightly.</p>
+
+                <h3>Buffer Capacity and Range</h3>
+                <p><strong>Buffer capacity:</strong> the amount of acid or base a buffer can absorb before significant pH change occurs. Maximum when [A⁻] = [HA], i.e., when pH = pKa.</p>
+                <p><strong>Buffer range:</strong> typically pH = pKa ± 1. Outside this range, the buffer becomes ineffective because one component becomes negligible.</p>
+
+                <h3>Polyprotic Acids</h3>
+                <p>Polyprotic acids have multiple ionizable protons, each with its own Ka:</p>
+                <p>H₃PO₄ ⇌ H⁺ + H₂PO₄⁻  (Ka1 = 7.5 × 10⁻³, pKa1 = 2.12)<br>
+                H₂PO₄⁻ ⇌ H⁺ + HPO₄²⁻  (Ka2 = 6.2 × 10⁻⁸, pKa2 = 7.21)<br>
+                HPO₄²⁻ ⇌ H⁺ + PO₄³⁻  (Ka3 = 4.8 × 10⁻¹³, pKa3 = 12.32)</p>
+                <p><strong>Key principle:</strong> Ka1 >> Ka2 >> Ka3</p>
+                <p>Why? After losing the first proton, the remaining ion is negatively charged, making it harder to remove the next proton.</p>
+            </div>
+
+            <div class="section">
+                <h2>18.3 pH Curves and Titrations</h2>
+                <p>pH curves (titration curves) show how pH changes as a base is added to an acid (or vice versa). The shape depends on the strength of the acid and base.</p>
+
+                <h3>Four Types of Acid-Base Titrations</h3>
+                <ol>
+                    <li><strong>Strong acid + Strong base</strong> (e.g., HCl + NaOH)</li>
+                    <li><strong>Weak acid + Strong base</strong> (e.g., CH₃COOH + NaOH)</li>
+                    <li><strong>Strong acid + Weak base</strong> (e.g., HCl + NH₃)</li>
+                    <li><strong>Weak acid + Weak base</strong> (not commonly used; no sharp endpoint)</li>
+                </ol>
+
+                <h3>Strong Acid + Strong Base Titration</h3>
+                <p>Key features:</p>
+                <ul>
+                    <li><strong>Initial pH:</strong> Low (strong acid, e.g., pH ≈ 1 for 0.1 M HCl)</li>
+                    <li><strong>Buffer region:</strong> None (no weak acid/conjugate base pair)</li>
+                    <li><strong>Equivalence point:</strong> pH = 7 (neutral, only Na⁺ and Cl⁻ present)</li>
+                    <li><strong>Sharp rise:</strong> Very steep around equivalence point (pH jumps from ~3 to ~11)</li>
+                    <li><strong>Post-equivalence:</strong> Excess strong base determines pH</li>
+                </ul>
+
+                <h3>Weak Acid + Strong Base Titration</h3>
+                <p>Key features:</p>
+                <ul>
+                    <li><strong>Initial pH:</strong> Higher than strong acid (e.g., pH ≈ 2.9 for 0.1 M CH₃COOH)</li>
+                    <li><strong>Buffer region:</strong> Significant region before equivalence where pH changes gradually</li>
+                    <li><strong>Half-equivalence point:</strong> pH = pKa (exactly half the acid neutralized; [A⁻] = [HA])</li>
+                    <li><strong>Equivalence point:</strong> pH > 7 (basic, due to conjugate base hydrolysis)</li>
+                    <li><strong>Less sharp rise:</strong> Still significant but not as steep as strong-strong</li>
+                </ul>
+
+                <h3>Strong Acid + Weak Base Titration</h3>
+                <p>Key features:</p>
+                <ul>
+                    <li><strong>Initial pH:</strong> Higher than weak acid (weak base in water, pH ≈ 11 for 0.1 M NH₃)</li>
+                    <li><strong>Buffer region:</strong> Present, where NH₃ and NH₄⁺ coexist</li>
+                    <li><strong>Half-equivalence point:</strong> pOH = pKb (or pH = pKa of NH₄⁺)</li>
+                    <li><strong>Equivalence point:</strong> pH < 7 (acidic, due to conjugate acid hydrolysis)</li>
+                    <li><strong>Inverted shape:</strong> pH decreases as acid is added</li>
+                </ul>
+
+                <h3>Indicator Selection</h3>
+                <p>An indicator is a weak acid (HIn) with different colored forms:<br>
+                HIn ⇌ H⁺ + In⁻<br>
+                (color A)  (color B)</p>
+                <p>Indicator changes color over a pH range of approximately pKa(indicator) ± 1.</p>
+                <p><strong>Choosing the right indicator:</strong></p>
+                <ul>
+                    <li>The indicator's transition range must include the pH at the equivalence point</li>
+                    <li>The steeper the rise, the more indicators will work</li>
+                </ul>
+                <p>Examples:</p>
+                <ul>
+                    <li><strong>Phenolphthalein</strong> (pH 8.2-10.0, colorless to pink): Good for weak acid + strong base</li>
+                    <li><strong>Methyl orange</strong> (pH 3.1-4.4, red to yellow): Good for strong acid + weak base</li>
+                    <li><strong>Bromothymol blue</strong> (pH 6.0-7.6, yellow to blue): Good for strong acid + strong base</li>
+                </ul>
+
+                <h3>Polyprotic Acid Titrations</h3>
+                <p>Polyprotic acids show multiple equivalence points:</p>
+                <p>H₂SO₃ + NaOH titration:</p>
+                <ul>
+                    <li>First equivalence point: H₂SO₃ → HSO₃⁻</li>
+                    <li>Second equivalence point: HSO₃⁻ → SO₃²⁻</li>
+                </ul>
+                <p>Each equivalence point appears as a separate inflection on the pH curve. If the Ka values are sufficiently different (Ka1/Ka2 > 10⁴), the two endpoints are clearly separated.</p>
+            </div>
+
+            <div class="section">
+                <h2>Real-World Applications</h2>
+
+                <h3>Blood pH Buffering</h3>
+                <p>Human blood maintains pH 7.35-7.45 using the carbonic acid/bicarbonate buffer:</p>
+                <p>H₂CO₃(aq) ⇌ H⁺(aq) + HCO₃⁻(aq)  (pKa = 6.1)</p>
+                <p>Though pKa = 6.1 is not optimal for pH 7.4, this system works because:</p>
+                <ol>
+                    <li>CO₂ levels can be adjusted by breathing rate</li>
+                    <li>Kidneys can excrete or retain HCO₃⁻</li>
+                    <li>Large concentrations of both components</li>
+                </ol>
+                <p><strong>Acidosis</strong> (pH < 7.35): excess H⁺, caused by diabetes, kidney disease, or respiratory problems<br>
+                <strong>Alkalosis</strong> (pH > 7.45): deficiency of H⁺, caused by hyperventilation or vomiting</p>
+
+                <h3>Ocean Acidification</h3>
+                <p>CO₂ from the atmosphere dissolves in seawater:</p>
+                <p>CO₂(g) + H₂O(l) ⇌ H₂CO₃(aq) ⇌ H⁺(aq) + HCO₃⁻(aq)</p>
+                <p>Increased atmospheric CO₂ shifts equilibrium right, increasing [H⁺] and decreasing pH. Ocean pH has dropped from 8.2 to 8.1 since the industrial revolution (a 26% increase in [H⁺]!).</p>
+
+                <h3>Industrial pH Control</h3>
+                <p><strong>Fermentation:</strong> yeast produces acids during beer/wine making; buffers maintain optimal pH</p>
+                <p><strong>Pharmaceuticals:</strong> drug stability and bioavailability often depend on pH; buffers in formulations</p>
+                <p><strong>Wastewater treatment:</strong> buffers maintain optimal pH for bacterial decomposition</p>
+
+                <h3>Catalysis</h3>
+                <p>Lewis acids are essential catalysts:</p>
+                <ul>
+                    <li>AlCl₃ in Friedel-Crafts alkylation/acylation</li>
+                    <li>BF₃ in polymerization reactions</li>
+                    <li>Transition metal complexes in asymmetric catalysis</li>
+                </ul>
+            </div>
+
+            <!-- Practice Problems Section -->
+            <div class="section" id="practice">
+                <h2>Practice Problems</h2>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 1: Identifying Lewis Acids and Bases</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> Identify the Lewis acid and Lewis base in each reaction:<br>
+                        (a) Ag⁺ + 2CN⁻ → [Ag(CN)₂]⁻<br>
+                        (b) BF₃ + NH₃ → F₃B-NH₃<br>
+                        (c) AlCl₃ + Cl⁻ → AlCl₄⁻
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong><br>
+                        (a) Lewis acid: Ag⁺ (accepts electron pairs from CN⁻); Lewis base: CN⁻ (donates electron pairs)<br>
+                        (b) Lewis acid: BF₃ (accepts electron pair from N); Lewis base: NH₃ (donates lone pair from N)<br>
+                        (c) Lewis acid: AlCl₃ (accepts electron pair from Cl⁻); Lewis base: Cl⁻ (donates electron pair)
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> Lewis acids have vacant orbitals or are electron-deficient. Metal cations (Ag⁺) and molecules with incomplete octets (BF₃, AlCl₃) readily accept electron pairs. Lewis bases have lone pairs available for donation (CN⁻, NH₃, Cl⁻).
+                    </div>
+                </div>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 2: Buffer pH Calculation</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> Calculate the pH of a buffer solution containing 0.250 M NH₃ and 0.150 M NH₄Cl. Kb for NH₃ = 1.8 × 10⁻⁵.
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong><br>
+                        First, find pKb: pKb = -log(1.8 × 10⁻⁵) = 4.74<br><br>
+                        For a basic buffer: pOH = pKb + log([NH₄⁺]/[NH₃])<br>
+                        pOH = 4.74 + log(0.150/0.250)<br>
+                        pOH = 4.74 + log(0.60)<br>
+                        pOH = 4.74 + (-0.22)<br>
+                        pOH = 4.52<br><br>
+                        pH = 14.00 - 4.52 = 9.48
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> For basic buffers, use the Henderson-Hasselbalch equation in the form with pOH and pKb. The ratio [conjugate acid]/[base] determines how far from pKb the pOH will be. Since [NH₄⁺] < [NH₃], pOH < pKb, making the solution more basic (higher pH) than if concentrations were equal.
+                    </div>
+                </div>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 3: Weak Acid Titration</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> A 25.0 mL sample of 0.100 M propanoic acid (CH₃CH₂COOH, Ka = 1.3 × 10⁻⁵) is titrated with 0.100 M NaOH. Calculate:<br>
+                        (a) The initial pH<br>
+                        (b) The pH at the half-equivalence point<br>
+                        (c) The pH at the equivalence point
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong><br>
+                        (a) For weak acid: Ka = [H⁺]²/[HA], so [H⁺] = √(Ka × [HA]) = √(1.3 × 10⁻⁵ × 0.100) = 1.14 × 10⁻³ M<br>
+                        pH = -log(1.14 × 10⁻³) = 2.94<br><br>
+                        (b) At half-equivalence: pH = pKa = -log(1.3 × 10⁻⁵) = 4.89<br><br>
+                        (c) At equivalence: moles of propanoate = 0.100 × 0.025 = 0.00250 mol in 50.0 mL<br>
+                        [C₂H₅COO⁻] = 0.00250/0.050 = 0.0500 M<br>
+                        Kb = Kw/Ka = (1.0 × 10⁻¹⁴)/(1.3 × 10⁻⁵) = 7.7 × 10⁻¹⁰<br>
+                        [OH⁻] = √(Kb × [A⁻]) = √(7.7 × 10⁻¹⁰ × 0.0500) = 6.2 × 10⁻⁶ M<br>
+                        pOH = 5.21, pH = 8.79
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> Part (a): Weak acids undergo partial ionization; use the approximation when Ka is small. Part (b): At half-equivalence, [A⁻] = [HA], so the log term in Henderson-Hasselbalch equals zero. Part (c): The conjugate base hydrolyzes, making the solution basic. This is why weak acid-strong base titrations have basic equivalence points.
+                    </div>
+                </div>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 4: Buffer with Added Acid/Base</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> A buffer is prepared with 0.50 mol CH₃COOH and 0.50 mol CH₃COONa in 1.0 L of solution (Ka = 1.8 × 10⁻⁵). Calculate the pH after adding:<br>
+                        (a) 0.10 mol HCl<br>
+                        (b) 0.10 mol NaOH
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong><br>
+                        Initial pH: pH = pKa + log([A⁻]/[HA]) = 4.74 + log(0.50/0.50) = 4.74<br><br>
+                        (a) HCl reacts with CH₃COO⁻: CH₃COO⁻ + H⁺ → CH₃COOH<br>
+                        After: [CH₃COO⁻] = 0.50 - 0.10 = 0.40 M; [CH₃COOH] = 0.50 + 0.10 = 0.60 M<br>
+                        pH = 4.74 + log(0.40/0.60) = 4.74 + (-0.18) = 4.56<br><br>
+                        (b) NaOH reacts with CH₃COOH: CH₃COOH + OH⁻ → CH₃COO⁻ + H₂O<br>
+                        After: [CH₃COOH] = 0.50 - 0.10 = 0.40 M; [CH₃COO⁻] = 0.50 + 0.10 = 0.60 M<br>
+                        pH = 4.74 + log(0.60/0.40) = 4.74 + 0.18 = 4.92
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> The buffer responds by converting one component to the other. Adding acid increases [HA] and decreases [A⁻], shifting pH below pKa. Adding base does the opposite. The pH change is small (±0.18 units) because both components remain in similar concentrations. Without the buffer, 0.10 M HCl would give pH 1, and 0.10 M NaOH would give pH 13!
+                    </div>
+                </div>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 5: Indicator Selection</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> Which indicator would be most appropriate for titrating 0.10 M HNO₃ with 0.10 M KOH? Choose from:<br>
+                        (a) Methyl orange (pH 3.1-4.4)<br>
+                        (b) Bromothymol blue (pH 6.0-7.6)<br>
+                        (c) Phenolphthalein (pH 8.2-10.0)<br>
+                        Justify your answer.
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong> Answer: (b) Bromothymol blue<br><br>
+                        Justification: This is a strong acid + strong base titration, so the equivalence point occurs at pH 7. The indicator's transition range must include pH 7. Bromothymol blue (6.0-7.6) is centered on pH 7, making it ideal. Methyl orange would change too early, and phenolphthalein would change too late, though phenolphthalein could work due to the steep pH curve around equivalence.
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> For strong-strong titrations, the pH curve is very steep near equivalence (pH jumps from ~4 to ~10), so many indicators work. However, the best choice has a transition range centered on the equivalence point pH. For weak acid-strong base, use an indicator transitioning in the basic range (phenolphthalein). For strong acid-weak base, use one transitioning in the acidic range (methyl orange).
+                    </div>
+                </div>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 6: Polyprotic Acid</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> Phosphoric acid (H₃PO₄) has three dissociation constants:<br>
+                        Ka1 = 7.5 × 10⁻³, Ka2 = 6.2 × 10⁻⁸, Ka3 = 4.8 × 10⁻¹³<br>
+                        Calculate the pH of a 0.10 M H₃PO₄ solution.
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong><br>
+                        Since Ka1 >> Ka2 >> Ka3, the pH is determined almost entirely by the first ionization:<br>
+                        H₃PO₄ ⇌ H⁺ + H₂PO₄⁻<br>
+                        Ka1 = [H⁺][H₂PO₄⁻]/[H₃PO₄] = 7.5 × 10⁻³<br><br>
+                        Let x = [H⁺] at equilibrium<br>
+                        7.5 × 10⁻³ = x²/(0.10 - x)<br><br>
+                        Since Ka1 is relatively large, we cannot assume x << 0.10. Using the quadratic formula:<br>
+                        x² + 0.0075x - 0.00075 = 0<br>
+                        x = [-0.0075 + √(0.0075² + 4(0.00075))]/2 = 0.0234 M<br><br>
+                        pH = -log(0.0234) = 1.63
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> For polyprotic acids, if Ka1/Ka2 > 1000, the second and third ionizations contribute negligibly to [H⁺]. Here, Ka1/Ka2 ≈ 120,000. However, because Ka1 is not very small compared to the concentration, we must use the quadratic equation rather than the simplifying approximation.
+                    </div>
+                </div>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 7: Conjugate Acid-Base Pair</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> A weak acid HA has Ka = 1.0 × 10⁻⁵. Calculate:<br>
+                        (a) The Kb of its conjugate base A⁻<br>
+                        (b) The pH of a 0.20 M solution of NaA
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong><br>
+                        (a) Ka × Kb = Kw<br>
+                        Kb = Kw/Ka = (1.0 × 10⁻¹⁴)/(1.0 × 10⁻⁵) = 1.0 × 10⁻⁹<br><br>
+                        (b) A⁻ + H₂O ⇌ HA + OH⁻<br>
+                        Kb = [HA][OH⁻]/[A⁻] = 1.0 × 10⁻⁹<br>
+                        Let x = [OH⁻]<br>
+                        1.0 × 10⁻⁹ = x²/0.20<br>
+                        x² = 2.0 × 10⁻¹⁰<br>
+                        x = [OH⁻] = 1.41 × 10⁻⁵ M<br><br>
+                        pOH = -log(1.41 × 10⁻⁵) = 4.85<br>
+                        pH = 14.00 - 4.85 = 9.15
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> The conjugate base of a weak acid is itself a weak base. The weaker the acid (larger pKa), the stronger its conjugate base (smaller pKb). A salt of a weak acid (NaA) produces a basic solution because A⁻ hydrolyzes. This explains why the equivalence point in weak acid-strong base titrations is basic.
+                    </div>
+                </div>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 8: Lewis Acid Strength</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> Explain why [Al(H₂O)₆]³⁺ solutions are acidic, while [Na(H₂O)₆]⁺ solutions are neutral. Use Lewis acid-base theory in your answer.
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong><br>
+                        Al³⁺ is a small, highly charged cation (charge density = 3+/ionic radius). This creates strong polarization of the coordinated water molecules, making the O-H bonds more polar and easier to break:<br><br>
+                        [Al(H₂O)₆]³⁺ + H₂O ⇌ [Al(H₂O)₅OH]²⁺ + H₃O⁺<br><br>
+                        The Al³⁺ acts as a Lewis acid, withdrawing electron density from the water ligands and making them more acidic. The resulting solution has pH ≈ 3.<br><br>
+                        Na⁺ is a large cation with only 1+ charge, so its charge density is much lower. It polarizes coordinated water molecules only weakly, so they remain essentially neutral. [Na(H₂O)₆]⁺ does not significantly protonate water, giving pH ≈ 7.
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> This demonstrates that Lewis acidity (electron pair acceptance) can indirectly create Brønsted acidity (proton donation). Highly charged metal cations (Al³⁺, Fe³⁺, Cr³⁺) give acidic solutions, while Group 1 and 2 cations (except Be²⁺) give neutral solutions. This is important in understanding the pH of salt solutions and the behavior of metal ions in biological systems.
+                    </div>
+                </div>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 9: Complete Titration Calculation</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> A 50.0 mL sample of 0.200 M benzoic acid (C₆H₅COOH, Ka = 6.3 × 10⁻⁵) is titrated with 0.100 M NaOH.<br>
+                        (a) What volume of NaOH is required to reach the equivalence point?<br>
+                        (b) Calculate the pH at the equivalence point.<br>
+                        (c) Would bromothymol blue (pH 6.0-7.6) be a suitable indicator? Explain.
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong><br>
+                        (a) Moles of C₆H₅COOH = 0.200 × 0.050 = 0.0100 mol<br>
+                        At equivalence, moles NaOH = moles acid = 0.0100 mol<br>
+                        Volume NaOH = 0.0100/0.100 = 0.100 L = 100 mL<br><br>
+                        (b) Total volume = 50.0 + 100 = 150 mL = 0.150 L<br>
+                        [C₆H₅COO⁻] = 0.0100/0.150 = 0.0667 M<br>
+                        Kb = Kw/Ka = (1.0 × 10⁻¹⁴)/(6.3 × 10⁻⁵) = 1.59 × 10⁻¹⁰<br>
+                        [OH⁻] = √(Kb × [A⁻]) = √(1.59 × 10⁻¹⁰ × 0.0667) = 3.26 × 10⁻⁶ M<br>
+                        pOH = 5.49, pH = 8.51<br><br>
+                        (c) No, bromothymol blue is not suitable. Its transition range (6.0-7.6) does not include the equivalence point pH of 8.51. Phenolphthalein (8.2-10.0) would be a better choice as its range includes pH 8.51.
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> This is a weak acid-strong base titration, so the equivalence point is basic (pH > 7) due to hydrolysis of the conjugate base. The volume calculation uses stoichiometry (1:1 mole ratio for monoprotic acid). The pH calculation treats the equivalence point solution as a solution of weak base. Indicator selection requires matching the transition range to the equivalence point pH, not to pH 7.
+                    </div>
+                </div>
+
+                <div class="practice-problem">
+                    <div class="problem-header" onclick="toggleSolution(this)">
+                        <span>Problem 10: Data Analysis - Titration Curve</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="problem-question">
+                        <strong>Question:</strong> A student performed a titration and recorded the following data:<br><br>
+                        <table style="border-collapse: collapse; width: 100%; margin: 10px 0;">
+                            <tr style="background: #667eea; color: white;">
+                                <th style="border: 1px solid #ddd; padding: 8px;">Volume NaOH (mL)</th>
+                                <th style="border: 1px solid #ddd; padding: 8px;">pH</th>
+                            </tr>
+                            <tr><td style="border: 1px solid #ddd; padding: 8px;">0.0</td><td style="border: 1px solid #ddd; padding: 8px;">2.87</td></tr>
+                            <tr><td style="border: 1px solid #ddd; padding: 8px;">25.0</td><td style="border: 1px solid #ddd; padding: 8px;">4.76</td></tr>
+                            <tr><td style="border: 1px solid #ddd; padding: 8px;">50.0</td><td style="border: 1px solid #ddd; padding: 8px;">8.72</td></tr>
+                            <tr><td style="border: 1px solid #ddd; padding: 8px;">51.0</td><td style="border: 1px solid #ddd; padding: 8px;">11.00</td></tr>
+                        </table>
+                        Using this data:<br>
+                        (a) Identify the type of titration<br>
+                        (b) Determine the volume at the equivalence point<br>
+                        (c) Estimate the pKa of the acid<br>
+                        (d) Suggest a suitable indicator
+                    </div>
+                    <div class="problem-solution">
+                        <strong>Solution:</strong><br>
+                        (a) This is a weak acid-strong base titration. Evidence: gradual pH increase before equivalence (buffer region), equivalence point pH > 7 (pH 8.72), and steep rise at equivalence.<br><br>
+                        (b) Equivalence point volume = 50.0 mL (where pH jumps sharply from 6.27 to 8.72)<br><br>
+                        (c) Half-equivalence point is at 25.0 mL (half of 50.0 mL), where pH = pKa.<br>
+                        From data: pH at 25.0 mL = 4.76<br>
+                        Therefore, pKa ≈ 4.76<br>
+                        (This is consistent with acetic acid, Ka = 1.8 × 10⁻⁵)<br><br>
+                        (d) Phenolphthalein (pH 8.2-10.0) would be suitable because its transition range includes the equivalence point pH of 8.72.
+                    </div>
+                    <div class="problem-explanation">
+                        <strong>Explanation:</strong> This question tests ability to interpret titration data. Key observations: (1) Initial pH around 3 suggests weak acid, not strong. (2) Buffer region shows gradual pH change. (3) At half-equivalence (25 mL), pH = pKa is a fundamental relationship. (4) Basic equivalence point confirms weak acid-strong base. (5) The steep jump around equivalence means several indicators would work, but phenolphthalein is best matched to the equivalence pH.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exam Tips Section -->
+            <div class="section" id="tips">
+                <h2>Exam Tips</h2>
+                <div class="exam-tips">
+                    <ul>
+                        <li>At half-equivalence in a weak acid-strong base titration, pH = pKa. This is the easiest way to determine pKa from a titration curve.</li>
+                        <li>Buffer problems: always write the neutralization reaction first, calculate new amounts, then use Henderson-Hasselbalch. Don't skip the stoichiometry step!</li>
+                        <li>For equivalence point pH calculations, remember: weak acid + strong base gives basic pH (conjugate base hydrolyzes); strong acid + weak base gives acidic pH (conjugate acid hydrolyzes).</li>
+                        <li>When choosing indicators, match the indicator's transition range to the equivalence point pH, not to pH 7. Only strong-strong titrations have equivalence at pH 7.</li>
+                        <li>Lewis acids must have an empty orbital or be able to accept electrons. Common examples: BF₃ (incomplete octet), metal cations (vacant d orbitals), H⁺ (vacant 1s).</li>
+                        <li>In polyprotic acid calculations, if Ka1/Ka2 > 1000, ignore the second ionization for pH calculations. The first ionization dominates.</li>
+                        <li>Buffer capacity is maximum when pH = pKa (i.e., when [A⁻] = [HA]). Buffers work in the range pKa ± 1.</li>
+                        <li>For conjugate acid-base pairs, Ka × Kb = Kw = 1.0 × 10⁻¹⁴ at 25°C. This means pKa + pKb = 14.00. Use this to convert between Ka and Kb.</li>
+                        <li>On pH curves, look for: (1) Initial pH tells acid/base strength, (2) Buffer region indicates weak acid or base, (3) Equivalence point pH tells what type of titration, (4) Steep region indicates good endpoint detection.</li>
+                        <li>Common exam error: confusing equivalence point (stoichiometric point) with endpoint (where indicator changes). They're different concepts, though we choose indicators to make them coincide.</li>
+                        <li>For Lewis acid-base reactions, draw electron arrows showing electron pair movement from base to acid. Remember both electrons in the coordinate bond come from the base.</li>
+                        <li>In buffer calculations after adding acid/base, volumes cancel in the Henderson-Hasselbalch equation if both components are in the same solution. Use moles directly: pH = pKa + log(moles A⁻/moles HA).</li>
+                        <li>Highly charged small cations (Al³⁺, Fe³⁺) make their aqueous solutions acidic by polarizing coordinated water molecules. Large, singly charged cations (Na⁺, K⁺) do not.</li>
+                        <li>When a question asks "explain using equations," always write the relevant chemical equation. For buffer action, show the neutralization reaction. For equivalence point pH, show the hydrolysis reaction.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Navigation -->
+        <div class="footer-nav">
+            <button class="btn btn-secondary" onclick="window.history.back()">← Previous Topic</button>
+            <button class="btn btn-primary" onclick="window.location.href='#'">Next Topic →</button>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" onclick="alert('Chatbot feature coming soon!')">
+        <div class="chatbot-icon">💬</div>
+    </div>
+
+    <script>
+        // Progress Tracking
+        let sectionsRead = new Set();
+        const totalSections = document.querySelectorAll('.section').length;
+
+        function updateProgress() {
+            const progress = (sectionsRead.size / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Progress: ${Math.round(progress)}%`;
+
+            // Save progress to localStorage
+            localStorage.setItem('topic18Progress', JSON.stringify(Array.from(sectionsRead)));
+        }
+
+        // Load saved progress
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedProgress = localStorage.getItem('topic18Progress');
+            if (savedProgress) {
+                sectionsRead = new Set(JSON.parse(savedProgress));
+                updateProgress();
+            }
+        });
+
+        // Track section visibility
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    if (sectionId) {
+                        sectionsRead.add(sectionId);
+                        updateProgress();
+                    }
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Toggle problem solutions
+        function toggleSolution(header) {
+            const problem = header.parentElement;
+            const solution = problem.querySelector('.problem-solution');
+            const explanation = problem.querySelector('.problem-explanation');
+            const icon = header.querySelector('.toggle-icon');
+
+            if (solution.classList.contains('active')) {
+                solution.classList.remove('active');
+                explanation.classList.remove('active');
+                icon.textContent = '▼';
+            } else {
+                solution.classList.add('active');
+                explanation.classList.add('active');
+                icon.textContent = '▲';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Reset progress function (for testing)
+        function resetProgress() {
+            sectionsRead.clear();
+            localStorage.removeItem('topic18Progress');
+            updateProgress();
+        }
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Press 'R' to reset progress (for testing)
+            if (e.key === 'r' && e.ctrlKey) {
+                e.preventDefault();
+                if (confirm('Reset your progress for this topic?')) {
+                    resetProgress();
+                }
+            }
+
+            // Press 'T' to scroll to top
+            if (e.key === 't' && e.ctrlKey) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        // Print functionality
+        function printLesson() {
+            window.print();
+        }
+
+        // Mark all sections as read (for completion)
+        function markAllRead() {
+            document.querySelectorAll('.section').forEach(section => {
+                if (section.id) {
+                    sectionsRead.add(section.id);
+                }
+            });
+            updateProgress();
+        }
+
+        // Add completion message when 100%
+        function checkCompletion() {
+            if (sectionsRead.size === totalSections) {
+                setTimeout(() => {
+                    if (confirm('Congratulations! You have completed Topic 18: Acids and Bases (HL). Would you like to test your knowledge with a quiz?')) {
+                        // Could link to quiz here
+                        alert('Quiz feature coming soon!');
+                    }
+                }, 500);
+            }
+        }
+
+        // Update checkCompletion on progress update
+        const originalUpdateProgress = updateProgress;
+        updateProgress = function() {
+            originalUpdateProgress();
+            checkCompletion();
+        };
+
+        // Add "Back to Top" button functionality
+        let backToTopButton = document.createElement('button');
+        backToTopButton.innerHTML = '↑';
+        backToTopButton.className = 'back-to-top';
+        backToTopButton.style.cssText = `
+            position: fixed;
+            bottom: 90px;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 998;
+        `;
+        document.body.appendChild(backToTopButton);
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Show/hide back to top button
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        // Add hover effect to back to top button
+        backToTopButton.addEventListener('mouseenter', () => {
+            backToTopButton.style.transform = 'scale(1.1)';
+            backToTopButton.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)';
+        });
+
+        backToTopButton.addEventListener('mouseleave', () => {
+            backToTopButton.style.transform = 'scale(1)';
+            backToTopButton.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+        });
+
+        // Analytics: Track time spent on page
+        let startTime = Date.now();
+        window.addEventListener('beforeunload', function() {
+            let timeSpent = Math.round((Date.now() - startTime) / 1000 / 60); // in minutes
+            localStorage.setItem('topic18TimeSpent', timeSpent);
+        });
+
+        // Load and display time spent
+        window.addEventListener('DOMContentLoaded', function() {
+            let timeSpent = localStorage.getItem('topic18TimeSpent');
+            if (timeSpent) {
+                console.log(`You've spent ${timeSpent} minutes studying this topic`);
+            }
+        });
+    </script>
+
+</body>
+</html>

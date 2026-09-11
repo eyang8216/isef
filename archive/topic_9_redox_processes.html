@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 9: Redox Processes - IB Chemistry HL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-info {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .lesson-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            background: #764ba2;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Learning Objectives */
+        .objectives-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .objectives-list {
+            list-style: none;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .objectives-list li {
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .content-section ul, .content-section ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Definition Boxes */
+        .definition-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+        }
+
+        .definition-term {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-text {
+            color: #555;
+        }
+
+        /* Practice Problems */
+        .problem-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .problem-item {
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s;
+        }
+
+        .problem-item:hover {
+            border-color: #667eea;
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .problem-question {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .solution-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+
+        .solution-toggle:hover {
+            background: #5568d3;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .solution-content.show {
+            display: block;
+        }
+
+        .solution-label {
+            color: #764ba2;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .explanation-label {
+            color: #667eea;
+            font-weight: 700;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Exam Tips */
+        .tips-section {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .tip-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #ff9800;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Footer Navigation */
+        .lesson-footer {
+            background: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            bottom: 0;
+            z-index: 998;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #5568d3;
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-content, .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-info {
+                gap: 1rem;
+            }
+
+            .lesson-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .chatbot-widget {
+                bottom: 5rem;
+            }
+        }
+
+        /* Math styling */
+        .content-section code {
+            background: #f5f7fa;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        strong {
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="nav-title">IB Chemistry HL</div>
+            <div class="nav-info">
+                <span>Topic 9</span>
+                <span>Syllabus: 9.1-9.2</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-label">
+                <span>Lesson Progress</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+            <h1 class="lesson-title">Topic 9: Redox Processes</h1>
+            <div class="lesson-meta">
+                <span><strong>Syllabus Code:</strong> 9.1-9.2</span>
+                <span class="badge">HL</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="objectives-section">
+            <h2 style="color: #667eea; margin-bottom: 1rem;">Learning Objectives</h2>
+            <ul class="objectives-list">
+                <li>Define oxidation and reduction in terms of electron transfer and oxidation number changes</li>
+                <li>Assign oxidation numbers to elements in compounds and ions using systematic rules</li>
+                <li>Identify the species oxidized and reduced in redox reactions</li>
+                <li>Balance redox equations using the half-equation method in acidic and basic solutions</li>
+                <li>Describe the construction and operation of voltaic (galvanic) cells</li>
+                <li>Calculate standard cell potentials using standard electrode potentials</li>
+                <li>Predict the spontaneity of redox reactions from electrode potentials and relate to Gibbs free energy</li>
+                <li>Describe the process of electrolysis and predict the products at each electrode</li>
+                <li>Apply Faraday's laws to calculate quantities in electrolysis</li>
+                <li>Distinguish between voltaic and electrolytic cells and explain their applications</li>
+            </ul>
+        </div>
+
+        <!-- Key Definitions -->
+        <div class="content-section">
+            <h2>Key Definitions</h2>
+            <div class="definition-box">
+                <div class="definition-term">Oxidation</div>
+                <div class="definition-text">The loss of electrons by a species, resulting in an increase in oxidation number. Can be remembered as OIL (Oxidation Is Loss).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Reduction</div>
+                <div class="definition-text">The gain of electrons by a species, resulting in a decrease in oxidation number. Can be remembered as RIG (Reduction Is Gain).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Oxidizing Agent (Oxidant)</div>
+                <div class="definition-text">A species that causes oxidation in another species by accepting electrons. The oxidizing agent itself is reduced in the process.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Reducing Agent (Reductant)</div>
+                <div class="definition-text">A species that causes reduction in another species by donating electrons. The reducing agent itself is oxidized in the process.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Oxidation Number (Oxidation State)</div>
+                <div class="definition-text">A number assigned to an element in a chemical compound that represents the number of electrons lost or gained by an atom of that element in the compound.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Half-Equation (Half-Reaction)</div>
+                <div class="definition-text">An equation showing either the oxidation or reduction process separately, including electrons as reactants or products.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Standard Electrode Potential (E°)</div>
+                <div class="definition-text">The potential difference (voltage) of a half-cell under standard conditions (298 K, 1.00 mol dm⁻³ concentration, 100 kPa pressure) measured relative to the standard hydrogen electrode.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Standard Cell Potential (E°cell)</div>
+                <div class="definition-text">The potential difference between two electrodes under standard conditions, calculated as E°cell = E°(cathode) - E°(anode).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Voltaic (Galvanic) Cell</div>
+                <div class="definition-text">An electrochemical cell that converts chemical energy into electrical energy through spontaneous redox reactions.</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Electrolytic Cell</div>
+                <div class="definition-text">An electrochemical cell that uses electrical energy to drive non-spontaneous chemical reactions (electrolysis).</div>
+            </div>
+            <div class="definition-box">
+                <div class="definition-term">Faraday's Constant (F)</div>
+                <div class="definition-text">The charge carried by one mole of electrons, equal to 96,485 C mol⁻¹ (approximately 96,500 C mol⁻¹).</div>
+            </div>
+        </div>
+
+        <!-- Introduction to Redox Chemistry -->
+        <div class="content-section">
+            <h2>Introduction to Redox Chemistry</h2>
+            <p>Redox (reduction-oxidation) chemistry is fundamental to understanding energy transformations in chemical systems. From cellular respiration to battery technology, from corrosion to metallurgy, redox processes govern countless natural and industrial phenomena.</p>
+            <p>The term 'redox' combines two complementary processes that always occur together: oxidation and reduction. These processes involve the transfer of electrons between chemical species. Understanding redox chemistry requires mastering three key concepts: electron transfer, oxidation numbers, and electrochemical cells.</p>
+            <p><strong>Historical Context</strong>: The concept of oxidation originally referred to reactions with oxygen (hence the name). However, the modern definition based on electron transfer is more general and applicable to all redox reactions, including those that don't involve oxygen at all.</p>
+            <p><strong>Prerequisites</strong>: Before diving into redox processes, you should be comfortable with:</p>
+            <ul>
+                <li>Writing and balancing chemical equations</li>
+                <li>Understanding ionic compounds and electron configurations</li>
+                <li>Basic thermodynamics concepts (enthalpy, entropy, Gibbs free energy from Topic 5)</li>
+                <li>Atomic structure and periodic trends (Topic 2 and 3)</li>
+            </ul>
+        </div>
+
+        <!-- 9.1 Oxidation and Reduction -->
+        <div class="content-section">
+            <h2>9.1 Oxidation and Reduction</h2>
+            <h3>Defining Oxidation and Reduction</h3>
+            <p>There are multiple ways to define oxidation and reduction, each useful in different contexts:</p>
+            <p><strong>Electron Transfer Definition</strong> (Most fundamental):</p>
+            <ul>
+                <li><strong>Oxidation</strong>: Loss of electrons (OIL)</li>
+                <li><strong>Reduction</strong>: Gain of electrons (RIG)</li>
+            </ul>
+            <p>Example: In the reaction between magnesium and oxygen:<br>
+            2Mg + O₂ → 2MgO</p>
+            <p>We can write this as two half-equations:</p>
+            <ul>
+                <li>Oxidation: Mg → Mg²⁺ + 2e⁻</li>
+                <li>Reduction: O₂ + 4e⁻ → 2O²⁻</li>
+            </ul>
+            <p>Magnesium loses electrons (oxidized), while oxygen gains electrons (reduced).</p>
+            <p><strong>Oxidation Number Definition</strong>:</p>
+            <ul>
+                <li><strong>Oxidation</strong>: Increase in oxidation number</li>
+                <li><strong>Reduction</strong>: Decrease in oxidation number</li>
+            </ul>
+            <p>This definition is particularly useful for complex molecules where actual electron transfer is less obvious.</p>
+            <p><strong>Historical Definitions</strong> (Less general, but still mentioned):</p>
+            <ul>
+                <li>Oxidation: Gain of oxygen or loss of hydrogen</li>
+                <li>Reduction: Loss of oxygen or gain of hydrogen</li>
+            </ul>
+
+            <h3>Oxidation Numbers: Rules and Applications</h3>
+            <p>Oxidation numbers (also called oxidation states) are a bookkeeping tool for tracking electron distribution in compounds. They're particularly useful when actual charge separation isn't complete (as in covalent bonds).</p>
+            <p><strong>Rules for Assigning Oxidation Numbers</strong> (apply in this order):</p>
+            <ol>
+                <li><strong>Elements in their standard state</strong>: Oxidation number = 0<br>Examples: O₂, N₂, C (graphite), Na (s)</li>
+                <li><strong>Monoatomic ions</strong>: Oxidation number = charge of the ion<br>Examples: Na⁺ is +1, Cl⁻ is -1, Fe³⁺ is +3</li>
+                <li><strong>Fluorine in compounds</strong>: Always -1 (most electronegative element)</li>
+                <li><strong>Oxygen in compounds</strong>: Usually -2<br>Exceptions: Peroxides (like H₂O₂): -1; Superoxides (like KO₂): -½; Compounds with fluorine (like OF₂): +2</li>
+                <li><strong>Hydrogen in compounds</strong>: Usually +1<br>Exception: Metal hydrides (like NaH): -1</li>
+                <li><strong>Group 1 elements</strong>: Always +1 in compounds</li>
+                <li><strong>Group 2 elements</strong>: Always +2 in compounds</li>
+                <li><strong>Aluminum</strong>: Always +3 in compounds</li>
+                <li><strong>Sum rule</strong>: The sum of all oxidation numbers in a neutral compound = 0; in a polyatomic ion = charge on the ion</li>
+            </ol>
+
+            <p><strong>Worked Example 1</strong>: Determine the oxidation number of sulfur in H₂SO₄</p>
+            <p>Solution:<br>
+            Let the oxidation number of S be x.<br>
+            • H: +1 (rule 5)<br>
+            • O: -2 (rule 4)<br>
+            • Sum must equal 0 (neutral compound)</p>
+            <p>2(+1) + x + 4(-2) = 0<br>
+            2 + x - 8 = 0<br>
+            x = +6</p>
+            <p>The oxidation number of sulfur in sulfuric acid is +6.</p>
+
+            <p><strong>Worked Example 2</strong>: Determine the oxidation number of chromium in Cr₂O₇²⁻</p>
+            <p>Solution:<br>
+            Let the oxidation number of Cr be x.<br>
+            • O: -2 (rule 4)<br>
+            • Sum must equal -2 (charge on ion)</p>
+            <p>2x + 7(-2) = -2<br>
+            2x - 14 = -2<br>
+            2x = 12<br>
+            x = +6</p>
+            <p>The oxidation number of chromium in dichromate ion is +6.</p>
+
+            <h3>Identifying Oxidation and Reduction</h3>
+            <p>Once oxidation numbers are assigned, identifying what's oxidized and reduced becomes straightforward:</p>
+            <p><strong>Example</strong>: Zn + Cu²⁺ → Zn²⁺ + Cu</p>
+            <p>Oxidation numbers:</p>
+            <ul>
+                <li>Zn: 0 → +2 (increase = oxidation)</li>
+                <li>Cu: +2 → 0 (decrease = reduction)</li>
+            </ul>
+            <p>Therefore:</p>
+            <ul>
+                <li>Zinc is <strong>oxidized</strong> (it's the reducing agent)</li>
+                <li>Copper(II) ion is <strong>reduced</strong> (it's the oxidizing agent)</li>
+            </ul>
+            <p><strong>Common Misconception</strong>: Students often confuse what's oxidized with what's the oxidizing agent. Remember: the species that's oxidized IS the reducing agent (it causes reduction in something else by giving electrons). The species that's reduced IS the oxidizing agent (it causes oxidation in something else by accepting electrons).</p>
+        </div>
+
+        <!-- Balancing Redox Equations -->
+        <div class="content-section">
+            <h2>Balancing Redox Equations</h2>
+            <h3>The Half-Equation Method</h3>
+            <p>Balancing redox equations can be challenging because we must balance both atoms AND charge. The half-equation method provides a systematic approach.</p>
+            <p><strong>Steps for Balancing in Acidic Solution</strong>:</p>
+            <ol>
+                <li>Write the unbalanced half-equations (oxidation and reduction separately)</li>
+                <li>Balance atoms other than O and H</li>
+                <li>Balance oxygen by adding H₂O</li>
+                <li>Balance hydrogen by adding H⁺</li>
+                <li>Balance charge by adding electrons (e⁻)</li>
+                <li>Multiply half-equations to equalize electrons</li>
+                <li>Add the half-equations and cancel common terms</li>
+            </ol>
+
+            <p><strong>Worked Example 3</strong>: Balance the reaction between acidified permanganate ions and iron(II) ions:<br>
+            MnO₄⁻ + Fe²⁺ → Mn²⁺ + Fe³⁺</p>
+
+            <p>Solution:</p>
+            <p><strong>Step 1-2</strong>: Identify and write half-equations (atoms already balanced except O and H):<br>
+            • Reduction: MnO₄⁻ → Mn²⁺<br>
+            • Oxidation: Fe²⁺ → Fe³⁺</p>
+
+            <p><strong>Step 3</strong>: Balance oxygen with water:<br>
+            • Reduction: MnO₄⁻ → Mn²⁺ + 4H₂O<br>
+            • Oxidation: No oxygen, skip</p>
+
+            <p><strong>Step 4</strong>: Balance hydrogen with H⁺:<br>
+            • Reduction: MnO₄⁻ + 8H⁺ → Mn²⁺ + 4H₂O<br>
+            • Oxidation: No hydrogen, skip</p>
+
+            <p><strong>Step 5</strong>: Balance charge with electrons:<br>
+            • Reduction: Left side: -1 + 8 = +7; Right side: +2. Need 5 electrons on left.<br>
+            MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O<br>
+            • Oxidation: Left side: +2; Right side: +3. Need 1 electron on right.<br>
+            Fe²⁺ → Fe³⁺ + e⁻</p>
+
+            <p><strong>Step 6</strong>: Multiply to equalize electrons (multiply oxidation by 5):<br>
+            • Reduction: MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O<br>
+            • Oxidation: 5Fe²⁺ → 5Fe³⁺ + 5e⁻</p>
+
+            <p><strong>Step 7</strong>: Add and cancel electrons:<br>
+            MnO₄⁻ + 8H⁺ + 5Fe²⁺ → Mn²⁺ + 4H₂O + 5Fe³⁺</p>
+
+            <h3>Balancing in Basic Solution</h3>
+            <p>When the reaction occurs in basic (alkaline) conditions, follow the acidic method, then:</p>
+            <ol start="8">
+                <li>Add OH⁻ ions equal to the number of H⁺ ions to both sides</li>
+                <li>Combine H⁺ + OH⁻ → H₂O on both sides</li>
+                <li>Cancel water molecules that appear on both sides</li>
+            </ol>
+
+            <p><strong>Worked Example 4</strong>: Balance in basic solution:<br>
+            Al + NO₃⁻ → Al(OH)₄⁻ + NH₃</p>
+
+            <p>First, balance in acidic solution:</p>
+            <p>Reduction half: NO₃⁻ + 9H⁺ + 8e⁻ → NH₃ + 3H₂O<br>
+            Oxidation half: Al + 4H₂O → Al(OH)₄⁻ + 4H⁺ + 3e⁻</p>
+
+            <p>Multiply to equalize electrons:<br>
+            Reduction × 3: 3NO₃⁻ + 27H⁺ + 24e⁻ → 3NH₃ + 9H₂O<br>
+            Oxidation × 8: 8Al + 32H₂O → 8Al(OH)₄⁻ + 32H⁺ + 24e⁻</p>
+
+            <p>Combine:<br>
+            8Al + 3NO₃⁻ + 32H₂O + 27H⁺ → 8Al(OH)₄⁻ + 3NH₃ + 32H⁺ + 9H₂O</p>
+
+            <p>Simplify:<br>
+            8Al + 3NO₃⁻ + 23H₂O → 8Al(OH)₄⁻ + 3NH₃ + 5H⁺</p>
+
+            <p>Now convert to basic: Add 5OH⁻ to both sides:<br>
+            8Al + 3NO₃⁻ + 23H₂O + 5OH⁻ → 8Al(OH)₄⁻ + 3NH₃ + 5H₂O</p>
+
+            <p>Final equation:<br>
+            8Al + 3NO₃⁻ + 18H₂O + 5OH⁻ → 8Al(OH)₄⁻ + 3NH₃</p>
+        </div>
+
+        <!-- 9.2 Electrochemical Cells -->
+        <div class="content-section">
+            <h2>9.2 Electrochemical Cells</h2>
+            <h3>Introduction to Electrochemistry</h3>
+            <p>Electrochemistry studies the interconversion between chemical energy and electrical energy. There are two types of electrochemical cells:</p>
+            <ol>
+                <li><strong>Voltaic (Galvanic) cells</strong>: Convert chemical energy → electrical energy (spontaneous)</li>
+                <li><strong>Electrolytic cells</strong>: Convert electrical energy → chemical energy (non-spontaneous)</li>
+            </ol>
+            <p>Both types involve redox reactions, but the spontaneity differs.</p>
+
+            <h3>Voltaic Cells: Structure and Operation</h3>
+            <p>A voltaic cell consists of two half-cells connected by:</p>
+            <ul>
+                <li>A <strong>salt bridge</strong> or porous membrane (allows ion flow, maintains electrical neutrality)</li>
+                <li>An <strong>external circuit</strong> (allows electron flow)</li>
+            </ul>
+
+            <p><strong>Components of a Half-Cell</strong>:</p>
+            <ul>
+                <li>An electrode (metal or inert conductor like graphite/platinum)</li>
+                <li>An electrolyte solution containing ions</li>
+            </ul>
+
+            <p><strong>Standard Notation</strong> (Cell Diagram):<br>
+            Zn(s) | Zn²⁺(aq) || Cu²⁺(aq) | Cu(s)</p>
+
+            <p>Convention:</p>
+            <ul>
+                <li>Anode (oxidation) on the left</li>
+                <li>Cathode (reduction) on the right</li>
+                <li>Single line | = phase boundary</li>
+                <li>Double line || = salt bridge</li>
+            </ul>
+
+            <p><strong>How a Voltaic Cell Works</strong> (Using Zn-Cu cell as example):</p>
+            <ol>
+                <li>At the <strong>anode</strong> (zinc electrode):
+                    <ul>
+                        <li>Oxidation occurs: Zn(s) → Zn²⁺(aq) + 2e⁻</li>
+                        <li>Zinc atoms lose electrons and enter solution</li>
+                        <li>Electrons flow through external circuit</li>
+                        <li>Anode is negative terminal (source of electrons)</li>
+                    </ul>
+                </li>
+                <li>At the <strong>cathode</strong> (copper electrode):
+                    <ul>
+                        <li>Reduction occurs: Cu²⁺(aq) + 2e⁻ → Cu(s)</li>
+                        <li>Copper ions gain electrons and deposit on electrode</li>
+                        <li>Cathode is positive terminal (destination of electrons)</li>
+                    </ul>
+                </li>
+                <li><strong>Salt bridge</strong> function:
+                    <ul>
+                        <li>Anions move toward anode</li>
+                        <li>Cations move toward cathode</li>
+                        <li>Maintains electrical neutrality in both half-cells</li>
+                        <li>Without it, the cell would quickly stop working</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <p><strong>Key Memory Aid</strong>: "An Ox, Red Cat" - Anode Oxidation, Reduction Cathode</p>
+
+            <h3>Standard Electrode Potentials</h3>
+            <p>Each half-cell has a characteristic potential (voltage), but we can only measure potential differences between two half-cells. By convention, all electrode potentials are measured relative to the <strong>Standard Hydrogen Electrode (SHE)</strong>:</p>
+            <p>2H⁺(aq) + 2e⁻ → H₂(g)<br>
+            E° = 0.00 V (by definition)</p>
+
+            <p><strong>Standard Conditions</strong>:</p>
+            <ul>
+                <li>Temperature: 298 K (25°C)</li>
+                <li>Concentration: 1.00 mol dm⁻³ for solutions</li>
+                <li>Pressure: 100 kPa (approximately 1 atm) for gases</li>
+            </ul>
+
+            <p><strong>Interpreting Standard Electrode Potentials</strong>:</p>
+            <ul>
+                <li><strong>More positive E°</strong> = stronger oxidizing agent (more readily reduced)</li>
+                <li><strong>More negative E°</strong> = stronger reducing agent (more readily oxidized)</li>
+            </ul>
+
+            <p>Example values:</p>
+            <ul>
+                <li>F₂ + 2e⁻ → 2F⁻ : E° = +2.87 V (strong oxidizer)</li>
+                <li>Li⁺ + e⁻ → Li : E° = -3.04 V (strong reducer)</li>
+            </ul>
+
+            <h3>Calculating Standard Cell Potential</h3>
+            <p>The standard cell potential is calculated using:</p>
+            <p><strong>E°cell = E°(cathode) - E°(anode)</strong></p>
+            <p>Or alternatively:<br>
+            E°cell = E°(reduction) - E°(oxidation)</p>
+
+            <p><strong>Important</strong>: Always use the reduction potential values from the table, even if the reaction is actually an oxidation. Don't change the sign in the table; let the formula do the work.</p>
+
+            <p><strong>Worked Example 5</strong>: Calculate the standard cell potential for:<br>
+            Zn(s) + Cu²⁺(aq) → Zn²⁺(aq) + Cu(s)</p>
+
+            <p>Given:<br>
+            • Zn²⁺ + 2e⁻ → Zn : E° = -0.76 V<br>
+            • Cu²⁺ + 2e⁻ → Cu : E° = +0.34 V</p>
+
+            <p>Solution:<br>
+            Identify the half-reactions:<br>
+            • Reduction (cathode): Cu²⁺ + 2e⁻ → Cu : E° = +0.34 V<br>
+            • Oxidation (anode): Zn → Zn²⁺ + 2e⁻ : E° = -0.76 V (from table)</p>
+
+            <p>E°cell = E°(cathode) - E°(anode) = (+0.34) - (-0.76) = +1.10 V</p>
+
+            <p>The positive value indicates the reaction is spontaneous under standard conditions.</p>
+
+            <h3>Spontaneity and Gibbs Free Energy</h3>
+            <p>There's a direct relationship between cell potential and Gibbs free energy:</p>
+            <p><strong>ΔG° = -nFE°cell</strong></p>
+
+            <p>Where:</p>
+            <ul>
+                <li>ΔG° = standard Gibbs free energy change (J)</li>
+                <li>n = number of moles of electrons transferred</li>
+                <li>F = Faraday's constant (96,485 C mol⁻¹ or approximately 96,500 C mol⁻¹)</li>
+                <li>E°cell = standard cell potential (V)</li>
+            </ul>
+
+            <p><strong>Relationship to Spontaneity</strong>:</p>
+            <ul>
+                <li>If E°cell > 0 → ΔG° < 0 → Reaction is spontaneous</li>
+                <li>If E°cell < 0 → ΔG° > 0 → Reaction is non-spontaneous</li>
+                <li>If E°cell = 0 → ΔG° = 0 → System at equilibrium</li>
+            </ul>
+
+            <p><strong>Worked Example 6</strong>: Calculate ΔG° for the Zn-Cu cell from Example 5.</p>
+
+            <p>Solution:<br>
+            From the balanced equation, n = 2 (two electrons transferred)<br>
+            ΔG° = -nFE°cell = -(2)(96,485)(+1.10)<br>
+            ΔG° = -212,267 J = -212 kJ mol⁻¹</p>
+
+            <p>The large negative value confirms the reaction is highly spontaneous.</p>
+        </div>
+
+        <!-- Electrolytic Cells and Electrolysis -->
+        <div class="content-section">
+            <h2>Electrolytic Cells and Electrolysis</h2>
+            <h3>Electrolysis: Forcing Non-Spontaneous Reactions</h3>
+            <p>Electrolysis uses electrical energy to drive non-spontaneous redox reactions. This process is crucial for:</p>
+            <ul>
+                <li>Extracting reactive metals (Na, Al, Mg)</li>
+                <li>Purifying metals (copper refining)</li>
+                <li>Electroplating</li>
+                <li>Producing chemicals (Cl₂, NaOH via chlor-alkali process)</li>
+            </ul>
+
+            <p><strong>Key Differences from Voltaic Cells</strong>:</p>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Voltaic Cell</th>
+                    <th>Electrolytic Cell</th>
+                </tr>
+                <tr>
+                    <td>Energy</td>
+                    <td>Chemical → Electrical</td>
+                    <td>Electrical → Chemical</td>
+                </tr>
+                <tr>
+                    <td>Spontaneity</td>
+                    <td>Spontaneous</td>
+                    <td>Non-spontaneous</td>
+                </tr>
+                <tr>
+                    <td>Anode charge</td>
+                    <td>Negative</td>
+                    <td>Positive (connected to + terminal)</td>
+                </tr>
+                <tr>
+                    <td>Cathode charge</td>
+                    <td>Positive</td>
+                    <td>Negative (connected to - terminal)</td>
+                </tr>
+                <tr>
+                    <td>Electron flow</td>
+                    <td>Anode to cathode (external)</td>
+                    <td>Same direction</td>
+                </tr>
+            </table>
+
+            <p><strong>Important</strong>: In BOTH cell types:</p>
+            <ul>
+                <li>Oxidation occurs at the anode</li>
+                <li>Reduction occurs at the cathode</li>
+                <li>"An Ox, Red Cat" still applies!</li>
+            </ul>
+
+            <h3>Predicting Electrolysis Products</h3>
+            <p>When multiple species could be oxidized or reduced, the one that requires the least energy is preferred:</p>
+
+            <p><strong>At the Cathode (Reduction)</strong>:</p>
+            <ul>
+                <li>The species with the MORE POSITIVE E° is reduced</li>
+                <li>Typically: Less reactive metal ions reduced before more reactive ones</li>
+                <li>Water may be reduced instead: 2H₂O + 2e⁻ → H₂ + 2OH⁻ (E° ≈ -0.83 V)</li>
+            </ul>
+
+            <p><strong>At the Anode (Oxidation)</strong>:</p>
+            <ul>
+                <li>The species with the LESS POSITIVE (more negative) E° is oxidized</li>
+                <li>Typically: Anions are oxidized</li>
+                <li>Order (from easiest to hardest to oxidize): I⁻ > Br⁻ > Cl⁻ > OH⁻</li>
+                <li>With inert electrodes, water may be oxidized: 2H₂O → O₂ + 4H⁺ + 4e⁻ (E° = +1.23 V)</li>
+            </ul>
+
+            <p><strong>Worked Example 7</strong>: Predict the products when aqueous copper(II) sulfate is electrolyzed using inert electrodes.</p>
+
+            <p>Solution:<br>
+            Species present: Cu²⁺, SO₄²⁻, H₂O</p>
+
+            <p><strong>Cathode (reduction)</strong>:<br>
+            Options: Cu²⁺ + 2e⁻ → Cu (E° = +0.34 V)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2H₂O + 2e⁻ → H₂ + 2OH⁻ (E° ≈ -0.83 V)</p>
+
+            <p>Copper(II) has more positive E°, so <strong>copper metal forms at cathode</strong>.</p>
+
+            <p><strong>Anode (oxidation)</strong>:<br>
+            Options: 2SO₄²⁻ → S₂O₈²⁻ + 2e⁻ (very difficult, high E°)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2H₂O → O₂ + 4H⁺ + 4e⁻ (E° = +1.23 V)</p>
+
+            <p>Water is more easily oxidized than sulfate, so <strong>oxygen gas forms at anode</strong>.</p>
+
+            <p>Overall: Copper metal deposits at cathode, oxygen gas evolves at anode, solution becomes acidic.</p>
+
+            <h3>Faraday's Laws of Electrolysis</h3>
+            <p><strong>Faraday's First Law</strong>: The mass of substance deposited/liberated at an electrode is directly proportional to the quantity of electric charge passed.</p>
+
+            <p><strong>Faraday's Second Law</strong>: The mass of different substances deposited/liberated by the same quantity of charge is proportional to their equivalent masses (molar mass / number of electrons).</p>
+
+            <p><strong>Quantitative Relationships</strong>:</p>
+
+            <p><strong>Q = It</strong></p>
+            <p>Where:</p>
+            <ul>
+                <li>Q = charge (coulombs, C)</li>
+                <li>I = current (amperes, A)</li>
+                <li>t = time (seconds, s)</li>
+            </ul>
+
+            <p><strong>n(e⁻) = Q/F = It/F</strong></p>
+            <p>Where:</p>
+            <ul>
+                <li>n(e⁻) = moles of electrons</li>
+                <li>F = Faraday's constant (96,485 C mol⁻¹)</li>
+            </ul>
+
+            <p>From moles of electrons, use stoichiometry to find moles of substance, then convert to mass or volume.</p>
+
+            <p><strong>Worked Example 8</strong>: A current of 2.50 A is passed through molten aluminum oxide for 5.00 hours. Calculate the mass of aluminum produced.</p>
+
+            <p>The electrode reaction is: Al³⁺ + 3e⁻ → Al</p>
+
+            <p>Solution:</p>
+
+            <p><strong>Step 1</strong>: Calculate charge passed:<br>
+            Q = It = (2.50)(5.00 × 3600) = 45,000 C</p>
+
+            <p><strong>Step 2</strong>: Calculate moles of electrons:<br>
+            n(e⁻) = Q/F = 45,000/96,485 = 0.466 mol</p>
+
+            <p><strong>Step 3</strong>: Use stoichiometry (3 electrons per Al atom):<br>
+            n(Al) = n(e⁻)/3 = 0.466/3 = 0.155 mol</p>
+
+            <p><strong>Step 4</strong>: Calculate mass:<br>
+            m(Al) = n × M = (0.155)(27.0) = 4.19 g</p>
+
+            <p>The mass of aluminum produced is <strong>4.19 g</strong>.</p>
+
+            <h3>Real-World Applications</h3>
+            <p><strong>1. Aluminum Extraction (Hall-Héroult Process)</strong>:</p>
+            <ul>
+                <li>Electrolysis of molten Al₂O₃ dissolved in cryolite</li>
+                <li>Cathode: Al³⁺ + 3e⁻ → Al</li>
+                <li>Anode: C + O²⁻ → CO + 2e⁻ (carbon anodes consumed)</li>
+                <li>Requires enormous amounts of electricity (environmental concern)</li>
+            </ul>
+
+            <p><strong>2. Chlor-Alkali Industry</strong>:</p>
+            <ul>
+                <li>Electrolysis of brine (concentrated NaCl solution)</li>
+                <li>Produces Cl₂, H₂, and NaOH (all valuable chemicals)</li>
+                <li>Must prevent Cl₂ and NaOH mixing (would form bleach)</li>
+            </ul>
+
+            <p><strong>3. Electroplating</strong>:</p>
+            <ul>
+                <li>Thin metal coating for protection or appearance</li>
+                <li>Object to be plated is cathode</li>
+                <li>Metal ions in solution deposit on object</li>
+            </ul>
+
+            <p><strong>4. Corrosion Prevention</strong>:</p>
+            <ul>
+                <li>Sacrificial anodes (more reactive metal corrodes instead)</li>
+                <li>Cathodic protection for ships, pipelines</li>
+                <li>Based on voltaic cell principles</li>
+            </ul>
+        </div>
+
+        <!-- Common Misconceptions and Exam Strategies -->
+        <div class="content-section">
+            <h2>Common Misconceptions and Exam Strategies</h2>
+            <h3>Common Misconceptions</h3>
+
+            <p><strong>Misconception 1</strong>: "The oxidizing agent is oxidized"</p>
+            <ul>
+                <li><strong>Correction</strong>: The oxidizing agent CAUSES oxidation but is itself REDUCED. It accepts electrons.</li>
+            </ul>
+
+            <p><strong>Misconception 2</strong>: "In electrolytic cells, reduction occurs at the positive electrode"</p>
+            <ul>
+                <li><strong>Correction</strong>: Reduction ALWAYS occurs at the cathode, regardless of cell type. In electrolytic cells, the cathode is connected to the negative terminal of the power supply.</li>
+            </ul>
+
+            <p><strong>Misconception 3</strong>: "You should change the sign of E° when writing oxidation reactions"</p>
+            <ul>
+                <li><strong>Correction</strong>: E° values from data tables are always for reduction. Use the formula E°cell = E°(cathode) - E°(anode) without changing table values.</li>
+            </ul>
+
+            <p><strong>Misconception 4</strong>: "More current means more voltage"</p>
+            <ul>
+                <li><strong>Correction</strong>: Voltage (potential difference) is intensive and depends on the chemical species involved. Current affects the RATE of reaction (how quickly products form) but not the voltage.</li>
+            </ul>
+
+            <p><strong>Misconception 5</strong>: "The salt bridge transfers electrons"</p>
+            <ul>
+                <li><strong>Correction</strong>: Electrons flow through the external circuit. The salt bridge transfers IONS to maintain electrical neutrality.</li>
+            </ul>
+
+            <h3>Problem-Solving Strategies</h3>
+
+            <p><strong>For Oxidation Number Problems</strong>:</p>
+            <ol>
+                <li>Write oxidation numbers above each element</li>
+                <li>Identify changes (what increases, what decreases)</li>
+                <li>Remember the sum rules (0 for compounds, charge for ions)</li>
+                <li>Check your answer makes chemical sense</li>
+            </ol>
+
+            <p><strong>For Balancing Redox Equations</strong>:</p>
+            <ol>
+                <li>Always start with half-equations</li>
+                <li>Follow the steps systematically (don't skip)</li>
+                <li>Check both atoms AND charge are balanced</li>
+                <li>For complex organic oxidations, balance C first, then other atoms</li>
+            </ol>
+
+            <p><strong>For Cell Potential Calculations</strong>:</p>
+            <ol>
+                <li>Identify which species is oxidized and which is reduced</li>
+                <li>Look up BOTH values in the reduction table (don't change signs)</li>
+                <li>Apply the formula carefully: cathode minus anode</li>
+                <li>Interpret the sign: positive = spontaneous</li>
+            </ol>
+
+            <p><strong>For Electrolysis Calculations</strong>:</p>
+            <ol>
+                <li>Write the electrode equation to see electron stoichiometry</li>
+                <li>Calculate charge using Q = It</li>
+                <li>Convert charge to moles of electrons using Faraday's constant</li>
+                <li>Use stoichiometry to find moles of substance</li>
+                <li>Convert to mass/volume as required</li>
+                <li>Always include units at every step</li>
+            </ol>
+        </div>
+
+        <!-- Practice Problems -->
+        <div class="problem-container">
+            <h2 style="color: #667eea; margin-bottom: 1.5rem;">Practice Problems</h2>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 1</div>
+                <div class="problem-question">Determine the oxidation number of nitrogen in each of the following species: (a) NH₃, (b) NO₂⁻, (c) N₂O₅, (d) N₂H₄</div>
+                <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+                <div class="solution-content" id="solution-1">
+                    <div class="solution-label">Solution:</div>
+                    <p>(a) NH₃: Let N be x. x + 3(+1) = 0, so x = -3</p>
+                    <p>(b) NO₂⁻: Let N be x. x + 2(-2) = -1, so x = +3</p>
+                    <p>(c) N₂O₅: Let N be x. 2x + 5(-2) = 0, so 2x = +10, x = +5</p>
+                    <p>(d) N₂H₄: Let N be x. 2x + 4(+1) = 0, so 2x = -4, x = -2</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>Apply the oxidation number rules systematically. Hydrogen is +1 (except in metal hydrides), oxygen is -2 (except in peroxides), and the sum equals the total charge. Notice that nitrogen can have oxidation states ranging from -3 to +5, demonstrating its versatility in redox chemistry.</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 2</div>
+                <div class="problem-question">Balance the following redox equation in acidic solution: Cr₂O₇²⁻ + Fe²⁺ → Cr³⁺ + Fe³⁺</div>
+                <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+                <div class="solution-content" id="solution-2">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>Step 1-2</strong>: Half-equations:<br>
+                    Reduction: Cr₂O₇²⁻ → Cr³⁺<br>
+                    Oxidation: Fe²⁺ → Fe³⁺</p>
+                    <p><strong>Step 2</strong>: Balance Cr:<br>
+                    Cr₂O₇²⁻ → 2Cr³⁺</p>
+                    <p><strong>Step 3</strong>: Balance O with H₂O:<br>
+                    Cr₂O₇²⁻ → 2Cr³⁺ + 7H₂O</p>
+                    <p><strong>Step 4</strong>: Balance H with H⁺:<br>
+                    Cr₂O₇²⁻ + 14H⁺ → 2Cr³⁺ + 7H₂O</p>
+                    <p><strong>Step 5</strong>: Balance charge with electrons:<br>
+                    Cr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺ + 7H₂O<br>
+                    Fe²⁺ → Fe³⁺ + e⁻</p>
+                    <p><strong>Step 6</strong>: Multiply oxidation by 6:<br>
+                    6Fe²⁺ → 6Fe³⁺ + 6e⁻</p>
+                    <p><strong>Step 7</strong>: Combine:<br>
+                    <strong>Cr₂O₇²⁻ + 14H⁺ + 6Fe²⁺ → 2Cr³⁺ + 7H₂O + 6Fe³⁺</strong></p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This is the classic dichromate-iron titration used analytically. The orange dichromate ion (Cr in +6 state) is reduced to green Cr³⁺, while pale green Fe²⁺ is oxidized to yellow Fe³⁺. The color change from orange to green indicates the endpoint. Note that 6 electrons are transferred, making this a 6:1 molar ratio.</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 3</div>
+                <div class="problem-question">Using the following standard electrode potentials, determine whether silver will react with dilute hydrochloric acid:<br>
+                Ag⁺ + e⁻ → Ag    E° = +0.80 V<br>
+                2H⁺ + 2e⁻ → H₂   E° = 0.00 V</div>
+                <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+                <div class="solution-content" id="solution-3">
+                    <div class="solution-label">Solution:</div>
+                    <p>For silver to react, it must be oxidized: Ag → Ag⁺ + e⁻ (this would be the anode)<br>
+                    Hydrogen ions would be reduced: 2H⁺ + 2e⁻ → H₂ (this would be the cathode)</p>
+                    <p>E°cell = E°(cathode) - E°(anode)<br>
+                    E°cell = 0.00 - (+0.80) = -0.80 V</p>
+                    <p>Since E°cell is negative, the reaction is non-spontaneous.</p>
+                    <p><strong>Conclusion: Silver will NOT react with dilute hydrochloric acid under standard conditions.</strong></p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This explains why silver is considered a 'noble metal' - it's unreactive toward dilute acids. Only metals with negative E° values (like zinc at -0.76 V) will spontaneously dissolve in acid. Silver will dissolve in oxidizing acids like nitric acid, where a different oxidizing agent (NO₃⁻) provides the driving force.</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 4</div>
+                <div class="problem-question">A voltaic cell is constructed with the following half-cells:<br>
+                Zn²⁺(aq, 1.0 mol dm⁻³) | Zn(s) and Ag⁺(aq, 1.0 mol dm⁻³) | Ag(s)<br>
+                Given: Zn²⁺ + 2e⁻ → Zn, E° = -0.76 V; Ag⁺ + e⁻ → Ag, E° = +0.80 V<br>
+                (a) Write the equation for the spontaneous cell reaction.<br>
+                (b) Calculate E°cell.<br>
+                (c) Calculate ΔG° for this reaction.<br>
+                (d) Draw a labeled diagram of this cell.</div>
+                <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+                <div class="solution-content" id="solution-4">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>(a)</strong> Silver has the more positive E°, so it's reduced (cathode): 2Ag⁺ + 2e⁻ → 2Ag<br>
+                    Zinc is oxidized (anode): Zn → Zn²⁺ + 2e⁻<br>
+                    <strong>Overall: Zn(s) + 2Ag⁺(aq) → Zn²⁺(aq) + 2Ag(s)</strong></p>
+                    <p><strong>(b)</strong> E°cell = E°(cathode) - E°(anode) = (+0.80) - (-0.76) = <strong>+1.56 V</strong></p>
+                    <p><strong>(c)</strong> n = 2 electrons transferred<br>
+                    ΔG° = -nFE°cell = -(2)(96,485)(1.56) = -301,033 J = <strong>-301 kJ mol⁻¹</strong></p>
+                    <p><strong>(d)</strong> Diagram should show:<br>
+                    • Zn electrode in Zn²⁺ solution (anode, negative terminal)<br>
+                    • Ag electrode in Ag⁺ solution (cathode, positive terminal)<br>
+                    • Salt bridge connecting the solutions<br>
+                    • External wire with electron flow from Zn to Ag<br>
+                    • Voltmeter showing +1.56 V</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This cell has a large positive voltage, making it highly spontaneous with a large negative ΔG°. The electrons flow from zinc (anode) through the external circuit to silver (cathode). In the salt bridge, anions move toward the zinc half-cell to balance the positive charge from Zn²⁺ entering solution, while cations move toward the silver half-cell to replace the Ag⁺ being reduced.</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 5</div>
+                <div class="problem-question">When molten sodium chloride is electrolyzed, sodium metal and chlorine gas are produced. Write the half-equations and explain why this process requires electrical energy rather than producing it.</div>
+                <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+                <div class="solution-content" id="solution-5">
+                    <div class="solution-label">Solution:</div>
+                    <p>Cathode (reduction): Na⁺ + e⁻ → Na<br>
+                    Anode (oxidation): 2Cl⁻ → Cl₂ + 2e⁻<br>
+                    Overall: 2Na⁺ + 2Cl⁻ → 2Na + Cl₂</p>
+                    <p>This process requires electrical energy because the reverse reaction (sodium reacting with chlorine) is highly spontaneous and exothermic:<br>
+                    2Na + Cl₂ → 2NaCl    ΔH° = -822 kJ mol⁻¹</p>
+                    <p>To reverse this spontaneous process, we must supply energy. Calculating the cell potential:<br>
+                    Na⁺ + e⁻ → Na    E° = -2.71 V<br>
+                    Cl₂ + 2e⁻ → 2Cl⁻  E° = +1.36 V</p>
+                    <p>For the electrolysis (reverse of spontaneous direction):<br>
+                    E°cell = (-2.71) - (+1.36) = -4.07 V</p>
+                    <p>The negative E°cell confirms this is non-spontaneous and requires an external voltage greater than 4.07 V to proceed.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This is the fundamental principle of electrolysis: using electrical energy to drive thermodynamically unfavorable reactions. The large negative voltage indicates this is a highly unfavorable process, which makes sense because sodium and chlorine react violently when brought together. Industrial production of sodium uses this process but requires significant electrical energy.</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 6</div>
+                <div class="problem-question">A current of 5.00 A is passed through two electrolytic cells in series: one containing aqueous CuSO₄ and one containing aqueous AgNO₃, both with inert electrodes. Calculate the mass deposited at each cathode after 2.00 hours.</div>
+                <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+                <div class="solution-content" id="solution-6">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>Step 1</strong>: Calculate total charge:<br>
+                    Q = It = (5.00 A)(2.00 × 3600 s) = 36,000 C</p>
+                    <p><strong>Step 2</strong>: Calculate moles of electrons:<br>
+                    n(e⁻) = Q/F = 36,000/96,485 = 0.373 mol</p>
+                    <p><strong>For copper cell:</strong><br>
+                    Cathode reaction: Cu²⁺ + 2e⁻ → Cu<br>
+                    n(Cu) = n(e⁻)/2 = 0.373/2 = 0.187 mol<br>
+                    m(Cu) = n × M = (0.187)(63.5) = <strong>11.9 g</strong></p>
+                    <p><strong>For silver cell:</strong><br>
+                    Cathode reaction: Ag⁺ + e⁻ → Ag<br>
+                    n(Ag) = n(e⁻)/1 = 0.373 mol<br>
+                    m(Ag) = n × M = (0.373)(108) = <strong>40.3 g</strong></p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>In series circuits, the same charge (and thus same number of electrons) passes through both cells. However, the masses deposited differ because of different electron stoichiometry: copper requires 2 electrons per atom while silver requires only 1. This demonstrates Faraday's Second Law - different substances have different equivalent masses. The ratio of masses is (40.3/11.9) = 3.39, which equals (108/1)/(63.5/2) = 3.40, confirming Faraday's relationship.</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 7</div>
+                <div class="problem-question">Concentrated aqueous sodium chloride is electrolyzed using inert electrodes. Predict and explain the products at each electrode, and write balanced half-equations.</div>
+                <button class="solution-toggle" onclick="toggleSolution(7)">Show Solution</button>
+                <div class="solution-content" id="solution-7">
+                    <div class="solution-label">Solution:</div>
+                    <p>Species present: Na⁺, Cl⁻, H₂O</p>
+                    <p><strong>At cathode (reduction options):</strong><br>
+                    Na⁺ + e⁻ → Na         E° = -2.71 V<br>
+                    2H₂O + 2e⁻ → H₂ + 2OH⁻  E° = -0.83 V</p>
+                    <p>Water has more positive E°, so water is reduced:<br>
+                    <strong>Cathode: 2H₂O + 2e⁻ → H₂ + 2OH⁻</strong><br>
+                    Product: Hydrogen gas</p>
+                    <p><strong>At anode (oxidation options):</strong><br>
+                    2Cl⁻ → Cl₂ + 2e⁻       E° = +1.36 V<br>
+                    2H₂O → O₂ + 4H⁺ + 4e⁻   E° = +1.23 V</p>
+                    <p>Water has lower E° (easier to oxidize), but chloride is preferentially oxidized because:<br>
+                    1. High chloride concentration (Le Châtelier effect)<br>
+                    2. Overpotential effects favor Cl₂ formation<br>
+                    3. This is the basis of the chlor-alkali industry</p>
+                    <p><strong>Anode: 2Cl⁻ → Cl₂ + 2e⁻</strong><br>
+                    Product: Chlorine gas</p>
+                    <p><strong>Overall: 2NaCl + 2H₂O → Cl₂ + H₂ + 2NaOH</strong></p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This is the industrially important chlor-alkali process. While electrode potentials predict oxygen formation at the anode, kinetic factors (overpotential) favor chlorine. The solution becomes increasingly alkaline (NaOH) as H⁺ ions are consumed and OH⁻ ions accumulate. This process produces three valuable chemicals: Cl₂ (for plastics, disinfectants), H₂ (fuel, ammonia synthesis), and NaOH (soap, paper, many industrial processes).</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 8</div>
+                <div class="problem-question">A student wants to electroplate a steel spoon with silver. The spoon has a surface area of 40 cm² and the desired silver coating thickness is 0.010 mm. The density of silver is 10.5 g cm⁻³. (a) Calculate the mass of silver required. (b) If a current of 0.50 A is used, calculate the minimum time required. (c) Describe the setup needed.</div>
+                <button class="solution-toggle" onclick="toggleSolution(8)">Show Solution</button>
+                <div class="solution-content" id="solution-8">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>(a)</strong> Volume of silver coating:<br>
+                    V = surface area × thickness = 40 × 0.0010 = 0.040 cm³<br>
+                    Mass = density × volume = 10.5 × 0.040 = <strong>0.42 g</strong></p>
+                    <p><strong>(b)</strong> Moles of silver:<br>
+                    n(Ag) = m/M = 0.42/108 = 0.00389 mol</p>
+                    <p>Electrode reaction: Ag⁺ + e⁻ → Ag<br>
+                    Moles of electrons = moles of Ag = 0.00389 mol</p>
+                    <p>Charge required:<br>
+                    Q = n(e⁻) × F = 0.00389 × 96,485 = 375 C</p>
+                    <p>Time required:<br>
+                    t = Q/I = 375/0.50 = 750 s = <strong>12.5 minutes</strong></p>
+                    <p><strong>(c)</strong> Setup:<br>
+                    • Electrolyte: Solution of AgNO₃ or other soluble silver salt<br>
+                    • Cathode: Steel spoon (to be plated)<br>
+                    • Anode: Pure silver metal (provides Ag⁺ ions)<br>
+                    • Power supply: Positive terminal to anode, negative to cathode<br>
+                    • Current: 0.50 A<br>
+                    • Clean spoon surface thoroughly before plating<br>
+                    • Maintain steady current for uniform coating</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>Electroplating deposits a thin, uniform metal layer for protection or aesthetics. The object to be plated is always the cathode (where reduction occurs). Using a pure silver anode ensures the silver ion concentration remains constant as Ag is oxidized at the anode while being reduced at the cathode. In practice, you'd use slightly more time than calculated to account for inefficiencies (not all current goes to Ag deposition - some may reduce H⁺ or other species).</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 9</div>
+                <div class="problem-question">Essay question: Explain why rusting of iron is a redox process and describe two different methods of preventing corrosion, explaining the electrochemical principles behind each method.</div>
+                <button class="solution-toggle" onclick="toggleSolution(9)">Show Solution</button>
+                <div class="solution-content" id="solution-9">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>Rusting is a redox process:</strong></p>
+                    <p>Iron oxidation (anodic area): Fe → Fe²⁺ + 2e⁻<br>
+                    Oxygen reduction (cathodic area): O₂ + 2H₂O + 4e⁻ → 4OH⁻</p>
+                    <p>Fe²⁺ ions then react further:<br>
+                    Fe²⁺ → Fe³⁺ + e⁻<br>
+                    Fe³⁺ + OH⁻ → Fe(OH)₃ (rust)</p>
+                    <p>This forms a voltaic cell where different areas of the iron surface act as anode and cathode, accelerated by water and electrolytes.</p>
+                    <p><strong>Method 1: Sacrificial Anode Protection</strong><br>
+                    Attach a more reactive metal (Mg or Zn) to the iron structure.<br>
+                    Mg²⁺ + 2e⁻ → Mg    E° = -2.37 V<br>
+                    Fe²⁺ + 2e⁻ → Fe    E° = -0.44 V</p>
+                    <p>Since Mg has more negative E°, it's oxidized preferentially:<br>
+                    Mg → Mg²⁺ + 2e⁻ (at Mg surface)<br>
+                    Fe²⁺ + 2e⁻ → Fe (any Fe²⁺ formed is reduced back)</p>
+                    <p>The magnesium corrodes instead of the iron. This is used on ships (zinc blocks on hulls) and underground pipelines.</p>
+                    <p><strong>Method 2: Barrier Protection with Galvanizing</strong><br>
+                    Coat iron with zinc layer. If coating is scratched:<br>
+                    Zn²⁺ + 2e⁻ → Zn    E° = -0.76 V</p>
+                    <p>Zinc is still more reactive than iron (more negative E°), so acts as both barrier and sacrificial anode. Electrons flow to iron, keeping it cathodic (protected).</p>
+                    <p>Both methods work because they make iron the cathode in an electrochemical cell, preventing its oxidation.</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This answer demonstrates understanding of: (1) corrosion as an electrochemical process, (2) electrode potentials determining reactivity, (3) practical applications of redox principles, and (4) how making iron cathodic prevents oxidation. For IB exams, always link theory to real applications and use E° values to justify your explanations. Other acceptable methods include painting (simple barrier), stainless steel (alloying), and impressed current systems (external power source makes iron permanently cathodic).</p>
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-number">Problem 10</div>
+                <div class="problem-question">Data-based question: In an experiment, 500 cm³ of 0.020 mol dm⁻³ acidified potassium permanganate was titrated against a solution of iron(II) sulfate of unknown concentration. The average titre was 23.45 cm³. The equation is: MnO₄⁻ + 8H⁺ + 5Fe²⁺ → Mn²⁺ + 4H₂O + 5Fe³⁺. (a) Calculate the concentration of Fe²⁺. (b) Explain the color change observed at the endpoint. (c) Suggest why sulfuric acid is used rather than hydrochloric acid to acidify the permanganate.</div>
+                <button class="solution-toggle" onclick="toggleSolution(10)">Show Solution</button>
+                <div class="solution-content" id="solution-10">
+                    <div class="solution-label">Solution:</div>
+                    <p><strong>(a)</strong> Moles of MnO₄⁻:<br>
+                    n(MnO₄⁻) = c × V = 0.020 × (500/1000) = 0.010 mol</p>
+                    <p>From equation: 1 MnO₄⁻ reacts with 5 Fe²⁺<br>
+                    n(Fe²⁺) = 5 × n(MnO₄⁻) = 5 × 0.010 = 0.050 mol</p>
+                    <p>Concentration of Fe²⁺:<br>
+                    c(Fe²⁺) = n/V = 0.050/(23.45/1000) = <strong>2.13 mol dm⁻³</strong></p>
+                    <p><strong>(b)</strong> During titration:<br>
+                    • MnO₄⁻ (purple/pink) is reduced to Mn²⁺ (colorless/very pale pink)<br>
+                    • While Fe²⁺ is present, all permanganate added is immediately reduced<br>
+                    • Solution remains colorless/very pale<br>
+                    • At endpoint: all Fe²⁺ consumed<br>
+                    • Next drop of MnO₄⁻ has nothing to react with<br>
+                    • Remains purple/pink, indicating endpoint</p>
+                    <p><strong>(c)</strong> Hydrochloric acid should not be used because:<br>
+                    • Cl⁻ ions can be oxidized by permanganate (strong oxidizer)<br>
+                    • Cl⁻ → Cl₂ would occur, consuming MnO₄⁻<br>
+                    • This gives erroneously high titre volumes<br>
+                    • Sulfuric acid provides H⁺ ions without giving reducible anions<br>
+                    • SO₄²⁻ is not oxidized by permanganate under these conditions</p>
+                    <div class="explanation-label">Explanation:</div>
+                    <p>This is a classic redox titration. Key points: (1) the 1:5 stoichiometry from the balanced equation, (2) permanganate acts as its own indicator due to its intense color, (3) choice of acid matters - it must not interfere with the redox reaction. In IB exams, always show units, significant figures (3 here), and explain color changes in terms of oxidation states: Mn goes from +7 (purple) to +2 (colorless), Fe goes from +2 (pale green) to +3 (yellow, but masked by other colors in this titration).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Tips -->
+        <div class="tips-section">
+            <h2 style="color: #ff9800; margin-bottom: 1.5rem;">Exam Tips</h2>
+            <div class="tip-item">Always write oxidation numbers above atoms when identifying redox reactions - this makes it easy to spot changes and avoid errors</div>
+            <div class="tip-item">When balancing redox equations, never skip steps. The half-equation method works systematically every time if you follow the sequence</div>
+            <div class="tip-item">For cell potential calculations, remember: cathode minus anode. Don't change the sign of E° values from tables - the formula handles it</div>
+            <div class="tip-item">Positive E°cell means spontaneous. Link this to ΔG° using ΔG° = -nFE°cell. Both indicate spontaneity</div>
+            <div class="tip-item">In electrolysis calculations, always write the electrode equation first to see the electron stoichiometry (the n value). This is the most common source of errors</div>
+            <div class="tip-item">For cell diagrams, oxidation (anode) is always on the left by convention. Phase boundaries are single lines, salt bridge is double line</div>
+            <div class="tip-item">When predicting electrolysis products, consider both thermodynamics (E° values) and kinetics (overpotential). With concentrated solutions, kinetics often wins</div>
+            <div class="tip-item">The species oxidized IS the reducing agent (it reduces something else). The species reduced IS the oxidizing agent (it oxidizes something else). Don't confuse these</div>
+            <div class="tip-item">Anode and cathode definitions never change: An Ox, Red Cat. But their charges flip between voltaic and electrolytic cells</div>
+            <div class="tip-item">In Paper 2 data questions involving Faraday's laws, organize your work: Q = It, then n(e⁻) = Q/F, then use stoichiometry. Show every step with units</div>
+            <div class="tip-item">For extended response questions, always link structure to function. Explain WHY the salt bridge prevents the cell from stopping, don't just say what it does</div>
+            <div class="tip-item">Common exam question: comparing voltaic vs electrolytic cells. Make a table with energy transformation, spontaneity, and electrode charges - all three perspectives matter</div>
+        </div>
+
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-button" onclick="openChatbot()" title="Ask a question">💬</button>
+    </div>
+
+    <!-- Lesson Footer Navigation -->
+    <footer class="lesson-footer">
+        <div class="footer-content">
+            <button class="nav-button" onclick="previousLesson()">← Previous Topic</button>
+            <span style="color: #666;">Topic 9: Redox Processes</span>
+            <button class="nav-button" onclick="nextLesson()">Next Topic →</button>
+        </div>
+    </footer>
+
+    <!-- SCRIPT_PLACEHOLDER -->
+
+    <script>
+        // Progress Tracking
+        let scrollPercentage = 0;
+
+        function updateProgress() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            scrollPercentage = Math.min(Math.round((scrollTop / documentHeight) * 100), 100);
+
+            document.getElementById('progress-fill').style.width = scrollPercentage + '%';
+            document.getElementById('progress-text').textContent = scrollPercentage + '%';
+
+            // Save progress to localStorage
+            localStorage.setItem('topic9Progress', scrollPercentage);
+        }
+
+        // Throttle scroll events for performance
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(updateProgress, 100);
+        });
+
+        // Load saved progress on page load
+        window.addEventListener('load', function() {
+            const savedProgress = localStorage.getItem('topic9Progress');
+            if (savedProgress) {
+                document.getElementById('progress-fill').style.width = savedProgress + '%';
+                document.getElementById('progress-text').textContent = savedProgress + '%';
+            }
+        });
+
+        // Toggle Solution Visibility
+        function toggleSolution(problemNumber) {
+            const solution = document.getElementById('solution-' + problemNumber);
+            const button = event.target;
+
+            if (solution.classList.contains('show')) {
+                solution.classList.remove('show');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('show');
+                button.textContent = 'Hide Solution';
+
+                // Track problem completion
+                trackProblemCompletion(problemNumber);
+            }
+        }
+
+        // Track Problem Completion
+        function trackProblemCompletion(problemNumber) {
+            let completedProblems = JSON.parse(localStorage.getItem('topic9CompletedProblems') || '[]');
+            if (!completedProblems.includes(problemNumber)) {
+                completedProblems.push(problemNumber);
+                localStorage.setItem('topic9CompletedProblems', JSON.stringify(completedProblems));
+            }
+        }
+
+        // Chatbot Function
+        function openChatbot() {
+            alert('Chatbot feature coming soon! This will allow you to ask questions about redox processes and get instant help.');
+            // In a real implementation, this would open a chat interface
+        }
+
+        // Navigation Functions
+        function previousLesson() {
+            alert('Navigate to Topic 8 (Acids and Bases)');
+            // In a real implementation: window.location.href = 'topic_8.html';
+        }
+
+        function nextLesson() {
+            alert('Navigate to Topic 10 (Organic Chemistry)');
+            // In a real implementation: window.location.href = 'topic_10.html';
+        }
+
+        // Smooth Scrolling for Internal Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', function(e) {
+            // Left arrow - previous lesson
+            if (e.key === 'ArrowLeft' && e.ctrlKey) {
+                previousLesson();
+            }
+            // Right arrow - next lesson
+            if (e.key === 'ArrowRight' && e.ctrlKey) {
+                nextLesson();
+            }
+        });
+
+        // Print Friendly
+        window.addEventListener('beforeprint', function() {
+            // Expand all solutions for printing
+            document.querySelectorAll('.solution-content').forEach(solution => {
+                solution.classList.add('show');
+            });
+        });
+
+        window.addEventListener('afterprint', function() {
+            // Collapse solutions after printing
+            document.querySelectorAll('.solution-content').forEach(solution => {
+                solution.classList.remove('show');
+            });
+        });
+
+        // Analytics - Track Time Spent
+        let startTime = Date.now();
+        window.addEventListener('beforeunload', function() {
+            const timeSpent = Math.round((Date.now() - startTime) / 1000); // seconds
+            localStorage.setItem('topic9TimeSpent',
+                (parseInt(localStorage.getItem('topic9TimeSpent') || '0') + timeSpent).toString()
+            );
+        });
+
+        // Display Study Statistics
+        function showStudyStats() {
+            const timeSpent = parseInt(localStorage.getItem('topic9TimeSpent') || '0');
+            const completedProblems = JSON.parse(localStorage.getItem('topic9CompletedProblems') || '[]');
+            const progress = localStorage.getItem('topic9Progress') || '0';
+
+            console.log('Study Statistics for Topic 9:');
+            console.log('Time Spent:', Math.floor(timeSpent / 60), 'minutes');
+            console.log('Problems Completed:', completedProblems.length, '/ 10');
+            console.log('Reading Progress:', progress + '%');
+        }
+
+        // Call on page load to show stats in console
+        window.addEventListener('load', showStudyStats);
+
+        // Add visual feedback for scroll
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                // Scrolling down
+                document.querySelector('.lesson-footer').style.transform = 'translateY(0)';
+            } else {
+                // Scrolling up
+                document.querySelector('.lesson-footer').style.transform = 'translateY(0)';
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, false);
+    </script>
+</body>
+</html>
