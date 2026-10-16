@@ -5,13 +5,13 @@
 The central research question is:
 
 \begin{quote}
-To what extent can a lightweight two-dimensional axisymmetric Python solver, coupling sparse Laplace/Poisson electrostatics with electrostatic--capillary residual analysis and effective space-charge shielding closures, predict Taylor-cone geometry and onset-voltage trends on consumer-grade hardware?
+To what extent can a lightweight two-dimensional axisymmetric finite-difference solver---coupling immersed-boundary Laplace/Poisson electrostatics, electrostatic--capillary stress diagnostics, and synthetic-image extraction---reproduce classical Taylor-cone benchmarks and diagnose stress balances in experimental cone-jet profiles on consumer hardware?
 \end{quote}
 
 \subsection{Hypothesis}
 
-The working hypothesis is that a reduced-order sparse axisymmetric solver can reproduce the classical Taylor-cone limit and approximate experimentally measured cone half-angles, interface profiles, and onset-voltage trends within quantified uncertainty. The expected dominant error sources are finite-grid boundary representation, simplified effective space-charge closures, and physical effects not included in the static model, such as liquid flow, current transport, and full leaky-dielectric dynamics.
+We hypothesize that an immersed-boundary axisymmetric solver will converge at second order, agree with independent body-fitted finite-element solutions within $<1\%$ for interface pressures, and recover the classical \SI{49.29}{\degree} Taylor angle via flank-field scaling. Furthermore, when paired with contour extraction validated on synthetic benchmarks (targeting $<1^\circ$ angle error), the static fixed-pressure stress balance will quantify where real flowing cone-jets depart from purely static electrostatic--capillary equilibrium as voltage increases.
 
 \subsection{Scope}
 
-The project studies onset-level Taylor-cone geometry and field balance. It does not aim to simulate the full downstream cone-jet, droplet breakup, emission-current law, plume dynamics, or complete thruster performance. This limited scope is intentional: the purpose is to test whether a transparent lightweight model captures key observables before using more complex simulations.
+This study focuses strictly on onset-level axisymmetric geometry, interface field reconstruction, and static normal-stress balance. Downstream jet breakup, transient fluid flow, and plume dynamics are excluded to isolate how much physical insight can be extracted from a rapid, reduced-order electrostatic model.

@@ -21,7 +21,7 @@ app = ["streamlit==1.60.0"]
 
 [tool.setuptools]
 package-dir = {"" = "solver"}
-packages = ["solver"]
+packages = ["solver", "experimental"]
 
 [tool.pytest.ini_options]
 testpaths = ["solver/tests"]
