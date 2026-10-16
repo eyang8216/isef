@@ -79,7 +79,7 @@ backend/app/
 - Project title with emoji icon
 - Subtitle: "A Lightweight Axisymmetric Solver for Onset Prediction"
 - Institutional affiliation: ISEF 2026, ISFA Hong Kong SAR
-- Authors: Ethan Yang, Elliott Dong, Curtis Lau
+- Authors: Ethan Yang, Li Ang Dong, Curtis Wai Ip Lau
 - Expandable "About" section with abstract and citation
 
 ### Parameter Presets

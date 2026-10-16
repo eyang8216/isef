@@ -1,6 +1,6 @@
 # Taylor-cone model: complete proposed validation protocol
 Protocol TC-VP-1.0 | 8 September 2026 | Laboratory-review issue
-Ethan Yang, Elliot Dong and Curtis Lau | Independent Schools Foundation Academy, Hong Kong
+Ethan Yang, Li Ang Dong and Curtis Wai Ip Lau | Independent Schools Foundation Academy, Hong Kong
 
 ## Status and authority
 This is the complete proposed scientific protocol for laboratory outreach. It is not an electrical construction guide or permission to operate apparatus. Numerical criteria below are project design choices, not literature-derived safety limits or evidence that tests have passed. The students and supervisor must accept this version before calling it frozen. Execution requires a signed host-lab configuration record and approved local operating procedures. No hazardous operating values are supplied as universal defaults.

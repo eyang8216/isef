@@ -1,7 +1,7 @@
 # Taylor Cone Experimental Validation - Detailed Apparatus and Procedure
 
 **Project:** Lightweight Taylor-Cone Solver Experimental Validation  
-**Authors:** Ethan Yang, Elliot Dong, Curtis Lau  
+**Authors:** Ethan Yang, Li Ang Dong, Curtis Wai Ip Lau  
 **Institution:** Independent Schools Foundation Academy, Hong Kong SAR  
 **Document Purpose:** Complete experimental setup guide with budget, suppliers, and safety protocols
 
@@ -1723,7 +1723,7 @@ Save this template and fill for each trial:
 
 **Version:** 1.0  
 **Date:** August 20, 2026  
-**Authors:** Ethan Yang, Elliot Dong, Curtis Lau  
+**Authors:** Ethan Yang, Li Ang Dong, Curtis Wai Ip Lau  
 **Reviewed by:** [Supervisor name]  
 **Approval date:** ______________
 
