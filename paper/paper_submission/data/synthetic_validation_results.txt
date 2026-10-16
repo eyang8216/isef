@@ -1,15 +1,16 @@
-# Synthetic Image Processing Validation Results
-
-Ground_Truth_deg,SNR,Extracted_deg,Error_deg
-45.00,40 dB,44.59,-0.41
-45.00,30 dB,44.98,-0.02
-45.00,20 dB,44.87,-0.13
-45.00,10 dB,45.09,+0.09
-49.29,40 dB,49.35,+0.06
-49.29,30 dB,49.66,+0.37
-49.29,20 dB,48.85,-0.44
-49.29,10 dB,48.98,-0.31
-55.00,40 dB,55.26,+0.26
-55.00,30 dB,55.57,+0.57
-55.00,20 dB,54.64,-0.36
-55.00,10 dB,55.46,+0.46
+# Synthetic image-processing validation results
+# Pipeline: solver/experimental/synthetic_validation.py (real extraction; no simulated errors)
+# Noise seed: 20260922
+Ground_Truth_deg,SNR,Angle_Error_deg,Profile_RMSE_mm
+45.00,40 dB,43.8294,1.2663
+45.00,30 dB,80.2774,2.9618
+45.00,20 dB,43.2221,3.5367
+45.00,10 dB,25.1119,3.2189
+49.29,40 dB,38.8130,4.2377
+49.29,30 dB,71.7691,1.5607
+49.29,20 dB,46.2673,5.1270
+49.29,10 dB,50.6653,4.0045
+55.00,40 dB,46.4458,1.9633
+55.00,30 dB,74.8143,3.0693
+55.00,20 dB,42.4242,3.0982
+55.00,10 dB,40.6997,4.0890

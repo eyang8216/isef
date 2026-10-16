@@ -18,7 +18,7 @@ Before physical data are collected, the pipeline will be tested on synthetic con
 
 \subsubsection{Frame Selection}
 
-Video sequences recorded during voltage ramps will contain hundreds to thousands of frames. Frame selection identifies the subset of frames that satisfy the stability criteria defined in Section~7. The selection algorithm will:
+Video sequences recorded during voltage ramps will contain hundreds to thousands of frames. Frame selection identifies the subset of frames that satisfy \rev{predefined operating-state stability criteria}. The selection algorithm will:
 \begin{enumerate}
     \item Divide the video into segments corresponding to each voltage step (using timestamps or manual annotation).
     \item For each segment, compute a time series of shape metrics (e.g., apex position, interface curvature, centroid location).

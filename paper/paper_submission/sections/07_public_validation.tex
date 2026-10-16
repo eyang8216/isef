@@ -1,0 +1,77 @@
+\begin{revision}
+\section{Public Experimental Data and Balance Diagnosis}\label{sec:experimental-procedure}
+\medskip
+\noindent\textbf{Scope.} This section analyses previously published ethanol cone-jet images and reported angles; no new laboratory measurements are presented, and the images and reported series belong to the source study. The extraction and balance numbers below were produced by the analysis campaign summarized in Section~5 and are not reproduced by the code distributed with this repository. Because the synthetic qualification of the extraction pipeline remains open (Sections~\ref{sec:completed-verification} and \ref{sec:image-processing}), the angle comparison is presented as a consistency check between two published image-derived series rather than as validation of the solver.
+
+\subsection{Source and experimental conditions}
+The framework is applied to the ethanol cone-jet photographs and angle--voltage measurements reported by Yang et al.~\cite{yang2025ethanol}. The photographs are obtained from Figure~5 of that study, and the full cone angles are digitized from Figure~6 and converted to half-angles using $\alpha=\theta/2$. The selected conditions correspond to a flow rate of $Q=0.10~\mu\mathrm{L/s}$, a nozzle-to-plate spacing of $H=2$~mm, and an aperture diameter of $D=2$~mm. The experimental inputs and numerical parameters are summarized in Table~\ref{tab:public-inputs}.
+
+\begin{table}[htbp]\centering\color{RevisionBlue}
+\captionsetup{labelfont={color=RevisionBlue},textfont={color=RevisionBlue}}
+\caption{Experimental inputs and numerical settings.}\label{tab:public-inputs}
+\small\begin{tabular}{p{0.45\linewidth}p{0.22\linewidth}p{0.23\linewidth}}
+\toprule Quantity & Value & Source/status\\\midrule
+Nozzle outer / inner diameter & 0.30 / 0.16 mm & Yang et al., Sec.~1\\
+Plate outer / aperture diameter & 80 / 2 mm & Yang et al., Sec.~1; Fig.~6\\
+Nozzle-to-plate spacing & 2 mm & Yang et al., Fig.~6\\
+Ethanol flow rate & $0.10~\mu\mathrm{L/s}$ & Yang et al., Figs.~5--6\\
+Temperature; surface tension & $25^\circ$C; 0.022 N/m & Yang et al., Table~1\\
+Image scale bar & $300~\mu$m / 191 pixels & Yang et al., Fig.~5\\\midrule
+Outer-domain radius & 80 mm & Numerical setting\\
+Exposed needle length & 5 mm & Numerical setting\\
+Tip radius; local cell size & 6; $4~\mu$m & Numerical setting\\
+Pressure calibration voltage & 1.7203 kV & Lowest reported point\\
+\bottomrule\end{tabular}
+\end{table}
+
+The experimental geometry is represented in an axisymmetric $(r,z)$ domain, with the nozzle exit at $z=0$ and the grounded annular plate at $z=2$~mm. The radial coordinate $r$ is measured from the symmetry axis. The aperture and plate outer radii are 1 and 40~mm, respectively, as illustrated in Figure~\ref{fig:public-geometry}. The liquid surface and nozzle are held at the applied experimental voltage. The exposed needle length, tip regularization, and outer-domain dimensions are prescribed as numerical parameters.
+\revisionfigure{0.67}{geometry.png}{Axisymmetric representation of the experimental case. Plate and aperture dimensions are reported inputs; the outer-domain radius is a numerical setting.}{fig:public-geometry}
+
+\subsection{Photograph measurement}
+Four photographs acquired at 1.80, 1.95, 2.10, and 2.30~kV are analyzed using a common spatial calibration of $300/191=1.57068~\mu\mathrm{m/pixel}$. A grayscale threshold of 110 is used for the nominal extraction. The paired left and right boundaries determine the registered axis, and linear fits over 30--75\% of the visible height yield the cone half-angle. The fitted virtual tip is used for profile alignment, whereas the visible height is measured directly from the nozzle exit to the observed tip. Figure~\ref{fig:public-photos} presents the extracted contours and registered axes superimposed on the source photographs.
+\revisionfigure{0.82}{experimental_photos.png}{Ethanol photographs with extracted contours. Source: Yang et al., Figure~5; contour and axis overlays are from the present analysis.}{fig:public-photos}
+
+As the voltage increases from 1.80 to 2.30~kV, the extracted half-angle increases from $22.26^\circ$ to $41.64^\circ$, while the visible height decreases from 301.6 to $147.6~\mu$m (Table~\ref{tab:angle-comparison}). The registered profiles in Figure~\ref{fig:public-profiles} show the associated widening and axial shortening of the observed cone. Presenting the profiles on a common physical scale allows these geometric changes to be compared directly.
+\revisionfigure{0.98}{profiles_and_height.png}{Registered profiles and visible heights. Dashed flank fits summarize the extracted contours.}{fig:public-profiles}
+
+\subsection{Comparison with reported angles}
+Quantitative comparison is restricted to the three voltage pairs whose mismatch is below 0.005~kV: 1.80, 1.95, and 2.10~kV. The photo-derived and reported half-angles are listed separately in \mbox{Table~\ref{tab:angle-comparison}}. Their absolute differences are $1.970^\circ$, $1.520^\circ$, and $0.522^\circ$, respectively, corresponding to a mean absolute difference of $1.337^\circ$ and an RMS difference of $1.468^\circ$. Figure~\ref{fig:public-angles} shows that both measurement series increase with voltage, with the largest matched discrepancy occurring at 1.80~kV. As a consistency check between two independently published image-derived series, the comparison is informative; because the extraction pipeline has not passed its synthetic qualification, the absolute differences should not be read as a calibrated measurement error.
+
+\begin{table}[htbp]\centering\color{RevisionBlue}
+\captionsetup{labelfont={color=RevisionBlue},textfont={color=RevisionBlue}}
+\caption{Photo-derived and reported half-angles.}\label{tab:angle-comparison}
+\small\setlength{\tabcolsep}{5pt}
+\begin{tabular}{rrrrrr}
+\toprule
+\shortstack{Photo $V$\\(kV)} & \shortstack{Reported $V$\\(kV)} & \shortstack{Photo $\alpha$\\($^\circ$)} & \shortstack{Reported $\alpha$\\($^\circ$)} & \shortstack{$|\Delta\alpha|$\\($^\circ$)} & \shortstack{Photo height\\($\mu$m)}\\\midrule
+--- & 1.7203 & --- & 19.80 & --- & ---\\
+1.80 & 1.8005 & 22.26 & 24.23 & 1.970 & 301.6\\
+1.95 & 1.9503 & 29.45 & 30.97 & 1.520 & 224.6\\
+2.10 & 2.1000 & 36.34 & 36.86 & 0.522 & 174.3\\
+--- & 2.2503 & --- & 42.99 & --- & ---\\
+2.30 & --- & 41.64 & --- & --- & 147.6\\\bottomrule
+\end{tabular}
+\par\smallskip\footnotesize Dashes indicate an unpaired source observation. The reported series and photographs come from separate figures in the same experimental study.
+\end{table}
+\revisionfigure{0.98}{angle_comparison.png}{Experimental angle comparison. Photo extraction and reported markers are distinguished; differences use the three matched voltages.}{fig:public-angles}
+
+\subsection{Extraction sensitivity}
+The influence of segmentation is assessed by repeating the extraction at grayscale thresholds of 90, 110, and 130. The maximum half-angle range is $0.204^\circ$ for the three voltage-matched cases and $0.322^\circ$ for the 2.30~kV photograph. At the nominal threshold, the RMS distances from the extracted contours to their straight-flank fits are 1.082, 0.837, 0.848, and $0.579~\mu$m in ascending voltage order (Figure~\ref{fig:public-extraction}). The threshold-induced variation is smaller than the matched inter-source angle differences. These results distinguish the sensitivity of the extraction procedure from the geometric fit error and the discrepancy between measurement sources.
+\revisionfigure{0.98}{extraction_sensitivity.png}{Extraction sensitivity. Threshold-induced angle changes and nominal straight-flank fit distances.}{fig:public-extraction}
+
+\subsection{Fixed-pressure stress-balance diagnosis}
+The applicability of the constant-pressure balance is examined using the reported half-angle as a geometric input at each voltage. The gas-side electric field is computed at the corresponding applied voltage. Over the central 25--75\% of the cone height, the residual and its area-weighted mean are defined as
+\[
+R(z;V)=\gamma\kappa(z)-\frac{\epszero}{2}E_n(z;V)^2-\Delta p,
+\qquad \overline R=\langle R\rangle_A.
+\]
+The pressure offset is calibrated at the lowest-voltage condition according to
+\[
+\Delta p=\left\langle\gamma\kappa-\frac{\epszero}{2}E_n^2\right\rangle_{A,V=1.7203\,\mathrm{kV}}
+\simeq6.458~\mathrm{Pa},
+\]
+with field values interpolated from the precomputed solutions. This pressure is then held constant over the remaining voltage conditions. The mean residuals are approximately 0, $-44$, $-123$, $-201$, and $-278$~Pa for the five reported conditions. The increasingly negative residual indicates that the sum of electric pressure and the fixed pressure offset exceeds the capillary pressure of the reconstructed interface. Calibration imposes mean balance at the lowest voltage, while the spatial residual retains the local variation along the interface.
+
+A spherical reference problem is used to assess the accuracy of the normal-field reconstruction. Refining the local spacing from 6 to 2~$\mu$m reduces the mean field error from 0.440\% to 0.094\% and the maximum error from 1.245\% to 0.328\%. The balance analysis is repeated with a 2~$\mu$m spacing, exposed needle lengths of 2 and 10~mm, and a tip radius of 12~$\mu$m. For each setting, the pressure is calibrated at the same lowest-voltage condition. As shown in Figure~\ref{fig:public-balance}, the negative high-voltage residual trend persists across these variations. The combined results indicate a systematic departure from the constant-pressure static balance for the selected observed-angle series over the tested numerical settings.
+\revisionfigure{0.98}{field_and_balance.png}{Field and balance checks. (a) Sphere-reference normal-field errors. (b) Mean residuals at the reported angles for five numerical settings.}{fig:public-balance}
+\end{revision}

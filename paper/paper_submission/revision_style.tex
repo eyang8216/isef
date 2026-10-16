@@ -1,0 +1,11 @@
+\definecolor{RevisionBlue}{RGB}{0,70,190}
+\newcommand{\rev}[1]{\textcolor{RevisionBlue}{#1}}
+\newenvironment{revision}{\par\begingroup\color{RevisionBlue}}{\par\endgroup}
+\newcommand{\revisionfigure}[4]{%
+  \renewcommand{\floatpagefraction}{0.75}%
+  \begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=#1\linewidth]{figures/#2}
+  \captionsetup{labelfont={color=RevisionBlue},textfont={color=RevisionBlue}}
+  \caption{#3}\label{#4}
+  \end{figure}}

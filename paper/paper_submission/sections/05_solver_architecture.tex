@@ -25,9 +25,22 @@ Module & Responsibility \\
 \texttt{optimization.py} & Cone-family shape optimization with onset projection \\
 \texttt{verification.py} & Immersed verification workflows \\
 \texttt{app\_backend.py} & Streamlit-independent backend for interactive app \\
+% BEGIN added analysis modules, 2026-10-15
+\rev{\texttt{validation\_campaign.py}} & \rev{Angle scans and numerical-sensitivity analysis} \\
+\rev{\texttt{fem\_reference.py}} & \rev{Independent Q1 FEM for Poisson benchmarks} \\
+\rev{\texttt{fitted\_fem.py}} & \rev{Body-fitted P1 FEM for prescribed rounded cones} \\
+\rev{\texttt{fixed\_cone\_validation.py}} & \rev{Common FD--FEM field and stress diagnostics} \\
+\rev{\texttt{image\_processing.py}} & \rev{Image preprocessing and contour extraction} \\
+\rev{\texttt{profile\_extraction.py}} & \rev{Pixel-to-profile conversion and half-angle fitting} \\
+\rev{\texttt{synthetic\_validation.py}} & \rev{Synthetic image rendering and extraction tests} \\
+\rev{\texttt{comparison.py}} & \rev{Profile alignment and geometric error metrics} \\
+\rev{\texttt{run\_validation.py}} & \rev{Public-data extraction and fixed-pressure checks} \\
+% END added analysis modules, 2026-10-15
 \bottomrule
 \end{tabular}
 \end{table}
+
+\rev{\medskip\noindent The nine modules in the lower block belong to the analysis campaign summarized in Section~\ref{sec:completed-verification}. They are not part of the \texttt{solver/} package distributed with this repository, so the campaign results reported in Sections~\ref{sec:completed-verification} and \ref{sec:experimental-procedure} cannot be regenerated from the accompanying code as it stands; only the regular manufactured Poisson convergence is reproduced there.}
 
 \subsection{Computational Pipeline}
 
@@ -48,8 +61,9 @@ A typical solver run follows this sequence:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/solver_flowchart.pdf}
-\caption{Solver computational pipeline from input parameters to output observables. The flank-field exponent crossing (highlighted) is the novel observable that enables robust angle identification.}
+\includegraphics[width=0.98\textwidth]{figures/solver_flowchart_revised.png}
+\captionsetup{labelfont={color=RevisionBlue},textfont={color=RevisionBlue}}
+\caption{Computational workflow for the charge-free immersed formulation. Geometry and discretization are followed by the electrostatic solution and two interface diagnostics: stress-balance residuals and flank-field scaling. Voltage-amplitude projection is optional.}
 \label{fig:solver-flowchart}
 \end{figure}
 
