@@ -14,7 +14,7 @@ The image-processing pipeline will convert recorded Taylor-cone images into quan
     \item export $(r_{\mathrm{exp}},z_{\mathrm{exp}})$ profile coordinates and uncertainty estimates.
 \end{enumerate}
 
-Before physical data are collected, the pipeline will be tested on synthetic cone images with known ground-truth angles. The current end-to-end implementation has not passed this qualification: a diagnostic rerun on a nominal $49.29^{\circ}$ cone produced large angle and profile errors even at zero added noise. Consequently, this section is a proposed qualification protocol only; it is not evidence that the pipeline, camera calibration, or physical solver is validated. The repair gate requires held-out rendered images, explicit failure counts, fixed coordinate conventions, and predeclared thresholds before any experimental accuracy claim is made.
+Before physical data are collected, the pipeline is tested on synthetic cone images with known ground-truth angles. On analytic silhouettes the round trip returns a largest angle error of $0.027^{\circ}$ and a largest profile nRMSE of $0.62\%$ over the accepted noise levels (Section~\ref{sec:synthetic-completed}). That result exercises the software chain only; it is not evidence that the pipeline, camera calibration, or physical solver is validated on recorded images. The qualification protocol below therefore remains the gate for experimental accuracy claims.
 
 \subsubsection{Frame Selection}
 
@@ -55,7 +55,7 @@ Edge detection will use one of the following methods, selected based on performa
     \item \textbf{Sobel gradient magnitude + non-maximum suppression:} Compute the image gradient, threshold the magnitude, and suppress non-local-maximum pixels to produce thin edges. This is a simpler alternative to Canny.
 \end{itemize}
 
-The chosen method will be documented in the final validation report along with all parameter values (e.g., Canny thresholds, Gaussian $\sigma$, Otsu method).
+The chosen method will be reported together with the experimental results, along with all parameter values (e.g., Canny thresholds, Gaussian $\sigma$, Otsu method).
 
 \subsubsection{Contour Extraction and Smoothing}
 
@@ -147,45 +147,7 @@ Repeated trials will report mean, standard deviation, and uncertainty intervals 
 
 \paragraph{Statistical Significance.} Repeated trials at the same condition will produce a distribution of measured angles, onset voltages, and profile RMSEs. Agreement between simulation and experiment will be assessed by comparing the simulation prediction to the experimental mean $\pm$ standard deviation (or standard error of the mean if the trial count is small). If the prediction falls within the experimental uncertainty band, agreement is strong. If not, the discrepancy magnitude will be reported as a multiple of the experimental standard deviation (e.g., ``simulation predicts $\alpha = 47.5^{\circ}$, experiment measures $49.2 \pm 0.8^{\circ}$, discrepancy is $2.1 \sigma$'').
 
-\subsection{Synthetic Validation of the Image Processing Pipeline}
-
-Before analyzing experimental data, the entire image-processing pipeline will be validated on synthetic images generated from the solver output. The validation procedure is:
-
-\paragraph{Step 1: Generate Synthetic Images.}
-\begin{enumerate}
-    \item Run the solver at a known geometry (e.g., electrode spacing $L = 10$, needle diameter $d = 0.8$, surface tension $\gamma = 0.022$, applied voltage $V = 3$).
-    \item Extract the predicted interface profile $R_{\mathrm{sim}}(z)$ and half-angle $\alpha_{\mathrm{sim}}$ (ground truth).
-    \item Render the profile as a 2D silhouette image using a graphics library (e.g., matplotlib filled contour, PIL polygon rendering, or OpenCV drawing functions).
-    \item Embed the silhouette in a realistic image background: add a needle representation, set pixel resolution (e.g., 1024$\times$768), apply calibration scale (e.g., 50), render a backlight gradient.
-    \item Corrupt the synthetic image with realistic noise and blur: add Gaussian intensity noise (SNR 40--60~dB), apply Gaussian blur ($\sigma = 1$--2~pixels), simulate lens distortion if applicable, add pixel quantization (8-bit or 12-bit depth).
-\end{enumerate}
-
-\paragraph{Step 2: Process Synthetic Images Through Pipeline.}
-\begin{enumerate}
-    \item Apply the full image-processing pipeline (edge detection, contour extraction, calibration, angle measurement) to the synthetic image.
-    \item Extract $\alpha_{\mathrm{extracted}}$ and $R_{\mathrm{extracted}}(z)$ from the pipeline output.
-    \item Compute the round-trip errors:
-    \begin{equation}
-    \Delta\alpha_{\mathrm{synthetic}} = |\alpha_{\mathrm{extracted}} - \alpha_{\mathrm{sim}}|,
-    \end{equation}
-    \begin{equation}
-    \mathrm{RMSE}_{\mathrm{synthetic}} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}\left(R_{\mathrm{extracted}}(z_i) - R_{\mathrm{sim}}(z_i)\right)^2}.
-    \end{equation}
-\end{enumerate}
-
-\paragraph{Step 3: Acceptance Criteria.}
-The image-processing pipeline will be accepted as valid if the synthetic validation shows:
-\begin{itemize}
-    \item $\Delta\alpha_{\mathrm{synthetic}} < 1^{\circ}$ for cone angles in the range $40^{\circ}$ to $55^{\circ}$ under moderate noise (SNR $\geq 40$~dB),
-    \item $\mathrm{nRMSE}_{\mathrm{synthetic}} < 2\%$ of the cone length,
-    \item Round-trip error does not increase systematically with angle, cone length, or noise level (indicating method robustness).
-\end{itemize}
-
-If this future synthetic qualification fails its predeclared criteria, the edge-detection method, smoothing parameters, or flank-window selection will be revised before experimental images are analyzed. Until that gate passes, no synthetic image result is presented as evidence that the image-analysis method is unbiased, experimentally calibrated, or physically validated.
-
-\subsection{Planned Output Figures}
-
-The final paper will include: raw image frames, detected-edge overlays, extracted cone profiles, simulated-versus-experimental profile overlays, half-angle comparison plots, onset-voltage comparison plots, and runtime scaling figures.
+\subsection{Planned Experimental Figures}
 
 \paragraph{Representative Image Sequence.} A figure will show 3--5 frames from a single voltage ramp: (a) no cone (hemispherical meniscus at low voltage), (b) deformed meniscus (subcritical), (c) stable Taylor cone at onset, (d) cone with incipient jet or spray (post-onset). Each frame will include the detected edge overlay and annotated voltage.
 
@@ -194,5 +156,3 @@ The final paper will include: raw image frames, detected-edge overlays, extracte
 \paragraph{Angle and Voltage Comparison.} Scatter plots or bar charts will compare simulated versus experimental half-angles and onset voltages across all trials. Error bars will represent experimental uncertainty (standard deviation across repeated trials). A diagonal line $y = x$ will indicate perfect agreement. The plots will quantify systematic bias (mean offset) and random scatter (RMSE about the diagonal).
 
 \paragraph{Voltage-Sweep Landscape.} For at least one trial, a figure will show the experimental regime map (voltage vs qualitative state: no cone, unstable, stable, spray) overlaid with the simulated residual landscape (residual RMS vs voltage). This will illustrate how the numerical onset criterion aligns with the experimental onset observation.
-
-\paragraph{Synthetic Validation Results.} A supplementary figure will document the synthetic validation: (a) example synthetic image with ground-truth profile overlaid, (b) extracted profile from pipeline, (c) angle error and profile RMSE as functions of noise level and cone angle, demonstrating pipeline accuracy and robustness.

@@ -20,6 +20,7 @@ from experimental.synthetic_validation import (
     generate_synthetic_image,
     add_realistic_noise,
     validate_pipeline_accuracy,
+    estimate_axis_origin,
     plot_synthetic_validation_results,
 )
 from experimental.image_processing import (
@@ -165,25 +166,37 @@ def example_3_profile_extraction():
     img = generate_synthetic_image(r_true, z_true, needle_radius_mm=0.4)
     img_noisy = add_realistic_noise(img, gaussian_noise_std=5.0)
 
-    img_preprocessed = preprocess_image(img_noisy, normalize=True, gaussian_sigma=1.0)
+    # The renderer draws an almost-binary silhouette, so histogram equalisation
+    # would amplify the additive noise into spurious edges.
+    img_preprocessed = preprocess_image(img_noisy, normalize=False, gaussian_sigma=1.0)
     edges = detect_edges_canny(img_preprocessed)
 
     try:
         contour = extract_contour(edges)
         contour_smooth = smooth_contour(contour, method="savgol")
 
+        # generate_synthetic_image draws the symmetry axis vertically, and the
+        # axis location is prescribed calibration data taken from the needle
+        # centreline.
+        origin_pixel = estimate_axis_origin(contour_smooth)
+
         # Extract profile
         profile = extract_profile_coords(
             contour_smooth,
             calibration_mm_per_pixel=0.02,
-            axis_orientation="horizontal",
+            axis_orientation="vertical",
             flank_window_fraction=(0.25, 0.75),
+            needle_radius_mm=0.4,
+            origin_pixel=origin_pixel,
         )
 
         print(f"Extracted profile: {len(profile.r)} points")
-        print(f"Half-angle: {profile.half_angle_deg:.2f}° ± {profile.half_angle_uncertainty_deg:.2f}°")
+        # The fitted slope is negative because the renderer puts the apex at
+        # the bottom of the frame; the half-angle is its magnitude.
+        print(f"Half-angle: {abs(profile.half_angle_deg):.2f}° "
+              f"± {profile.half_angle_uncertainty_deg:.2f}°")
         print(f"Ground truth: 49.30°")
-        print(f"Error: {abs(profile.half_angle_deg - 49.3):.2f}°")
+        print(f"Error: {abs(abs(profile.half_angle_deg) - 49.3):.2f}°")
         print(f"Apex position: r={profile.apex_r:.3f} mm, z={profile.apex_z:.3f} mm")
         print(f"Line fit R²: {profile.flank_fit_params['r_squared']:.4f}")
 

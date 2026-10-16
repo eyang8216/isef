@@ -20,7 +20,7 @@ from typing import Optional, Literal
 import datetime
 
 
-@dataclass
+@dataclass(kw_only=True)
 class TrialMetadata:
     """Complete experimental trial metadata.
 

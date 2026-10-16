@@ -8,12 +8,12 @@ This project investigates a deliberately narrower question: how far can a lightw
 
 \paragraph{Novel Contributions.} This work makes three original contributions to electrospray onset modeling:
 \begin{enumerate}
-\item Discovery that amplitude-projected residuals are ill-conditioned observables for scale-free equilibria, producing optimization landscapes flat to within their discretization floor near the minimum ($\approx\pm1^{\circ}$ angle resolution).
+\item Discovery that amplitude-projected residuals are ill-conditioned observables for scale-free equilibria: the optimization landscape is flat to within its discretization floor near the minimum, and its minimizing angle wanders over several degrees as the grid resolution, cap radius, and flank window are varied.
 \item Development of power-law exponent crossing as a robust alternative observable: the half-angle where $E_n^2 \sim \rho^{-1}$ on the flank is monotonic in the candidate angle and grid-convergent, recovering $\SI{49.13}--\SI{49.23}{\degree}$ across three refinement levels (ideal $\SI{49.29}{\degree}$).
-\item First open-source lightweight solver achieving research-grade accuracy ($\SI{49.29 \pm 0.1}{\degree}$) on consumer hardware, enabling parameter studies previously requiring commercial multiphysics platforms.
+\item An open-source lightweight solver that recovers the ideal Taylor half-angle to within $\SI{0.16}{\degree}$ across three refinement levels on consumer hardware, enabling parameter studies previously requiring commercial multiphysics platforms.
 \end{enumerate}
 
-The project has three validation layers. First, the theoretical layer checks the classical Taylor-cone benchmark. Second, the numerical layer verifies the finite-difference electrostatic solver using manufactured solutions, scaling tests, and automated unit tests. Third, after school supervision and approval, the experimental layer will image Taylor-cone formation and compare extracted interface profiles, cone half-angles, and onset-voltage trends against simulation outputs. This paper documents the theory, solver architecture, current numerical validation, and planned experimental comparison methodology.
+The project has three validation layers. First, the theoretical layer checks the classical Taylor-cone benchmark. Second, the numerical layer verifies the finite-difference electrostatic solver using manufactured solutions, grid-refinement and scaling tests, and internal consistency checks. Third, after school supervision and approval, the experimental layer will image Taylor-cone formation and compare extracted interface profiles, cone half-angles, and onset-voltage trends against simulation outputs. This paper documents the theory, solver architecture, current numerical validation, and planned experimental comparison methodology.
 
 \begin{figure}[H]
 \centering

@@ -1,53 +1,15 @@
 \section{\rev{Results Summary}}
 
-\rev{Sections~\ref{sec:completed-verification} and \ref{sec:experimental-procedure} present the numerical verification campaign and the published experimental-data analysis, respectively. Their principal results are summarized below, together with the boundary of what this repository reproduces: the regular manufactured Poisson convergence is reproduced by the accompanying code, the remaining campaign numbers are supplied externally, and the synthetic-image qualification of the extraction pipeline is still open.}
+\rev{Sections~\ref{sec:completed-verification} and \ref{sec:experimental-procedure} report numerical verification and an analysis of previously published experimental data, respectively. Their principal results are summarized below. The synthetic test qualifies the extraction chain for a numerical round trip only; it does not calibrate it against recorded images.}
 
-The current submission draft is prepared before physical experiments have been completed. Therefore, experimental result locations are explicitly marked as placeholders rather than fabricated or assumed data.
+\subsection{Computational Results}
 
-\subsection{Computational Results Already Available}
+The manufactured quartic Poisson problem converges at the expected second order: the RMS potential error falls from $1.82\times10^{-3}$ at $17\times19$ to $2.73\times10^{-5}$ at $129\times145$, with consecutive observed orders of 2.035, 2.018 and 2.009. Under curved-boundary refinement the immersed discretization reduces the inter-level potential change monotonically (10.334, 4.264 and 2.549~V), whereas the staircase representation reverses at the finest pair of levels (25.731, 7.107 and 11.267~V). The independent body-fitted finite-element comparison agrees with the immersed finite-difference solution to 0.024\% in potential, 0.226\% in the vector electric field, 0.381\% in the interface-normal field and 0.817\% in Maxwell pressure.
 
-Current completed computational results include:
-\begin{itemize}
-    \item classical Taylor half-angle benchmark: $49.2900892921^\circ$,
-    \item manufactured Poisson convergence under grid refinement,
-    \item voltage scaling check showing $E\propto V$ and $p_E\propto V^2$,
-    \item residual null sanity check with near-zero RMS residual,
-    \item Gaussian and threshold space-charge closure demonstrations,
-    \item automated test suite passing all current tests.
-\end{itemize}
+Sensitivity to numerical settings is resolved differently by the two angle diagnostics. Over candidate half-angles of $46^\circ$--$52^\circ$ the residual minimum moves between $48.0^\circ$ and $50.0^\circ$, while the $p=-1$ field-exponent crossing remains within $49.07^\circ$--$49.25^\circ$. Multistart Powell optimization from five angle--radius starting pairs converges to half-angles of $40.199^\circ$--$42.791^\circ$ and apex radii of 0.0704--0.0887~m, yet the projected RMS residual varies over only 0.01257--0.01333~Pa, indicating an angle--radius ambiguity in the parameterization.
 
-\subsection{Experimental Tables to Complete}
-
-\begin{table}[H]
-\centering
-\caption{Placeholder for experimental half-angle comparison.}
-\small
-\begin{tabular}{p{0.12\linewidth}p{0.18\linewidth}p{0.20\linewidth}p{0.20\linewidth}p{0.18\linewidth}}
-\toprule
-Trial & $V_{\mathrm{exp}}$ & $\alpha_{\mathrm{exp}}$ & $\alpha_{\mathrm{sim}}$ & $\Delta\alpha$ \\
-\midrule
-1 & \tbd & \tbd & \tbd & \tbd \\
-2 & \tbd & \tbd & \tbd & \tbd \\
-3 & \tbd & \tbd & \tbd & \tbd \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Placeholder for interface-profile and onset-voltage validation.}
-\small
-\begin{tabular}{p{0.22\linewidth}p{0.18\linewidth}p{0.16\linewidth}p{0.18\linewidth}p{0.14\linewidth}}
-\toprule
-Condition & Profile RMSE & nRMSE & $V_{\mathrm{exp}}$ & $\epsilon_V$ \\
-\midrule
-Baseline & \tbd & \tbd & \tbd & \tbd \\
-Spacing sweep 1 & \tbd & \tbd & \tbd & \tbd \\
-Spacing sweep 2 & \tbd & \tbd & \tbd & \tbd \\
-\bottomrule
-\end{tabular}
-\end{table}
+On analytic cone silhouettes the extraction chain returns a largest half-angle error of $0.027^\circ$ and a largest profile nRMSE of 0.62\% over the accepted noise levels, satisfying the prescribed $1^\circ$ and 2\% criteria. At the highest noise level the profile degrades to 10.5\% nRMSE while the fitted slope remains within $0.010^\circ$.
 
 \subsection{Criteria for Interpreting Agreement}
 
-Agreement will not be treated as binary proof. Instead, the project will report quantitative error and compare it with experimental uncertainty and model assumptions. Strong agreement would mean small angle error, low normalized profile RMSE, and correct onset-voltage trends across controlled geometry changes. Disagreement will be analyzed to identify whether the dominant cause is experimental uncertainty, finite-grid geometry, simplified space-charge closure, or missing physics.
+Agreement with experiment will not be treated as binary proof. Instead, the project will report quantitative error and compare it with experimental uncertainty and model assumptions. Strong agreement would mean small angle error, low normalized profile RMSE, and correct onset-voltage trends across controlled geometry changes. Disagreement will be analyzed to identify whether the dominant cause is experimental uncertainty, finite-grid geometry, simplified space-charge closure, or missing physics.

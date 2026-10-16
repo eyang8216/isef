@@ -12,10 +12,12 @@ The solver is implemented as a modular Python package. Its main modules are summ
 \toprule
 Module & Responsibility \\
 \midrule
+\texttt{config.py} & Parameter dataclasses (physical, grid, solver, space charge) \\
 \texttt{grid.py} & Axisymmetric grid and indexing convention \\
 \texttt{operators.py} & Sparse Laplace/Poisson finite-difference operator \\
 \texttt{boundary\_conditions.py} & Dirichlet boundary insertion \\
 \texttt{electrostatics.py} & Laplace/Poisson solve entry points \\
+\texttt{taylor\_analytical.py} & Analytic Taylor-cone potential for far-field boundary conditions \\
 \texttt{fields.py} & Electric-field reconstruction and interpolation \\
 \texttt{geometry.py} & ImplicitCone with C1 rounded cap-flank geometry \\
 \texttt{immersed.py} & Fractional-distance immersed Dirichlet stencils \\
@@ -23,24 +25,18 @@ Module & Responsibility \\
 \texttt{residual.py} & Young--Laplace--Maxwell residual diagnostics \\
 \texttt{space\_charge.py} & Gaussian and threshold space-charge closures \\
 \texttt{optimization.py} & Cone-family shape optimization with onset projection \\
-\texttt{verification.py} & Immersed verification workflows \\
+\texttt{verification.py} & Manufactured-solution and Taylor-angle verification helpers \\
 \texttt{app\_backend.py} & Streamlit-independent backend for interactive app \\
-% BEGIN added analysis modules, 2026-10-15
-\rev{\texttt{validation\_campaign.py}} & \rev{Angle scans and numerical-sensitivity analysis} \\
-\rev{\texttt{fem\_reference.py}} & \rev{Independent Q1 FEM for Poisson benchmarks} \\
-\rev{\texttt{fitted\_fem.py}} & \rev{Body-fitted P1 FEM for prescribed rounded cones} \\
-\rev{\texttt{fixed\_cone\_validation.py}} & \rev{Common FD--FEM field and stress diagnostics} \\
-\rev{\texttt{image\_processing.py}} & \rev{Image preprocessing and contour extraction} \\
-\rev{\texttt{profile\_extraction.py}} & \rev{Pixel-to-profile conversion and half-angle fitting} \\
-\rev{\texttt{synthetic\_validation.py}} & \rev{Synthetic image rendering and extraction tests} \\
-\rev{\texttt{comparison.py}} & \rev{Profile alignment and geometric error metrics} \\
-\rev{\texttt{run\_validation.py}} & \rev{Public-data extraction and fixed-pressure checks} \\
-% END added analysis modules, 2026-10-15
+\midrule
+\multicolumn{2}{l}{\textit{Imaging and extraction helpers} (\texttt{experimental/})} \\
+\midrule
+\texttt{image\_processing.py} & Image preprocessing and contour extraction \\
+\texttt{profile\_extraction.py} & Pixel-to-profile conversion and half-angle fitting \\
+\texttt{synthetic\_validation.py} & Synthetic image rendering and extraction tests \\
+\texttt{comparison.py} & Profile alignment and geometric error metrics \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\rev{\medskip\noindent The nine modules in the lower block belong to the analysis campaign summarized in Section~\ref{sec:completed-verification}. They are not part of the \texttt{solver/} package distributed with this repository, so the campaign results reported in Sections~\ref{sec:completed-verification} and \ref{sec:experimental-procedure} cannot be regenerated from the accompanying code as it stands; only the regular manufactured Poisson convergence is reproduced there.}
 
 \subsection{Computational Pipeline}
 
@@ -56,7 +52,7 @@ A typical solver run follows this sequence:
     \item Compute interface normals, curvature, Maxwell pressure (from immersed $E_n$ reconstruction), capillary pressure, and residual.
     \item For immersed free-boundary optimization, project out the onset voltage $V_0^*$ per candidate.
     \item Optionally update the space-charge closure and repeat the Poisson solve until convergence.
-    \item Return diagnostics, plots, and exported arrays.
+    \item Return scalar diagnostics, field arrays and figure objects, and optionally a JSON summary of the run.
 \end{enumerate}
 
 \begin{figure}[H]
@@ -71,8 +67,8 @@ A typical solver run follows this sequence:
 
 The solver uses sparse matrices rather than dense matrices. For a grid of $n_r\times n_z$ nodes, the number of unknowns scales as $n_r n_z$, while the finite-difference operator has only a small number of nonzero stencil entries per row. This allows small-to-moderate grids to run quickly on a standard laptop.
 
-\paragraph{Computational Performance.} Solution time scales approximately as $\mathcal{O}(N^{2.3})$ where $N$ is the total number of grid points. For the present implementation, a production-quality $121\times177$ grid (21,417 points) solves in approximately 13 seconds on the recorded 2020 MacBook Pro test system. This is a project-specific benchmark, not a general claim about all multiphysics software or hardware.
+\paragraph{Computational Performance.} Over the grid range measured here ($N=675$ to $85{,}073$ points) the wall-clock time of a single-threaded immersed Laplace solve is fitted by $\mathcal{O}(N^{0.99})$. A production-quality $121\times177$ grid (21,417 points) solves in approximately $0.46$~s on an Apple M4 laptop with 16~GB of memory. Sparse direct factorization is asymptotically superlinear in two dimensions, so this exponent should be read as an empirical description of the tested range rather than a bound.
 
 \subsection{Interactive App}
 
-The repository includes a Streamlit application that exposes basic parameters such as voltage, surface tension, electrode spacing, domain radius, grid resolution, and space-charge model. The app has two tabs: a \emph{Classic} tab for the legacy staircase boundary representation, and an \emph{Immersed verification} tab that demonstrates the grounded-box onset-projected optimization and the imposed-Taylor identity verification. It returns scalar diagnostics and Plotly visualizations of potential, electric-field magnitude, space-charge density, interface overlay, and residual profile. The app is a demonstration and analysis interface; the scientific contribution remains the solver and validation workflow.
+A Streamlit application exposes basic parameters such as voltage, surface tension, electrode spacing, domain radius, grid resolution, and space-charge model. It is organised into four pages --- Overview, Solver, Verification and Documentation --- and returns scalar diagnostics together with visualizations of potential, electric-field magnitude, space-charge density, interface overlay, and residual profile. The Verification page provides two checks: a recovered-angle test that sweeps the cone half-angle and locates the flank-field exponent crossing, and an imposed-Taylor identity test that compares the projected onset amplitude against the analytic value. Both impose the analytical Taylor potential on the outer boundary. The app is a demonstration and analysis interface; the scientific contribution remains the solver and validation workflow.

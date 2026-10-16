@@ -17,6 +17,13 @@ import numpy as np
 from typing import Tuple, Optional, Literal
 from dataclasses import dataclass
 
+#: Contour points nearer the symmetry axis than this multiple of the needle
+#: radius are treated as needle body rather than cone flank.  The factor is
+#: above one because an edge-detected contour is several pixels wide and
+#: Savitzky-Golay smoothing spreads it further, so a bare needle radius leaves
+#: a band of near-constant-radius points that would dominate the flank fit.
+NEEDLE_BODY_MARGIN = 2.0
+
 
 @dataclass
 class ProfileData:
@@ -288,6 +295,7 @@ def extract_profile_coords(
     axis_orientation: Literal["vertical", "horizontal"] = "vertical",
     flank_window_fraction: Tuple[float, float] = (0.25, 0.75),
     needle_radius_mm: Optional[float] = None,
+    origin_pixel: Optional[Tuple[float, float]] = None,
 ) -> ProfileData:
     """Complete pipeline: pixel contour → physical profile with half-angle.
 
@@ -302,7 +310,13 @@ def extract_profile_coords(
     flank_window_fraction : tuple of (z_min_frac, z_max_frac)
         Flank region for angle measurement
     needle_radius_mm : float, optional
-        Known needle radius for origin/tip identification
+        Known needle radius. Contour points within ``NEEDLE_BODY_MARGIN`` times
+        this radius of the axis are excluded from the flank regression, since a
+        closed silhouette contour also traces the needle body.
+    origin_pixel : tuple of (x, y), optional
+        Explicit image origin, normally the apex on the symmetry axis. If
+        omitted, the deepest contour point is used, which is unreliable for a
+        closed contour that also contains the needle.
 
     Returns
     -------
@@ -312,21 +326,30 @@ def extract_profile_coords(
     Notes
     -----
     This is the main entry point for converting image contours to physical profiles.
+    The returned ``r`` and ``z`` cover every input contour point; only the
+    half-angle fit is restricted to the flank subset.
     """
     # Transform to (r, z)
     r, z = transform_to_axisymmetric(
         contour_pixels,
         calibration_mm_per_pixel,
         axis_orientation=axis_orientation,
-        origin_pixel=None,  # Will use apex as origin
+        origin_pixel=origin_pixel,
     )
 
     # Identify apex
     apex_r, apex_z = identify_apex(r, z, method="max_z")
 
+    # Restrict the angle fit to the flank
+    flank_r, flank_z = r, z
+    if needle_radius_mm is not None:
+        outside_needle = r > NEEDLE_BODY_MARGIN * float(needle_radius_mm)
+        if np.count_nonzero(outside_needle) >= 3:
+            flank_r, flank_z = r[outside_needle], z[outside_needle]
+
     # Measure half-angle
     half_angle_deg, uncertainty_deg, fit_params = measure_half_angle(
-        r, z,
+        flank_r, flank_z,
         flank_window_fraction=flank_window_fraction,
         apex_z=apex_z,
     )

@@ -181,7 +181,7 @@ The semi-vertical half-angle measured inside the liquid cone is therefore
 \begin{equation}
     \alpha_T=180^\circ-\vartheta_0\approx 49.3^\circ.
 \end{equation}
-This is the central analytical benchmark used by the code. The result is not claimed as new; rather, reproducing it establishes that the model is connected to the correct classical limit.
+This is the central analytical benchmark used by the solver. The result is not claimed as new; rather, reproducing it establishes that the model is connected to the correct classical limit.
 
 \subsection{Apex Singularity and Physical Regularization}
 
@@ -249,24 +249,33 @@ Rearranging gives the pointwise residual
     \resid(z)=\gamma\kappa(z)-\Delta p-\frac{\epszero}{2}E_n(z)^2.
 \label{eq:residual_full}
 \end{equation}
-A perfect solution of the reduced static model would satisfy $\resid(z)=0$ along the entire interface. In practice, the solver evaluates a candidate interface and reports the RMS residual
+A perfect solution of the reduced static model would satisfy $\resid(z)=0$ along the entire interface. In practice, the solver evaluates a candidate interface on a set of $N$ arclength samples with weights $w_m$, and reports the weighted RMS residual
 \begin{equation}
     \resid_{\mathrm{RMS}}
-    =\left(\frac{1}{N}\sum_{m=1}^{N}\resid(z_m)^2\right)^{1/2}.
+    =\left(\frac{\sum_{m=1}^{N}w_m\,\resid(z_m)^2}{\sum_{m=1}^{N}w_m}\right)^{1/2}.
 \end{equation}
-Since $\Delta p$ is an unknown constant pressure offset, the implementation removes its mean contribution by choosing
+Since $\Delta p$ is an unknown constant pressure offset, the implementation removes its weighted-mean contribution by choosing
 \begin{equation}
-    \Delta p = \frac{1}{N}\sum_{m=1}^{N}\left(\gamma\kappa(z_m)-\frac{\epszero}{2}E_n(z_m)^2\right).
+    \Delta p = \frac{\sum_{m=1}^{N}w_m\left(\gamma\kappa(z_m)-\frac{\epszero}{2}E_n(z_m)^2\right)}{\sum_{m=1}^{N}w_m}.
 \end{equation}
 This makes the residual measure shape-dependent imbalance rather than an arbitrary constant pressure offset. The residual is therefore a diagnostic of physical balance, not merely a numerical iteration error.
 
 \subsection{Reduced Shape Optimization}
 
-A free-boundary problem would solve simultaneously for the interface shape and the electric field. The current solver uses a lower-dimensional approximation: the interface is restricted to an analytic cone-family shape with a small number of shape parameters, such as half-angle and apex radius. The optimizer minimizes an objective of the form
+A free-boundary problem would solve simultaneously for the interface shape and the electric field. The current solver uses a lower-dimensional approximation: the interface is restricted to an analytic cone-family shape with a small number of shape parameters, such as half-angle and apex radius. Because the applied voltage is not known in advance for a shape that is to be tested against a scale-free balance, the optimizer minimizes an amplitude-projected residual. Writing $p_\gamma=\gamma\kappa$ and $e=E_n/V_0$, and letting $\langle\cdot\rangle_w$ denote an arclength-weighted mean over the fitted flank window, the projection subtracts both weighted means,
 \begin{equation}
-    J(\mathbf{a})=\resid_{\mathrm{RMS}}(\mathbf{a})+\lambda\,P(\mathbf{a}),
+    \tilde a=p_\gamma-\langle p_\gamma\rangle_w,\qquad
+    \tilde b=e^2-\langle e^2\rangle_w,
 \end{equation}
-where $\mathbf{a}$ denotes shape parameters and $P$ penalizes invalid or off-grid geometries if needed. This formulation keeps the problem computationally light and interpretable. Its limitation is that grid-mask boundary representation can shift the optimized angle away from the ideal Taylor value, which is why the optimized-angle error is treated as a known numerical limitation.
+and eliminates the unknown stress amplitude in closed form,
+\begin{equation}
+    u=\frac{\langle\tilde a\tilde b\rangle_w}{\langle\tilde b^2\rangle_w},
+    \qquad
+    \resid_{\mathrm{proj}}=\tilde a-u\,\tilde b,
+    \qquad
+    J(\mathbf{a})=\langle\resid_{\mathrm{proj}}^2\rangle_w^{1/2}.
+\end{equation}
+The best-fit amplitude $u$ also yields a predicted onset voltage $V_0^\ast=\sqrt{2u/\epszero}$ wherever $u>0$. Candidate shapes whose interface cannot be sampled or whose projection is degenerate are assigned a large fixed rejection value rather than a smooth penalty. This formulation keeps the problem computationally light and interpretable. Its limitation is that grid-mask boundary representation can shift the optimized angle away from the ideal Taylor value, which is why the optimized-angle error is treated as a known numerical limitation.
 
 \subsection{Effective Space-Charge Shielding}
 
@@ -291,7 +300,7 @@ Because $\rho_e$ depends on $\mathbf{E}$ and $\mathbf{E}$ depends on $\ph$, the 
     \widetilde{\rho}_e^{(k+1)}&=F(|\mathbf{E}^{(k+1)}|),\\
     \rho_e^{(k+1)}&=(1-\omega)\rho_e^{(k)}+\omega\widetilde{\rho}_e^{(k+1)},
 \end{align}
-where $0<\omega\le1$ is an under-relaxation parameter. The iteration stops when the relative change in $\rho_e$ is below a prescribed tolerance or when a maximum iteration count is reached.
+where $0<\omega\le1$ is an under-relaxation parameter. After the first iteration, the loop stops once the relative changes in $\rho_e$, in $\ph$, and in the peak field magnitude are all below a prescribed tolerance, or when a maximum iteration count is reached.
 
 \subsection{Shielding Metric}
 

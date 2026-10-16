@@ -1,10 +1,16 @@
 # Solver Performance Timing Results
-
+# Measured wall-clock time for one immersed Laplace solve.
+# Generator: experiments/methodology/generate_timing_data.py
+# Host: macOS-26.6.2-arm64-arm-64bit-Mach-O | arm
+# Scenario: 49.29 deg rounded cone, V0=1000 V, r_max=1.25, model unit 10 mm
+# Repeats per grid: 3 (median reported)
+# Fitted scaling exponent: N^0.986
+#
 nr,nz,N,time_s
-25,27,675,0.005232
-49,53,2597,0.103253
-61,89,5429,0.616768
-97,105,10185,2.676632
-121,177,21417,13.383901
-181,265,47965,87.167071
-241,353,85073,334.303227
+25,27,675,0.016183
+49,53,2597,0.055662
+61,89,5429,0.113927
+97,105,10185,0.214535
+121,177,21417,0.463909
+181,265,47965,1.025934
+241,353,85073,1.853707
