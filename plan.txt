@@ -1,0 +1,177 @@
+        Taylor-Cone Project: Poster, Paper, and Presentation Plan
+                                  泰勒锥项目：海报、论文与现场讲解计划
+                                Prepared for supervisor discussion / 供导师会议讨论使用
+
+  Purpose / 目的: Align the poster, paper, and live explanation around one ambitious but evidence-
+  based story before the October 20 deadline. 在 10 月 20 日截止日期前，让海报、论文和现场讲解围
+  绕同一个“有野心但有证据支持”的故事展开。
+
+
+1. Poster revision plan / 一、海报修改计划
+Design principle / 设计原则：The poster should work as a judging interface: a non-specialist should understand the
+problem, method, strongest evidence, and significance within 30 seconds. It should not read like a compressed paper.
+海报应当像一个“评审界面”：非本领域评委在 30 秒内就能理解问题、方法、最强证据和意义，而不是像一篇被压缩的
+论文。
+
+Recommended new headline / 建议的新标题
+
+  From Electric Field to Taylor-Cone Geometry A lightweight, verifiable framework for electrospray
+  analysis 从电场到泰勒锥几何：一个轻量、可验证的电喷雾分析框架
+
+What to remove, reduce, or move / 删除、压缩或移走的内容
+    ●    Remove the separate “Application” material from the opening area; retain only one small application
+         image or one sentence explaining why Taylor cones matter. 删除开头单独的“应用”内容；只保留一张小型
+         应用图片，或一句话说明泰勒锥为什么重要。
+    ●    Reduce the number of small plots and repeated figure captions. Move secondary plots, full parameter
+         sweeps, and detailed references to a QR-linked supplement. 减少小图和重复图注；将次要图、完整参数
+         扫描和详细参考资料放到二维码链接的补充材料中。
+    ●    Remove or visually de-emphasize the long equation block and detailed workflow labels. Keep only the
+         governing chain: potential → electric field → Maxwell pressure → capillary pressure → residual. 删除
+         或弱化大段公式和过细的流程标签；只保留核心链条：电势 → 电场 → 麦克斯韦压力 → 毛细压力 → 残差。
+    ●    Do not present published photographs as newly conducted experiments. Label them as published-
+         image analysis or external-data comparison. 不要把公开发表的照片呈现为我们新做的实验；明确标注为
+         “公开图像分析”或“外部数据比较”。
+    ●    Move the optimizer multi-start result to a secondary result box. It is useful for showing parameter
+         ambiguity, but it should not compete visually with the main verification results. 将多起点优化结果移到
+         次要结果框；它可以说明参数不可辨识性，但不应在视觉上压过主要验证结果。
+
+What to put in their place / 用什么内容替代
+ Top-left: one-sentence problem hook 顶部左侧：一            Top-center: research question 顶部中央：研究问题
+ 句话问题引入 “Electric stress pulls the liquid              “Can a lightweight model connect calculated stress
+ outward while surface tension resists deformation.”   to measurable cone geometry?”
+
+ Center: one clean model schematic 中央：一张清              Center-right: three or four large result cards 中央右
+ 晰的模型示意图 Show cone, electrode, field,                  侧：三到四个大数字结果 For example: ≈2nd order;
+ curvature, and stress directions.                     0.024%; 0.226%; 1.34°.
+
+ Bottom-left: numerical verification 左下：数值验证           Bottom-center: image measurement 底部中央：图
+ Convergence and independent FEM comparison.           像测量 Synthetic qualification plus published-image
+                                                       angle trend.
+
+ Bottom-right: conclusion and limitation 右下：结论         Footer: QR code 底部：二维码 Link to paper, code,
+ 与局限 A lightweight diagnostic framework, not yet       supplementary figures, and reproducibility notes.
+ a complete experimentally validated electrospray
+ predictor.
+Recommended poster flow / 建议的海报阅读顺序
+Problem → Question → Approach → Verification → Measurement → Meaning 问题 → 研究问题
+→ 方法 → 验证 → 测量 → 意义
+
+  Preferred result wording / 建议的结果表述: “Near-second-order convergence was observed for the
+  regular manufactured Poisson problem. At the finest tested grid, the finite-difference and independent
+  FEM calculations differed by 0.024% in potential, 0.226% in vector field, and 0.817% in Maxwell
+  pressure. The image pipeline recovered controlled synthetic profiles, while published ethanol images
+  showed an increasing cone-angle trend with voltage.” “在规则制造解 Poisson 问题中观察到接近二阶
+  的收敛；在最细网格上，有限差分与独立 FEM 结果在电势、矢量电场和麦克斯韦压力上的相对 RMS
+  差异分别为 0.024%、0.226% 和 0.817%。图像流程能够恢复受控合成轮廓；公开乙醇图像则显示锥角
+  随电压增加的趋势。”
+
+
+2. Basic paper delivery plan / 二、论文提交基本计划
+The paper should be more rigorous than the poster, but it should tell the same story. The poster attracts attention; the
+paper earns trust. 论文应比海报更加严谨，但必须讲同一个故事。海报负责吸引注意力，论文负责建立可信度。
+
+Recommended paper structure / 建议的论文结构
+    ●   Abstract: state the problem, the lightweight framework, the strongest numerical and image-analysis
+        evidence, and the exact scope limitation. 摘要：说明问题、轻量化框架、最强的数值和图像分析证据，以
+        及明确的研究边界。
+    ●   Introduction: explain why linking electric stress to measurable cone shape matters, and why
+        transparent reduced-order computation is useful. 引言：解释为什么把电应力与可测量的锥体形状连接起
+        来重要，以及透明的降阶计算为什么有价值。
+    ●   Model: define the axisymmetric geometry, potential, electric field, Maxwell pressure, capillary
+        pressure, residual, and assumptions. 模型：定义轴对称几何、电势、电场、麦克斯韦压力、毛细压力、残
+        差和基本假设。
+    ●   Numerical method: document the grid, boundary conditions, immersed interface treatment, normal-
+        field reconstruction, and parameter study. 数值方法：记录网格、边界条件、浸入式界面处理、法向电场重
+        建和参数研究方法。
+    ●   Verification: present analytical benchmarks, manufactured-solution convergence, independent FEM
+        comparison, and sensitivity studies in a hierarchy. 验证：按层次呈现解析基准、制造解收敛、独立 FEM
+        比较和敏感性研究。
+    ●   Image analysis: distinguish controlled synthetic qualification from analysis of published
+        photographs. 图像分析：明确区分受控合成图像测试和公开照片分析。
+    ●   Results and discussion: interpret agreement, angle trends, parameter ambiguity, and the limits of the
+        stress-balance interpretation. 结果与讨论：解释结果一致性、锥角趋势、参数不可辨识性，以及应力平衡解
+        释的边界。
+    ●   Limitations and future work: state that full cone–jet dynamics, unique physical onset prediction, and
+        new laboratory validation remain future work. 局限与未来工作：说明完整锥-射流动力学、唯一的物理起始
+        电压预测和新的实验室验证仍属于未来工作。
+
+Paper delivery priorities before October 20 / 10 月 20 日前的论文交付重点
+ 1. Freeze the claim set 1. 冻结论文主张 Every                2. Reconcile all numbers 2. 核对所有数字 Resolve
+ quantitative claim must have a source figure, data     test counts, FEM metrics, synthetic-image metrics,
+ file, or reproducible command.                         and angle-comparison values.
+
+ 3. Replace overclaiming language 3. 修改过度表述             4. Make the limitations visible 4. 明确写出局限 This
+ Use “verification,” “qualification,” and “published-   increases credibility and prevents judges from
+ image comparison” precisely.                           misunderstanding the scope.
+
+ 5. Build a clean figure/table set 5. 建立干净的图表           6. Final proof and reproducibility check 6. 最终校对
+ 体系 Use the same figures in the paper and poster        与复现检查 Check captions, units, citations, author
+ where possible.                                        information, and commands.
+3. The story we plan to tell / 三、我们计划讲述的故事
+Ambitious core story / 有野心的核心故事
+
+  Many high-fidelity Taylor-cone and electrospray simulations rely on specialized multiphysics software,
+  large computational resources, and workflows that are difficult for students or small laboratories to
+  access. We asked whether the most important connection—between electric stress and cone
+  geometry—could be expressed in a transparent, lightweight computational framework that runs on an
+  ordinary laptop. 许多高保真泰勒锥和电喷雾模拟依赖专业多物理场软件、大量计算资源以及学生或小
+  型实验室难以使用的复杂工作流。我们提出的问题是：能否把其中最重要的联系——电应力与锥体几何
+  之间的关系——转化为一个透明、轻量、可以在普通笔记本电脑上运行的计算框架？
+
+The project story in four steps / 项目故事的四步结构
+    ●   The barrier / 门槛：High-fidelity simulation is powerful but expensive, specialized, and difficult to
+        interpret. 高保真模拟虽然强大，但成本高、依赖专门软件，也不容易解释。
+    ●   Our response / 我们的回应：We built a lightweight axisymmetric framework that follows the chain
+        from potential to field to stress to cone geometry. 我们的回应：我们建立了一个轻量的轴对称框架，将电
+        势、电场、电应力和锥体几何连接起来。
+    ●   Our discipline / 我们的严谨性：Instead of trusting one attractive plot, we created a verification
+        hierarchy using analytical references, manufactured solutions, an independent FEM comparison,
+        controlled synthetic images, and published data. 我们的严谨性：我们没有只依赖一张漂亮的图，而是使
+        用解析参考、制造解、独立 FEM 比较、受控合成图像和公开数据建立分层验证。
+    ●   Our contribution / 我们的贡献：The result is not merely a cheaper simulation; it is an interpretable
+        diagnostic framework that reveals both what can be computed reliably and what additional
+        measurements are needed. 我们的贡献：成果不只是“更便宜的模拟”，而是一个可解释的诊断框架：它既说
+        明哪些量可以可靠计算，也说明还需要哪些额外测量。
+
+Suggested spoken version / 建议的现场讲解版本
+
+  “Taylor cones appear when electric stress overcomes the restoring effect of surface tension. Detailed
+  simulations can model this behavior, but they often require specialized software and significant
+  computational resources. We developed a lightweight axisymmetric framework that runs on an
+  ordinary laptop and connects the electric potential to the field, Maxwell stress, curvature, and
+  measurable cone geometry. We then tested the framework rather than assuming it was correct. The
+  regular numerical component showed near-second-order convergence, and the finest-grid finite-
+  difference results agreed with an independent FEM calculation at sub-percent levels for the key field
+  and stress quantities. We also qualified the image-measurement pipeline on controlled synthetic
+  profiles and compared published ethanol images across voltage. Our claim is not that we have
+  replaced full multiphysics simulation or completed laboratory validation. Our claim is that we created a
+  transparent, low-cost computational bridge between field calculations and cone measurements—one
+  that can help researchers explore designs, diagnose model behavior, and decide what
+  measurements are needed next.” “当电应力超过表面张力的恢复作用时，就会出现泰勒锥。详细模拟
+  可以描述这一行为，但通常依赖专业软件和大量计算资源。我们建立了一个可以在普通笔记本电脑上运
+  行的轻量轴对称框架，把电势、电场、麦克斯韦应力、曲率和可测量的锥体几何联系起来。 随后我们
+  没有直接假设框架正确，而是对它进行了分层测试。规则数值部分表现出接近二阶的收敛；在最细网格
+  上，有限差分结果与独立 FEM 计算在关键电场和应力量上达到了亚百分比的一致性。我们还用受控合
+  成轮廓检验了图像测量流程，并比较了不同电压下公开发表的乙醇泰勒锥图像。 我们的主张不是已经
+  取代了完整多物理场模拟，也不是已经完成实验室验证。我们的主张是：我们建立了一个透明、低成本
+  的计算桥梁，把电场计算与锥体测量连接起来，从而帮助研究人员探索设计、诊断模型行为，并判断下
+  一步需要哪些测量。”
+
+Important wording guardrail / 重要的表述边界
+Say / 可以说：“runs on an ordinary laptop,” “lightweight,” “transparent,” “low-cost,” “sub-percent agreement for the
+tested quantities,” and “supports quantitative analysis.” Avoid / 避免说：“replaces COMSOL,” “fully solves
+electrospray physics,” “predicts the true onset voltage,” “experimentally validated,” or “proves the physical cone
+shape.”
+Decision points for the supervisor meeting / 今晚与导师确认的决策点
+   ●   Approve the main title and one-sentence claim. 确认主标题和一句话核心主张。
+   ●   Choose the final three or four headline numbers. 确定最终展示的三到四个核心数字。
+   ●   Confirm the wording distinguishing our computation, synthetic qualification, and published-image
+       analysis. 确认如何区分我们的计算、合成图像测试和公开图像分析。
+   ●   Agree on the poster revision deadline and who checks each figure and number. 确定海报修改截止时间，
+       以及每张图和每个数字由谁核查。
+   ●   Agree on the paper scope: ambitious framing, but no unsupported claim of full experimental
+       validation. 确定论文范围：可以有野心地定位，但不做没有证据支持的完整实验验证表述。
+Proposed final positioning / 建议的最终定位：A transparent, lightweight, and verifiable bridge between
+electrostatic computation and Taylor-cone geometry. 一个透明、轻量、可验证的计算桥梁，把静电场计算与
+泰勒锥几何连接起来。
+

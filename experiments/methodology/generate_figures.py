@@ -10,125 +10,249 @@ Figure 5: Already done (Poisson convergence)
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.path as mpath
 import matplotlib.patches as mpatches
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 from pathlib import Path
 
-# Set publication-quality defaults
+# Set publication-quality defaults.  STIX gives a serif text face and matching
+# mathematics, which reads as a journal figure next to the LaTeX body text.
 plt.rcParams['font.size'] = 10
 plt.rcParams['font.family'] = 'serif'
+plt.rcParams['font.serif'] = ['STIXGeneral', 'STIX Two Text', 'DejaVu Serif']
+plt.rcParams['mathtext.fontset'] = 'stix'
 plt.rcParams['axes.labelsize'] = 11
 plt.rcParams['axes.titlesize'] = 12
 plt.rcParams['legend.fontsize'] = 9
 
 
+def _taylor_cone_profile(half_angle_deg, apex_radius, r_rim, y_rim, n=240):
+    """Axisymmetric Taylor-cone interface as a graph r(y), apex pointing away
+    from the emitter (towards the extractor).
+
+    The construction mirrors ``backend/solver/geometry.py``: straight flanks at
+    ``half_angle_deg`` to the symmetry axis are joined tangentially to a
+    spherical cap of radius ``apex_radius`` that regularises the apex.  The
+    flank passes exactly through ``(r_rim, y_rim)``.
+
+    Returns
+    -------
+    (y, r) : tuple of ndarray
+        Axial coordinate and radius, ordered from the apex to the rim.
+    """
+    a = np.deg2rad(half_angle_deg)
+    join_r = apex_radius * np.cos(a)
+    join_y = y_rim - (r_rim - join_r) / np.tan(a)
+    y_apex = join_y - apex_radius * (1.0 - np.sin(a))
+    cap_cy = y_apex + apex_radius
+
+    y_cap = np.linspace(y_apex, join_y, max(4, n // 6))
+    r_cap = np.sqrt(np.maximum(apex_radius**2 - (y_cap - cap_cy) ** 2, 0.0))
+    y_flank = np.linspace(join_y, y_rim, n)
+    r_flank = join_r + (y_flank - join_y) * np.tan(a)
+
+    y = np.concatenate([y_cap, y_flank[1:]])
+    r = np.concatenate([r_cap, r_flank[1:]])
+    return y, r, y_apex
+
+
+def _bezier(p0, p1, p2, p3, n=80):
+    """Cubic Bezier curve through control points p0..p3 (array-like of 2)."""
+    t = np.linspace(0.0, 1.0, n)[:, None]
+    p0, p1, p2, p3 = (np.asarray(p, dtype=float) for p in (p0, p1, p2, p3))
+    return ((1 - t) ** 3 * p0 + 3 * (1 - t) ** 2 * t * p1
+            + 3 * (1 - t) * t**2 * p2 + t**3 * p3)
+
+
+def _draw_field_line(ax, p0, start_dir, p3, end_dir, length_in=0.30,
+                     length_out=0.55, color='#b03a2e', lw=0.7):
+    """Smooth field line from p0 (leaving along start_dir) to p3 (arriving
+    along end_dir) with a small arrow head at p3.  Returns the sampled
+    vertices so that a label leader can be tied to a point on the curve."""
+    p0 = np.asarray(p0, dtype=float)
+    p3 = np.asarray(p3, dtype=float)
+    verts = _bezier(p0,
+                    p0 + length_in * np.asarray(start_dir, dtype=float),
+                    p3 - length_out * np.asarray(end_dir, dtype=float),
+                    p3)
+    patch = FancyArrowPatch(path=mpath.Path(verts),
+                            arrowstyle='-|>', mutation_scale=6.5,
+                            lw=lw, color=color, alpha=0.85,
+                            shrinkA=0.0, shrinkB=0.0, zorder=3)
+    ax.add_patch(patch)
+    return verts
+
+
 def create_figure1_system_schematic():
-    """Figure 1: Physical system schematic showing needle emitter and extractor."""
+    """Figure 1: physical schematic of the Taylor-cone electrospray geometry.
 
-    fig, ax = plt.subplots(figsize=(8, 6))
+    An axisymmetric cross-section of a metal needle/nozzle fed with conducting
+    liquid, facing a grounded extractor electrode with a central aperture.  The
+    liquid meniscus forms the classical Taylor cone; its half-angle
+    alpha = 49.3 deg is measured at the apex between the symmetry axis and the
+    gas-liquid interface.  The interface uses the same rounded-apex plus
+    straight-flank construction as the solver (backend/solver/geometry.py).
 
-    # Draw needle emitter (cone-shaped tip)
-    needle_base_y = 2.0
-    needle_tip_y = -1.5
-    needle_radius = 0.3
+    The sketch is not to scale in the axial direction: the electrode spacing is
+    compressed so that the micrometer-scale meniscus and the millimetre-scale
+    electrode can be shown together (the break symbol on the dimension line
+    marks the compression).
+    """
+    # -- representative geometry of the planned experiment (mm) -------------
+    TOP_Y = 6.40        # top of the drawn emitter (cut by the frame)
+    BODY_R = 0.45       # outer radius of the nozzle body
+    TAPER_Y = 4.30      # axial position where the nozzle taper starts
+    TIP_R = 0.30        # outer radius of the emitter tip face
+    TIP_Y = 2.70        # axial position of the emitter tip face
+    BORE_R = 0.16       # inner (liquid feed) radius
+    ALPHA = 49.3        # classical Taylor half-angle (deg)
+    APEX_R = 0.020      # regularised (rounded) apex radius
 
-    # Needle shaft (rectangle)
-    needle_shaft = mpatches.Rectangle((-needle_radius, needle_base_y),
-                                      2*needle_radius, 0.5,
-                                      facecolor='#4A4A4A', edgecolor='black', linewidth=1.5)
-    ax.add_patch(needle_shaft)
+    PLATE_TOP = 0.00    # top face of the grounded extractor
+    PLATE_BOT = -0.45   # bottom face of the grounded extractor
+    PLATE_R = 4.20      # outer radius of the grounded extractor
+    APERTURE_R = 1.60   # radius of the extractor aperture
 
-    # Needle tip (triangle)
-    needle_tip = mpatches.Polygon([
-        (-needle_radius, needle_base_y),
-        (needle_radius, needle_base_y),
-        (0, needle_tip_y)
-    ], facecolor='#4A4A4A', edgecolor='black', linewidth=1.5)
-    ax.add_patch(needle_tip)
+    X_LIM = 4.30
+    Y_LIM = -1.05
 
-    # Taylor cone (meniscus) at tip
-    cone_angle = 49.3
-    cone_length = 1.2
-    cone_angle_rad = np.radians(cone_angle)
+    metal = '#9e9e9e'
+    electrode = '#5d5d5d'
+    liquid = '#bcd7ee'
+    interface = '#1f5fa8'
+    leader = '#5f5f5f'
+    field = '#b03a2e'
 
-    # Draw cone profile
-    z_cone = np.linspace(0, -cone_length, 50) + needle_tip_y
-    r_cone = -z_cone * np.tan(cone_angle_rad) + needle_tip_y * np.tan(cone_angle_rad)
-
-    ax.plot(r_cone, z_cone, 'b-', linewidth=2.5, label='Taylor cone')
-    ax.plot(-r_cone, z_cone, 'b-', linewidth=2.5)
-
-    # Extractor plate
-    extractor_y = -4.0
-    extractor_aperture = 1.5
-    plate_width = 4.0
-    plate_thickness = 0.3
-
-    # Left side of plate
-    plate_left = mpatches.Rectangle((-plate_width, extractor_y - plate_thickness/2),
-                                    plate_width - extractor_aperture/2, plate_thickness,
-                                    facecolor='#666666', edgecolor='black', linewidth=1.5)
-    ax.add_patch(plate_left)
-
-    # Right side of plate
-    plate_right = mpatches.Rectangle((extractor_aperture/2, extractor_y - plate_thickness/2),
-                                     plate_width - extractor_aperture/2, plate_thickness,
-                                     facecolor='#666666', edgecolor='black', linewidth=1.5)
-    ax.add_patch(plate_right)
-
-    # Electric field lines (schematic)
-    for x_start in np.linspace(-0.8, 0.8, 7):
-        if abs(x_start) > 0.2:  # Skip center
-            y_start = needle_tip_y - cone_length
-            y_end = extractor_y
-            ax.annotate('', xy=(x_start*0.3, y_end), xytext=(x_start, y_start),
-                       arrowprops=dict(arrowstyle='->', color='red', lw=1.5, alpha=0.6))
-
-    # Voltage labels
-    ax.text(0, needle_base_y + 0.8, r'$V_0$ (applied)', ha='center', fontsize=11,
-            bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
-    ax.text(0, extractor_y - 0.6, 'Ground (0 V)', ha='center', fontsize=11,
-            bbox=dict(boxstyle='round', facecolor='lightblue', alpha=0.8))
-
-    # Dimension arrows and labels
-    # Working distance
-    ax.annotate('', xy=(3.2, needle_tip_y), xytext=(3.2, extractor_y),
-               arrowprops=dict(arrowstyle='<->', color='black', lw=1.2))
-    ax.text(3.5, (needle_tip_y + extractor_y)/2, 'Working\ndistance\n$d$',
-            ha='left', va='center', fontsize=9)
-
-    # Needle radius
-    ax.annotate('', xy=(0, needle_base_y - 0.1), xytext=(needle_radius, needle_base_y - 0.1),
-               arrowprops=dict(arrowstyle='<->', color='black', lw=1.0))
-    ax.text(needle_radius/2, needle_base_y + 0.15, r'$r_{\rm needle}$',
-            ha='center', fontsize=9)
-
-    # Cone angle
-    angle_arc = mpatches.Arc((0, needle_tip_y), 1.5, 1.5, angle=0,
-                            theta1=270-cone_angle, theta2=270,
-                            color='blue', linewidth=2, linestyle='--')
-    ax.add_patch(angle_arc)
-    ax.text(0.4, needle_tip_y - 0.4, r'$\alpha \approx 49.3°$',
-            fontsize=10, color='blue')
-
-    # Axes and formatting
-    ax.set_xlim(-4.5, 4.5)
-    ax.set_ylim(-5, 3.5)
-    ax.set_aspect('equal')
+    fig = plt.figure(figsize=(5.7, 5.7))
+    ax = fig.add_axes([0.0, 0.0, 1.0, 1.0])
+    ax.set_aspect('equal', adjustable='box')
     ax.axis('off')
-    ax.set_title('Physical System: Taylor Cone Electrospray Setup',
-                fontweight='bold', fontsize=13, pad=10)
+    ax.set_xlim(-X_LIM, X_LIM)
+    ax.set_ylim(Y_LIM, TOP_Y)
 
-    # Legend
-    legend_elements = [
-        mpatches.Patch(facecolor='#4A4A4A', label='Conductor (needle)'),
-        mpatches.Patch(facecolor='#666666', label='Extractor electrode'),
-        plt.Line2D([0], [0], color='b', linewidth=2.5, label='Liquid meniscus'),
-        plt.Line2D([0], [0], color='red', linewidth=1.5, alpha=0.6, label='E-field lines'),
-    ]
-    ax.legend(handles=legend_elements, loc='upper right', fontsize=9)
+    # -- interface profile --------------------------------------------------
+    y_prof, r_prof, y_apex = _taylor_cone_profile(ALPHA, APEX_R, TIP_R, TIP_Y)
 
-    plt.tight_layout()
+    # -- symmetry axis (drawn first, everything else sits on top) -----------
+    ax.plot([0, 0], [Y_LIM, TOP_Y], ls=(0, (7, 3, 1, 3)), lw=0.7,
+            color='#8a8a8a', zorder=1)
+
+    # -- grounded extractor electrode with central aperture -----------------
+    for sgn in (-1, 1):
+        ax.add_patch(mpatches.Rectangle(
+            (sgn * APERTURE_R, PLATE_BOT),
+            sgn * (PLATE_R - APERTURE_R), PLATE_TOP - PLATE_BOT,
+            facecolor=electrode, edgecolor='black', lw=1.0, zorder=4))
+
+    # earth symbol under the right-hand plate
+    xe = 2.90
+    ax.plot([xe, xe], [PLATE_BOT, PLATE_BOT - 0.30], color='black', lw=0.9, zorder=4)
+    for i, half in enumerate((0.42, 0.28, 0.14)):
+        yy = PLATE_BOT - 0.30 - 0.13 * i
+        ax.plot([xe - half, xe + half], [yy, yy], color='black', lw=1.1, zorder=4)
+
+    # -- emitter walls (metal) ---------------------------------------------
+    for sgn in (-1, 1):
+        wall = [(sgn * BODY_R, TOP_Y), (sgn * BODY_R, TAPER_Y),
+                (sgn * TIP_R, TIP_Y), (sgn * BORE_R, TIP_Y), (sgn * BORE_R, TOP_Y)]
+        ax.add_patch(mpatches.Polygon(wall, closed=True, facecolor=metal,
+                                      edgecolor='black', lw=0.9, zorder=5))
+
+    # -- conducting liquid: feed bore plus the meniscus --------------------
+    liq_xy = ([(-BORE_R, TOP_Y), (-BORE_R, TIP_Y), (-TIP_R, TIP_Y)]
+              + list(zip(-r_prof[::-1], y_prof[::-1]))
+              + list(zip(r_prof, y_prof))
+              + [(TIP_R, TIP_Y), (BORE_R, TIP_Y), (BORE_R, TOP_Y)])
+    ax.add_patch(mpatches.Polygon(liq_xy, closed=True, facecolor=liquid,
+                                  edgecolor='none', zorder=6))
+
+    # gas-liquid interface (both flanks); the metal rim is the contact line
+    for sgn in (-1, 1):
+        ax.plot(sgn * r_prof, y_prof, color=interface, lw=1.8,
+                solid_capstyle='round', zorder=7)
+
+    # -- field lines, leaving the conductor normal to its surface -----------
+    a_rad = np.deg2rad(ALPHA)
+    out_dir = np.array([np.cos(a_rad), -np.sin(a_rad)])     # gas-side normal
+
+    def flank_pt(f):
+        """Point on the straight flank, f = 0 at the apex, f = 1 at the rim."""
+        return np.array([f * TIP_R, y_apex + f * (TIP_Y - y_apex)])
+
+    def taper_r(y):
+        """Radius of the straight emitter flank at axial position y."""
+        return TIP_R + (BODY_R - TIP_R) * (y - TIP_Y) / (TAPER_Y - TIP_Y)
+
+    for sgn in (-1, 1):
+        start_flank = np.array([sgn * out_dir[0], out_dir[1]])
+        start_wall = np.array([sgn, 0.0])
+        # two lines leave the meniscus and continue through the aperture
+        for f, x_end in ((0.85, 0.45), (0.45, 1.15)):
+            _draw_field_line(ax, flank_pt(f) * (sgn, 1.0), start_flank,
+                             (sgn * x_end, PLATE_BOT - 0.42),
+                             (0.0, -1.0), color=field)
+        # one line leaves the emitter flank, upstream of the meniscus
+        body_line = _draw_field_line(ax, (sgn * taper_r(3.95), 3.95), start_wall,
+                                     (sgn * 3.55, PLATE_TOP), (0.0, -1.0),
+                                     color=field)
+        if sgn > 0:
+            field_label_xy = tuple(body_line[int(0.45 * len(body_line))])
+
+    # -- Taylor half-angle: arc between the axis and the interface ----------
+    r_arc = 0.17
+    ax.add_patch(mpatches.Arc((0.0, y_apex), 2 * r_arc, 2 * r_arc, angle=0.0,
+                              theta1=90.0 - ALPHA, theta2=90.0,
+                              color='black', lw=1.2, ls=(0, (3, 2)), zorder=8))
+    # labels lying along the interface direction, just outside the liquid, so
+    # that neither needs a leader line
+    x_lab, y_lab = np.array([TIP_R, TIP_Y]) + 0.38 * out_dir
+    ax.text(x_lab, y_lab, r'$\alpha = 49.3^{\circ}$', rotation=90.0 - ALPHA,
+            rotation_mode='anchor', ha='left', va='center',
+            fontsize=9.0, color='black', zorder=9,
+            bbox=dict(facecolor='white', edgecolor='none', pad=1.0))
+    ax.text(-x_lab, y_lab, 'Taylor cone', rotation=-(90.0 - ALPHA),
+            rotation_mode='anchor', ha='right', va='center',
+            fontsize=9.0, color='black', zorder=9)
+
+    # -- dimension: electrode spacing L (compressed, hence the break) -------
+    x_dim = 3.95
+    for yy, x0 in ((TIP_Y, TIP_R), (PLATE_TOP, APERTURE_R)):
+        ax.plot([x0, x_dim + 0.12], [yy, yy],
+                color='#9a9a9a', lw=0.6, ls=(0, (1, 2)), zorder=2)
+    ax.annotate('', xy=(x_dim, PLATE_TOP), xytext=(x_dim, TIP_Y),
+                arrowprops=dict(arrowstyle='<|-|>', color='black', lw=0.9,
+                                mutation_scale=7, shrinkA=0, shrinkB=0))
+    y_mid = 0.5 * (TIP_Y + PLATE_TOP)
+    for dy in (-0.09, 0.09):           # break marks on the dimension line
+        ax.plot([x_dim - 0.13, x_dim + 0.13], [y_mid + dy + 0.13, y_mid + dy - 0.13],
+                color='white', lw=2.8, zorder=5, solid_capstyle='butt')
+        ax.plot([x_dim - 0.13, x_dim + 0.13], [y_mid + dy + 0.13, y_mid + dy - 0.13],
+                color='black', lw=0.8, zorder=6, solid_capstyle='butt')
+    ax.text(x_dim + 0.22, y_mid, r'$L$  (electrode spacing)', rotation=90,
+            ha='center', va='center', fontsize=8.5, color='black')
+
+    # -- labels (all in clear space, thin leaders, no boxes) ---------------
+    ax.annotate('metal emitter needle', xy=(-BODY_R + 0.02, 5.60),
+                xytext=(-1.20, 5.80), ha='right', va='center', fontsize=8.5,
+                arrowprops=dict(arrowstyle='-', color=leader, lw=0.6,
+                                shrinkA=2.0, shrinkB=1.0))
+    ax.annotate('conducting liquid', xy=(-BORE_R - 0.01, 4.15),
+                xytext=(-0.95, 4.45), ha='right', va='center', fontsize=8.5,
+                arrowprops=dict(arrowstyle='-', color=leader, lw=0.6,
+                                shrinkA=2.0, shrinkB=1.0))
+    ax.annotate(r'$V_0$ (applied)', xy=(BODY_R + 0.01, 4.75), xytext=(1.10, 5.00),
+                ha='left', va='center', fontsize=8.5,
+                arrowprops=dict(arrowstyle='-', color=leader, lw=0.6,
+                                shrinkA=2.0, shrinkB=1.0))
+    ax.annotate(r'$\mathbf{E}$-field lines', xy=field_label_xy,
+                xytext=(2.45, 3.75), ha='center', va='center', fontsize=8.5,
+                arrowprops=dict(arrowstyle='-', color=leader, lw=0.6,
+                                shrinkA=2.0, shrinkB=1.0))
+    ax.text(-2.90, PLATE_BOT - 0.22, 'grounded extractor ($\\phi = 0$)',
+            ha='center', va='top', fontsize=8.5, color='black')
+    ax.text(0.10, 1.55, 'axis of symmetry', ha='left', va='center',
+            rotation=90, fontsize=8.5, color='black')
+
     return fig
 
 
@@ -265,8 +389,8 @@ def create_figure4_exponent_crossing():
 def save_all_figures():
     """Generate and save all figures."""
 
-    output_dir = Path(__file__).parent / 'paper_submission' / 'figures'
-    output_dir.mkdir(exist_ok=True)
+    output_dir = Path(__file__).parents[2] / 'paper' / 'paper_submission' / 'figures'
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 60)
     print("GENERATING KEY FIGURES FOR PAPER")
@@ -311,7 +435,7 @@ def save_all_figures():
     print(r"\begin{figure}[H]")
     print(r"\centering")
     print(r"\includegraphics[width=0.85\textwidth]{figures/system_schematic.pdf}")
-    print(r"\caption{Physical system schematic showing the Taylor-cone electrospray setup. A conducting liquid meniscus at the needle tip deforms under the applied electric field $V_0$, forming a conical equilibrium at the classical half-angle $\alpha \approx \SI{49.3}{\degree}$ when Maxwell stress balances capillary stress.}")
+    print(r"\caption{Physical system schematic (axisymmetric cross-section, not to scale). A metal needle held at potential $V_0$ feeds conducting liquid to its tip, where the meniscus forms a Taylor cone: at onset the gas--liquid interface makes the classical half-angle $\alpha \approx \SI{49.3}{\degree}$ with the symmetry axis when the Maxwell stress $\tfrac{1}{2}\varepsilon_0 E_n^2$ balances the capillary stress $\gamma\kappa$. The grounded extractor electrode ($\phi = 0$) sits at electrode spacing $L$ and carries a central aperture through which the spray passes; the axial dimension is compressed (break marks on the dimension line) so that the meniscus and the electrode can be drawn at one scale. Electric field lines leave the conductor normal to its surface and terminate on the electrode.}")
     print(r"\label{fig:system-schematic}")
     print(r"\end{figure}")
 

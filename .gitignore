@@ -59,3 +59,7 @@ backend/results/experimental_data/images/*.avi
 
 # Temporary PDFs during drafting
 ISEF*.pdf
+
+.pptxenv
+.reasonix
+work
