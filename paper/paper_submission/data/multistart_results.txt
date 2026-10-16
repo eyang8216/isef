@@ -1,0 +1,12 @@
+# Multistart Powell optimization, immersed free-boundary objective
+# Grid: 31x45 (r_max=1.0, z_max=1.0), n_interface=41, apex_z=0.86, interface window 0.15-0.85
+# Bounds: half_angle in [10.0, 60.0] deg, apex_radius in [0.025, 0.1] model units
+# One model length unit = 10 mm; apex radii below are model units unless noted
+# Powell options: maxiter=60, ftol=1e-07, xtol=1e-05
+Start_index,Angle_start_deg,Radius_start,Angle_final_deg,Radius_final,Radius_final_mm,RMS_residual_Pa,N_evals,Candidate_solve_failures,Converged
+1,15.000,0.0300,40.3207,0.0795,0.7950,0.012806,404,0,True
+2,25.000,0.0850,40.1987,0.0776,0.7756,0.013326,101,0,True
+3,35.000,0.0600,42.7911,0.0861,0.8608,0.012580,161,0,True
+4,45.000,0.0350,42.7507,0.0887,0.8871,0.012570,296,0,True
+5,55.000,0.0900,40.4881,0.0704,0.7040,0.012785,157,0,True
+# Summary: angle 40.199-42.791 deg, radius 0.7040-0.8871 mm, RMS residual 0.01257-0.01333 Pa

@@ -1,7 +1,7 @@
 \begin{revision}
 \section{Public Experimental Data and Balance Diagnosis}\label{sec:experimental-procedure}
 \medskip
-\noindent\textbf{Scope.} This section analyses previously published ethanol cone-jet images and reported angles; no new laboratory measurements are presented, and the images and reported series belong to the source study. Because the synthetic qualification of the extraction pipeline (Section~\ref{sec:synthetic-completed}) covers only analytic silhouettes and does not calibrate the chain against recorded images, the angle comparison is presented as a consistency check between two published image-derived series rather than as validation of the solver.
+\noindent\textbf{Scope.} This section analyzes previously published ethanol cone-jet images and reported angles; no new laboratory measurements are presented, and the images and reported series belong to the source study. Because the synthetic qualification of the extraction pipeline (Section~\ref{sec:synthetic-completed}) covers only analytic silhouettes and does not calibrate the chain against recorded images, the angle comparison is presented as a consistency check between two published image-derived series rather than as validation of the solver.
 
 \subsection{Source and experimental conditions}
 The framework is applied to the ethanol cone-jet photographs and angle--voltage measurements reported by Yang et al.~\cite{yang2025ethanol}. The photographs are obtained from Figure~5 of that study, and the full cone angles are digitized from Figure~6 and converted to half-angles using $\alpha=\theta/2$. The selected conditions correspond to a flow rate of $Q=0.10~\mu\mathrm{L/s}$, a nozzle-to-plate spacing of $H=2$~mm, and an aperture diameter of $D=2$~mm. The experimental inputs and numerical parameters are summarized in Table~\ref{tab:public-inputs}.
@@ -15,11 +15,11 @@ Nozzle outer / inner diameter & 0.30 / 0.16 mm & Yang et al., Sec.~1\\
 Plate outer / aperture diameter & 80 / 2 mm & Yang et al., Sec.~1; Fig.~6\\
 Nozzle-to-plate spacing & 2 mm & Yang et al., Fig.~6\\
 Ethanol flow rate & $0.10~\mu\mathrm{L/s}$ & Yang et al., Figs.~5--6\\
-Temperature; surface tension & $25^\circ$C; 0.022 N/m & Yang et al., Table~1\\
+Temperature; surface tension & \SI{25}{\celsius}; \SI{0.022}{\newton\per\meter} & Yang et al., Table~1\\
 Image scale bar & $300~\mu$m / 191 pixels & Yang et al., Fig.~5\\\midrule
 Outer-domain radius & 80 mm & Numerical setting\\
 Exposed needle length & 5 mm & Numerical setting\\
-Tip radius; local cell size & 6; $4~\mu$m & Numerical setting\\
+Tip radius; local cell size & $6~\mu$m; $4~\mu$m & Numerical setting\\
 Pressure calibration voltage & 1.7203 kV & Lowest reported point\\
 \bottomrule\end{tabular}
 \end{table}
@@ -35,7 +35,7 @@ As the voltage increases from 1.80 to 2.30~kV, the extracted half-angle increase
 \revisionfigure{0.98}{profiles_and_height.png}{Registered profiles and visible heights. Dashed flank fits summarize the extracted contours.}{fig:public-profiles}
 
 \subsection{Comparison with reported angles}
-Quantitative comparison is restricted to the three voltage pairs whose mismatch is below 0.005~kV: 1.80, 1.95, and 2.10~kV. The photo-derived and reported half-angles are listed separately in \mbox{Table~\ref{tab:angle-comparison}}. Their absolute differences are $1.970^\circ$, $1.520^\circ$, and $0.522^\circ$, respectively, corresponding to a mean absolute difference of $1.337^\circ$ and an RMS difference of $1.468^\circ$. Figure~\ref{fig:public-angles} shows that both measurement series increase with voltage, with the largest matched discrepancy occurring at 1.80~kV. As a consistency check between two independently published image-derived series, the comparison is informative; because the extraction pipeline is qualified only by a synthetic round trip and not against recorded images, the absolute differences should not be read as a calibrated measurement error.
+Quantitative comparison is restricted to the three voltage pairs whose mismatch is below 0.005~kV: 1.80, 1.95, and 2.10~kV. The photo-derived and reported half-angles are listed separately in \mbox{Table~\ref{tab:angle-comparison}}. Their absolute differences are $1.970^\circ$, $1.520^\circ$, and $0.520^\circ$, respectively, corresponding to a mean absolute difference of $1.337^\circ$ and an RMS difference of $1.468^\circ$. Figure~\ref{fig:public-angles} shows that both measurement series increase with voltage, with the largest matched discrepancy occurring at 1.80~kV. As a consistency check between two independently published image-derived series, the comparison is informative; because the extraction pipeline is qualified only by a synthetic round trip and not against recorded images, the absolute differences should not be read as a calibrated measurement error.
 
 \begin{table}[htbp]\centering\color{RevisionBlue}
 \captionsetup{labelfont={color=RevisionBlue},textfont={color=RevisionBlue}}
@@ -47,7 +47,7 @@ Quantitative comparison is restricted to the three voltage pairs whose mismatch 
 --- & 1.7203 & --- & 19.80 & --- & ---\\
 1.80 & 1.8005 & 22.26 & 24.23 & 1.970 & 301.6\\
 1.95 & 1.9503 & 29.45 & 30.97 & 1.520 & 224.6\\
-2.10 & 2.1000 & 36.34 & 36.86 & 0.522 & 174.3\\
+2.10 & 2.1000 & 36.34 & 36.86 & 0.520 & 174.3\\
 --- & 2.2503 & --- & 42.99 & --- & ---\\
 2.30 & --- & 41.64 & --- & --- & 147.6\\\bottomrule
 \end{tabular}
@@ -72,6 +72,6 @@ The pressure offset is calibrated at the lowest-voltage condition according to
 \]
 with field values interpolated from the precomputed solutions. This pressure is then held constant over the remaining voltage conditions. The mean residuals are approximately 0, $-44$, $-123$, $-201$, and $-278$~Pa for the five reported conditions. The increasingly negative residual indicates that the sum of electric pressure and the fixed pressure offset exceeds the capillary pressure of the reconstructed interface. Calibration imposes mean balance at the lowest voltage, while the spatial residual retains the local variation along the interface.
 
-A spherical reference problem is used to assess the accuracy of the normal-field reconstruction. Refining the local spacing from 6 to 2~$\mu$m reduces the mean field error from 0.440\% to 0.094\% and the maximum error from 1.245\% to 0.328\%. The balance analysis is repeated with a 2~$\mu$m spacing, exposed needle lengths of 2 and 10~mm, and a tip radius of 12~$\mu$m. For each setting, the pressure is calibrated at the same lowest-voltage condition. As shown in Figure~\ref{fig:public-balance}, the negative high-voltage residual trend persists across these variations. The combined results indicate a systematic departure from the constant-pressure static balance for the selected observed-angle series over the tested numerical settings.
+A spherical reference problem is used to assess the accuracy of the normal-field reconstruction; refining its local spacing from 6 to 2~$\mu$m reduces the mean field error from 0.440\% to 0.094\% and the maximum error from 1.245\% to 0.328\%. The balance analysis is repeated with a 2~$\mu$m spacing, exposed needle lengths of 2 and 10~mm, and a tip radius of 12~$\mu$m. For each setting, the pressure is calibrated at the same lowest-voltage condition. As shown in Figure~\ref{fig:public-balance}, the negative high-voltage residual trend persists across these variations. The combined results indicate a systematic departure from the constant-pressure static balance for the selected observed-angle series over the tested numerical settings.
 \revisionfigure{0.98}{field_and_balance.png}{Field and balance checks. (a) Sphere-reference normal-field errors. (b) Mean residuals at the reported angles for five numerical settings.}{fig:public-balance}
 \end{revision}

@@ -4,7 +4,7 @@ This section gives the mathematical foundation of the solver. The model is inten
 
 \subsection{Geometry, Coordinates, and Main Assumptions}
 
-The gas and liquid domains are treated in cylindrical coordinates $(r,\theta,z)$ with $r\ge 0$. The first model assumes axisymmetry, so all fields are independent of $\theta$. The electric potential is $\ph(r,z)$ and the electric field is
+The gas and liquid domains are treated in cylindrical coordinates $(r,\theta,z)$ with $r\ge 0$. The model assumes axisymmetry, so all fields are independent of $\theta$. The electric potential is $\ph(r,z)$ and the electric field is
 \begin{equation}
     \mathbf{E}=-\nabla\ph.
 \end{equation}
@@ -20,7 +20,7 @@ The liquid--gas interface is represented as a graph
 \begin{equation}
     r=R(z),
 \end{equation}
-which is adequate for onset-level Taylor-cone shapes before overturning, breakup, or strongly non-axisymmetric dynamics. The conducting-liquid approximation treats the liquid as an equipotential boundary in the first model. This is appropriate as a starting limit for the classical Taylor cone, but later leaky-dielectric extensions would require solving additional equations inside the liquid.
+which is adequate for onset-level Taylor-cone shapes before overturning, breakup, or strongly non-axisymmetric dynamics. The conducting-liquid approximation treats the liquid as an equipotential boundary in this model. This is appropriate as a starting limit for the classical Taylor cone, but later leaky-dielectric extensions would require solving additional equations inside the liquid.
 
 \subsection{Axisymmetric Laplace and Poisson Equations}
 
@@ -63,7 +63,7 @@ The simplified electrostatic problem is closed by boundary conditions representi
     \ph &= \ph_{\infty}\quad\text{or}\quad \frac{\partial\ph}{\partial n}=0
     &&\text{on far computational boundaries}.
 \end{align}
-The axis condition is not optional: it is required because the potential must remain finite and smooth as $r\rightarrow 0$. Far-boundary conditions are numerical approximations, so their effect should be checked by moving the boundary outward or comparing alternative boundary choices.
+The axis condition is not optional: it is required because the potential must remain finite and smooth as $r\rightarrow 0$. Far-boundary conditions are numerical approximations; their influence is quantified in Section~\ref{sec:completed-verification} by enlarging the computational domain and by replacing the far-field condition with a grounded outer boundary.
 
 \subsection{Finite-Difference Discretization}
 
@@ -98,9 +98,9 @@ At the axis $r=0$, Eq.~\eqref{eq:axisymmetric_laplacian_full} appears singular, 
 \begin{align}
     \lim_{r\to0}\left(\frac{\partial^2\ph}{\partial r^2}
     +\frac{1}{r}\frac{\partial\ph}{\partial r}\right)
-    &=2\frac{\partial^2\ph}{\partial r^2}\bigg|_{r=0}.
+    &=2\frac{\partial^2\ph}{\partial r^2}\bigg|_{r=0},
 \end{align}
-with a reflected ghost value $\ph_{-1,j}=\ph_{1,j}$ gives the regularized axis stencil
+together with a reflected ghost value $\ph_{-1,j}=\ph_{1,j}$ gives the regularized axis stencil
 \begin{equation}
 (\nabla_h^2\ph)_{0,j}
 =
@@ -275,7 +275,7 @@ and eliminates the unknown stress amplitude in closed form,
     \qquad
     J(\mathbf{a})=\langle\resid_{\mathrm{proj}}^2\rangle_w^{1/2}.
 \end{equation}
-The best-fit amplitude $u$ also yields a predicted onset voltage $V_0^\ast=\sqrt{2u/\epszero}$ wherever $u>0$. Candidate shapes whose interface cannot be sampled or whose projection is degenerate are assigned a large fixed rejection value rather than a smooth penalty. This formulation keeps the problem computationally light and interpretable. Its limitation is that grid-mask boundary representation can shift the optimized angle away from the ideal Taylor value, which is why the optimized-angle error is treated as a known numerical limitation.
+The best-fit amplitude $u$ also yields a predicted onset voltage $V_0^\ast=\sqrt{2u/\epszero}$ wherever $u>0$. Candidate shapes whose interface cannot be sampled or whose projection is degenerate are assigned a large fixed rejection value rather than a smooth penalty. This formulation keeps the problem computationally light and interpretable. Its limitation is that the discretized boundary representation can shift the optimized angle away from the ideal Taylor value, so an optimized angle carries a numerical error that the parameterization itself cannot remove; the sensitivity study of Section~\ref{sec:completed-verification} quantifies its size.
 
 \subsection{Effective Space-Charge Shielding}
 

@@ -85,7 +85,7 @@ for i, (h, e) in enumerate(zip(grid_spacings, l2_errors)):
 plt.tight_layout()
 
 # Save figure
-output_dir = Path(__file__).parent / 'paper_submission' / 'figures'
+output_dir = Path(__file__).resolve().parents[2] / 'paper' / 'paper_submission' / 'figures'
 output_dir.mkdir(exist_ok=True)
 output_file = output_dir / 'poisson_convergence.pdf'
 
