@@ -5,10 +5,14 @@ closure/tuning inputs in an expander. Run button triggers run_solver()
 via app_backend. Plotting via Plotly — no matplotlib in this file.
 """
 
+import sys
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+
+# Add the package root to path so `import solver` resolves to solver/solver/
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "solver"))
 
 from solver.app_backend import (
     ImmersedVerificationParams,

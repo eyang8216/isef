@@ -22,8 +22,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# Add the package root to path so `import solver` resolves to solver/solver/
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "solver"))
 
 from solver.app_backend import (
     ImmersedVerificationParams,
@@ -40,8 +40,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from components.plot_styling import apply_academic_style
 from components.theory_boxes import immersed_boundary_theory, taylor_angle_theory
 
-# Results directory
-RESULTS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "results"
+# Results directory (repo root / results)
+RESULTS_DIR = Path(__file__).resolve().parents[2] / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
 st.title(" Immersed Boundary Verification")

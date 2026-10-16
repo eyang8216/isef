@@ -39,19 +39,18 @@ Thumbs.db
 *.synctex.gz
 *.bbl
 *.blg
-paper_submission/build/
 
 # Experimental data (raw images, videos - keep metadata and results)
-backend/results/experimental_data/images/*.jpg
-backend/results/experimental_data/images/*.png
-backend/results/experimental_data/images/*.mp4
-backend/results/experimental_data/images/*.avi
+results/experimental_data/images/*.jpg
+results/experimental_data/images/*.png
+results/experimental_data/images/*.mp4
+results/experimental_data/images/*.avi
 
 # Keep directory structure but not contents
-!backend/results/experimental_data/images/.gitkeep
-!backend/results/experimental_data/metadata/.gitkeep
-!backend/results/experimental_data/frozen_predictions/.gitkeep
-!backend/results/experimental_data/profiles/.gitkeep
+!results/experimental_data/images/.gitkeep
+!results/experimental_data/metadata/.gitkeep
+!results/experimental_data/frozen_predictions/.gitkeep
+!results/experimental_data/profiles/.gitkeep
 
 # Claude AI session data (local only)
 .claude/

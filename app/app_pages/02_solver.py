@@ -6,8 +6,8 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# Add the package root to path so `import solver` resolves to solver/solver/
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "solver"))
 
 from solver.app_backend import (
     RunParams,
@@ -40,8 +40,8 @@ from components.theory_boxes import (
     convergence_criteria_theory,
 )
 
-# Results directory
-RESULTS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "results"
+# Results directory (repo root / results)
+RESULTS_DIR = Path(__file__).resolve().parents[2] / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
 st.title(" Electrostatic-Capillary Solver")

@@ -256,10 +256,14 @@ st.write("""
 **3. Grid Convergence**
 - **Test:** Refine grid, measure solution change
 - **Expected:** Second-order convergence (error ∝ h²)
-- **Status:**  Verified (see tests/test_grid_convergence.py)
+- **Status:**  Verified for the regular operator (orders 2.035, 2.018 and 2.009 in
+  `solver/examples/10_quartic_poisson_convergence.py`). The immersed interface study
+  (`solver/examples/08_immersed_refinement_study.py`) shows the inter-level change
+  falling from 10.33 to 4.26 to 2.55 V, where the staircase baseline rises again
+  (25.73, 7.11, 11.27 V).
 
 **4. Unit Tests**
-- **Coverage:** 71 automated tests
+- **Coverage:** 84 automated tests
 - **Status:**  All passing
 """)
 
@@ -408,5 +412,5 @@ and experimental plans.
 💻 **Source code:** All solver modules are documented with docstrings. See `solver/solver/`
 for implementation details.
 
-🧪 **Tests:** Automated test suite in `solver/tests/` with 82 tests covering all major components.
+🧪 **Tests:** Automated test suite in `solver/tests/` with 84 tests covering all major components.
 """)

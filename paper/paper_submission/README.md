@@ -1,45 +1,43 @@
 # Paper Submission Draft
 
-This folder contains a competition-facing LaTeX paper draft for the Taylor-cone solver project.
+Competition-facing LaTeX manuscript for the Taylor-cone solver project.
 
 ## Contents
 
 - `main.tex` — main LaTeX document
-- `sections/` — modular paper sections
+- `sections/` — modular paper sections; `revision_style.tex` defines the tracked-change markup
 - `references.bib` — bibliography
-- `figures/` — placeholder for final figures
-- `tables/` — placeholder for exported result tables
-- `build/` — placeholder for compiled output
+- `figures/` — generated figures
+- `data/` — regenerated result tables quoted in the text
+- `tables/` — exported table sources
+- `build/` — archived earlier submission draft
+- `main.pdf` — compiled output
 
 ## Compile locally
 
-This computer has `tectonic` available, so the draft can be compiled with:
+A full LaTeX distribution is required (`latexmk`, `pdflatex`, `bibtex`):
 
 ```bash
-cd /Users/a1/Desktop/isef/paper_submission
-tectonic main.tex
-```
-
-If a full LaTeX distribution is installed, either of these also works:
-
-```bash
-cd paper_submission
+cd paper/paper_submission
+rm -f main.out          # a truncated main.out makes latexmk fail on bookmarks
 latexmk -pdf main.tex
 ```
 
-or:
-
-```bash
-pdflatex main.tex
-bibtex main
-pdflatex main.tex
-pdflatex main.tex
-```
+`pdflatex` plus `bibtex` also works, with three `pdflatex` passes.
 
 ## Compile using Overleaf
 
-If LaTeX is not installed locally, upload the contents of `paper_submission/` to Overleaf and compile `main.tex`.
+Upload the contents of `paper_submission/` to Overleaf and compile `main.tex`.
+
+## Regenerating figures and result tables
+
+Figures and the `data/` tables are produced by the scripts in
+`experiments/methodology/` (`generate_figures.py`,
+`generate_synthetic_validation.py`, `generate_timing_data.py`,
+`generate_convergence_plot.py`). See `figures/README.md` for the figure list.
 
 ## Current status
 
-This draft intentionally includes placeholders for experimental data because physical validation has not yet been performed. Current completed results include theory, solver architecture, numerical validation, and planned experimental methodology.
+Theory, solver architecture, the numerical results in Section 6, and the
+published-image comparison in Section 7 are complete. No physical experiments
+were carried out for this manuscript, so it reports no measured data of its own.

@@ -1,18 +1,23 @@
 # Synthetic Validation Results
 
-Synthetic validation tests the image processing pipeline on computer-generated
-images with known ground truth before applying to real experimental data.
+Synthetic validation tests the image-processing and extraction pipeline on
+computer-generated silhouettes with known ground truth.
 
-Run synthetic validation:
+Run it:
 ```bash
-python backend/examples/13_experimental_workflow.py
+PYTHONPATH=solver python solver/examples/13_experimental_workflow.py
 ```
 
-Expected outputs:
-- `synthetic_clean.png` - Clean synthetic Taylor cone image
-- `synthetic_noisy.png` - Image with realistic noise added
-- `validation_results.png` - Angle and profile accuracy vs noise level
+Outputs written here:
+- `synthetic_clean.png` — clean synthetic Taylor-cone image
+- `synthetic_noisy.png` — the same image with realistic noise added
+- `validation_results.png` — angle and profile accuracy versus noise level
 
-Acceptance criteria (from paper Section 08):
-- Angle error < 1° for SNR ≥ 40 dB
-- Profile nRMSE < 2% of cone length
+Acceptance criteria, asserted over the two lowest noise levels (nominal
+SNR ≥ 30 dB) and defined in `solver/experimental/synthetic_validation.py`:
+- half-angle error < 1°
+- profile nRMSE < 2% of cone length
+
+The paper's synthetic round trip (Section 6.5) is a separate run of the same
+pipeline via `experiments/methodology/generate_synthetic_validation.py`, which
+writes `paper/paper_submission/data/synthetic_validation_results.txt`.

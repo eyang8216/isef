@@ -49,3 +49,52 @@ def test_roundtrip_recovers_analytic_half_angle():
     assert np.isfinite(angle_error)
     assert angle_error < ANGLE_LIMIT_DEG
     assert result["acceptance_criteria_met"]
+
+
+def test_metadata_template_and_round_trip(tmp_path):
+    """The metadata helpers must emit valid JSON and reload what they saved."""
+    import json
+
+    from experimental.metadata import (
+        TrialMetadata,
+        create_metadata_template,
+        load_metadata_typed,
+        save_metadata,
+        validate_metadata,
+    )
+
+    template_path = tmp_path / "metadata_template.json"
+    create_metadata_template(template_path)
+    template = json.loads(template_path.read_text())
+    assert validate_metadata(template) == (True, [])
+
+    metadata = TrialMetadata(
+        trial_id="trial_001",
+        date="2026-08-20",
+        time_start="14:30:00",
+        operator="student",
+        supervisor="teacher",
+        electrode_spacing_mm=10.0,
+        needle_outer_diameter_mm=0.8,
+        needle_inner_diameter_mm=0.6,
+        extractor_geometry="plate",
+        extractor_dimensions_mm="50x50",
+        liquid_name="ethanol",
+        liquid_purity="99.5%",
+        liquid_supplier="supplier",
+        surface_tension_N_per_m=0.022,
+        applied_voltage_V=3000.0,
+        flow_rate_uL_per_min=1.0,
+        observation_duration_s=10.0,
+        camera_model="camera",
+        resolution_pixels=(1920, 1080),
+        frame_rate_fps=10.0,
+        calibration_mm_per_pixel=0.02,
+        calibration_method="needle_diameter",
+        regime_classification="stable",
+    )
+    saved_path = tmp_path / "trial.json"
+    save_metadata(metadata, saved_path)
+    reloaded = load_metadata_typed(saved_path)
+    assert reloaded.trial_id == "trial_001"
+    assert reloaded.applied_voltage_V == 3000.0

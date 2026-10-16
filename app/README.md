@@ -78,7 +78,7 @@ app/
 
 ### Results Management
 - Run history tracking in session state
-- Results exported to `backend/results/`
+- Results exported to `results/`
 - JSON export for programmatic analysis
 - Copyable parameter summaries
 
@@ -208,9 +208,9 @@ See `docs/SCIENTIST_USER_GUIDE.md` for:
 - Try legacy app to isolate issue: `streamlit run app/streamlit_app_legacy.py`
 
 ### Import errors
-- The app pages add parent directories to `sys.path` for imports
-- Verify `solver/` package is in `backend/`
-- Check that `app_backend.py` exists in `solver/`
+- The app pages add the package root (`solver/`) to `sys.path` for imports
+- Verify `app_backend.py` exists in `solver/solver/`
+- Alternatively install the package: `pip install -e .`
 
 ### Plots not displaying
 - Check that solver runs complete without exceptions

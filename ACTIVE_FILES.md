@@ -7,7 +7,7 @@ This folder contains the files intended for current work and professor review. T
 - `README.md` — project orientation and reproduction guidance.
 - `教授评审与项目执行计划_轻量化Taylor锥求解器.pdf` — Chinese professor-review document.
 - `教授评审与项目执行计划_轻量化Taylor锥求解器.docx` — editable version of the same document.
-- `paper/paper_submission/build/isef_taylor_cone_updated_draft.pdf` — current paper draft.
+- `paper/paper_submission/main.pdf` — current paper draft (source in `paper/paper_submission/main.tex`).
 - `A_TO_J_PRELAB_COMPLETION_REPORT.md` — evidence status and release limitations.
 
 ## Active technical material
