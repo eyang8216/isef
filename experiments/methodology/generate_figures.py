@@ -30,7 +30,7 @@ def _taylor_cone_profile(half_angle_deg, apex_radius, r_rim, y_rim, n=240):
     """Axisymmetric Taylor-cone interface as a graph r(y), apex pointing away
     from the emitter (towards the extractor).
 
-    The construction mirrors ``backend/solver/geometry.py``: straight flanks at
+    The construction mirrors ``solver/solver/geometry.py``: straight flanks at
     ``half_angle_deg`` to the symmetry axis are joined tangentially to a
     spherical cap of radius ``apex_radius`` that regularises the apex.  The
     flank passes exactly through ``(r_rim, y_rim)``.
@@ -91,7 +91,7 @@ def create_figure1_system_schematic():
     liquid meniscus forms the classical Taylor cone; its half-angle
     alpha = 49.3 deg is measured at the apex between the symmetry axis and the
     gas-liquid interface.  The interface uses the same rounded-apex plus
-    straight-flank construction as the solver (backend/solver/geometry.py).
+    straight-flank construction as the solver (solver/solver/geometry.py).
 
     The sketch is not to scale in the axial direction: the electrode spacing is
     compressed so that the micrometer-scale meniscus and the millimetre-scale

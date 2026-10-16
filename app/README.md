@@ -16,7 +16,7 @@ This application provides an interactive, publication-quality interface for:
 ### Run the Application
 
 ```bash
-streamlit run backend/app/streamlit_app.py
+streamlit run app/streamlit_app.py
 ```
 
 The app will open in your browser at `http://localhost:8501`
@@ -26,13 +26,13 @@ The app will open in your browser at `http://localhost:8501`
 The previous single-file app is preserved as `streamlit_app_legacy.py` and can be run with:
 
 ```bash
-streamlit run backend/app/streamlit_app_legacy.py
+streamlit run app/streamlit_app_legacy.py
 ```
 
 ## Application Structure
 
 ```
-backend/app/
+app/
 ├── streamlit_app.py              # Main entry point with navigation
 ├── streamlit_app_legacy.py       # Original single-file app (preserved)
 ├── app_pages/                    # Multi-page application
@@ -205,7 +205,7 @@ See `docs/SCIENTIST_USER_GUIDE.md` for:
 ### App doesn't start
 - Check that you're running from the repository root
 - Verify all dependencies installed: `pip install -e .`
-- Try legacy app to isolate issue: `streamlit run backend/app/streamlit_app_legacy.py`
+- Try legacy app to isolate issue: `streamlit run app/streamlit_app_legacy.py`
 
 ### Import errors
 - The app pages add parent directories to `sys.path` for imports

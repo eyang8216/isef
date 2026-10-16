@@ -41,7 +41,7 @@ from components.theory_boxes import (
 )
 
 # Results directory
-RESULTS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "backend" / "results"
+RESULTS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
 st.title(" Electrostatic-Capillary Solver")

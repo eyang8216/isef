@@ -280,11 +280,15 @@ def validate_pipeline_accuracy(
         angle_errors_good = np.array(angle_errors)[good_snr_mask]
         profile_rmses_good = np.array(profile_rmses)[good_snr_mask]
 
-        angle_criterion_met = np.all(angle_errors_good[~np.isnan(angle_errors_good)] < 1.0)
+        # NaN marks a case in which the pipeline raised: drop those, but never
+        # let an all-NaN (i.e. completely failed) run pass vacuously.
+        finite_angle = angle_errors_good[np.isfinite(angle_errors_good)]
+        angle_criterion_met = finite_angle.size > 0 and bool(np.all(finite_angle < 1.0))
 
         cone_length = np.max(z_true) - np.min(z_true)
         nrmse_good = profile_rmses_good / cone_length
-        profile_criterion_met = np.all(nrmse_good[~np.isnan(nrmse_good)] < 0.02)
+        finite_nrmse = nrmse_good[np.isfinite(nrmse_good)]
+        profile_criterion_met = finite_nrmse.size > 0 and bool(np.all(finite_nrmse < 0.02))
 
         acceptance = angle_criterion_met and profile_criterion_met
     else:

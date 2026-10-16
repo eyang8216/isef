@@ -41,7 +41,7 @@ from components.plot_styling import apply_academic_style
 from components.theory_boxes import immersed_boundary_theory, taylor_angle_theory
 
 # Results directory
-RESULTS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "backend" / "results"
+RESULTS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
 st.title(" Immersed Boundary Verification")

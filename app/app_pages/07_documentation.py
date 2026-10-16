@@ -402,11 +402,11 @@ st.divider()
 
 # Footer
 st.info("""
- **Full paper:** See `paper_submission/main.pdf` for detailed derivations, validation results,
+ **Full paper:** See `paper/paper_submission/main.pdf` for detailed derivations, validation results,
 and experimental plans.
 
-💻 **Source code:** All solver modules are documented with docstrings. See `backend/solver/`
+💻 **Source code:** All solver modules are documented with docstrings. See `solver/solver/`
 for implementation details.
 
-🧪 **Tests:** Automated test suite in `backend/tests/` with 71 tests covering all major components.
+🧪 **Tests:** Automated test suite in `solver/tests/` with 82 tests covering all major components.
 """)

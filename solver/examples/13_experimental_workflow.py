@@ -110,7 +110,7 @@ def example_1_synthetic_image_generation():
     print(f"Added noise: SNR ≈ {255/5:.1f} (≈{20*np.log10(255/5):.1f} dB)")
 
     # Save images
-    output_dir = Path("backend/results/synthetic_validation")
+    output_dir = Path("results/synthetic_validation")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     try:
@@ -258,7 +258,7 @@ def example_5_synthetic_validation():
             print(f"{noise:11.1f} | {angle_err:11.2f}° | {rmse:12.4f} mm | {nrmse:6.2f}%")
 
         # Plot results
-        output_dir = Path("backend/results/synthetic_validation")
+        output_dir = Path("results/synthetic_validation")
         output_dir.mkdir(parents=True, exist_ok=True)
         plot_path = output_dir / "validation_results.png"
 
@@ -275,7 +275,7 @@ def example_6_metadata_management():
     """Example 6: Create and validate trial metadata."""
     print("\n=== Example 6: Metadata Management ===")
 
-    output_dir = Path("backend/results/experimental_data/metadata")
+    output_dir = Path("results/experimental_data/metadata")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Create template
@@ -333,7 +333,7 @@ def example_7_preregistration_workflow():
 
     metadata = {"trial_id": "example_001", "electrode_spacing_mm": 10.0}
 
-    output_dir = Path("backend/results/experimental_data/frozen_predictions")
+    output_dir = Path("results/experimental_data/frozen_predictions")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Freeze prediction
