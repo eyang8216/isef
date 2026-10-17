@@ -7,7 +7,7 @@ Figures referenced by `main.tex`. Regenerate them with the scripts in
 - `system_schematic.pdf` — reduced-order axisymmetric system schematic
 
 ## Section 5
-- `solver_flowchart_revised.png` — solver architecture flow chart
+- `solver_flowchart_revised.pdf` — solver architecture flow chart (vector)
 
 ## Section 6 — numerical results
 - `01_regular_poisson_fem.png` — manufactured Poisson convergence

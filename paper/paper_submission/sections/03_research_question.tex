@@ -5,13 +5,13 @@
 The central research question is:
 
 \begin{quote}
-To what extent can a lightweight two-dimensional axisymmetric finite-difference solver---coupling immersed-boundary Laplace/Poisson electrostatics, electrostatic--capillary stress diagnostics, and synthetic-image extraction---reproduce classical Taylor-cone benchmarks and diagnose stress balances in experimental cone-jet profiles on consumer hardware?
+\rev{How does the choice between stress-residual minimization and flank-field power-law exponent crossing affect the reliability of Taylor-cone angle identification, and how sensitive are the inferred angles to numerical settings and initialization?}
 \end{quote}
 
 \subsection{Hypothesis}
 
-We hypothesize that an immersed-boundary axisymmetric solver will converge at second order, agree with independent body-fitted finite-element solutions within $<1\%$ for interface pressures, and recover the classical \SI{49.29}{\degree} Taylor angle via flank-field scaling. Furthermore, when paired with contour extraction validated on synthetic benchmarks (targeting $<1^\circ$ angle error), the static fixed-pressure stress balance will quantify where real flowing cone-jets depart from purely static electrostatic--capillary equilibrium as voltage increases.
+\rev{The working hypothesis is that amplitude-projected stress residuals are weakly sensitive to the cone angle, allowing different geometries to attain similar objective values, whereas the crossing of the flank-field exponent through $p=-1$ provides a more stable angle diagnostic in the idealized Taylor regime. The discrete electrostatic solution is expected to converge at approximately second order. Numerical verification and sensitivity analysis are used to distinguish field-solution accuracy from the angle-discriminating ability of each observable.} The expected dominant error sources are finite-grid boundary representation, simplified effective space-charge closures, and physical effects not included in the static model, such as liquid flow, current transport, and full leaky-dielectric dynamics.
 
 \subsection{Scope}
 
-This study focuses strictly on onset-level axisymmetric geometry, interface field reconstruction, and static normal-stress balance. Downstream jet breakup, transient fluid flow, and plume dynamics are excluded to isolate how much physical insight can be extracted from a rapid, reduced-order electrostatic model.
+\rev{The project studies onset-level Taylor-cone geometry and field balance. It does not aim to simulate the full downstream cone-jet, droplet breakup, emission-current law, plume dynamics, or complete thruster performance. The focus is the reliability of angle observables within an axisymmetric electrostatic--capillary model, assessed through numerical verification, parameter studies, and image-based geometric measurements, with relevance to observable selection in electrospinning and electrospray propulsion.}

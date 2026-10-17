@@ -107,7 +107,7 @@ window parameter and a working large-domain mode, then regenerate.
 4. **`experiments/methodology/generate_figures.py`** regenerates `system_schematic` and
    `solver_flowchart` but writes `system_schematic.pdf|png`, `solver_flowchart.pdf|png` and
    `exponent_crossing.pdf|png`, none of which are cited. The cited flowchart is
-   `solver_flowchart_revised.png`, which has no generator. Consolidate.
+   `solver_flowchart_revised.pdf`, which has no generator. Consolidate.
 
 ---
 
@@ -122,10 +122,10 @@ window parameter and a working large-domain mode, then regenerate.
    first. To finalise: replace `\rev{...}` with its argument, the `revision` environment with
    its body, `\revisionfigure` with `\includegraphics` + `\caption` + `\label`, and delete the
    `\captionsetup` and the `\input{revision_style}` line.
-2. **The title still reads "…with Planned Experimental Validation"** (`main.tex`). No
-   experimental campaign was run for this submission, so this phrase promises something the
-   paper does not deliver. Suggested: replace with "…with Numerical and Published-Data
-   Validation" or drop the suffix.
+2. **The title's "…with Planned Experimental Validation" suffix — RESOLVED.** The merge from
+   `paper-1` (see `paper/MERGE_PLAN.md`) retitled the paper *"Reliable Taylor-Cone Angle
+   Identification through Power-Law Exponent Crossing"* and added hyperref `pdftitle`/`pdfauthor`
+   metadata. The promised-but-absent experimental campaign is no longer implied by the title.
 3. **No `LICENSE` file exists** even though the project has been described as open source.
    Either add a licence (the `LICENSE` question is unresolved) or avoid the phrase — the word
    "open-source" was already removed from `sections/01_introduction.tex`.
