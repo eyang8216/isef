@@ -1,74 +1,14 @@
 \section{Solver Architecture}
 
-\subsection{Implementation Overview}
-
-The solver is implemented as a modular Python package. Its main modules are summarized in Table~\ref{tab:modules}. The design goal is to keep the numerical core transparent and testable while using sparse linear algebra for consumer-hardware feasibility.
-
-\begin{table}[H]
-\centering
-\caption{Main solver modules.}
-\label{tab:modules}
-\begin{tabular}{ll}
-\toprule
-Module & Responsibility \\
-\midrule
-\texttt{config.py} & Parameter dataclasses (physical, grid, solver, space charge) \\
-\texttt{grid.py} & Axisymmetric grid and indexing convention \\
-\texttt{operators.py} & Sparse Laplace/Poisson finite-difference operator \\
-\texttt{boundary\_conditions.py} & Dirichlet boundary insertion \\
-\texttt{electrostatics.py} & Laplace/Poisson solve entry points \\
-\texttt{taylor\_analytical.py} & Analytic Taylor-cone potential for far-field boundary conditions \\
-\texttt{fields.py} & Electric-field reconstruction and interpolation \\
-\texttt{geometry.py} & ImplicitCone with $C^1$ rounded cap-flank geometry \\
-\texttt{immersed.py} & Fractional-distance immersed Dirichlet stencils \\
-\texttt{interface.py} & Interface geometry, curvature, half-angle extraction \\
-\texttt{residual.py} & Young--Laplace--Maxwell residual diagnostics \\
-\texttt{space\_charge.py} & Gaussian and threshold space-charge closures \\
-\texttt{optimization.py} & Cone-family shape optimization with onset projection \\
-\texttt{verification.py} & Manufactured-solution and Taylor-angle verification helpers \\
-\texttt{app\_backend.py} & Streamlit-independent backend for interactive app \\
-\midrule
-\multicolumn{2}{l}{\textit{Imaging and extraction helpers} (\texttt{experimental/})} \\
-\midrule
-\texttt{image\_processing.py} & Image preprocessing and contour extraction \\
-\texttt{profile\_extraction.py} & Pixel-to-profile conversion and half-angle fitting \\
-\texttt{synthetic\_validation.py} & Synthetic image rendering and extraction tests \\
-\texttt{comparison.py} & Profile alignment and geometric error metrics \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Computational Pipeline}
-
-A typical solver run follows the sequence summarized in Figure~\ref{fig:solver-flowchart}:
-\begin{enumerate}
-    \item Input physical and numerical parameters, including voltage, surface tension, domain size, and grid resolution.
-    \item Build a two-dimensional axisymmetric $(r,z)$ grid.
-    \item Construct electrode and boundary masks (or use immersed boundary representation).
-    \item Assemble the sparse axisymmetric Laplace/Poisson matrix.
-    \item Apply boundary conditions (staircase or immersed Dirichlet stencils) and solve $A\boldsymbol{\ph}=\boldsymbol{b}$.
-    \item Reconstruct $\Er$, $\Ez$, and $\Emag$.
-    \item Sample a candidate interface $R(z)$ from the ImplicitCone geometry.
-    \item Compute interface normals, curvature, Maxwell pressure (from immersed $E_n$ reconstruction), capillary pressure, and residual.
-    \item For immersed free-boundary optimization, project out the onset voltage $V_0^*$ per candidate.
-    \item Optionally update the space-charge closure and repeat the Poisson solve until convergence.
-    \item Return scalar diagnostics, field arrays and figure objects, and optionally a JSON summary of the run.
-\end{enumerate}
+The solver is a scientific workflow rather than a general multiphysics model. For each prescribed rounded-cone geometry, it constructs an axisymmetric grid, represents the conductor with either staircase or immersed Dirichlet treatment, solves the sparse Laplace or Poisson system, and reconstructs the gas-side field. Interface normals and curvature then give Maxwell and capillary pressures. The analysis reports either an amplitude-projected stress residual or a log--log flank fit of $E_n^2$ against distance from the virtual vertex (Figure~\ref{fig:solver-flowchart}).
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\textwidth]{figures/solver_flowchart_revised.pdf}
-\captionsetup{labelfont={color=RevisionBlue},textfont={color=RevisionBlue}}
-\caption{Computational workflow for the charge-free immersed formulation. Geometry and discretization are followed by the electrostatic solution and two interface diagnostics: stress-balance residuals and flank-field scaling. Voltage-amplitude projection is optional.}
+\caption{Scientific workflow for the charge-free immersed formulation. A prescribed rounded-cone geometry and boundary condition define the electrostatic solve; interface reconstruction then supplies either the projected stress residual or the flank-field exponent. The exponent crossing is evaluated only where the fitted exponent crosses $-1$.}
 \label{fig:solver-flowchart}
 \end{figure}
 
-\subsection{Consumer-Hardware Design}
+The numerical core uses sparse matrices. Over the measured range of 675--85,073 points, the timing data for a single-threaded immersed Laplace solve follow an empirical $\mathcal{O}(N^{0.99})$ fit; a $121\times177$ grid took approximately $0.46$~s on the machine recorded with the timing data. This fit describes the measured range, not an asymptotic complexity bound.
 
-The solver uses sparse matrices rather than dense matrices. For a grid of $n_r\times n_z$ nodes, the number of unknowns scales as $n_r n_z$, while the finite-difference operator has only a small number of nonzero stencil entries per row. This allows small-to-moderate grids to run quickly on a standard laptop.
-
-\paragraph{Computational Performance.} Over the grid range measured here ($N=675$ to $85{,}073$ points) the wall-clock time of a single-threaded immersed Laplace solve is fitted by $\mathcal{O}(N^{0.99})$. A production-quality $121\times177$ grid (21,417 points) solves in approximately $0.46$~s on an Apple M4 laptop with 16~GB of memory. Sparse direct factorization is asymptotically superlinear in two dimensions, so this exponent should be read as an empirical description of the tested range rather than a bound.
-
-\subsection{Interactive App}
-
-A Streamlit application exposes basic parameters such as voltage, surface tension, electrode spacing, domain radius, grid resolution, and space-charge model. It is organized into four pages --- Overview, Solver, Verification and Documentation --- and returns scalar diagnostics together with visualizations of potential, electric-field magnitude, space-charge density, interface overlay, and residual profile. The Verification page provides two checks: a recovered-angle test that sweeps the cone half-angle and locates the flank-field exponent crossing, and an imposed-Taylor identity test that compares the projected onset amplitude against the analytic value. Both impose the analytical Taylor potential on the outer boundary. The app is a demonstration and analysis interface; \rev{the scientific contribution lies in comparing the reliability of angle observables rather than in the interface itself.}
+The associated image workflow renders analytic silhouettes for software tests and extracts contours, centreline registration, flank fits, and profile metrics. Its synthetic tests and its application to published photographs are kept separate: the former tests a known numerical round trip, while the latter provides a secondary-data geometry and stress analysis. Detailed module inventory is retained in the repository source rather than reproduced in the main text.

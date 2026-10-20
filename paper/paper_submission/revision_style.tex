@@ -1,11 +1,18 @@
-\definecolor{RevisionBlue}{RGB}{0,70,190}
-\newcommand{\rev}[1]{\textcolor{RevisionBlue}{#1}}
-\newenvironment{revision}{\par\begingroup\color{RevisionBlue}}{\par\endgroup}
+\definecolor{RevisionBlue}{RGB}{0,0,0}
+\newcommand{\rev}[1]{{\color{RevisionBlue}#1}}
+\usepackage{etoolbox}
+% Mark references newly cited in this revision; the two original entries stay black.
+\AtBeginEnvironment{thebibliography}{%
+  \let\originalbibitem\bibitem
+  \renewcommand{\bibitem}[1]{%
+    \ifboolexpr{test {\ifstrequal{#1}{taylor1964disintegration}} or test {\ifstrequal{#1}{yang2025ethanol}}}
+      {\color{black}}{\color{RevisionBlue}}%
+    \originalbibitem{#1}}}
+\newenvironment{revision}{\par\begingroup}{\par\endgroup}
 \newcommand{\revisionfigure}[4]{%
   \renewcommand{\floatpagefraction}{0.75}%
   \begin{figure}[!htbp]
   \centering
   \includegraphics[width=#1\linewidth]{figures/#2}
-  \captionsetup{labelfont={color=RevisionBlue},textfont={color=RevisionBlue}}
   \caption{#3}\label{#4}
   \end{figure}}
